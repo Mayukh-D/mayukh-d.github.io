@@ -336,6 +336,13 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem; color: var(--text-muted);
     }
+    .project-links { display: flex; gap: 16px; }
+    .project-links a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem; color: var(--green); text-decoration: none;
+      transition: text-shadow 0.2s;
+    }
+    .project-links a:hover { text-shadow: 0 0 10px rgba(0,255,65,0.7); }
     .lang-dot { width: 9px; height: 9px; border-radius: 50%; box-shadow: 0 0 6px currentColor; }
     .lang-python { background: #3572A5; color: #3572A5; }
     .lang-jupyter { background: #DA5B0B; color: #DA5B0B; }
@@ -406,6 +413,7 @@
     </p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="#projects">./view_work.sh</a>
+      <a class="btn btn-ghost" href="assets/Mayukh_Das_Resume.pdf" download="Mayukh_Das_Resume.pdf">resume.pdf ↓</a>
       <a class="btn btn-ghost" href="https://github.com/Mayukh-D" target="_blank" rel="noopener">GitHub</a>
       <a class="btn btn-ghost" href="https://www.linkedin.com/in/mayukh-das-a38319148" target="_blank" rel="noopener">LinkedIn</a>
     </div>
@@ -588,11 +596,15 @@
           <p>Comparing recurrent, attentional, and MLP-mixing paradigms in deep learning, head to head.</p>
           <span class="project-lang"><span class="lang-dot lang-jupyter"></span>Jupyter Notebook</span>
         </a>
-        <a class="project-card" href="https://github.com/Mayukh-D/foodlens-ar-sustainable-shopping" target="_blank" rel="noopener">
+        <div class="project-card">
           <h3>FoodLens — Smart Food Scanner</h3>
           <p>A PWA for sustainable food shopping: real-time barcode scanning, live product lookup via Open Food Facts, allergen/expiry/carbon flagging, and A/B interaction logging for HCI research.</p>
-          <span class="project-lang"><span class="lang-dot lang-js"></span>JavaScript · PWA</span>
-        </a>
+          <span class="project-lang" style="margin-bottom: 12px;"><span class="lang-dot lang-js"></span>JavaScript · PWA</span>
+          <span class="project-links">
+            <a href="https://foodlens-f281.onrender.com" target="_blank" rel="noopener">▶ live_demo</a>
+            <a href="https://github.com/Mayukh-D/foodlens-ar-sustainable-shopping" target="_blank" rel="noopener">src ↗</a>
+          </span>
+        </div>
         <a class="project-card" href="https://github.com/Mayukh-D/yuma-social-platform" target="_blank" rel="noopener">
           <h3>Yuma Social Platform</h3>
           <p>A native Android social app — post feed, reactions, DMs, and admin moderation — applying Singleton, Factory, and Iterator patterns across a layered DAO architecture.</p>
@@ -708,6 +720,7 @@
       </p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="https://www.linkedin.com/in/mayukh-das-a38319148" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn btn-ghost" href="assets/Mayukh_Das_Resume.pdf" download="Mayukh_Das_Resume.pdf">resume.pdf ↓</a>
         <a class="btn btn-ghost" href="https://github.com/Mayukh-D" target="_blank" rel="noopener">GitHub</a>
       </div>
     </div>
