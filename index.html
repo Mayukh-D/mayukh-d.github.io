@@ -771,10 +771,11 @@
       <h2>get_in_touch</h2>
       <p>
         I'm open to opportunities in software engineering and machine learning,
-        based in Canberra, ACT. Reach me on LinkedIn.
+        based in Canberra, ACT. Reach me by email or on LinkedIn.
       </p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="https://www.linkedin.com/in/mayukh-das-a38319148" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn btn-primary" id="email-btn" href="#">email</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/mayukh-das-a38319148" target="_blank" rel="noopener">LinkedIn</a>
         <a class="btn btn-ghost" href="assets/Mayukh_Das_Resume.pdf" download="Mayukh_Das_Resume.pdf">resume.pdf ↓</a>
         <a class="btn btn-ghost" href="https://github.com/Mayukh-D" target="_blank" rel="noopener">GitHub</a>
       </div>
@@ -788,6 +789,15 @@
   </footer>
 
   <script>
+  /* ---------- contact email (assembled at runtime to dodge scrapers) ---------- */
+  (function () {
+    var el = document.getElementById('email-btn');
+    if (!el) return;
+    var addr = ['mayukh1999', 'gmail.com'].join('@');
+    el.href = 'mailto:' + addr;
+    el.textContent = addr;
+  })();
+
   /* ---------- typed hero line ---------- */
   (function () {
     var phrases = ['machine learning engineer', 'problem solver', 'automotive enthusiast'];
