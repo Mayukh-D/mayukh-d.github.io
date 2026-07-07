@@ -264,9 +264,10 @@
 
     /* Interests */
     .interests-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      display: grid; grid-template-columns: repeat(2, 1fr);
       gap: 18px;
     }
+    @media (max-width: 640px) { .interests-grid { grid-template-columns: 1fr; } }
     .interest-card {
       background: var(--bg-soft);
       border: 1px solid var(--border);
@@ -422,7 +423,7 @@
 
   <div id="holo-wrap" aria-hidden="true">
     <canvas id="holo"></canvas>
-    <div id="holo-label">PORSCHE 963 · LMDh</div>
+    <div id="holo-label">F1 · GROUND-EFFECT AERO</div>
   </div>
 
   <section id="about" class="about">
@@ -475,10 +476,20 @@
         </div>
         <div class="interest-card" data-num="[03]">
           <span class="icon">/// </span>
-          <h3>Cars</h3>
+          <h3>Cars &amp; F1 Engineering</h3>
           <p>
-            Automobile engineer by first degree, automotive enthusiast for life. Endurance racing above all —
-            Le Mans, hypercars, and the <em>Porsche 963</em> spinning in the corner of this page.
+            Automobile engineer by first degree. I follow Formula 1 for the physics, not the racing —
+            <em>ground-effect aero</em>, energy recovery, suspension kinematics, and why the
+            regulations are the real design brief. Hence the wireframe in the corner.
+          </p>
+        </div>
+        <div class="interest-card" data-num="[04]">
+          <span class="icon">¶</span>
+          <h3>Politics, History &amp; Theology</h3>
+          <p>
+            Away from the screen I read — political history, theology, and an ever-growing queue of
+            defence and geopolitics analysis. I like understanding why institutions, ideas, and
+            power move the way they do.
           </p>
         </div>
       </div>
@@ -800,8 +811,8 @@
     function ring(idx) { for (var i = 0; i < idx.length; i++) e(idx[i], idx[(i + 1) % idx.length]); }
     function loft(a, b) { for (var i = 0; i < a.length; i++) e(a[i], b[i]); }
 
-    /* Body: lofted cross-sections. x: +front/-rear, y: up, z: width.
-       Each station -> 6-point outline: sillL, shoulderL, deckL, deckR, shoulderR, sillR */
+    /* Modern ground-effect F1 car. x: +nose/-tail, y: up, z: width.
+       Monocoque loft -> 6-point sections: sillL, shoulderL, deckL, deckR, shoulderR, sillR */
     function station(x, w, yB, yS, yT) {
       return [
         v(x, yB, -w), v(x, yS, -w), v(x, yT, -w * 0.55),
@@ -809,76 +820,96 @@
       ];
     }
     var stations = [
-      station( 2.60, 0.42, 0.12, 0.17, 0.22),  // nose tip
-      station( 2.15, 0.72, 0.06, 0.28, 0.40),
-      station( 1.55, 1.00, 0.05, 0.44, 0.63),  // front wheel arch peak
-      station( 0.90, 0.96, 0.05, 0.40, 0.52),  // dip behind arch
-      station( 0.30, 0.94, 0.05, 0.40, 0.55),  // windshield base area
-      station(-0.60, 0.94, 0.05, 0.42, 0.55),
-      station(-1.55, 1.00, 0.05, 0.46, 0.63),  // rear wheel arch peak
-      station(-2.25, 0.90, 0.14, 0.40, 0.52),
-      station(-2.60, 0.84, 0.26, 0.40, 0.48)   // tail
+      station( 2.85, 0.09, 0.16, 0.20, 0.24),  // nose tip
+      station( 2.20, 0.16, 0.15, 0.24, 0.34),
+      station( 1.45, 0.24, 0.08, 0.28, 0.46),  // chassis front
+      station( 0.70, 0.34, 0.04, 0.32, 0.58),  // cockpit front
+      station(-0.10, 0.36, 0.04, 0.30, 0.52),  // cockpit rear
+      station(-1.10, 0.28, 0.04, 0.26, 0.40),  // engine
+      station(-1.95, 0.16, 0.06, 0.20, 0.32)   // gearbox boat-tail
     ];
     for (var s = 0; s < stations.length; s++) {
       ring(stations[s]);
       if (s > 0) loft(stations[s - 1], stations[s]);
     }
 
-    /* Canopy (narrow greenhouse on top of the body) */
-    function canopySec(x, w, yT) {
-      return [v(x, 0.53, -w), v(x, yT, -w * 0.7), v(x, yT, w * 0.7), v(x, 0.53, w)];
+    /* Floor + sidepods (low, wide loft) */
+    function lowSec(x, w, y1) {
+      return [v(x, 0.03, -w), v(x, y1, -w), v(x, y1, w), v(x, 0.03, w)];
     }
-    var canopy = [
-      canopySec( 0.55, 0.50, 0.58),  // windshield base
-      canopySec( 0.05, 0.44, 1.00),  // roof front
-      canopySec(-0.75, 0.44, 0.97),  // roof rear
-      canopySec(-1.35, 0.46, 0.62)   // fade into engine cover
+    var pods = [
+      lowSec( 0.95, 0.55, 0.14),
+      lowSec( 0.35, 0.80, 0.30),   // sidepod inlet, widest
+      lowSec(-0.45, 0.76, 0.28),
+      lowSec(-1.35, 0.52, 0.14)    // coke-bottle taper
     ];
-    for (s = 0; s < canopy.length; s++) {
-      ring(canopy[s]);
-      if (s > 0) loft(canopy[s - 1], canopy[s]);
+    for (s = 0; s < pods.length; s++) {
+      ring(pods[s]);
+      if (s > 0) loft(pods[s - 1], pods[s]);
     }
 
-    /* Shark fin down the engine cover (963 signature) */
-    var f1 = v(-0.75, 0.97, 0), f2 = v(-2.45, 0.72, 0),
-        f3 = v(-2.45, 0.48, 0), f4 = v(-0.85, 0.55, 0);
-    e(f1, f2); e(f2, f3); e(f3, f4); e(f4, f1);
-
-    /* Rear wing + endplates + pylons */
-    var wy = 1.04;
-    var w1 = v(-2.10, wy, -1.02), w2 = v(-2.55, wy, -1.02),
-        w3 = v(-2.55, wy,  1.02), w4 = v(-2.10, wy,  1.02);
-    ring([w1, w2, w3, w4]);
-    [[-1.02, w1, w2], [1.02, w4, w3]].forEach(function (ep) {
-      var z = ep[0];
-      var p1 = v(-2.05, wy + 0.10, z), p2 = v(-2.62, wy + 0.10, z),
-          p3 = v(-2.62, wy - 0.16, z), p4 = v(-2.05, wy - 0.16, z);
-      ring([p1, p2, p3, p4]);
+    /* Front wing: main plane + flap + endplates + nose pylons */
+    var fw1 = v(2.95, 0.07, -0.98), fw2 = v(2.50, 0.07, -0.98),
+        fw3 = v(2.50, 0.07,  0.98), fw4 = v(2.95, 0.07,  0.98);
+    ring([fw1, fw2, fw3, fw4]);
+    var ff1 = v(2.88, 0.17, -0.90), ff2 = v(2.62, 0.17, -0.90),
+        ff3 = v(2.62, 0.17,  0.90), ff4 = v(2.88, 0.17,  0.90);
+    ring([ff1, ff2, ff3, ff4]);
+    [-0.98, 0.98].forEach(function (z) {
+      ring([v(2.98, 0.03, z), v(2.46, 0.03, z), v(2.46, 0.26, z), v(2.98, 0.26, z)]);
     });
-    e(v(-2.30, 0.50, -0.45), v(-2.35, wy, -0.45));
-    e(v(-2.30, 0.50,  0.45), v(-2.35, wy,  0.45));
+    e(v(2.60, 0.16, -0.09), v(2.68, 0.07, -0.30));
+    e(v(2.60, 0.16,  0.09), v(2.68, 0.07,  0.30));
 
-    /* Front splitter lip */
-    var sp1 = v(2.65, 0.03, -0.55), sp2 = v(2.65, 0.03, 0.55),
-        sp3 = v(2.05, 0.03, 0.80), sp4 = v(2.05, 0.03, -0.80);
-    ring([sp1, sp2, sp3, sp4]);
+    /* Halo */
+    var hA = v(0.30, 0.80, 0),
+        hBl = v(0.02, 0.78, -0.24), hBr = v(0.02, 0.78, 0.24),
+        hCl = v(-0.30, 0.70, -0.30), hCr = v(-0.30, 0.70, 0.30);
+    e(v(0.72, 0.58, 0), hA);                       // front pillar
+    e(hA, hBl); e(hBl, hCl); e(hA, hBr); e(hBr, hCr); e(hCl, hCr);
+    e(hCl, v(-0.30, 0.50, -0.30)); e(hCr, v(-0.30, 0.50, 0.30)); // rear mounts
 
-    /* Wheels: two rings + spokes each */
-    function wheel(cx, cz) {
-      var r = 0.35, cy = 0.35, N = 14, zo = cz > 0 ? cz + 0.09 : cz - 0.09;
+    /* Airbox + engine-cover spine */
+    var s1 = v(-0.05, 0.86, 0), s2 = v(-1.95, 0.38, 0),
+        s3 = v(-1.95, 0.30, 0), s4 = v(-0.10, 0.54, 0);
+    e(s1, s2); e(s2, s3); e(s3, s4); e(s4, s1);
+
+    /* Rear wing: main plane + flap + endplates + beam wing + pylon */
+    var rw1 = v(-2.12, 0.90, -0.50), rw2 = v(-2.52, 0.90, -0.50),
+        rw3 = v(-2.52, 0.90,  0.50), rw4 = v(-2.12, 0.90,  0.50);
+    ring([rw1, rw2, rw3, rw4]);
+    var rf1 = v(-2.30, 1.00, -0.50), rf2 = v(-2.54, 1.00, -0.50),
+        rf3 = v(-2.54, 1.00,  0.50), rf4 = v(-2.30, 1.00,  0.50);
+    ring([rf1, rf2, rf3, rf4]);
+    [-0.50, 0.50].forEach(function (z) {
+      ring([v(-2.06, 0.55, z), v(-2.58, 0.55, z), v(-2.58, 1.04, z), v(-2.06, 1.04, z)]);
+    });
+    ring([v(-2.42, 0.55, -0.42), v(-2.56, 0.55, -0.42), v(-2.56, 0.55, 0.42), v(-2.42, 0.55, 0.42)]);
+    e(v(-2.25, 0.32, 0), v(-2.32, 0.90, 0));
+
+    /* Exposed wheels + suspension arms */
+    function wheel(cx, cz, r) {
+      var cy = r, N = 14, half = 0.15, sgn = cz > 0 ? 1 : -1;
       var outer = [], inner = [];
       for (var i = 0; i < N; i++) {
         var a = i / N * Math.PI * 2;
-        outer.push(v(cx + r * Math.cos(a), cy + r * Math.sin(a), zo));
-        inner.push(v(cx + r * Math.cos(a), cy + r * Math.sin(a), cz));
+        outer.push(v(cx + r * Math.cos(a), cy + r * Math.sin(a), cz + sgn * half));
+        inner.push(v(cx + r * Math.cos(a), cy + r * Math.sin(a), cz - sgn * half));
       }
       ring(outer); ring(inner);
       for (i = 0; i < N; i += 2) e(outer[i], inner[i]);
-      var hub = v(cx, cy, zo);
+      var hub = v(cx, cy, cz + sgn * half);
       for (i = 0; i < N; i += 3) e(hub, outer[i]);
+      return [cx, cy, cz - sgn * half];
     }
-    wheel( 1.55, -0.86); wheel( 1.55, 0.86);
-    wheel(-1.55, -0.86); wheel(-1.55, 0.86);
+    [[1.85, -0.80, 0.33], [1.85, 0.80, 0.33], [-1.55, -0.80, 0.35], [-1.55, 0.80, 0.35]]
+      .forEach(function (wdef) {
+        var hubIn = wheel(wdef[0], wdef[1], wdef[2]);
+        var sgn = wdef[1] > 0 ? 1 : -1;
+        // wishbone pair from chassis to inner hub
+        e(v(wdef[0] - 0.30, 0.30, sgn * 0.28), v(hubIn[0], hubIn[1] + 0.04, hubIn[2]));
+        e(v(wdef[0] + 0.28, 0.26, sgn * 0.24), v(hubIn[0], hubIn[1] - 0.02, hubIn[2]));
+      });
 
     /* ---------- render loop ---------- */
     var W, H;
