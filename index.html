@@ -601,26 +601,38 @@
     <div class="container">
       <h2>projects</h2>
       <div class="projects-grid">
-        <a class="project-card" href="https://github.com/Mayukh-D/image-generation-with-machine-learning" target="_blank" rel="noopener">
-          <h3>Image Generation with ML</h3>
-          <p>Flow matching parameterisation experiments — exploring how generative models learn to turn noise into data.</p>
-          <span class="project-lang"><span class="lang-dot lang-python"></span>Python</span>
-        </a>
-        <a class="project-card" href="https://github.com/Mayukh-D/story-generation-nanoGPT" target="_blank" rel="noopener">
+        <div class="project-card">
+          <h3>Flow Matching Parameterisation</h3>
+          <p>Flow matching from first principles — comparing v- vs x-prediction across data dimensions (x-prediction stays stable where v-prediction collapses), plus a MeanFlow implementation with Jacobian-vector-product targets.</p>
+          <span class="project-lang" style="margin-bottom: 12px;"><span class="lang-dot lang-python"></span>Python · PyTorch</span>
+          <span class="project-links">
+            <a href="assets/reports/flow-matching-report.pdf" target="_blank" rel="noopener">▶ report</a>
+            <a href="https://github.com/Mayukh-D/image-generation-with-machine-learning" target="_blank" rel="noopener">src ↗</a>
+          </span>
+        </div>
+        <div class="project-card">
           <h3>GPT from Scratch (nanoGPT)</h3>
-          <p>A GPT language model implemented from scratch in PyTorch — attention mechanisms, positional encoding, and autoregressive generation of five-sentence stories.</p>
-          <span class="project-lang"><span class="lang-dot lang-python"></span>Python · PyTorch · CUDA</span>
-        </a>
+          <p>A 30M-parameter GPT built from scratch in PyTorch and trained on just 3.7M tokens of five-sentence stories — testing depth vs width, RoPE + RMSNorm, and DPO fine-tuning in the data-scarce regime (25.77 → 24.67 PPL).</p>
+          <span class="project-lang" style="margin-bottom: 12px;"><span class="lang-dot lang-python"></span>Python · PyTorch · CUDA</span>
+          <span class="project-links">
+            <a href="assets/reports/nanogpt-report.pdf" target="_blank" rel="noopener">▶ report</a>
+            <a href="https://github.com/Mayukh-D/story-generation-nanoGPT" target="_blank" rel="noopener">src ↗</a>
+          </span>
+        </div>
         <a class="project-card" href="https://github.com/Mayukh-D" target="_blank" rel="noopener">
           <h3>Diffusion Model from Scratch</h3>
           <p>Score-based generative modelling built from first principles — noise scheduling, denoising mathematics, and sampling — as part of ANU Advanced ML coursework.</p>
           <span class="project-lang"><span class="lang-dot lang-python"></span>Python · PyTorch · CUDA</span>
         </a>
-        <a class="project-card" href="https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge" target="_blank" rel="noopener">
+        <div class="project-card">
           <h3>Transformers' Revenge</h3>
-          <p>Comparing recurrent, attentional, and MLP-mixing paradigms in deep learning, head to head.</p>
-          <span class="project-lang"><span class="lang-dot lang-jupyter"></span>Jupyter Notebook</span>
-        </a>
+          <p>Stress-testing minGRU's "Were RNNs All We Needed?" claims against a LLaMA-recipe Transformer and a causal gMLP on algorithmic reasoning — a 27-experiment grid showing where each architecture breaks, plus a phase transition in Transformer copy learning.</p>
+          <span class="project-lang" style="margin-bottom: 12px;"><span class="lang-dot lang-jupyter"></span>Jupyter · PyTorch</span>
+          <span class="project-links">
+            <a href="assets/reports/transformers-revenge.pdf" target="_blank" rel="noopener">▶ report</a>
+            <a href="https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge" target="_blank" rel="noopener">src ↗</a>
+          </span>
+        </div>
         <div class="project-card">
           <h3>FoodLens — Smart Food Scanner</h3>
           <p>A PWA for sustainable food shopping: real-time barcode scanning, live product lookup via Open Food Facts, allergen/expiry/carbon flagging, and A/B interaction logging for HCI research.</p>
