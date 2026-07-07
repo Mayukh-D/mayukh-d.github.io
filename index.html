@@ -242,7 +242,14 @@
       font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
       color: rgba(0, 229, 255, 0.55); letter-spacing: 0.25em;
     }
-    @media (max-width: 860px) { #holo-wrap { display: none; } }
+    @media (max-width: 860px) {
+      #holo-wrap {
+        width: 190px; height: 150px;
+        right: 6px; bottom: 6px;
+        opacity: 0.75;
+      }
+      #holo-label { font-size: 0.5rem; }
+    }
 
     /* Sections */
     section { padding: 72px 0; border-top: 1px solid var(--border); }
@@ -921,27 +928,28 @@
     resize();
     window.addEventListener('resize', resize);
 
-    var pitch = 0.42, camD = 9.5, scale = 46;
+    var pitch = 0.42, camD = 9.5;
     var cp = Math.cos(pitch), sps = Math.sin(pitch);
     var proj = new Array(V.length);
 
     function draw(t) {
       ctx.clearRect(0, 0, W, H);
+      var scale = W * 0.153;
       var yaw = t * 0.00055;
       var cy = Math.cos(yaw), sy = Math.sin(yaw);
       var cx0 = W / 2, cy0 = H * 0.52;
-      var hover = Math.sin(t * 0.0016) * 3;
+      var hover = Math.sin(t * 0.0016) * W * 0.01;
 
       /* projector pad */
-      var g = ctx.createRadialGradient(cx0, H * 0.80, 4, cx0, H * 0.80, 92);
+      var g = ctx.createRadialGradient(cx0, H * 0.80, 4, cx0, H * 0.80, W * 0.307);
       g.addColorStop(0, 'rgba(0,229,255,0.16)');
       g.addColorStop(1, 'rgba(0,229,255,0)');
       ctx.fillStyle = g;
-      ctx.beginPath(); ctx.ellipse(cx0, H * 0.80, 105, 26, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(cx0, H * 0.80, W * 0.35, W * 0.087, 0, 0, Math.PI * 2); ctx.fill();
       ctx.strokeStyle = 'rgba(0,229,255,' + (0.20 + 0.08 * Math.sin(t * 0.004)) + ')';
       ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.ellipse(cx0, H * 0.80, 88, 20, 0, 0, Math.PI * 2); ctx.stroke();
-      ctx.beginPath(); ctx.ellipse(cx0, H * 0.80, 60, 13, 0, 0, Math.PI * 2); ctx.stroke();
+      ctx.beginPath(); ctx.ellipse(cx0, H * 0.80, W * 0.293, W * 0.067, 0, 0, Math.PI * 2); ctx.stroke();
+      ctx.beginPath(); ctx.ellipse(cx0, H * 0.80, W * 0.2, W * 0.043, 0, 0, Math.PI * 2); ctx.stroke();
 
       /* project vertices */
       for (var i = 0; i < V.length; i++) {
