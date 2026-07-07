@@ -242,6 +242,13 @@
       font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
       color: rgba(0, 229, 255, 0.55); letter-spacing: 0.25em;
     }
+    #holo-hint {
+      position: absolute; top: 8px; width: 100%; text-align: center;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.58rem;
+      color: rgba(0, 229, 255, 0.45); letter-spacing: 0.2em;
+      animation: hint-pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes hint-pulse { 50% { opacity: 0.3; } }
     @media (max-width: 860px) {
       #holo-wrap {
         width: 190px; height: 150px;
@@ -439,6 +446,7 @@
 
   <div id="holo-wrap" aria-hidden="true">
     <canvas id="holo"></canvas>
+    <div id="holo-hint">[ drag to spin ]</div>
     <div id="holo-label">PROBLEM SOLVING ENTHUSIAST</div>
   </div>
 
@@ -968,12 +976,84 @@
     var pitch = 0.42, camD = 9.5;
     var cp = Math.cos(pitch), sps = Math.sin(pitch);
     var proj = new Array(V.length);
+    var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    /* quaternion helpers: q = [w, x, y, z] */
+    function qMul(a, b) {
+      return [
+        a[0]*b[0] - a[1]*b[1] - a[2]*b[2] - a[3]*b[3],
+        a[0]*b[1] + a[1]*b[0] + a[2]*b[3] - a[3]*b[2],
+        a[0]*b[2] - a[1]*b[3] + a[2]*b[0] + a[3]*b[1],
+        a[0]*b[3] + a[1]*b[2] - a[2]*b[1] + a[3]*b[0]
+      ];
+    }
+    function qAxis(ax, ay, az, angle) {
+      var s = Math.sin(angle / 2);
+      return [Math.cos(angle / 2), ax * s, ay * s, az * s];
+    }
+    function qNorm(q) {
+      var m = Math.hypot(q[0], q[1], q[2], q[3]) || 1;
+      return [q[0] / m, q[1] / m, q[2] / m, q[3] / m];
+    }
+    function qRot(q, v) {
+      var w = q[0], x = q[1], y = q[2], z = q[3];
+      var tx = 2 * (y * v[2] - z * v[1]),
+          ty = 2 * (z * v[0] - x * v[2]),
+          tz = 2 * (x * v[1] - y * v[0]);
+      return [
+        v[0] + w * tx + y * tz - z * ty,
+        v[1] + w * ty + z * tx - x * tz,
+        v[2] + w * tz + x * ty - y * tx
+      ];
+    }
+    function qSlerp(a, b, t) {
+      var d = a[0]*b[0] + a[1]*b[1] + a[2]*b[2] + a[3]*b[3];
+      if (d < 0) { b = [-b[0], -b[1], -b[2], -b[3]]; d = -d; }
+      if (d > 0.9995) {
+        return qNorm([a[0] + (b[0]-a[0])*t, a[1] + (b[1]-a[1])*t,
+                      a[2] + (b[2]-a[2])*t, a[3] + (b[3]-a[3])*t]);
+      }
+      var th = Math.acos(d), s = Math.sin(th);
+      var wa = Math.sin((1 - t) * th) / s, wb = Math.sin(t * th) / s;
+      return [a[0]*wa + b[0]*wb, a[1]*wa + b[1]*wb, a[2]*wa + b[2]*wb, a[3]*wa + b[3]*wb];
+    }
+
+    /* interaction state machine: auto -> drag -> free -> righting -> auto */
+    var MODE_AUTO = 0, MODE_DRAG = 1, MODE_FREE = 2, MODE_RIGHT = 3;
+    var mode = MODE_AUTO;
+    var SPIN = 0.55;               // auto yaw speed, rad/s
+    var yawAngle = 0;
+    var q = qAxis(0, 1, 0, 0);     // model orientation
+    var wxv = 0, wyv = 0;          // angular velocity about world X/Y, rad/s
+    var lastT = null;
 
     function draw(t) {
       ctx.clearRect(0, 0, W, H);
       var scale = W * 0.153;
-      var yaw = t * 0.00055;
-      var cy = Math.cos(yaw), sy = Math.sin(yaw);
+      var dt = lastT == null ? 0.016 : Math.min((t - lastT) / 1000, 0.05);
+      lastT = t;
+
+      if (mode === MODE_AUTO) {
+        yawAngle += SPIN * dt;
+        q = qAxis(0, 1, 0, yawAngle);
+      } else if (mode === MODE_FREE) {
+        var wm = Math.hypot(wxv, wyv);
+        if (wm > 1e-4) {
+          q = qNorm(qMul(qAxis(wxv / wm, wyv / wm, 0, wm * dt), q));
+        }
+        var decay = Math.exp(-1.1 * dt);   // friction
+        wxv *= decay; wyv *= decay;
+        if (Math.hypot(wxv, wyv) < 0.35) mode = MODE_RIGHT;
+      } else if (mode === MODE_RIGHT) {
+        var f = qRot(q, [1, 0, 0]);
+        var targetYaw = Math.atan2(-f[2], f[0]);
+        var qT = qAxis(0, 1, 0, targetYaw);
+        q = qSlerp(q, qT, 1 - Math.exp(-3.2 * dt));
+        var dd = Math.abs(q[0]*qT[0] + q[1]*qT[1] + q[2]*qT[2] + q[3]*qT[3]);
+        if (dd > 0.99995) { yawAngle = targetYaw; mode = MODE_AUTO; }
+      }
+      /* MODE_DRAG: orientation is driven by pointermove */
+
       var cx0 = W / 2, cy0 = H * 0.52;
       var hover = Math.sin(t * 0.0016) * W * 0.01;
 
@@ -988,15 +1068,13 @@
       ctx.beginPath(); ctx.ellipse(cx0, H * 0.80, W * 0.293, W * 0.067, 0, 0, Math.PI * 2); ctx.stroke();
       ctx.beginPath(); ctx.ellipse(cx0, H * 0.80, W * 0.2, W * 0.043, 0, 0, Math.PI * 2); ctx.stroke();
 
-      /* project vertices */
+      /* project vertices: model orientation q, then fixed camera pitch */
       for (var i = 0; i < V.length; i++) {
-        var x = V[i][0], y = V[i][1], z = V[i][2];
-        var rx = x * cy + z * sy;          // yaw
-        var rz = -x * sy + z * cy;
-        var ry2 = y * cp - rz * sps;       // pitch
-        var rz2 = y * sps + rz * cp;
+        var r = qRot(q, V[i]);
+        var ry2 = r[1] * cp - r[2] * sps;
+        var rz2 = r[1] * sps + r[2] * cp;
         var p = camD / (camD - rz2);
-        proj[i] = [cx0 + rx * p * scale, cy0 - (ry2 - 0.45) * p * scale + hover, p];
+        proj[i] = [cx0 + r[0] * p * scale, cy0 - (ry2 - 0.45) * p * scale + hover, p];
       }
 
       /* hologram flicker */
@@ -1017,7 +1095,69 @@
 
       requestAnimationFrame(draw);
     }
-    var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    /* drag to spin: hit-test the car region so the page is never blocked */
+    var wrap = document.getElementById('holo-wrap');
+    var hint = document.getElementById('holo-hint');
+    var dragging = false, lastPX = 0, lastPY = 0;
+    var samples = [];
+    var DRAG_K = 0.012;            // rad per px of drag
+    var MAXW = 10;                 // rad/s spin cap
+
+    function carHit(cx, cyp) {
+      var r = wrap.getBoundingClientRect();
+      var dx = cx - (r.left + r.width / 2);
+      var dy = cyp - (r.top + r.height * 0.52);
+      return (dx * dx + dy * dy) < Math.pow(r.width * 0.34, 2);
+    }
+
+    if (!mq.matches) {
+      document.addEventListener('pointerdown', function (ev) {
+        if (!carHit(ev.clientX, ev.clientY)) return;
+        dragging = true; mode = MODE_DRAG;
+        wxv = 0; wyv = 0;
+        lastPX = ev.clientX; lastPY = ev.clientY;
+        samples.length = 0;
+        samples.push([performance.now(), ev.clientX, ev.clientY]);
+        document.body.style.cursor = 'grabbing';
+        ev.preventDefault();
+      });
+
+      window.addEventListener('pointermove', function (ev) {
+        if (dragging) {
+          var dx = ev.clientX - lastPX, dy = ev.clientY - lastPY;
+          lastPX = ev.clientX; lastPY = ev.clientY;
+          q = qNorm(qMul(qMul(qAxis(0, 1, 0, dx * DRAG_K), qAxis(1, 0, 0, dy * DRAG_K)), q));
+          var now = performance.now();
+          samples.push([now, ev.clientX, ev.clientY]);
+          while (samples.length > 2 && now - samples[0][0] > 90) samples.shift();
+        } else if (ev.pointerType !== 'touch') {
+          document.body.style.cursor = carHit(ev.clientX, ev.clientY) ? 'grab' : '';
+        }
+      });
+
+      function endDrag(ev) {
+        if (!dragging) return;
+        dragging = false;
+        document.body.style.cursor = '';
+        if (hint) hint.style.display = 'none';
+        var s0 = samples[0];
+        var dtms = Math.max(performance.now() - s0[0], 16);
+        wyv = (ev.clientX - s0[1]) / dtms * 1000 * DRAG_K;   // horizontal flick -> yaw
+        wxv = (ev.clientY - s0[2]) / dtms * 1000 * DRAG_K;   // vertical flick -> tumble
+        var wm = Math.hypot(wxv, wyv);
+        if (wm > MAXW) { wxv *= MAXW / wm; wyv *= MAXW / wm; }
+        mode = wm < 0.35 ? MODE_RIGHT : MODE_FREE;
+      }
+      window.addEventListener('pointerup', endDrag);
+      window.addEventListener('pointercancel', endDrag);
+
+      /* stop page scroll only while actively dragging the car */
+      document.addEventListener('touchmove', function (ev) {
+        if (dragging) ev.preventDefault();
+      }, { passive: false });
+    }
+
     if (mq.matches) { draw(0); } else { requestAnimationFrame(draw); }
   })();
   </script>
