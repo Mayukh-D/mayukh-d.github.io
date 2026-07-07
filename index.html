@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mayukh Das — Software Engineer & ML Enthusiast</title>
+  <meta name="description" content="Mayukh Das — software engineer and ML enthusiast. Master of Computing at ANU, previously 3+ years at Accenture building AIOps tools and explainable AI systems.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg-soft: #161b22;
+      --border: #21262d;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --accent-soft: rgba(88, 166, 255, 0.12);
+      --green: #3fb950;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+    /* Nav */
+    nav {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(13, 17, 23, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 0;
+    }
+    .nav-logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 500; color: var(--text); text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a {
+      color: var(--text-muted); text-decoration: none;
+      font-size: 0.9rem; font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* Hero */
+    header { padding: 96px 0 72px; }
+    .kicker {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent); font-size: 0.9rem; margin-bottom: 16px;
+    }
+    h1 {
+      font-size: clamp(2.4rem, 6vw, 3.6rem);
+      font-weight: 800; letter-spacing: -0.03em; line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .tagline {
+      font-size: 1.15rem; color: var(--text-muted);
+      max-width: 620px; margin-bottom: 32px;
+    }
+    .tagline strong { color: var(--text); font-weight: 600; }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 20px; border-radius: 8px;
+      font-size: 0.92rem; font-weight: 600; text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-primary { background: var(--accent); color: #0d1117; }
+    .btn-primary:hover { filter: brightness(1.15); }
+    .btn-ghost { border: 1px solid var(--border); color: var(--text); }
+    .btn-ghost:hover { border-color: var(--text-muted); background: var(--bg-soft); }
+
+    /* Sections */
+    section { padding: 56px 0; border-top: 1px solid var(--border); }
+    h2 {
+      font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em;
+      margin-bottom: 28px; display: flex; align-items: center; gap: 12px;
+    }
+    h2::before {
+      content: ''; display: inline-block;
+      width: 24px; height: 3px; background: var(--accent); border-radius: 2px;
+    }
+
+    /* About */
+    .about p { color: var(--text-muted); max-width: 680px; margin-bottom: 16px; }
+    .about p strong { color: var(--text); }
+
+    /* Experience */
+    .timeline { display: flex; flex-direction: column; gap: 28px; }
+    .timeline-item {
+      display: grid; grid-template-columns: 150px 1fr; gap: 20px;
+    }
+    .timeline-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem; color: var(--text-muted); padding-top: 3px;
+    }
+    .timeline-body h3 { font-size: 1.05rem; font-weight: 600; }
+    .timeline-body .org { color: var(--accent); font-size: 0.92rem; margin-bottom: 6px; }
+    .timeline-body p { color: var(--text-muted); font-size: 0.95rem; }
+
+    /* Projects */
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 18px;
+    }
+    .project-card {
+      display: flex; flex-direction: column;
+      background: var(--bg-soft); border: 1px solid var(--border);
+      border-radius: 12px; padding: 22px;
+      text-decoration: none; color: inherit;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .project-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .project-card h3 {
+      font-size: 1.02rem; font-weight: 600; margin-bottom: 8px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .project-card h3 svg { flex-shrink: 0; color: var(--text-muted); }
+    .project-card p {
+      color: var(--text-muted); font-size: 0.9rem; flex-grow: 1; margin-bottom: 16px;
+    }
+    .project-lang {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem; color: var(--text-muted);
+    }
+    .lang-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .lang-python { background: #3572A5; }
+    .lang-jupyter { background: #DA5B0B; }
+    .lang-js { background: #f1e05a; }
+    .lang-java { background: #b07219; }
+
+    /* Skills */
+    .skills-list { display: flex; flex-wrap: wrap; gap: 10px; }
+    .skill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem; padding: 6px 14px;
+      background: var(--accent-soft); color: var(--accent);
+      border-radius: 999px;
+    }
+
+    /* Contact */
+    .contact p { color: var(--text-muted); max-width: 560px; margin-bottom: 28px; }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0; text-align: center;
+      color: var(--text-muted); font-size: 0.85rem;
+    }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .timeline-item { grid-template-columns: 1fr; gap: 4px; }
+      header { padding: 64px 0 48px; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <a href="#" class="nav-logo"><span>~/</span>mayukh-das</a>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="container">
+    <p class="kicker">Hi, my name is</p>
+    <h1>Mayukh Das</h1>
+    <p class="tagline">
+      Software engineer and <strong>ML enthusiast</strong> pursuing a Master of Computing at the
+      <strong>Australian National University</strong>. Previously 3+ years at Accenture India building
+      AIOps tools, explainable AI systems, and internal chatbots.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#projects">View my work</a>
+      <a class="btn btn-ghost" href="https://github.com/Mayukh-D" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/mayukh-das-a38319148" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </header>
+
+  <section id="about" class="about">
+    <div class="container">
+      <h2>About</h2>
+      <p>
+        I'm a software engineer with a focus on machine learning — from training generative models
+        from scratch to building AI systems that people can actually understand and trust.
+      </p>
+      <p>
+        At <strong>Accenture</strong>, I spent over three years building AIOps tooling, explainable AI
+        systems, and internal chatbots. Now at <strong>ANU</strong>, I'm going deeper into the
+        foundations: generative modelling, transformers, and human-computer interaction.
+      </p>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="container">
+      <h2>Experience</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-date">2024 — Present</div>
+          <div class="timeline-body">
+            <h3>Master of Computing</h3>
+            <div class="org">Australian National University</div>
+            <p>Focus on machine learning, deep learning, and human-computer interaction — including flow matching, transformer architectures, and AR system evaluation.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2020 — 2024</div>
+          <div class="timeline-body">
+            <h3>Software Engineer</h3>
+            <div class="org">Accenture, India</div>
+            <p>Built AIOps tools, explainable AI systems, and internal chatbots over 3+ years, delivering ML-powered tooling for enterprise operations.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="container">
+      <h2>Projects</h2>
+      <div class="projects-grid">
+        <a class="project-card" href="https://github.com/Mayukh-D/image-generation-with-machine-learning" target="_blank" rel="noopener">
+          <h3>Image Generation with ML</h3>
+          <p>Flow matching parameterisation experiments — exploring how generative models learn to turn noise into data.</p>
+          <span class="project-lang"><span class="lang-dot lang-python"></span>Python</span>
+        </a>
+        <a class="project-card" href="https://github.com/Mayukh-D/story-generation-nanoGPT" target="_blank" rel="noopener">
+          <h3>Story Generation nanoGPT</h3>
+          <p>Training a small GPT from scratch to generate five-sentence stories — exploring what matters under severe data constraints.</p>
+          <span class="project-lang"><span class="lang-dot lang-python"></span>Python</span>
+        </a>
+        <a class="project-card" href="https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge" target="_blank" rel="noopener">
+          <h3>Transformers' Revenge</h3>
+          <p>Comparing recurrent, attentional, and MLP-mixing paradigms in deep learning, head to head.</p>
+          <span class="project-lang"><span class="lang-dot lang-jupyter"></span>Jupyter Notebook</span>
+        </a>
+        <a class="project-card" href="https://github.com/Mayukh-D/foodlens-ar-sustainable-shopping" target="_blank" rel="noopener">
+          <h3>FoodLens</h3>
+          <p>An AR grocery scanner that helps shoppers make sustainable choices in the aisle.</p>
+          <span class="project-lang"><span class="lang-dot lang-js"></span>JavaScript</span>
+        </a>
+        <a class="project-card" href="https://github.com/Mayukh-D/yuma-social-platform" target="_blank" rel="noopener">
+          <h3>Yuma Social Platform</h3>
+          <p>An Android social platform with messaging and moderation features, built in Java.</p>
+          <span class="project-lang"><span class="lang-dot lang-java"></span>Java</span>
+        </a>
+        <a class="project-card" href="https://github.com/Mayukh-D/hci-design-and-research" target="_blank" rel="noopener">
+          <h3>HCI Design & Research</h3>
+          <p>A portfolio of human-computer interaction work, including prototyping and AR system evaluation.</p>
+          <span class="project-lang"><span class="lang-dot lang-python"></span>Portfolio</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="container">
+      <h2>Skills</h2>
+      <div class="skills-list">
+        <span class="skill">Python</span>
+        <span class="skill">PyTorch</span>
+        <span class="skill">Machine Learning</span>
+        <span class="skill">Deep Learning</span>
+        <span class="skill">Generative Models</span>
+        <span class="skill">Explainable AI</span>
+        <span class="skill">AIOps</span>
+        <span class="skill">Java</span>
+        <span class="skill">JavaScript</span>
+        <span class="skill">HCI</span>
+        <span class="skill">AR</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="container">
+      <h2>Get in touch</h2>
+      <p>
+        I'm open to opportunities in software engineering and machine learning.
+        The fastest way to reach me is LinkedIn.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="https://www.linkedin.com/in/mayukh-das-a38319148" target="_blank" rel="noopener">Connect on LinkedIn</a>
+        <a class="btn btn-ghost" href="https://github.com/Mayukh-D" target="_blank" rel="noopener">Follow on GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>© 2026 Mayukh Das · Built with plain HTML &amp; CSS · Hosted on GitHub Pages</p>
+    </div>
+  </footer>
+</body>
+</html>
