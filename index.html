@@ -289,12 +289,12 @@
 
     /* Interests */
     .interests-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
+      display: grid; grid-template-columns: repeat(2, 1fr);
       gap: 18px;
     }
     /* the schematic is a 3.5:1 side elevation, so it needs the full width */
     .interests-grid > .interest-card--visual { grid-column: 1 / -1; }
-    @media (max-width: 860px) { .interests-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 640px) { .interests-grid { grid-template-columns: 1fr; } }
     .interest-card {
       background: var(--bg-soft);
       border: 1px solid var(--border);
@@ -539,7 +539,16 @@
             the regulations are the real design brief. Hence the wireframe in the corner.
           </p>
         </div>
-        <div class="interest-card interest-card--visual" data-num="[04]">
+        <div class="interest-card" data-num="[04]">
+          <span class="icon">&para;</span>
+          <h3>Politics, History &amp; Theology</h3>
+          <p>
+            Away from the screen I read: defence and geopolitics analysis, political history,
+            and theology. I like understanding why institutions, ideas, and power move the way
+            they do.
+          </p>
+        </div>
+        <div class="interest-card interest-card--visual">
           <canvas id="rafale"></canvas>
           <div class="rafale-cap">
             <strong>DASSAULT RAFALE EH</strong>
