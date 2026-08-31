@@ -1052,7 +1052,7 @@
     for (var i = 0; i < air.length; i++) {
       var a = air[i];
       var x = ((a.x - t * a.v) % 1.3 + 1.3) % 1.3 - 0.15;
-      ctx.strokeStyle = 'rgba(0,255,65,' + a.a.toFixed(3) + ')';
+      ctx.strokeStyle = 'rgba(0,229,255,' + a.a.toFixed(3) + ')';
       ctx.beginPath();
       ctx.moveTo(x * W, a.y * H);
       ctx.lineTo((x + a.len) * W, a.y * H);
@@ -1062,7 +1062,7 @@
     for (i = 0; i < clouds.length; i++) {
       var c = clouds[i];
       var cxp = ((c.x - t * c.v) % 1.5 + 1.5) % 1.5 - 0.25;
-      ctx.strokeStyle = 'rgba(0,255,65,' + c.a.toFixed(3) + ')';
+      ctx.strokeStyle = 'rgba(0,229,255,' + c.a.toFixed(3) + ')';
       ctx.beginPath();
       var x0 = cxp * W, yy = c.y * H, w = c.w * W;
       ctx.moveTo(x0, yy);
@@ -1079,10 +1079,12 @@
       var boost = 1 - Math.min(1, Math.abs(rel - sweep) / 0.16);
       var vv = Math.min(1, v + boost * 0.45);
       var r = maxR * (0.38 + 0.62 * vv);
-      // cyan in the lit areas, deep blue in the shadows
-      var g = Math.round(150 + 95 * vv);
-      var b = Math.round(180 + 72 * vv);
-      ctx.fillStyle = 'rgba(0,' + g + ',' + b + ',' + (0.42 + 0.58 * vv).toFixed(3) + ')';
+      // bright green in the lit areas, deep green in the shadows
+      var cr = Math.round(88 * vv);
+      var cg = Math.round(140 + 115 * vv);
+      var cb = Math.round(38 + 52 * vv);
+      ctx.fillStyle = 'rgba(' + cr + ',' + cg + ',' + cb + ','
+        + (0.42 + 0.58 * vv).toFixed(3) + ')';
       ctx.beginPath();
       ctx.arc(d[0], d[1], r, 0, 6.2832);
       ctx.fill();
