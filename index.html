@@ -439,11 +439,11 @@
     /* Reveal animations. The hidden state is scoped behind .js, which the
        inline script in <head> sets before first paint, so if the script
        never runs the page still renders in full rather than blank. */
-    .js .reveal { opacity: 0; transform: translateY(14px); }
+    .js .reveal { opacity: 0; transform: translateY(26px); }
     .reveal.in {
       opacity: 1; transform: none;
-      transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-                  transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: opacity 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.72s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1150,7 +1150,7 @@
         if (prev.hasAttribute('data-scroll')) idx++;
         prev = prev.previousElementSibling;
       }
-      el._delay = Math.min(idx, 5) * 70;   // cap the stagger on long lists
+      el._delay = Math.min(idx, 6) * 110;  // cap the stagger on long lists
     });
 
     /* A rect check on scroll rather than IntersectionObserver: one code path,
@@ -1163,7 +1163,7 @@
       var vh = window.innerHeight || document.documentElement.clientHeight;
       for (var i = pending.length - 1; i >= 0; i--) {
         var el = pending[i], r = el.getBoundingClientRect();
-        if (r.top < vh * 0.92 && r.bottom > 0) {
+        if (r.top < vh * 0.84 && r.bottom > 0) {
           pending.splice(i, 1);
           (function (node) {
             setTimeout(function () { show(node); }, node._delay || 0);
@@ -1187,11 +1187,14 @@
     window.addEventListener('load', request);
     sweep();
 
-    /* Failsafe. If a trigger never fires for any reason, content must not
-       stay invisible: after 8s anything still pending is simply shown. */
-    setTimeout(function () {
-      pending.splice(0).forEach(show);
-    }, 8000);
+    /* Failsafe. If scroll or rAF never fire, content on screen must not sit
+       invisible: poll the same viewport check. This only ever reveals what
+       is actually in view, so lingering on the hero no longer burns through
+       every reveal on the page. */
+    var poll = setInterval(function () {
+      if (!pending.length) { clearInterval(poll); return; }
+      sweep();
+    }, 1500);
   })();
 
   /* ---------- Mirage 2000 wireframe hologram ---------- */
