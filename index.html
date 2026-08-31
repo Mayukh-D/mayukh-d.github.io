@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>document.documentElement.classList.add('js');</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mayukh Das · Software Engineer & ML Enthusiast</title>
@@ -435,8 +436,20 @@
       .timeline-item { grid-template-columns: 1fr; gap: 4px; }
       section { padding: 56px 0; }
     }
+    /* Reveal animations. The hidden state is scoped behind .js, which the
+       inline script in <head> sets before first paint, so if the script
+       never runs the page still renders in full rather than blank. */
+    .js .reveal { opacity: 0; transform: translateY(14px); }
+    .reveal.in {
+      opacity: 1; transform: none;
+      transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .glitch::before, .glitch::after, .hero-photo-wrap::before, .scroll-hint { animation: none; }
+      .js .reveal { opacity: 1; transform: none; }
+      .reveal.in { transition: none; }
     }
   </style>
 </head>
@@ -458,17 +471,17 @@
 
   <header>
     <div class="hero-bigword" aria-hidden="true">WELCOME</div>
-    <div class="hero-photo-wrap">
+    <div class="hero-photo-wrap reveal" data-stage>
       <img class="hero-photo" src="assets/mayukh.jpg" width="900" height="900" alt="Portrait of Mayukh Das">
     </div>
-    <h1 class="hero-name"><span class="glitch" data-text="MAYUKH DAS">MAYUKH DAS</span></h1>
-    <p class="hero-type mono"><span class="prompt">$ whoami&nbsp;&nbsp;»&nbsp;</span><span id="typed"></span><span class="cursor"></span></p>
-    <p class="hero-tagline">
+    <h1 class="hero-name reveal" data-stage><span class="glitch" data-text="MAYUKH DAS">MAYUKH DAS</span></h1>
+    <p class="hero-type mono reveal" data-stage><span class="prompt">$ whoami&nbsp;&nbsp;»&nbsp;</span><span id="typed"></span><span class="cursor"></span></p>
+    <p class="hero-tagline reveal" data-stage>
       System Architect Intern at <strong>Eccoi</strong>, working on sovereign AI.
       Master of Computing at the <strong>Australian National University</strong>.
       Previously 3+ years at Accenture building AIOps tools and explainable AI systems.
     </p>
-    <div class="hero-actions">
+    <div class="hero-actions reveal" data-stage>
       <a class="btn btn-primary" href="#projects">./view_work.sh</a>
       <a class="btn btn-ghost" href="assets/Mayukh_Das_Resume.pdf" download="Mayukh_Das_Resume.pdf">resume.pdf ↓</a>
       <a class="btn btn-ghost" href="https://github.com/Mayukh-D" target="_blank" rel="noopener">GitHub</a>
@@ -485,7 +498,7 @@
 
   <section id="about" class="about">
     <div class="container">
-      <h2>about</h2>
+      <h2 class="reveal" data-scroll>about</h2>
       <p>
         I'm a software engineer with a focus on machine learning: from training generative models
         from scratch to building AI systems that people can actually understand and trust.
@@ -514,8 +527,8 @@
 
   <section id="skills">
     <div class="container">
-      <h2>skills</h2>
-      <div class="skills-list">
+      <h2 class="reveal" data-scroll>skills</h2>
+      <div class="skills-list reveal" data-scroll>
         <span class="skill">Python</span>
         <span class="skill">Java</span>
         <span class="skill">C#</span>
@@ -546,9 +559,9 @@
 
   <section id="interests">
     <div class="container">
-      <h2>interests</h2>
+      <h2 class="reveal" data-scroll>interests</h2>
       <div class="interests-grid">
-        <div class="interest-card" data-num="[01]">
+        <div class="interest-card reveal" data-scroll data-num="[01]">
           <span class="icon">λ</span>
           <h3>Machine Learning</h3>
           <p>
@@ -556,7 +569,7 @@
             from scratch in PyTorch. I like knowing what's under the hood, not just calling the API.
           </p>
         </div>
-        <div class="interest-card" data-num="[02]">
+        <div class="interest-card reveal" data-scroll data-num="[02]">
           <span class="icon">{;}</span>
           <h3>Problem Solving</h3>
           <p>
@@ -564,7 +577,7 @@
             sessions that turn into detective stories, and systems that finally click at 2am.
           </p>
         </div>
-        <div class="interest-card" data-num="[03]">
+        <div class="interest-card reveal" data-scroll data-num="[03]">
           <span class="icon">&#9650;</span>
           <h3>Defence &amp; Geopolitics</h3>
           <p>
@@ -574,7 +587,7 @@
             corner.
           </p>
         </div>
-        <div class="interest-card" data-num="[04]">
+        <div class="interest-card reveal" data-scroll data-num="[04]">
           <span class="icon">&para;</span>
           <h3>History &amp; Theology</h3>
           <p>
@@ -589,9 +602,9 @@
 
   <section id="experience">
     <div class="container">
-      <h2>experience</h2>
+      <h2 class="reveal" data-scroll>experience</h2>
       <div class="timeline">
-        <div class="timeline-item">
+        <div class="timeline-item reveal" data-scroll>
           <div class="timeline-date">Jul 2026 – Present</div>
           <div class="timeline-body">
             <h3>System Architect Intern</h3>
@@ -599,7 +612,7 @@
             <p>Architecting the Sovereign AI Community of Practice (SAICOP): defining architectural principles and the system context model, assessing and shortlisting platforms, and proving the conceptual architecture end-to-end, aligned to Australian Government delivery, security, and procurement realities.</p>
           </div>
         </div>
-        <div class="timeline-item">
+        <div class="timeline-item reveal" data-scroll>
           <div class="timeline-date">Jul 2026 – Present</div>
           <div class="timeline-body">
             <h3>Casual Sessional Academic · Human-Computer Interaction</h3>
@@ -607,7 +620,7 @@
             <p>Teaching HCI at the ANU from Semester 2, 2026: running tutorials and supporting students through design thinking, prototyping, and evaluation coursework.</p>
           </div>
         </div>
-        <div class="timeline-item">
+        <div class="timeline-item reveal" data-scroll>
           <div class="timeline-date">Jan 2022 – Feb 2025</div>
           <div class="timeline-body">
             <h3>Advanced Application Engineering Analyst</h3>
@@ -615,7 +628,7 @@
             <p>Built Ingrain, an AIOps tool generating predictive ML pipelines for automated IT ticket resolution. Integrated Explainable AI and dynamic model-performance reporting, designing the supporting UIs from scratch. Built Quasar++, a ChatGPT API-based chatbot for querying internal documents. Formally Specialized in Data Science &amp; Machine Learning; rated Advanced in Machine Learning, Python, UX Design, Solution Architecture, and Cloud Application Architecture.</p>
           </div>
         </div>
-        <div class="timeline-item">
+        <div class="timeline-item reveal" data-scroll>
           <div class="timeline-date">Oct 2021 – Jan 2022</div>
           <div class="timeline-body">
             <h3>Programmer Analyst</h3>
@@ -629,9 +642,9 @@
 
   <section id="student-roles">
     <div class="container">
-      <h2>student_roles</h2>
+      <h2 class="reveal" data-scroll>student_roles</h2>
       <div class="timeline">
-        <div class="timeline-item">
+        <div class="timeline-item reveal" data-scroll>
           <div class="timeline-date">2025 – Present</div>
           <div class="timeline-body">
             <h3>Postgraduate Representative</h3>
@@ -639,7 +652,7 @@
             <p>Elected representative for the CSS postgraduate cohort, advocating for student interests and liaising with faculty and administration.</p>
           </div>
         </div>
-        <div class="timeline-item">
+        <div class="timeline-item reveal" data-scroll>
           <div class="timeline-date">2025 – Present</div>
           <div class="timeline-body">
             <h3>Student Ambassador</h3>
@@ -653,9 +666,9 @@
 
   <section id="internships">
     <div class="container">
-      <h2>internships</h2>
+      <h2 class="reveal" data-scroll>internships</h2>
       <div class="timeline">
-        <div class="timeline-item">
+        <div class="timeline-item reveal" data-scroll>
           <div class="timeline-date">May 2020 – Jun 2020</div>
           <div class="timeline-body">
             <h3>Software Development Intern</h3>
@@ -663,7 +676,7 @@
             <p>Trained an ML pipeline on historical patient records for early detection of threatening conditions, reaching ~80% accuracy on malignant breast cancer detection.</p>
           </div>
         </div>
-        <div class="timeline-item">
+        <div class="timeline-item reveal" data-scroll>
           <div class="timeline-date">Nov 2019 – Dec 2019</div>
           <div class="timeline-body">
             <h3>Intern</h3>
@@ -671,7 +684,7 @@
             <p>Studied sensor-based mineral detection and drafted a feasibility study for automated coal grade determination using computer vision and AI.</p>
           </div>
         </div>
-        <div class="timeline-item">
+        <div class="timeline-item reveal" data-scroll>
           <div class="timeline-date">Jun 2019 – Jul 2019</div>
           <div class="timeline-body">
             <h3>Intern</h3>
@@ -685,9 +698,9 @@
 
   <section id="education">
     <div class="container">
-      <h2>education</h2>
+      <h2 class="reveal" data-scroll>education</h2>
       <div class="timeline">
-        <div class="timeline-item">
+        <div class="timeline-item reveal" data-scroll>
           <div class="timeline-date">Feb 2025 – Present</div>
           <div class="timeline-body">
             <h3>Master of Computing</h3>
@@ -695,7 +708,7 @@
             <p>Coursework in deep learning (CNNs, RNNs, transformers, generative models), advanced ML and generative AI (diffusion models, LLMs), statistical machine learning, HCI, and software engineering.</p>
           </div>
         </div>
-        <div class="timeline-item">
+        <div class="timeline-item reveal" data-scroll>
           <div class="timeline-date">Aug 2017 – Sep 2021</div>
           <div class="timeline-body">
             <h3>B.Tech, Automobile Engineering</h3>
@@ -709,9 +722,9 @@
 
   <section id="projects">
     <div class="container">
-      <h2>projects</h2>
+      <h2 class="reveal" data-scroll>projects</h2>
       <div class="projects-grid">
-        <div class="project-card">
+        <div class="project-card reveal" data-scroll>
           <h3>Flow Matching Parameterisation</h3>
           <p>Flow matching from first principles: comparing v- vs x-prediction across data dimensions (x-prediction stays stable where v-prediction collapses), plus a MeanFlow implementation with Jacobian-vector-product targets.</p>
           <div class="project-foot">
@@ -722,7 +735,7 @@
             </span>
           </div>
         </div>
-        <div class="project-card">
+        <div class="project-card reveal" data-scroll>
           <h3>GPT from Scratch (nanoGPT)</h3>
           <p>A 30M-parameter GPT built from scratch in PyTorch and trained on just 3.7M tokens of five-sentence stories, testing depth vs width, RoPE + RMSNorm, and DPO fine-tuning in the data-scarce regime (25.77 → 24.67 PPL).</p>
           <div class="project-foot">
@@ -734,7 +747,7 @@
             </span>
           </div>
         </div>
-        <div class="project-card">
+        <div class="project-card reveal" data-scroll>
           <h3>Transformers' Revenge</h3>
           <p>Stress-testing minGRU's "Were RNNs All We Needed?" claims against a LLaMA-recipe Transformer and a causal gMLP on algorithmic reasoning: a 27-experiment grid showing where each architecture breaks, plus a phase transition in Transformer copy learning.</p>
           <div class="project-foot">
@@ -745,7 +758,7 @@
             </span>
           </div>
         </div>
-        <div class="project-card">
+        <div class="project-card reveal" data-scroll>
           <h3>FoodLens · Smart Food Scanner</h3>
           <p>A PWA for sustainable food shopping: real-time barcode scanning, live product lookup via Open Food Facts, allergen/expiry/carbon flagging, and A/B interaction logging for HCI research.</p>
           <div class="project-foot">
@@ -756,7 +769,7 @@
             </span>
           </div>
         </div>
-        <div class="project-card">
+        <div class="project-card reveal" data-scroll>
           <h3>Yuma Social Platform</h3>
           <p>A native Android social app (post feed, reactions, DMs, and admin moderation) applying Singleton, Factory, and Iterator patterns across a layered DAO architecture.</p>
           <div class="project-foot">
@@ -766,7 +779,7 @@
             </span>
           </div>
         </div>
-        <div class="project-card">
+        <div class="project-card reveal" data-scroll>
           <h3>HCI Design & Research</h3>
           <p>A portfolio of human-computer interaction work, including prototyping and AR system evaluation.</p>
           <div class="project-foot">
@@ -783,9 +796,9 @@
 
   <section id="beyond">
     <div class="container">
-      <h2>beyond_the_terminal</h2>
+      <h2 class="reveal" data-scroll>beyond_the_terminal</h2>
       <div class="timeline">
-        <div class="timeline-item">
+        <div class="timeline-item reveal" data-scroll>
           <div class="timeline-date">2017 – 2019</div>
           <div class="timeline-body">
             <h3>Staff Writer</h3>
@@ -793,7 +806,7 @@
             <p>Covered institute events and wrote long-form pieces on global issues; op-eds on the Me-Too movement and gun control received recognition and acclaim.</p>
           </div>
         </div>
-        <div class="timeline-item">
+        <div class="timeline-item reveal" data-scroll>
           <div class="timeline-date">2018 – 2019</div>
           <div class="timeline-body">
             <h3>Event Organiser</h3>
@@ -801,7 +814,7 @@
             <p>Led teams of five to ten organising cultural-fest events (EQ-IQ, Psychology-101): ideation, logistics, and participant engagement for an inclusive atmosphere.</p>
           </div>
         </div>
-        <div class="timeline-item">
+        <div class="timeline-item reveal" data-scroll>
           <div class="timeline-date">Community</div>
           <div class="timeline-body">
             <h3>Volunteering &amp; Outreach</h3>
@@ -815,9 +828,9 @@
 
   <section id="publications">
     <div class="container">
-      <h2>publications</h2>
+      <h2 class="reveal" data-scroll>publications</h2>
       <div class="timeline">
-        <div class="timeline-item">
+        <div class="timeline-item reveal" data-scroll>
           <div class="timeline-date">2024</div>
           <div class="timeline-body">
             <h3>An Overview on the Role of AI in Modern Advancements of Material Science</h3>
@@ -825,7 +838,7 @@
             <p>Das, M. · DOI <a href="https://doi.org/10.30919/esg1183" target="_blank" rel="noopener">10.30919/esg1183</a>. Also presented in work-in-progress form at RTCMM 2023.</p>
           </div>
         </div>
-        <div class="timeline-item">
+        <div class="timeline-item reveal" data-scroll>
           <div class="timeline-date">2023</div>
           <div class="timeline-body">
             <h3>Revolutionizing Organ Donation With Blockchain Technology</h3>
@@ -833,7 +846,7 @@
             <p>Momaya, V.J., Das, M. et al. · DOI <a href="https://doi.org/10.57159/gadl.jcmm.2.5.23071" target="_blank" rel="noopener">10.57159/gadl.jcmm.2.5.23071</a></p>
           </div>
         </div>
-        <div class="timeline-item">
+        <div class="timeline-item reveal" data-scroll>
           <div class="timeline-date">2021</div>
           <div class="timeline-body">
             <h3>Electric Propulsion for Fixed Wing Aircrafts: Classifications, Designs, and Challenges</h3>
@@ -847,7 +860,7 @@
 
   <section id="contact" class="contact">
     <div class="container">
-      <h2>get_in_touch</h2>
+      <h2 class="reveal" data-scroll>get_in_touch</h2>
       <p>
         I'm open to opportunities in software engineering and machine learning,
         based in Canberra, ACT. Reach me by email or on LinkedIn.
@@ -863,7 +876,7 @@
 
   <section class="rafale-band">
     <div class="container">
-      <div class="interest-card interest-card--visual">
+      <div class="interest-card interest-card--visual reveal" data-scroll>
         <canvas id="rafale"></canvas>
         <div class="rafale-cap">
           <strong>DASSAULT RAFALE EH</strong>
@@ -1105,6 +1118,81 @@
   window.addEventListener('resize', function () { resize(); if (mq.matches) draw(0); });
   if (mq.matches) draw(0); else requestAnimationFrame(frame);
 })();
+
+  /* ---------- staged reveals ----------
+     The hero stages in once per session, so returning to the page is not a
+     performance every time. Everything below reveals as it scrolls into
+     view, with siblings in a grid staggered. Nothing here gates content:
+     the hidden state only exists while the script is alive to undo it. */
+  (function () {
+    if (!document.documentElement.classList.contains('js')) return;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function show(el) { el.classList.add('in'); }
+
+    var stage = [].slice.call(document.querySelectorAll('[data-stage]'));
+    var seen = false;
+    try { seen = sessionStorage.getItem('heroShown') === '1'; } catch (e) {}
+    if (reduce || seen) {
+      stage.forEach(show);
+    } else {
+      stage.forEach(function (el, i) {
+        setTimeout(function () { show(el); }, 120 + i * 110);
+      });
+      try { sessionStorage.setItem('heroShown', '1'); } catch (e) {}
+    }
+
+    var items = [].slice.call(document.querySelectorAll('[data-scroll]'));
+    if (reduce) { items.forEach(show); return; }
+
+    items.forEach(function (el) {
+      var idx = 0, prev = el.previousElementSibling;
+      while (prev) {
+        if (prev.hasAttribute('data-scroll')) idx++;
+        prev = prev.previousElementSibling;
+      }
+      el._delay = Math.min(idx, 5) * 70;   // cap the stagger on long lists
+    });
+
+    /* A rect check on scroll rather than IntersectionObserver: one code path,
+       no observer semantics to get wrong, and cheap since revealed elements
+       drop out of the pending list. */
+    var pending = items.slice(), ticking = false;
+
+    function sweep() {
+      ticking = false;
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      for (var i = pending.length - 1; i >= 0; i--) {
+        var el = pending[i], r = el.getBoundingClientRect();
+        if (r.top < vh * 0.92 && r.bottom > 0) {
+          pending.splice(i, 1);
+          (function (node) {
+            setTimeout(function () { show(node); }, node._delay || 0);
+          })(el);
+        }
+      }
+      if (!pending.length) {
+        window.removeEventListener('scroll', request);
+        window.removeEventListener('resize', request);
+      }
+    }
+
+    function request() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(sweep);
+    }
+
+    window.addEventListener('scroll', request, { passive: true });
+    window.addEventListener('resize', request);
+    window.addEventListener('load', request);
+    sweep();
+
+    /* Failsafe. If a trigger never fires for any reason, content must not
+       stay invisible: after 8s anything still pending is simply shown. */
+    setTimeout(function () {
+      pending.splice(0).forEach(show);
+    }, 8000);
+  })();
 
   /* ---------- Mirage 2000 wireframe hologram ---------- */
   (function () {
