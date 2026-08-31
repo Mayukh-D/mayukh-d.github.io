@@ -12,7 +12,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://mayukh-d.github.io/">
   <meta property="og:title" content="Mayukh Das · Software Engineer &amp; ML Enthusiast">
-  <meta property="og:description" content="ML built from scratch, live demos, peer-reviewed publications, and a draggable F1 hologram.">
+  <meta property="og:description" content="ML built from scratch, live demos, peer-reviewed publications, and a draggable Mirage 2000 hologram.">
   <meta property="og:image" content="https://mayukh-d.github.io/assets/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -292,8 +292,8 @@
       display: grid; grid-template-columns: repeat(2, 1fr);
       gap: 18px;
     }
-    /* the schematic is a 3.5:1 side elevation, so it needs the full width */
-    .interests-grid > .interest-card--visual { grid-column: 1 / -1; }
+    /* the schematic is a 3.5:1 side elevation, so it sits full width of its own */
+    .rafale-band { padding: 0 0 72px; }
     @media (max-width: 640px) { .interests-grid { grid-template-columns: 1fr; } }
     .interest-card {
       background: var(--bg-soft);
@@ -531,30 +531,23 @@
           </p>
         </div>
         <div class="interest-card" data-num="[03]">
-          <span class="icon">/// </span>
-          <h3>Cars &amp; F1 Engineering</h3>
+          <span class="icon">&#9650;</span>
+          <h3>Defence &amp; Geopolitics</h3>
           <p>
-            Automobile engineer by first degree. I follow Formula 1 for the physics, not the racing:
-            aerodynamic design, drag coefficients and ground effect, the math behind DRS, and why
-            the regulations are the real design brief. Hence the wireframe in the corner.
+            Where most of my reading time goes: airpower doctrine, procurement politics, and how
+            sovereign capability actually gets built rather than announced. An automobile engineer
+            by first degree, so I read it as an engineering problem first. Hence the Mirage in the
+            corner.
           </p>
         </div>
         <div class="interest-card" data-num="[04]">
           <span class="icon">&para;</span>
-          <h3>Politics, History &amp; Theology</h3>
+          <h3>History &amp; Theology</h3>
           <p>
-            Away from the screen I read: defence and geopolitics analysis, political history,
-            and theology. I like understanding why institutions, ideas, and power move the way
-            they do.
+            Away from the screen: political history, theology, and an ever-growing queue of
+            long-form analysis. I like understanding why institutions, ideas, and power move
+            the way they do.
           </p>
-        </div>
-        <div class="interest-card interest-card--visual">
-          <canvas id="rafale"></canvas>
-          <div class="rafale-cap">
-            <strong>DASSAULT RAFALE EH</strong>
-            <span>No. 17 SQN &middot; GOLDEN ARROWS</span>
-            <em>defence &middot; geopolitics &middot; airpower</em>
-          </div>
         </div>
       </div>
     </div>
@@ -865,6 +858,19 @@
     </div>
   </section>
 
+  <section class="rafale-band">
+    <div class="container">
+      <div class="interest-card interest-card--visual">
+        <canvas id="rafale"></canvas>
+        <div class="rafale-cap">
+          <strong>DASSAULT RAFALE EH</strong>
+          <span>No. 17 SQN &middot; GOLDEN ARROWS</span>
+          <em>defence &middot; geopolitics &middot; airpower</em>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <footer>
     <div class="container">
       <p><span class="ok">[OK]</span> © 2026 Mayukh Das · plain HTML/CSS/JS, zero frameworks · hosted on GitHub Pages</p>
@@ -1096,7 +1102,7 @@
 })();
 
 
-  /* ---------- F1 car wireframe hologram ---------- */
+  /* ---------- Mirage 2000 wireframe hologram ---------- */
   (function () {
     var canvas = document.getElementById('holo');
     if (!canvas) return;
@@ -1109,105 +1115,90 @@
     function ring(idx) { for (var i = 0; i < idx.length; i++) e(idx[i], idx[(i + 1) % idx.length]); }
     function loft(a, b) { for (var i = 0; i < a.length; i++) e(a[i], b[i]); }
 
-    /* Modern ground-effect F1 car. x: +nose/-tail, y: up, z: width.
-       Monocoque loft -> 6-point sections: sillL, shoulderL, deckL, deckR, shoulderR, sillR */
-    function station(x, w, yB, yS, yT) {
-      return [
-        v(x, yB, -w), v(x, yS, -w), v(x, yT, -w * 0.55),
-        v(x, yT, w * 0.55), v(x, yS, w), v(x, yB, w)
-      ];
-    }
-    var stations = [
-      station( 2.85, 0.09, 0.16, 0.20, 0.24),  // nose tip
-      station( 2.20, 0.16, 0.15, 0.24, 0.34),
-      station( 1.45, 0.24, 0.08, 0.28, 0.46),  // chassis front
-      station( 0.70, 0.34, 0.04, 0.32, 0.58),  // cockpit front
-      station(-0.10, 0.36, 0.04, 0.30, 0.52),  // cockpit rear
-      station(-1.10, 0.28, 0.04, 0.26, 0.40),  // engine
-      station(-1.95, 0.16, 0.06, 0.20, 0.32)   // gearbox boat-tail
-    ];
-    for (var s = 0; s < stations.length; s++) {
-      ring(stations[s]);
-      if (s > 0) loft(stations[s - 1], stations[s]);
-    }
-
-    /* Floor + sidepods (low, wide loft) */
-    function lowSec(x, w, y1) {
-      return [v(x, 0.03, -w), v(x, y1, -w), v(x, y1, w), v(x, 0.03, w)];
-    }
-    var pods = [
-      lowSec( 0.95, 0.55, 0.14),
-      lowSec( 0.35, 0.80, 0.30),   // sidepod inlet, widest
-      lowSec(-0.45, 0.76, 0.28),
-      lowSec(-1.35, 0.52, 0.14)    // coke-bottle taper
-    ];
-    for (s = 0; s < pods.length; s++) {
-      ring(pods[s]);
-      if (s > 0) loft(pods[s - 1], pods[s]);
-    }
-
-    /* Front wing: main plane + flap + endplates + nose pylons */
-    var fw1 = v(2.95, 0.07, -0.98), fw2 = v(2.50, 0.07, -0.98),
-        fw3 = v(2.50, 0.07,  0.98), fw4 = v(2.95, 0.07,  0.98);
-    ring([fw1, fw2, fw3, fw4]);
-    var ff1 = v(2.88, 0.17, -0.90), ff2 = v(2.62, 0.17, -0.90),
-        ff3 = v(2.62, 0.17,  0.90), ff4 = v(2.88, 0.17,  0.90);
-    ring([ff1, ff2, ff3, ff4]);
-    [-0.98, 0.98].forEach(function (z) {
-      ring([v(2.98, 0.03, z), v(2.46, 0.03, z), v(2.46, 0.26, z), v(2.98, 0.26, z)]);
-    });
-    e(v(2.60, 0.16, -0.09), v(2.68, 0.07, -0.30));
-    e(v(2.60, 0.16,  0.09), v(2.68, 0.07,  0.30));
-
-    /* Halo */
-    var hA = v(0.30, 0.80, 0),
-        hBl = v(0.02, 0.78, -0.24), hBr = v(0.02, 0.78, 0.24),
-        hCl = v(-0.30, 0.70, -0.30), hCr = v(-0.30, 0.70, 0.30);
-    e(v(0.72, 0.58, 0), hA);                       // front pillar
-    e(hA, hBl); e(hBl, hCl); e(hA, hBr); e(hBr, hCr); e(hCl, hCr);
-    e(hCl, v(-0.30, 0.50, -0.30)); e(hCr, v(-0.30, 0.50, 0.30)); // rear mounts
-
-    /* Airbox + engine-cover spine */
-    var s1 = v(-0.05, 0.86, 0), s2 = v(-1.95, 0.38, 0),
-        s3 = v(-1.95, 0.30, 0), s4 = v(-0.10, 0.54, 0);
-    e(s1, s2); e(s2, s3); e(s3, s4); e(s4, s1);
-
-    /* Rear wing: main plane + flap + endplates + beam wing + pylon */
-    var rw1 = v(-2.12, 0.90, -0.50), rw2 = v(-2.52, 0.90, -0.50),
-        rw3 = v(-2.52, 0.90,  0.50), rw4 = v(-2.12, 0.90,  0.50);
-    ring([rw1, rw2, rw3, rw4]);
-    var rf1 = v(-2.30, 1.00, -0.50), rf2 = v(-2.54, 1.00, -0.50),
-        rf3 = v(-2.54, 1.00,  0.50), rf4 = v(-2.30, 1.00,  0.50);
-    ring([rf1, rf2, rf3, rf4]);
-    [-0.50, 0.50].forEach(function (z) {
-      ring([v(-2.06, 0.55, z), v(-2.58, 0.55, z), v(-2.58, 1.04, z), v(-2.06, 1.04, z)]);
-    });
-    ring([v(-2.42, 0.55, -0.42), v(-2.56, 0.55, -0.42), v(-2.56, 0.55, 0.42), v(-2.42, 0.55, 0.42)]);
-    e(v(-2.25, 0.32, 0), v(-2.32, 0.90, 0));
-
-    /* Exposed wheels + suspension arms */
-    function wheel(cx, cz, r) {
-      var cy = r, N = 14, half = 0.15, sgn = cz > 0 ? 1 : -1;
-      var outer = [], inner = [];
-      for (var i = 0; i < N; i++) {
-        var a = i / N * Math.PI * 2;
-        outer.push(v(cx + r * Math.cos(a), cy + r * Math.sin(a), cz + sgn * half));
-        inner.push(v(cx + r * Math.cos(a), cy + r * Math.sin(a), cz - sgn * half));
+    /* Dassault Mirage 2000: tailless delta, single fin, and the half-cone
+       side intakes with shock cones that give it away at a glance. No
+       canards and one engine, which is what separates it from the Rafale
+       at the foot of the page. x: +nose/-tail, y: up, z: span. Authored
+       against the real airframe, 14.36 m long and 9.13 m span. */
+    function sec(x, w, yc, ry) {
+      var r = [];
+      for (var i = 0; i < 8; i++) {
+        var a = i * Math.PI / 4;
+        r.push(v(x, yc + ry * Math.sin(a), w * Math.cos(a)));
       }
-      ring(outer); ring(inner);
-      for (i = 0; i < N; i += 2) e(outer[i], inner[i]);
-      var hub = v(cx, cy, cz + sgn * half);
-      for (i = 0; i < N; i += 3) e(hub, outer[i]);
-      return [cx, cy, cz - sgn * half];
+      return r;
     }
-    [[1.85, -0.80, 0.33], [1.85, 0.80, 0.33], [-1.55, -0.80, 0.35], [-1.55, 0.80, 0.35]]
-      .forEach(function (wdef) {
-        var hubIn = wheel(wdef[0], wdef[1], wdef[2]);
-        var sgn = wdef[1] > 0 ? 1 : -1;
-        // wishbone pair from chassis to inner hub
-        e(v(wdef[0] - 0.30, 0.30, sgn * 0.28), v(hubIn[0], hubIn[1] + 0.04, hubIn[2]));
-        e(v(wdef[0] + 0.28, 0.26, sgn * 0.24), v(hubIn[0], hubIn[1] - 0.02, hubIn[2]));
-      });
+    var body = [
+      sec( 2.90, 0.035, 0.00, 0.035),   // radome
+      sec( 2.55, 0.11,  0.01, 0.10),
+      sec( 2.10, 0.19,  0.02, 0.18),
+      sec( 1.60, 0.27,  0.05, 0.26),    // windscreen
+      sec( 1.10, 0.33,  0.07, 0.32),    // cockpit
+      sec( 0.50, 0.36,  0.05, 0.34),
+      sec(-0.20, 0.36,  0.01, 0.34),
+      sec(-1.00, 0.35,  0.00, 0.33),
+      sec(-1.90, 0.33,  0.00, 0.31),
+      sec(-2.62, 0.28,  0.00, 0.26)     // engine bay
+    ];
+    for (var bs = 0; bs < body.length; bs++) {
+      ring(body[bs]);
+      if (bs > 0) loft(body[bs - 1], body[bs]);
+    }
+    e(v(2.90, 0, 0), v(3.24, 0.02, 0));   // pitot
+
+    /* delta wing, ~58 deg leading edge, elevons along the trailing edge */
+    [1, -1].forEach(function (sg) {
+      var rle = v( 0.72, -0.02, sg * 0.30),
+          tle = v(-2.13, -0.10, sg * 1.78),
+          tte = v(-2.40, -0.10, sg * 1.78),
+          rte = v(-2.32, -0.02, sg * 0.33);
+      ring([rle, tle, tte, rte]);
+      e(v(-2.02, -0.02, sg * 0.36), v(-2.18, -0.10, sg * 1.74));   // elevon hinge
+      for (var k = 1; k <= 2; k++) {
+        var t = k / 3;
+        e(v(0.72 + (-2.85) * t, -0.02 - 0.08 * t, sg * (0.30 + 1.48 * t)),
+          v(-2.32 + (-0.08) * t, -0.02 - 0.08 * t, sg * (0.33 + 1.45 * t)));
+      }
+    });
+
+    /* single fin */
+    var fA = v(-1.30, 0.32, 0), fB = v(-2.45, 1.30, 0),
+        fC = v(-2.76, 1.30, 0), fD = v(-2.70, 0.28, 0);
+    ring([fA, fB, fC, fD]);
+    e(v(-2.06, 0.30, 0), v(-2.61, 1.28, 0));   // rudder hinge
+
+    /* half-cone intakes: lip, duct, and the shock cone standing in the throat */
+    [1, -1].forEach(function (sg) {
+      var lip = [], back = [], k, a;
+      for (k = 0; k < 8; k++) {
+        a = k * Math.PI / 4;
+        lip.push(v(1.32, 0.02 + 0.20 * Math.sin(a), sg * (0.50 + 0.20 * Math.cos(a))));
+        back.push(v(0.30, 0.00 + 0.23 * Math.sin(a), sg * (0.46 + 0.22 * Math.cos(a))));
+      }
+      ring(lip); ring(back); loft(lip, back);
+      var apex = v(1.63, 0.02, sg * 0.50);
+      for (k = 0; k < 8; k += 2) e(apex, lip[k]);
+    });
+
+    /* canopy spine */
+    e(v(1.78, 0.30, 0), v(1.30, 0.44, 0));
+    e(v(1.30, 0.44, 0), v(0.70, 0.42, 0));
+    e(v(0.70, 0.42, 0), v(0.35, 0.34, 0));
+
+    /* ventral strakes */
+    [1, -1].forEach(function (sg) {
+      ring([v(-1.62, -0.30, sg * 0.17), v(-2.22, -0.30, sg * 0.17),
+            v(-2.32, -0.54, sg * 0.19), v(-1.78, -0.50, sg * 0.19)]);
+    });
+
+    /* exhaust nozzle */
+    var noz = [];
+    for (var nk = 0; nk < 8; nk++) {
+      var na = nk * Math.PI / 4;
+      noz.push(v(-2.82, 0.23 * Math.sin(na), 0.23 * Math.cos(na)));
+    }
+    ring(noz);
+    loft(body[body.length - 1], noz);
 
     /* ---------- render loop ---------- */
     var W, H;
@@ -1275,7 +1266,7 @@
 
     function draw(t) {
       ctx.clearRect(0, 0, W, H);
-      var scale = W * 0.153;
+      var scale = W * 0.135;
       var dt = lastT == null ? 0.016 : Math.min((t - lastT) / 1000, 0.05);
       lastT = t;
 
