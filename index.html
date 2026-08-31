@@ -289,10 +289,12 @@
 
     /* Interests */
     .interests-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr);
+      display: grid; grid-template-columns: repeat(3, 1fr);
       gap: 18px;
     }
-    @media (max-width: 640px) { .interests-grid { grid-template-columns: 1fr; } }
+    /* the schematic is a 3.5:1 side elevation, so it needs the full width */
+    .interests-grid > .interest-card--visual { grid-column: 1 / -1; }
+    @media (max-width: 860px) { .interests-grid { grid-template-columns: 1fr; } }
     .interest-card {
       background: var(--bg-soft);
       border: 1px solid var(--border);
@@ -319,10 +321,23 @@
     }
     .interest-card p { color: var(--text-muted); font-size: 0.9rem; }
     /* [04] is a full-bleed schematic rather than a text card */
-    .interest-card--visual { padding: 0; min-height: 330px; background: #010203; }
-    .interest-card--visual .rafale { width: 100%; height: 100%; display: block; }
+    .interest-card--visual { padding: 0; background: #010203; aspect-ratio: 3.5 / 1; }
+    .interest-card--visual canvas { width: 100%; height: 100%; display: block; }
     .interest-card--visual::before { z-index: 2; }
-    @media (max-width: 640px) { .interest-card--visual { min-height: 230px; } }
+    .rafale-cap {
+      position: absolute; left: 22px; bottom: 16px; z-index: 2;
+      font-family: 'JetBrains Mono', monospace; line-height: 1.5;
+      text-shadow: 0 0 10px #010203;
+    }
+    .rafale-cap strong { display: block; color: var(--cyan); font-size: 0.82rem;
+      letter-spacing: 0.06em; }
+    .rafale-cap span { display: block; color: var(--text-muted); font-size: 0.66rem; }
+    .rafale-cap em { display: block; color: var(--green); opacity: 0.6;
+      font-style: normal; font-size: 0.66rem; }
+    @media (max-width: 860px) {
+      .interest-card--visual { aspect-ratio: 2.4 / 1; }
+      .rafale-cap { left: 14px; bottom: 10px; }
+    }
     .interest-card p em { color: var(--cyan); font-style: normal; }
 
     /* Experience / publications timeline */
@@ -525,7 +540,12 @@
           </p>
         </div>
         <div class="interest-card interest-card--visual" data-num="[04]">
-<svg class="rafale" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Plan-view schematic of a Dassault Rafale EH of No. 17 Squadron, Indian Air Force: canard delta, twin engines, 10.90 m span."><style>@keyframes drift{from{transform:translateX(0)}to{transform:translateX(-1420px)}}.a0{animation:drift 12.74s linear infinite;animation-delay:-0.00s}.a1{animation:drift 11.42s linear infinite;animation-delay:-10.65s}.a2{animation:drift 9.94s linear infinite;animation-delay:-8.40s}.a3{animation:drift 13.78s linear infinite;animation-delay:-11.47s}.a4{animation:drift 13.30s linear infinite;animation-delay:-10.22s}.a5{animation:drift 7.54s linear infinite;animation-delay:-3.69s}.a6{animation:drift 14.06s linear infinite;animation-delay:-9.44s}.a7{animation:drift 7.50s linear infinite;animation-delay:-2.11s}.a8{animation:drift 11.06s linear infinite;animation-delay:-4.90s}.a9{animation:drift 13.06s linear infinite;animation-delay:-6.13s}.a10{animation:drift 13.26s linear infinite;animation-delay:-5.56s}.a11{animation:drift 6.62s linear infinite;animation-delay:-4.77s}.a12{animation:drift 8.58s linear infinite;animation-delay:-7.92s}.a13{animation:drift 6.22s linear infinite;animation-delay:-2.43s}.a14{animation:drift 8.78s linear infinite;animation-delay:-6.78s}.a15{animation:drift 7.82s linear infinite;animation-delay:-4.09s}.a16{animation:drift 6.66s linear infinite;animation-delay:-1.00s}.a17{animation:drift 8.30s linear infinite;animation-delay:-3.51s}.a18{animation:drift 11.90s linear infinite;animation-delay:-9.94s}.a19{animation:drift 9.66s linear infinite;animation-delay:-4.69s}.a20{animation:drift 12.54s linear infinite;animation-delay:-9.68s}.a21{animation:drift 10.82s linear infinite;animation-delay:-5.47s}.a22{animation:drift 9.74s linear infinite;animation-delay:-2.54s}.a23{animation:drift 12.30s linear infinite;animation-delay:-6.89s}.a24{animation:drift 12.62s linear infinite;animation-delay:-6.76s}.a25{animation:drift 11.26s linear infinite;animation-delay:-3.27s}.a26{animation:drift 7.38s linear infinite;animation-delay:-2.12s}.a27{animation:drift 6.66s linear infinite;animation-delay:-5.85s}.a28{animation:drift 14.06s linear infinite;animation-delay:-6.56s}.a29{animation:drift 9.66s linear infinite;animation-delay:-6.65s}.a30{animation:drift 8.54s linear infinite;animation-delay:-2.52s}.a31{animation:drift 9.62s linear infinite;animation-delay:-4.99s}.a32{animation:drift 10.58s linear infinite;animation-delay:-7.10s}.a33{animation:drift 9.90s linear infinite;animation-delay:-4.29s}.c0{animation:drift 23.95s linear infinite;animation-delay:-0.00s}.c1{animation:drift 24.49s linear infinite;animation-delay:-21.19s}.c2{animation:drift 30.31s linear infinite;animation-delay:-23.71s}.c3{animation:drift 30.45s linear infinite;animation-delay:-20.55s}.c4{animation:drift 20.19s linear infinite;animation-delay:-6.99s}.c5{animation:drift 30.01s linear infinite;animation-delay:-13.51s}.c6{animation:drift 26.55s linear infinite;animation-delay:-6.75s}.c7{animation:drift 29.65s linear infinite;animation-delay:-6.55s}.c8{animation:drift 24.03s linear infinite;animation-delay:-21.66s}@media (prefers-reduced-motion: reduce){.air *{animation:none!important}}</style><rect width="1000" height="600" fill="#010203"/><g class="air"><line class="a0" x1="1380" y1="156.4" x2="1655" y2="156.4" stroke="#00ff41" stroke-width="1" opacity="0.10" stroke-linecap="round"/><line class="a1" x1="1380" y1="310.7" x2="1639" y2="310.7" stroke="#00ff41" stroke-width="1" opacity="0.06" stroke-linecap="round"/><line class="a2" x1="1380" y1="498.6" x2="1567" y2="498.6" stroke="#00ff41" stroke-width="1" opacity="0.18" stroke-linecap="round"/><line class="a3" x1="1380" y1="364.9" x2="1491" y2="364.9" stroke="#00ff41" stroke-width="1" opacity="0.14" stroke-linecap="round"/><line class="a4" x1="1380" y1="170.8" x2="1647" y2="170.8" stroke="#00ff41" stroke-width="1" opacity="0.10" stroke-linecap="round"/><line class="a5" x1="1380" y1="213.7" x2="1495" y2="213.7" stroke="#00ff41" stroke-width="1" opacity="0.06" stroke-linecap="round"/><line class="a6" x1="1380" y1="522.6" x2="1427" y2="522.6" stroke="#00ff41" stroke-width="1" opacity="0.18" stroke-linecap="round"/><line class="a7" x1="1380" y1="501.2" x2="1555" y2="501.2" stroke="#00ff41" stroke-width="1" opacity="0.14" stroke-linecap="round"/><line class="a8" x1="1380" y1="404.0" x2="1463" y2="404.0" stroke="#00ff41" stroke-width="1" opacity="0.10" stroke-linecap="round"/><line class="a9" x1="1380" y1="498.8" x2="1467" y2="498.8" stroke="#00ff41" stroke-width="1" opacity="0.06" stroke-linecap="round"/><line class="a10" x1="1380" y1="505.3" x2="1431" y2="505.3" stroke="#00ff41" stroke-width="1" opacity="0.18" stroke-linecap="round"/><line class="a11" x1="1380" y1="240.1" x2="1619" y2="240.1" stroke="#00ff41" stroke-width="1" opacity="0.14" stroke-linecap="round"/><line class="a12" x1="1380" y1="505.8" x2="1467" y2="505.8" stroke="#00ff41" stroke-width="1" opacity="0.10" stroke-linecap="round"/><line class="a13" x1="1380" y1="256.9" x2="1447" y2="256.9" stroke="#00ff41" stroke-width="1" opacity="0.06" stroke-linecap="round"/><line class="a14" x1="1380" y1="197.2" x2="1523" y2="197.2" stroke="#00ff41" stroke-width="1" opacity="0.18" stroke-linecap="round"/><line class="a15" x1="1380" y1="497.4" x2="1655" y2="497.4" stroke="#00ff41" stroke-width="1" opacity="0.14" stroke-linecap="round"/><line class="a16" x1="1380" y1="558.6" x2="1499" y2="558.6" stroke="#00ff41" stroke-width="1" opacity="0.10" stroke-linecap="round"/><line class="a17" x1="1380" y1="226.2" x2="1607" y2="226.2" stroke="#00ff41" stroke-width="1" opacity="0.06" stroke-linecap="round"/><line class="a18" x1="1380" y1="82.0" x2="1491" y2="82.0" stroke="#00ff41" stroke-width="1" opacity="0.18" stroke-linecap="round"/><line class="a19" x1="1380" y1="593.4" x2="1511" y2="593.4" stroke="#00ff41" stroke-width="1" opacity="0.14" stroke-linecap="round"/><line class="a20" x1="1380" y1="97.8" x2="1495" y2="97.8" stroke="#00ff41" stroke-width="1" opacity="0.10" stroke-linecap="round"/><line class="a21" x1="1380" y1="393.2" x2="1603" y2="393.2" stroke="#00ff41" stroke-width="1" opacity="0.06" stroke-linecap="round"/><line class="a22" x1="1380" y1="340.2" x2="1615" y2="340.2" stroke="#00ff41" stroke-width="1" opacity="0.18" stroke-linecap="round"/><line class="a23" x1="1380" y1="321.7" x2="1555" y2="321.7" stroke="#00ff41" stroke-width="1" opacity="0.14" stroke-linecap="round"/><line class="a24" x1="1380" y1="237.0" x2="1483" y2="237.0" stroke="#00ff41" stroke-width="1" opacity="0.10" stroke-linecap="round"/><line class="a25" x1="1380" y1="318.4" x2="1463" y2="318.4" stroke="#00ff41" stroke-width="1" opacity="0.06" stroke-linecap="round"/><line class="a26" x1="1380" y1="306.6" x2="1603" y2="306.6" stroke="#00ff41" stroke-width="1" opacity="0.18" stroke-linecap="round"/><line class="a27" x1="1380" y1="169.1" x2="1475" y2="169.1" stroke="#00ff41" stroke-width="1" opacity="0.14" stroke-linecap="round"/><line class="a28" x1="1380" y1="506.8" x2="1431" y2="506.8" stroke="#00ff41" stroke-width="1" opacity="0.10" stroke-linecap="round"/><line class="a29" x1="1380" y1="336.6" x2="1575" y2="336.6" stroke="#00ff41" stroke-width="1" opacity="0.06" stroke-linecap="round"/><line class="a30" x1="1380" y1="538.9" x2="1611" y2="538.9" stroke="#00ff41" stroke-width="1" opacity="0.18" stroke-linecap="round"/><line class="a31" x1="1380" y1="59.6" x2="1575" y2="59.6" stroke="#00ff41" stroke-width="1" opacity="0.14" stroke-linecap="round"/><line class="a32" x1="1380" y1="161.2" x2="1619" y2="161.2" stroke="#00ff41" stroke-width="1" opacity="0.10" stroke-linecap="round"/><line class="a33" x1="1380" y1="577.6" x2="1503" y2="577.6" stroke="#00ff41" stroke-width="1" opacity="0.06" stroke-linecap="round"/><path class="c0" d="M0 0c43 -25 108 -31 186 -14c53 -26 133 -19 139 11c62 8 108 14 140 6" transform="translate(1380 390)" fill="none" stroke="#00ff41" stroke-width="1.5" opacity="0.13" stroke-linecap="round"/><path class="c1" d="M0 0c25 -14 62 -18 107 -8c30 -15 77 -11 80 6c36 4 62 8 80 4" transform="translate(1380 60)" fill="none" stroke="#00ff41" stroke-width="1.5" opacity="0.13" stroke-linecap="round"/><path class="c2" d="M0 0c39 -23 99 -28 169 -13c48 -24 121 -17 127 10c56 7 99 13 127 6" transform="translate(1380 450)" fill="none" stroke="#00ff41" stroke-width="1.5" opacity="0.13" stroke-linecap="round"/><path class="c3" d="M0 0c41 -23 102 -29 174 -13c49 -25 125 -17 130 10c58 7 102 13 130 6" transform="translate(1380 480)" fill="none" stroke="#00ff41" stroke-width="1.5" opacity="0.13" stroke-linecap="round"/><path class="c4" d="M0 0c36 -21 90 -26 155 -12c44 -22 111 -15 116 9c52 6 90 12 116 5" transform="translate(1380 454)" fill="none" stroke="#00ff41" stroke-width="1.5" opacity="0.13" stroke-linecap="round"/><path class="c5" d="M0 0c37 -21 92 -26 157 -12c45 -22 113 -16 118 9c52 7 92 12 118 5" transform="translate(1380 204)" fill="none" stroke="#00ff41" stroke-width="1.5" opacity="0.13" stroke-linecap="round"/><path class="c6" d="M0 0c35 -20 88 -25 150 -11c42 -21 108 -15 112 9c50 6 88 11 112 5" transform="translate(1380 490)" fill="none" stroke="#00ff41" stroke-width="1.5" opacity="0.13" stroke-linecap="round"/><path class="c7" d="M0 0c32 -18 80 -23 138 -10c39 -20 99 -14 103 8c46 6 80 10 104 5" transform="translate(1380 512)" fill="none" stroke="#00ff41" stroke-width="1.5" opacity="0.13" stroke-linecap="round"/><path class="c8" d="M0 0c43 -24 107 -31 184 -14c52 -26 132 -18 138 11c61 8 107 14 138 6" transform="translate(1380 374)" fill="none" stroke="#00ff41" stroke-width="1.5" opacity="0.13" stroke-linecap="round"/></g><g class="ac"><path d="M564.6 300.0L329.4 486.9L276.9 486.9L239.1 312.6Z" fill="rgba(0,229,255,0.05)" stroke="#00e5ff" stroke-width="2.2" stroke-linejoin="round"/><path d="M564.6 216.0L329.4 29.1L276.9 29.1L239.1 203.4Z" fill="rgba(0,229,255,0.05)" stroke="#00e5ff" stroke-width="2.2" stroke-linejoin="round"/><path d="M648.6 284.0L587.7 386.1L560.4 379.0L582.2 288.2Z" fill="rgba(0,229,255,0.05)" stroke="#00e5ff" stroke-width="2.2" stroke-linejoin="round"/><path d="M648.6 232.0L587.7 129.9L560.4 137.0L582.2 227.8Z" fill="rgba(0,229,255,0.05)" stroke="#00e5ff" stroke-width="2.2" stroke-linejoin="round"/><path d="M415.5 486.9L375.6 480.6L271.4 480.6L262.2 484.1L262.2 489.7L271.4 493.2L375.6 493.2Z" fill="rgba(0,229,255,0.07)" stroke="#00e5ff" stroke-width="1.5" opacity="0.85" stroke-linejoin="round"/><path d="M415.5 29.1L375.6 22.8L271.4 22.8L262.2 26.3L262.2 31.9L271.4 35.4L375.6 35.4Z" fill="rgba(0,229,255,0.07)" stroke="#00e5ff" stroke-width="1.5" opacity="0.85" stroke-linejoin="round"/><path d="M459.6 409.2L419.7 401.6L290.3 401.6L281.1 405.8L281.1 412.6L290.3 416.8L419.7 416.8Z" fill="rgba(0,229,255,0.07)" stroke="#00e5ff" stroke-width="1.5" opacity="0.85" stroke-linejoin="round"/><line x1="367.2" y1="389.0" x2="367.2" y2="409.2" stroke="#00e5ff" stroke-width="1" opacity="0.5"/><path d="M459.6 106.8L419.7 99.2L290.3 99.2L281.1 103.4L281.1 110.2L290.3 114.4L419.7 114.4Z" fill="rgba(0,229,255,0.07)" stroke="#00e5ff" stroke-width="1.5" opacity="0.85" stroke-linejoin="round"/><line x1="367.2" y1="127.0" x2="367.2" y2="106.8" stroke="#00e5ff" stroke-width="1" opacity="0.5"/><path d="M507.9 342.0L482.7 328.6L279.8 328.6L270.6 336.0L270.6 348.0L279.8 355.4L482.7 355.4Z" fill="rgba(0,229,255,0.07)" stroke="#00e5ff" stroke-width="1.5" opacity="0.85" stroke-linejoin="round"/><line x1="393.4" y1="316.0" x2="393.4" y2="342.0" stroke="#00e5ff" stroke-width="1" opacity="0.5"/><path d="M507.9 174.0L482.7 160.6L279.8 160.6L270.6 168.0L270.6 180.0L279.8 187.4L482.7 187.4Z" fill="rgba(0,229,255,0.07)" stroke="#00e5ff" stroke-width="1.5" opacity="0.85" stroke-linejoin="round"/><line x1="393.4" y1="200.0" x2="393.4" y2="174.0" stroke="#00e5ff" stroke-width="1" opacity="0.5"/><path d="M788.0 258.0L775.4 263.0L745.2 268.9L703.2 274.8L661.2 280.7L629.7 283.2L608.3 287.4L602.4 309.2L575.1 313.4L522.6 311.8L491.1 300.8L442.8 297.9L367.2 297.9L291.6 298.7L232.8 300.8L178.2 301.7L155.1 297.5L143.8 280.7L141.2 258.0L141.2 258.0L143.8 235.3L155.1 218.5L178.2 214.3L232.8 215.2L291.6 217.3L367.2 218.1L442.8 218.1L491.1 215.2L522.6 204.2L575.1 202.6L602.4 206.8L608.3 228.6L629.7 232.8L661.2 235.3L703.2 241.2L745.2 247.1L775.4 253.0L788.0 258.0Z" fill="#04161c" stroke="#00e5ff" stroke-width="2.6" stroke-linejoin="round"/><path d="M255.9 314.3L288.2 486.9" fill="none" stroke="#00e5ff" stroke-width="1.3" opacity="0.55"/><path d="M255.9 201.7L288.2 29.1" fill="none" stroke="#00e5ff" stroke-width="1.3" opacity="0.55"/><path d="M266.9 373.0L252.0 371.9" fill="none" stroke="#00e5ff" stroke-width="1.3" opacity="0.4"/><path d="M266.9 143.0L252.0 144.1" fill="none" stroke="#00e5ff" stroke-width="1.3" opacity="0.4"/><path d="M277.6 429.9L264.4 429.4" fill="none" stroke="#00e5ff" stroke-width="1.3" opacity="0.4"/><path d="M277.6 86.1L264.4 86.6" fill="none" stroke="#00e5ff" stroke-width="1.3" opacity="0.4"/><path d="M494.0 356.1L250.4 364.9" fill="none" stroke="#00e5ff" stroke-width="1.3" opacity="0.22"/><path d="M494.0 159.9L250.4 151.1" fill="none" stroke="#00e5ff" stroke-width="1.3" opacity="0.22"/><path d="M428.2 408.4L261.0 413.7" fill="none" stroke="#00e5ff" stroke-width="1.3" opacity="0.22"/><path d="M428.2 107.6L261.0 102.3" fill="none" stroke="#00e5ff" stroke-width="1.3" opacity="0.22"/><path d="M371.7 453.3L270.1 455.5" fill="none" stroke="#00e5ff" stroke-width="1.3" opacity="0.22"/><path d="M371.7 62.7L270.1 60.5" fill="none" stroke="#00e5ff" stroke-width="1.3" opacity="0.22"/><path d="M596.1 299.2L596.1 324.4L582.2 327.7L585.6 300.0Z" fill="rgba(0,229,255,0.16)" stroke="#00e5ff" stroke-width="1.5"/><path d="M596.1 216.8L596.1 191.6L582.2 188.3L585.6 216.0Z" fill="rgba(0,229,255,0.16)" stroke="#00e5ff" stroke-width="1.5"/><path d="M381.9 263.5L262.2 262.2L197.1 260.9L197.1 255.1L262.2 253.8L381.9 252.5Z" fill="rgba(0,229,255,0.10)" stroke="#00e5ff" stroke-width="1.8"/><path d="M680.1 258.0L648.6 274.8L610.8 279.8L577.2 276.5L560.4 258.0L560.4 258.0L577.2 239.5L610.8 236.2L648.6 241.2L680.1 258.0Z" fill="rgba(0,229,255,0.20)" stroke="#00e5ff" stroke-width="1.8"/><path d="M648.6 258.0L648.6 274.8" fill="none" stroke="#00e5ff" stroke-width="1.3" opacity="0.6"/><rect x="140.4" y="269.8" width="35.7" height="37.8" rx="6" fill="rgba(0,229,255,0.14)" stroke="#00e5ff" stroke-width="1.6"/><rect x="140.4" y="208.4" width="35.7" height="37.8" rx="6" fill="rgba(0,229,255,0.14)" stroke="#00e5ff" stroke-width="1.6"/><line x1="788.0" y1="258.0" x2="827.1" y2="258.0" stroke="#00e5ff" stroke-width="1.9"/><circle cx="375.6" cy="396.6" r="17" fill="none" stroke="#00e5ff" stroke-width="1.6" opacity="0.75"/><circle cx="375.6" cy="396.6" r="11" fill="none" stroke="#00e5ff" stroke-width="1.6" opacity="0.5"/><circle cx="375.6" cy="396.6" r="5" fill="none" stroke="#00e5ff" stroke-width="1.6" opacity="0.9"/><circle cx="375.6" cy="119.4" r="17" fill="none" stroke="#00e5ff" stroke-width="1.6" opacity="0.75"/><circle cx="375.6" cy="119.4" r="11" fill="none" stroke="#00e5ff" stroke-width="1.6" opacity="0.5"/><circle cx="375.6" cy="119.4" r="5" fill="none" stroke="#00e5ff" stroke-width="1.6" opacity="0.9"/></g><g class="ann"><path d="M96 29L96 487" stroke="#00e5ff" stroke-width="1.1" opacity="0.45"/><path d="M91 29L101 29" stroke="#00e5ff" stroke-width="1.1" opacity="0.45"/><path d="M91 487L101 487" stroke="#00e5ff" stroke-width="1.1" opacity="0.45"/><text x="87" y="258" font-family="ui-monospace,'JetBrains Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" fill="#7d8f85" text-anchor="middle" opacity="0.85" transform="rotate(-90 87 258)">10.90 m span</text><path d="M60 496L392 496" stroke="#00e5ff" stroke-width="1" opacity="0.35"/><text x="60" y="526" font-family="ui-monospace,'JetBrains Mono','SF Mono',Menlo,Consolas,monospace" font-size="27" fill="#00e5ff" opacity="0.95" text-anchor="start">DASSAULT RAFALE EH</text><text x="60" y="552" font-family="ui-monospace,'JetBrains Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" fill="#7d8f85" opacity="0.85" text-anchor="start">No. 17 SQN · GOLDEN ARROWS</text><text x="60" y="576" font-family="ui-monospace,'JetBrains Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" fill="#00ff41" opacity="0.55" text-anchor="start">defence · geopolitics · airpower</text><text x="940" y="56" font-family="ui-monospace,'JetBrains Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" fill="#7d8f85" opacity="0.6" text-anchor="end">[ PLAN VIEW ]</text></g></svg>
+          <canvas id="rafale"></canvas>
+          <div class="rafale-cap">
+            <strong>DASSAULT RAFALE EH</strong>
+            <span>No. 17 SQN &middot; GOLDEN ARROWS</span>
+            <em>defence &middot; geopolitics &middot; airpower</em>
+          </div>
         </div>
       </div>
     </div>
@@ -868,6 +888,204 @@
     }
     tick();
   })();
+
+/* ---------- Rafale EH side profile, halftone render ----------
+   The airframe is authored as shaded regions in metres (15.27 m long,
+   5.34 m tall), then sampled on a grid: every sample that lands inside a
+   region becomes a dot whose radius and colour follow that region's tone.
+   No bitmap, no external asset; the shape is geometry, the dots are derived.
+   x: +nose, y: +up, origin on the fuselage centreline. */
+(function () {
+  var canvas = document.getElementById('rafale');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+  /* Regions are listed back to front: later entries win a sample.
+     tone 0 = darkest, 1 = brightest. */
+  var R = [];
+  function reg(tone, pts) { R.push({ t: tone, p: pts }); }
+
+  /* Stations derived from a side-elevation reference: canard at 42-53% of
+     length, wing root LE at 49%, fin root LE at 72%, and the fin tip
+     trailing edge overhanging the tail at 106%. Listed back to front. */
+
+  // fin
+  reg(0.72, [[-3.34, 0.58], [-6.45, 3.04], [-7.95, 2.98], [-8.20, 2.40],
+             [-7.80, 0.40]]);
+  reg(0.44, [[-6.60, 2.72], [-8.10, 2.66], [-7.80, 0.42], [-6.40, 0.52]]);
+  // ECM fairing: a separate pod overhanging the fin tip, not part of the fin
+  reg(0.95, [[-6.30, 3.20], [-8.58, 3.12], [-8.62, 2.90], [-6.34, 2.96]]);
+
+  // fuselage
+  reg(0.86, [
+    [7.62, -0.02], [7.10, 0.20], [6.40, 0.40], [5.60, 0.58], [4.84, 0.73],
+    [4.35, 1.05], [3.75, 1.27], [2.90, 1.22], [1.90, 1.02], [1.55, 0.88],
+    [0.80, 0.80], [-0.60, 0.74], [-2.00, 0.66], [-3.34, 0.58], [-5.00, 0.48],
+    [-6.40, 0.42], [-7.30, 0.38], [-7.66, 0.30],
+    [-7.66, -0.29], [-7.20, -0.48], [-6.00, -0.58], [-4.50, -0.66],
+    [-3.00, -0.72], [-1.50, -0.78], [0.00, -0.82], [1.26, -0.80],
+    [2.50, -0.78], [3.20, -0.70], [4.20, -0.56], [5.20, -0.40], [6.30, -0.20]
+  ]);
+  // shaded underside
+  reg(0.56, [[6.30, -0.20], [5.20, -0.40], [4.20, -0.56], [3.20, -0.70],
+             [2.50, -0.78], [1.26, -0.80], [0.00, -0.82], [-1.50, -0.78],
+             [-3.00, -0.72], [-4.50, -0.66], [-6.00, -0.58], [-7.20, -0.48],
+             [-7.66, -0.29], [-7.40, -0.06], [-3.00, -0.30], [1.00, -0.42],
+             [4.00, -0.26]]);
+
+  // panel tones, breaking up the flank the way the real scheme does
+  reg(0.70, [[4.20, 0.62], [1.60, 0.86], [-1.60, 0.70], [-3.20, 0.60],
+             [-3.20, 0.30], [-1.60, 0.40], [1.60, 0.52], [4.10, 0.40]]);
+  reg(0.62, [[-3.40, 0.58], [-5.80, 0.46], [-7.20, 0.38], [-7.20, 0.10],
+             [-5.60, 0.18], [-3.40, 0.28]]);
+
+  // conformal tank along the belly
+  reg(0.66, [[1.90, -0.78], [1.00, -1.02], [-0.60, -1.22], [-2.60, -1.30],
+             [-4.30, -1.24], [-5.50, -1.00], [-5.95, -0.76]]);
+
+  // side intake, no splitter plate
+  reg(0.42, [[2.55, -0.52], [2.50, -1.02], [1.90, -1.10], [1.20, -1.06],
+             [0.92, -0.90], [0.95, -0.58]]);
+  reg(0.95, [[2.55, -0.55], [2.50, -0.98], [2.30, -1.00], [2.35, -0.57]]);
+
+  // delta wing, edge-on, running aft almost to the nozzles
+  reg(0.32, [[0.30, -0.14], [-6.71, -0.28], [-6.71, -0.60], [-0.30, -0.50]]);
+  // close-coupled canard
+  reg(0.46, [[1.45, 0.62], [0.10, 0.50], [-0.62, 0.38], [-0.30, 0.18],
+             [0.75, 0.26], [1.42, 0.40]]);
+
+  // canopy glazing: the brightest mass on the airframe
+  reg(1.00, [[4.84, 0.73], [4.35, 1.05], [3.75, 1.27], [2.90, 1.22],
+             [1.90, 1.02], [1.58, 0.88]]);
+
+  // nozzle
+  reg(0.30, [[-7.00, 0.34], [-7.66, 0.28], [-7.66, -0.28], [-7.00, -0.40]]);
+
+  // fixed refuelling probe and nose pitot
+  reg(0.62, [[6.52, 0.56], [5.05, 0.82], [4.98, 0.62], [6.46, 0.36]]);
+  reg(0.58, [[7.62, 0.04], [8.62, 0.09], [8.62, -0.05], [7.62, -0.12]]);
+
+  var MINX = -9.0, MAXX = 8.8, MINY = -1.65, MAXY = 3.45;
+
+  function inside(px, py, poly) {
+    var c = false;
+    for (var i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+      var xi = poly[i][0], yi = poly[i][1], xj = poly[j][0], yj = poly[j][1];
+      if (((yi > py) !== (yj > py)) &&
+          (px < (xj - xi) * (py - yi) / (yj - yi) + xi)) c = !c;
+    }
+    return c;
+  }
+
+  /* ---- build the dot field ---- */
+  var dots = [], W, H, S, ox, oy, step;
+
+  function build() {
+    dots = [];
+    var spanX = MAXX - MINX, spanY = MAXY - MINY;
+    S = Math.min(W / spanX, H / spanY) * 0.86;
+    ox = W / 2 - ((MINX + MAXX) / 2) * S;
+    oy = H / 2 + ((MINY + MAXY) / 2) * S - H * 0.05;
+    step = Math.max(2.6, Math.min(4.6, W / 190));   // screen px between samples
+
+    var g = step / S;                                // grid pitch in metres
+    for (var y = MINY; y <= MAXY; y += g) {
+      // offset alternate rows: a hex lattice reads smoother than a square one
+      var odd = Math.round((y - MINY) / g) % 2;
+      for (var x = MINX + (odd ? g / 2 : 0); x <= MAXX; x += g) {
+        var tone = -1;
+        for (var i = R.length - 1; i >= 0; i--) {
+          if (inside(x, y, R[i].p)) { tone = R[i].t; break; }
+        }
+        if (tone < 0) continue;
+        // a soft top-down gradient, so the airframe is lit from above
+        var lit = 0.80 + 0.34 * ((y - MINY) / spanY);
+        var v = Math.max(0.10, Math.min(1, 0.16 + 0.86 * tone * lit));
+        dots.push([ox + x * S, oy - y * S, v]);
+      }
+    }
+  }
+
+  function resize() {
+    W = canvas.clientWidth; H = canvas.clientHeight;
+    if (!W || !H) return;
+    canvas.width = W * DPR; canvas.height = H * DPR;
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    build();
+  }
+
+  /* ---- air and cloud lines, drifting aft ---- */
+  var air = [];
+  for (var i = 0; i < 30; i++) {
+    air.push({ y: Math.random(), x: Math.random(), len: 0.04 + Math.random() * 0.17,
+               v: 0.02 + Math.random() * 0.055, a: 0.04 + Math.random() * 0.11 });
+  }
+  var clouds = [];
+  for (i = 0; i < 6; i++) {
+    clouds.push({ y: Math.random(), x: Math.random(), w: 0.22 + Math.random() * 0.3,
+                  v: 0.008 + Math.random() * 0.012, a: 0.05 + Math.random() * 0.05 });
+  }
+
+  var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function draw(t) {
+    ctx.clearRect(0, 0, W, H);
+
+    ctx.lineCap = 'round';
+    ctx.lineWidth = 1;
+    for (var i = 0; i < air.length; i++) {
+      var a = air[i];
+      var x = ((a.x - t * a.v) % 1.3 + 1.3) % 1.3 - 0.15;
+      ctx.strokeStyle = 'rgba(0,255,65,' + a.a.toFixed(3) + ')';
+      ctx.beginPath();
+      ctx.moveTo(x * W, a.y * H);
+      ctx.lineTo((x + a.len) * W, a.y * H);
+      ctx.stroke();
+    }
+    ctx.lineWidth = 1.4;
+    for (i = 0; i < clouds.length; i++) {
+      var c = clouds[i];
+      var cxp = ((c.x - t * c.v) % 1.5 + 1.5) % 1.5 - 0.25;
+      ctx.strokeStyle = 'rgba(0,255,65,' + c.a.toFixed(3) + ')';
+      ctx.beginPath();
+      var x0 = cxp * W, yy = c.y * H, w = c.w * W;
+      ctx.moveTo(x0, yy);
+      ctx.bezierCurveTo(x0 + w * 0.3, yy - 11, x0 + w * 0.6, yy - 14, x0 + w, yy - 3);
+      ctx.stroke();
+    }
+
+    // the airframe, as dots. A slow highlight sweeps nose to tail.
+    var sweep = ((t * 0.14) % 1.5) - 0.25;
+    var maxR = step * 0.50;
+    for (i = 0; i < dots.length; i++) {
+      var d = dots[i], v = d[2];
+      var rel = d[0] / W;
+      var boost = 1 - Math.min(1, Math.abs(rel - sweep) / 0.16);
+      var vv = Math.min(1, v + boost * 0.45);
+      var r = maxR * (0.38 + 0.62 * vv);
+      // cyan in the lit areas, deep blue in the shadows
+      var g = Math.round(150 + 95 * vv);
+      var b = Math.round(180 + 72 * vv);
+      ctx.fillStyle = 'rgba(0,' + g + ',' + b + ',' + (0.42 + 0.58 * vv).toFixed(3) + ')';
+      ctx.beginPath();
+      ctx.arc(d[0], d[1], r, 0, 6.2832);
+      ctx.fill();
+    }
+  }
+
+  var t0 = null;
+  function frame(ts) {
+    if (t0 === null) t0 = ts;
+    draw((ts - t0) / 1000);
+    requestAnimationFrame(frame);
+  }
+
+  resize();
+  window.addEventListener('resize', function () { resize(); if (mq.matches) draw(0); });
+  if (mq.matches) draw(0); else requestAnimationFrame(frame);
+})();
+
 
   /* ---------- F1 car wireframe hologram ---------- */
   (function () {
