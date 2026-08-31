@@ -429,7 +429,9 @@
     footer .ok { color: var(--green); }
 
     @media (max-width: 640px) {
-      .nav-links { display: none; }
+      /* seven links will not fit on a phone; keep the one that matters */
+      .nav-links { display: flex; gap: 0; }
+      .nav-links a:not([href="#contact"]) { display: none; }
       .timeline-item { grid-template-columns: 1fr; gap: 4px; }
       section { padding: 56px 0; }
     }
@@ -457,7 +459,7 @@
   <header>
     <div class="hero-bigword" aria-hidden="true">WELCOME</div>
     <div class="hero-photo-wrap">
-      <img class="hero-photo" src="assets/mayukh.png" alt="Portrait of Mayukh Das">
+      <img class="hero-photo" src="assets/mayukh.jpg" width="900" height="900" alt="Portrait of Mayukh Das">
     </div>
     <h1 class="hero-name"><span class="glitch" data-text="MAYUKH DAS">MAYUKH DAS</span></h1>
     <p class="hero-type mono"><span class="prompt">$ whoami&nbsp;&nbsp;»&nbsp;</span><span id="typed"></span><span class="cursor"></span></p>
@@ -507,6 +509,38 @@
         that <strong>democratise machine learning</strong>: from national-scale AI capability to
         creative solutions for problems in grassroots communities.
       </p>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="container">
+      <h2>skills</h2>
+      <div class="skills-list">
+        <span class="skill">Python</span>
+        <span class="skill">Java</span>
+        <span class="skill">C#</span>
+        <span class="skill">JavaScript</span>
+        <span class="skill">SQL</span>
+        <span class="skill">PyTorch</span>
+        <span class="skill">scikit-learn</span>
+        <span class="skill">Deep Learning</span>
+        <span class="skill">Transformers</span>
+        <span class="skill">Diffusion Models</span>
+        <span class="skill">LLMs</span>
+        <span class="skill">Explainable AI</span>
+        <span class="skill">React</span>
+        <span class="skill">Node</span>
+        <span class="skill">.NET</span>
+        <span class="skill">HCI</span>
+        <span class="skill">Git</span>
+        <span class="skill">Jupyter</span>
+        <span class="skill">LLM APIs</span>
+        <span class="skill">REST APIs</span>
+        <span class="skill">Solution Architecture</span>
+        <span class="skill">Cloud Architecture</span>
+        <span class="skill">Agile</span>
+        <span class="skill">Hadoop</span>
+      </div>
     </div>
   </section>
 
@@ -746,37 +780,6 @@
     </div>
   </section>
 
-  <section id="skills">
-    <div class="container">
-      <h2>skills</h2>
-      <div class="skills-list">
-        <span class="skill">Python</span>
-        <span class="skill">Java</span>
-        <span class="skill">C#</span>
-        <span class="skill">JavaScript</span>
-        <span class="skill">SQL</span>
-        <span class="skill">PyTorch</span>
-        <span class="skill">scikit-learn</span>
-        <span class="skill">Deep Learning</span>
-        <span class="skill">Transformers</span>
-        <span class="skill">Diffusion Models</span>
-        <span class="skill">LLMs</span>
-        <span class="skill">Explainable AI</span>
-        <span class="skill">React</span>
-        <span class="skill">Node</span>
-        <span class="skill">.NET</span>
-        <span class="skill">HCI</span>
-        <span class="skill">Git</span>
-        <span class="skill">Jupyter</span>
-        <span class="skill">LLM APIs</span>
-        <span class="skill">REST APIs</span>
-        <span class="skill">Solution Architecture</span>
-        <span class="skill">Cloud Architecture</span>
-        <span class="skill">Agile</span>
-        <span class="skill">Hadoop</span>
-      </div>
-    </div>
-  </section>
 
   <section id="beyond">
     <div class="container">
@@ -1102,7 +1105,6 @@
   window.addEventListener('resize', function () { resize(); if (mq.matches) draw(0); });
   if (mq.matches) draw(0); else requestAnimationFrame(frame);
 })();
-
 
   /* ---------- Mirage 2000 wireframe hologram ---------- */
   (function () {
