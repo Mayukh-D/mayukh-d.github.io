@@ -1110,6 +1110,7 @@
     canvas.width = W * DPR; canvas.height = H * DPR;
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     build();
+    buildClouds();
   }
 
   /* ---- air and cloud lines, drifting aft ---- */
@@ -1118,10 +1119,53 @@
     air.push({ y: Math.random(), x: Math.random(), len: 0.04 + Math.random() * 0.17,
                v: 0.02 + Math.random() * 0.055, a: 0.04 + Math.random() * 0.11 });
   }
+  /* ---- clouds as dot fields ----
+     Each cloud is a handful of overlapping lobes summed into a density field,
+     sampled on a lattice: dense in the core, thinning at the edges, which is
+     what makes a cloud read as volume rather than as an outline. Three layers
+     at different size, speed and brightness give parallax, so the aircraft
+     looks like it is moving through them rather than past a backdrop. */
   var clouds = [];
-  for (i = 0; i < 6; i++) {
-    clouds.push({ y: Math.random(), x: Math.random(), w: 0.22 + Math.random() * 0.3,
-                  v: 0.008 + Math.random() * 0.012, a: 0.05 + Math.random() * 0.05 });
+  function buildClouds() {
+    clouds = [];
+    var seed = 20260902;
+    function rnd() { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; }
+    var layers = [
+      { n: 4, w: 0.11, a: 0.30, v: 0.011, pitch: 7.0 },   // distant: small, slow, faint
+      { n: 3, w: 0.17, a: 0.46, v: 0.023, pitch: 6.0 },
+      { n: 2, w: 0.26, a: 0.62, v: 0.041, pitch: 5.0 }    // near: big, fast, brighter
+    ];
+    for (var li = 0; li < layers.length; li++) {
+      var L = layers[li];
+      for (var c = 0; c < L.n; c++) {
+        var cw = W * L.w * (0.75 + 0.5 * rnd());
+        var ch = cw * (0.30 + 0.14 * rnd());
+        var nl = 4 + Math.floor(rnd() * 4), lobes = [];
+        for (var i = 0; i < nl; i++) {
+          var fx = (nl === 1 ? 0 : (i / (nl - 1) - 0.5)) * 2;
+          var top = i % 2 === 1;            // alternate lobes ride high
+          lobes.push([fx * cw * 0.40 + (rnd() - 0.5) * cw * 0.08,
+                      top ? -ch * (0.08 + 0.30 * rnd()) : ch * 0.18,
+                      ch * (top ? 0.55 + 0.28 * rnd() : 0.40 + 0.16 * rnd())
+                         * (1 - 0.26 * Math.abs(fx))]);
+        }
+        var pts = [], p = L.pitch, row = 0;
+        for (var y = -ch * 1.3; y <= ch * 1.3; y += p, row++) {
+          for (var x = -cw * 0.75 + (row % 2 ? p / 2 : 0); x <= cw * 0.75; x += p) {
+            var s = 0;
+            for (var k = 0; k < lobes.length; k++) {
+              var dx = x - lobes[k][0], dy = (y - lobes[k][1]) * 1.35, r = lobes[k][2];
+              var q = 1 - (dx * dx + dy * dy) / (r * r);
+              if (q > 0) s += q * q;
+            }
+            if (s > 0.26) pts.push([x, y, Math.min(1, (s - 0.26) / 0.85)]);
+          }
+        }
+        var margin = ch * 1.4, room = Math.max(0, H - margin * 2);
+        clouds.push({ pts: pts, y: margin + rnd() * room, x: rnd(),
+                      v: L.v, a: L.a, p: p, span: cw * 1.5 });
+      }
+    }
   }
 
   var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -1140,16 +1184,23 @@
       ctx.lineTo((x + a.len) * W, a.y * H);
       ctx.stroke();
     }
-    ctx.lineWidth = 1.4;
     for (i = 0; i < clouds.length; i++) {
       var c = clouds[i];
-      var cxp = ((c.x - t * c.v) % 1.5 + 1.5) % 1.5 - 0.25;
-      ctx.strokeStyle = 'rgba(0,229,255,' + c.a.toFixed(3) + ')';
-      ctx.beginPath();
-      var x0 = cxp * W, yy = c.y * H, w = c.w * W;
-      ctx.moveTo(x0, yy);
-      ctx.bezierCurveTo(x0 + w * 0.3, yy - 11, x0 + w * 0.6, yy - 14, x0 + w, yy - 3);
-      ctx.stroke();
+      var span = W + c.span;
+      var cx0 = ((c.x - t * c.v) % 1 + 1) % 1 * span - c.span / 2;
+      if (cx0 + c.span / 2 < -40 || cx0 - c.span / 2 > W + 40) continue;
+      for (var j = 0; j < c.pts.length; j++) {
+        var q2 = c.pts[j], dv = q2[2];
+        var dw = Math.pow(dv, 0.75);
+        // keep blue in the core too: letting it resolve to near-white made the
+        // clouds read as grey smoke rather than as sky
+        ctx.fillStyle = 'rgba(' + Math.round(78 + 96 * dw) + ','
+                                + Math.round(158 + 64 * dw) + ',255,'
+                                + (c.a * (0.42 + 0.58 * dw)).toFixed(3) + ')';
+        ctx.beginPath();
+        ctx.arc(cx0 + q2[0], c.y + q2[1], c.p * 0.44 * (0.45 + 0.55 * dw), 0, 6.2832);
+        ctx.fill();
+      }
     }
 
     // afterburner. Phase decreases with distance aft, so the bright wave
