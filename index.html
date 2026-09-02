@@ -1025,7 +1025,26 @@
   reg(0.62, [[6.52, 0.56], [5.05, 0.82], [4.98, 0.62], [6.46, 0.36]]);
   reg(0.58, [[7.62, 0.04], [8.62, 0.09], [8.62, -0.05], [7.62, -0.12]]);
 
-  var MINX = -9.0, MAXX = 8.8, MINY = -1.65, MAXY = 3.45;
+  var MINX = -11.7, MAXX = 8.8, MINY = -1.65, MAXY = 3.45;
+
+  /* ---- afterburner: shock cells, not a sine wave ----
+     Cell length decays downstream as the pressure mismatch driving it decays,
+     the cell profile is triangular so the edges meet at a cusp, and the glow
+     spikes where the shocks cross rather than swelling smoothly. */
+  var PL_X0 = -7.72, PL_LEN = 3.5, PL_R0 = 0.46;
+  var CELL_L0 = 0.95, CELL_DECAY = 0.80;
+  var plume = [];
+  var cells = (function () {
+    var c = [0], d = 0;
+    for (var k = 0; k < 10 && d <= PL_LEN; k++) { d += CELL_L0 * Math.pow(CELL_DECAY, k); c.push(d); }
+    return c;
+  })();
+  function cellU(dist) {
+    for (var k = 0; k < cells.length - 1; k++) {
+      if (dist >= cells[k] && dist < cells[k + 1]) return (dist - cells[k]) / (cells[k + 1] - cells[k]);
+    }
+    return 1;
+  }
 
   function inside(px, py, poly) {
     var c = false;
@@ -1047,6 +1066,25 @@
     ox = W / 2 - ((MINX + MAXX) / 2) * S;
     oy = H / 2 + ((MINY + MAXY) / 2) * S - H * 0.05;
     step = Math.max(2.6, Math.min(4.6, W / 190));   // screen px between samples
+
+    // the flame is a small region, so it samples finer than the airframe
+    plume = [];
+    var gp = step * 0.66 / S;
+    for (var py = -PL_R0 * 1.9, prow = 0; py <= PL_R0 * 1.9; py += gp, prow++) {
+      for (var px = PL_X0 - (prow % 2 ? gp / 2 : 0); px >= PL_X0 - PL_LEN; px -= gp) {
+        var dist = PL_X0 - px, tt = dist / PL_LEN, uu = cellU(dist);
+        var tri = 1 - Math.abs(2 * uu - 1);
+        var rr = Math.max(PL_R0 * Math.pow(1 - tt, 0.5) * (0.52 + 0.48 * tri), 0.05);
+        var aa = Math.abs(py);
+        if (aa > rr * 1.75) continue;
+        var node = Math.exp(-Math.pow(Math.min(uu, 1 - uu) / 0.14, 2));
+        var glow = 0.52 + 1.05 * node, ax = Math.pow(1 - tt, 0.8);
+        var pv = aa <= rr ? ax * (1 - Math.pow(aa / rr, 2)) * glow
+                          : ax * 0.34 * (1 - (aa - rr) / (rr * 0.75)) * glow;
+        pv = Math.pow(Math.max(0, Math.min(1, pv)), 0.7);
+        if (pv > 0.06) plume.push([ox + px * S, oy - py * S, pv, tt]);
+      }
+    }
 
     var g = step / S;                                // grid pitch in metres
     for (var y = MINY; y <= MAXY; y += g) {
@@ -1112,6 +1150,22 @@
       ctx.moveTo(x0, yy);
       ctx.bezierCurveTo(x0 + w * 0.3, yy - 11, x0 + w * 0.6, yy - 14, x0 + w, yy - 3);
       ctx.stroke();
+    }
+
+    // afterburner. Phase decreases with distance aft, so the bright wave
+    // runs nozzle -> tail. The other sign runs it up into the engine.
+    var pr = step * 0.66 * 0.5;
+    for (i = 0; i < plume.length; i++) {
+      var pd = plume[i];
+      var wv = 0.55 + 0.45 * Math.sin(6.2832 * (t / 0.62 - pd[3] * 1.15));
+      var pv2 = Math.min(1, pd[2] * (0.55 + 0.65 * wv));
+      var pf = pv2;
+      ctx.fillStyle = 'rgba(' + Math.round(40 + 110 * pf) + ','
+                              + Math.round(120 + 95 * pf) + ',255,'
+                              + (0.30 + 0.62 * pf).toFixed(3) + ')';
+      ctx.beginPath();
+      ctx.arc(pd[0], pd[1], pr * (0.52 + 0.48 * pf), 0, 6.2832);
+      ctx.fill();
     }
 
     // the airframe, as dots. A slow highlight sweeps nose to tail.
