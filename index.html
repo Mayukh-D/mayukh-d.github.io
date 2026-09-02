@@ -1131,23 +1131,35 @@
     var seed = 20260902;
     function rnd() { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; }
     var layers = [
-      { n: 4, w: 0.11, a: 0.30, v: 0.011, pitch: 7.0 },   // distant: small, slow, faint
-      { n: 3, w: 0.17, a: 0.46, v: 0.023, pitch: 6.0 },
-      { n: 2, w: 0.26, a: 0.62, v: 0.041, pitch: 5.0 }    // near: big, fast, brighter
+      { n: 4, w: 0.11, a: 0.34, v: 0.011, pitch: 4.0 },   // distant: small, slow, faint
+      { n: 3, w: 0.17, a: 0.50, v: 0.023, pitch: 3.6 },
+      { n: 2, w: 0.26, a: 0.66, v: 0.041, pitch: 3.2 }    // near: big, fast, brighter
     ];
     for (var li = 0; li < layers.length; li++) {
       var L = layers[li];
       for (var c = 0; c < L.n; c++) {
         var cw = W * L.w * (0.75 + 0.5 * rnd());
-        var ch = cw * (0.30 + 0.14 * rnd());
-        var nl = 4 + Math.floor(rnd() * 4), lobes = [];
-        for (var i = 0; i < nl; i++) {
+        var ch = cw * (0.23 + 0.11 * rnd());
+        var nl = 4 + Math.floor(rnd() * 3), lobes = [];
+        for (var i = 0; i < nl; i++) {                 // octave 1: the mass
           var fx = (nl === 1 ? 0 : (i / (nl - 1) - 0.5)) * 2;
-          var top = i % 2 === 1;            // alternate lobes ride high
+          var top = i % 2 === 1;
           lobes.push([fx * cw * 0.40 + (rnd() - 0.5) * cw * 0.08,
-                      top ? -ch * (0.08 + 0.30 * rnd()) : ch * 0.18,
-                      ch * (top ? 0.55 + 0.28 * rnd() : 0.40 + 0.16 * rnd())
+                      top ? -ch * (0.10 + 0.34 * rnd()) : ch * 0.20,
+                      ch * (top ? 0.62 + 0.30 * rnd() : 0.44 + 0.18 * rnd())
                          * (1 - 0.26 * Math.abs(fx))]);
+        }
+        for (i = 0; i < nl * 3; i++) {                 // octave 2: bumps
+          var a2 = rnd() * 6.2832, d2 = 0.30 + 0.70 * rnd();
+          lobes.push([Math.cos(a2) * cw * 0.44 * d2,
+                      Math.sin(a2) * ch * 0.62 * d2 - ch * 0.06,
+                      ch * (0.17 + 0.15 * rnd())]);
+        }
+        for (i = 0; i < nl * 5; i++) {                 // octave 3: wisps
+          var a3 = rnd() * 6.2832, d3 = 0.45 + 0.75 * rnd();
+          lobes.push([Math.cos(a3) * cw * 0.48 * d3,
+                      Math.sin(a3) * ch * 0.72 * d3 - ch * 0.04,
+                      ch * (0.07 + 0.08 * rnd())]);
         }
         var pts = [], p = L.pitch, row = 0;
         for (var y = -ch * 1.3; y <= ch * 1.3; y += p, row++) {
@@ -1158,12 +1170,35 @@
               var q = 1 - (dx * dx + dy * dy) / (r * r);
               if (q > 0) s += q * q;
             }
-            if (s > 0.26) pts.push([x, y, Math.min(1, (s - 0.26) / 0.85)]);
+            if (s <= 0.18) continue;
+            var dv0 = Math.min(1, (s - 0.18) / 0.95);
+            var keep = dv0 >= 0.42 ? 1 : 0.12 + 0.88 * (dv0 / 0.42);
+            if (rnd() > keep) continue;                // only the fringe dissolves
+            var lit = Math.max(0, Math.min(1, 0.42 - (y / ch) * 0.58));
+            pts.push([x + (rnd() - 0.5) * p * 0.6, y + (rnd() - 0.5) * p * 0.6, dv0, lit]);
           }
         }
-        var margin = ch * 1.4, room = Math.max(0, H - margin * 2);
-        clouds.push({ pts: pts, y: margin + rnd() * room, x: rnd(),
-                      v: L.v, a: L.a, p: p, span: cw * 1.5 });
+        /* Rasterise once. Blitting one bitmap per cloud costs a fraction of
+           re-stroking a few thousand arcs every frame, which is what lets the
+           lattice be dense enough to read as cloud instead of speckle. */
+        var bw = Math.ceil(cw * 1.6), bh = Math.ceil(ch * 3.0);
+        var off = document.createElement('canvas');
+        off.width = Math.max(1, bw * DPR); off.height = Math.max(1, bh * DPR);
+        var octx = off.getContext('2d');
+        octx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        for (var q = 0; q < pts.length; q++) {
+          var pt = pts[q];
+          var dw2 = Math.min(1, Math.pow(pt[2], 0.75) * (0.62 + 0.62 * pt[3]));
+          octx.fillStyle = 'rgba(' + Math.round(78 + 96 * dw2) + ','
+                                   + Math.round(158 + 64 * dw2) + ',255,'
+                                   + (0.50 + 0.50 * dw2).toFixed(3) + ')';
+          octx.beginPath();
+          octx.arc(bw / 2 + pt[0], bh / 2 + pt[1], p * 0.46 * (0.45 + 0.55 * dw2), 0, 6.2832);
+          octx.fill();
+        }
+        var margin = bh / 2, room = Math.max(0, H - margin * 2);
+        clouds.push({ img: off, w: bw, h: bh, y: margin + rnd() * room, x: rnd(),
+                      v: L.v, a: L.a, span: cw * 1.5 });
       }
     }
   }
@@ -1189,18 +1224,9 @@
       var span = W + c.span;
       var cx0 = ((c.x - t * c.v) % 1 + 1) % 1 * span - c.span / 2;
       if (cx0 + c.span / 2 < -40 || cx0 - c.span / 2 > W + 40) continue;
-      for (var j = 0; j < c.pts.length; j++) {
-        var q2 = c.pts[j], dv = q2[2];
-        var dw = Math.pow(dv, 0.75);
-        // keep blue in the core too: letting it resolve to near-white made the
-        // clouds read as grey smoke rather than as sky
-        ctx.fillStyle = 'rgba(' + Math.round(78 + 96 * dw) + ','
-                                + Math.round(158 + 64 * dw) + ',255,'
-                                + (c.a * (0.42 + 0.58 * dw)).toFixed(3) + ')';
-        ctx.beginPath();
-        ctx.arc(cx0 + q2[0], c.y + q2[1], c.p * 0.44 * (0.45 + 0.55 * dw), 0, 6.2832);
-        ctx.fill();
-      }
+      ctx.globalAlpha = c.a;
+      ctx.drawImage(c.img, cx0 - c.w / 2, c.y - c.h / 2, c.w, c.h);
+      ctx.globalAlpha = 1;
     }
 
     // afterburner. Phase decreases with distance aft, so the bright wave
