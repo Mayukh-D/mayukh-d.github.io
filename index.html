@@ -293,8 +293,6 @@
       display: grid; grid-template-columns: repeat(2, 1fr);
       gap: 18px;
     }
-    /* the schematic is a 3.5:1 side elevation, so it sits full width of its own */
-    .rafale-band { padding: 0 0 72px; }
     @media (max-width: 640px) { .interests-grid { grid-template-columns: 1fr; } }
     .interest-card {
       background: var(--bg-soft);
@@ -322,11 +320,17 @@
     }
     .interest-card p { color: var(--text-muted); font-size: 0.9rem; }
     /* [04] is a full-bleed schematic rather than a text card */
-    .interest-card--visual { padding: 0; background: #010203; aspect-ratio: 3.5 / 1; }
-    .interest-card--visual canvas { width: 100%; height: 100%; display: block; }
-    .interest-card--visual::before { z-index: 2; }
+    /* full bleed: no card chrome, edge to edge across the viewport */
+    .rafale-band { padding: 0 0 72px; }
+    .rafale-visual {
+      position: relative; width: 100%; background: #010203;
+      aspect-ratio: 3.5 / 1; overflow: hidden;
+    }
+    .rafale-visual canvas { width: 100%; height: 100%; display: block; }
     .rafale-cap {
-      position: absolute; left: 22px; bottom: 16px; z-index: 2;
+      /* held to the container's gutter so it lines up with the text above */
+      position: absolute; bottom: 18px; z-index: 2;
+      left: max(24px, calc((100% - 960px) / 2 + 24px));
       font-family: 'JetBrains Mono', monospace; line-height: 1.5;
       text-shadow: 0 0 10px #010203;
     }
@@ -336,8 +340,8 @@
     .rafale-cap em { display: block; color: var(--green); opacity: 0.6;
       font-style: normal; font-size: 0.66rem; }
     @media (max-width: 860px) {
-      .interest-card--visual { aspect-ratio: 2.4 / 1; }
-      .rafale-cap { left: 14px; bottom: 10px; }
+      .rafale-visual { aspect-ratio: 2.4 / 1; }
+      .rafale-cap { left: 16px; bottom: 12px; }
     }
     .interest-card p em { color: var(--cyan); font-style: normal; }
 
@@ -903,14 +907,12 @@
   </section>
 
   <section class="rafale-band">
-    <div class="container">
-      <div class="interest-card interest-card--visual reveal" data-scroll>
-        <canvas id="rafale"></canvas>
-        <div class="rafale-cap">
-          <strong>DASSAULT RAFALE EH</strong>
-          <span>No. 17 SQN &middot; GOLDEN ARROWS</span>
-          <em>defence &middot; geopolitics &middot; airpower</em>
-        </div>
+    <div class="rafale-visual reveal" data-scroll>
+      <canvas id="rafale"></canvas>
+      <div class="rafale-cap">
+        <strong>DASSAULT RAFALE EH</strong>
+        <span>No. 17 SQN &middot; GOLDEN ARROWS</span>
+        <em>defence &middot; geopolitics &middot; airpower</em>
       </div>
     </div>
   </section>
