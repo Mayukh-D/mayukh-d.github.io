@@ -359,7 +359,15 @@
     }
     .timeline-body p { color: var(--text-muted); font-size: 0.93rem; }
     .timeline-body a { color: var(--green); }
-    .project-card p a { color: var(--green); }
+    .project-card p a { color: var(--green); position: relative; z-index: 1; }
+    /* The title link stretches over the whole card, so clicking anywhere
+       opens the repo; the buttons and inline links sit above it. */
+    .project-card { position: relative; cursor: pointer; }
+    .card-link { color: inherit; text-decoration: none; }
+    .card-link::after { content: ''; position: absolute; inset: 0; border-radius: inherit; }
+    .card-link:focus-visible { outline: none; }
+    .project-card:has(.card-link:focus-visible) { border-color: var(--green); box-shadow: 0 0 0 2px var(--green-dim); }
+    .project-card:hover .card-link { color: var(--green); }
     /* The illustration panel from each project's profile card (README),
        cropped to the artwork; the text stays real HTML below it. */
     .project-art { display: block; width: 100%; height: auto; border-radius: 8px; margin-bottom: 16px; }
@@ -391,17 +399,19 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem; color: var(--text-muted);
     }
-    .project-foot { display: flex; justify-content: space-between; align-items: center; }
+    .project-foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; }
     .project-actions { display: flex; gap: 8px; }
     .project-actions a {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 30px; height: 30px; border-radius: 6px;
+      position: relative; z-index: 1;
+      display: inline-flex; align-items: center; gap: 7px;
+      height: 38px; padding: 0 14px; border-radius: 6px;
       border: 1px solid var(--border-bright);
+      font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; text-decoration: none;
       color: var(--green); background: rgba(0, 255, 65, 0.04);
-      transition: border-color 0.2s, box-shadow 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
     }
-    .project-actions a:hover { border-color: var(--green); box-shadow: 0 0 12px rgba(0, 255, 65, 0.35); }
-    .project-actions svg { width: 15px; height: 15px; fill: currentColor; }
+    .project-actions a:hover { border-color: var(--green); background: rgba(0, 255, 65, 0.1); box-shadow: 0 0 12px rgba(0, 255, 65, 0.35); }
+    .project-actions svg { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
     @media (hover: hover) and (pointer: fine) {
       .project-actions { opacity: 0; transform: translateY(4px); transition: opacity 0.25s, transform 0.25s; }
       .project-card:hover .project-actions,
@@ -618,7 +628,7 @@
           <span class="icon">&#9650;</span>
           <h3>Defence &amp; Geopolitics</h3>
           <p>
-            Where most of my reading time goes: airpower doctrine, procurement politics, and how
+            Where most of my free time goes: airpower doctrine, procurement politics, and how
             sovereign capability actually gets built rather than announced. An automobile engineer
             by first degree, so I read it as an engineering problem first. Hence the Mirage in the
             corner.
@@ -763,96 +773,96 @@
       <div class="projects-grid">
         <div class="project-card reveal" data-scroll>
           <img class="project-art" src="assets/cards/flow-matching.svg" alt="" loading="lazy" width="476" height="132">
-          <h3>Flow Matching Parameterisation</h3>
+          <h3><a class="card-link" href="https://github.com/Mayukh-D/image-generation-with-machine-learning" target="_blank" rel="noopener">Flow Matching Parameterisation</a></h3>
           <p>Flow matching from first principles: comparing v- vs x-prediction across data dimensions (x-prediction stays stable where v-prediction collapses), plus a MeanFlow implementation with Jacobian-vector-product targets.</p>
           <div class="project-foot">
             <span class="project-lang"><span class="lang-dot lang-python"></span>Python · PyTorch</span>
             <span class="project-actions">
-            <a href="assets/reports/flow-matching-report.pdf" target="_blank" rel="noopener" title="Report (PDF)" aria-label="Report (PDF)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 7V3.5L18.5 9H13zm-5 4h8v1.6H8V13zm0 3.4h8V18H8v-1.6z"/></svg></a>
-            <a href="https://github.com/Mayukh-D/image-generation-with-machine-learning" target="_blank" rel="noopener" title="Source on GitHub" aria-label="Source on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></a>
+            <a href="assets/reports/flow-matching-report.pdf" target="_blank" rel="noopener" title="Report (PDF)" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 7V3.5L18.5 9H13zm-5 4h8v1.6H8V13zm0 3.4h8V18H8v-1.6z"/></svg><span>report</span></a>
+            <a href="https://github.com/Mayukh-D/image-generation-with-machine-learning" target="_blank" rel="noopener" title="Source on GitHub" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg><span>code</span></a>
             </span>
           </div>
         </div>
         <div class="project-card reveal" data-scroll>
           <img class="project-art" src="assets/cards/nanogpt.svg" alt="" loading="lazy" width="476" height="132">
-          <h3>GPT from Scratch (nanoGPT)</h3>
+          <h3><a class="card-link" href="https://github.com/Mayukh-D/story-generation-nanoGPT" target="_blank" rel="noopener">GPT from Scratch (nanoGPT)</a></h3>
           <p>A 30M-parameter GPT built from scratch in PyTorch and trained on just 3.7M tokens of five-sentence stories, testing depth vs width, RoPE + RMSNorm, and DPO fine-tuning in the data-scarce regime (25.77 → 24.67 PPL).</p>
           <div class="project-foot">
             <span class="project-lang"><span class="lang-dot lang-python"></span>Python · PyTorch · CUDA</span>
             <span class="project-actions">
-            <a href="https://huggingface.co/spaces/Mayukh1999/nanogpt-story-generator" target="_blank" rel="noopener" title="Live demo" aria-label="Live demo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.14v13.72L19 12 8 5.14z"/></svg></a>
-            <a href="assets/reports/nanogpt-report.pdf" target="_blank" rel="noopener" title="Report (PDF)" aria-label="Report (PDF)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 7V3.5L18.5 9H13zm-5 4h8v1.6H8V13zm0 3.4h8V18H8v-1.6z"/></svg></a>
-            <a href="https://github.com/Mayukh-D/story-generation-nanoGPT" target="_blank" rel="noopener" title="Source on GitHub" aria-label="Source on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></a>
+            <a href="https://huggingface.co/spaces/Mayukh1999/nanogpt-story-generator" target="_blank" rel="noopener" title="Live demo" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.14v13.72L19 12 8 5.14z"/></svg><span>demo</span></a>
+            <a href="assets/reports/nanogpt-report.pdf" target="_blank" rel="noopener" title="Report (PDF)" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 7V3.5L18.5 9H13zm-5 4h8v1.6H8V13zm0 3.4h8V18H8v-1.6z"/></svg><span>report</span></a>
+            <a href="https://github.com/Mayukh-D/story-generation-nanoGPT" target="_blank" rel="noopener" title="Source on GitHub" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg><span>code</span></a>
             </span>
           </div>
         </div>
         <div class="project-card reveal" data-scroll>
           <img class="project-art" src="assets/cards/transformers-revenge.svg" alt="" loading="lazy" width="476" height="132">
-          <h3>Transformers' Revenge</h3>
+          <h3><a class="card-link" href="https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge" target="_blank" rel="noopener">Transformers' Revenge</a></h3>
           <p>Stress-testing minGRU's "Were RNNs All We Needed?" claims against a LLaMA-recipe Transformer and a causal gMLP on algorithmic reasoning: a 27-experiment grid showing where each architecture breaks, plus a phase transition in Transformer copy learning.</p>
           <div class="project-foot">
             <span class="project-lang"><span class="lang-dot lang-jupyter"></span>Jupyter · PyTorch</span>
             <span class="project-actions">
-            <a href="assets/reports/transformers-revenge.pdf" target="_blank" rel="noopener" title="Report (PDF)" aria-label="Report (PDF)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 7V3.5L18.5 9H13zm-5 4h8v1.6H8V13zm0 3.4h8V18H8v-1.6z"/></svg></a>
-            <a href="https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge" target="_blank" rel="noopener" title="Source on GitHub" aria-label="Source on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></a>
+            <a href="assets/reports/transformers-revenge.pdf" target="_blank" rel="noopener" title="Report (PDF)" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 7V3.5L18.5 9H13zm-5 4h8v1.6H8V13zm0 3.4h8V18H8v-1.6z"/></svg><span>report</span></a>
+            <a href="https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge" target="_blank" rel="noopener" title="Source on GitHub" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg><span>code</span></a>
             </span>
           </div>
         </div>
         <div class="project-card reveal" data-scroll>
           <img class="project-art" src="assets/cards/foodlens.svg" alt="" loading="lazy" width="476" height="132">
-          <h3>FoodLens · Smart Food Scanner</h3>
+          <h3><a class="card-link" href="https://github.com/Mayukh-D/foodlens-ar-sustainable-shopping" target="_blank" rel="noopener">FoodLens · Smart Food Scanner</a></h3>
           <p>A PWA for sustainable food shopping: real-time barcode scanning, live product lookup via Open Food Facts, allergen/expiry/carbon flagging, and A/B interaction logging for HCI research.</p>
           <div class="project-foot">
             <span class="project-lang"><span class="lang-dot lang-js"></span>JavaScript · PWA</span>
             <span class="project-actions">
-            <a href="https://foodlens-f281.onrender.com" target="_blank" rel="noopener" title="Live demo" aria-label="Live demo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.14v13.72L19 12 8 5.14z"/></svg></a>
-            <a href="https://github.com/Mayukh-D/foodlens-ar-sustainable-shopping" target="_blank" rel="noopener" title="Source on GitHub" aria-label="Source on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></a>
+            <a href="https://foodlens-f281.onrender.com" target="_blank" rel="noopener" title="Live demo" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.14v13.72L19 12 8 5.14z"/></svg><span>demo</span></a>
+            <a href="https://github.com/Mayukh-D/foodlens-ar-sustainable-shopping" target="_blank" rel="noopener" title="Source on GitHub" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg><span>code</span></a>
             </span>
           </div>
         </div>
         <div class="project-card reveal" data-scroll>
           <img class="project-art" src="assets/cards/yuma.svg" alt="" loading="lazy" width="476" height="132">
-          <h3>Yuma Social Platform</h3>
+          <h3><a class="card-link" href="https://github.com/Mayukh-D/yuma-social-platform" target="_blank" rel="noopener">Yuma Social Platform</a></h3>
           <p>A native Android social app (post feed, reactions, DMs, and admin moderation) applying Singleton, Factory, and Iterator patterns across a layered DAO architecture.</p>
           <div class="project-foot">
             <span class="project-lang"><span class="lang-dot lang-java"></span>Java · Android</span>
             <span class="project-actions">
-            <a href="https://github.com/Mayukh-D/yuma-social-platform" target="_blank" rel="noopener" title="Source on GitHub" aria-label="Source on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></a>
+            <a href="https://github.com/Mayukh-D/yuma-social-platform" target="_blank" rel="noopener" title="Source on GitHub" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg><span>code</span></a>
             </span>
           </div>
         </div>
         <div class="project-card reveal" data-scroll>
           <img class="project-art" src="assets/cards/hci.svg" alt="" loading="lazy" width="476" height="132">
-          <h3>HCI Design & Research</h3>
+          <h3><a class="card-link" href="https://github.com/Mayukh-D/hci-design-and-research" target="_blank" rel="noopener">HCI Design & Research</a></h3>
           <p>A portfolio of human-computer interaction work, including prototyping and AR system evaluation.</p>
           <div class="project-foot">
             <span class="project-lang"><span class="lang-dot lang-python"></span>Portfolio</span>
             <span class="project-actions">
-            <a href="https://github.com/Mayukh-D/hci-design-and-research" target="_blank" rel="noopener" title="Source on GitHub" aria-label="Source on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></a>
+            <a href="https://github.com/Mayukh-D/hci-design-and-research" target="_blank" rel="noopener" title="Source on GitHub" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg><span>code</span></a>
             </span>
           </div>
         </div>
         <div class="project-card reveal" data-scroll>
           <img class="project-art" src="assets/cards/tokeneater.svg" alt="" loading="lazy" width="476" height="132">
-          <h3>TokenEater · Multi-Account Fork</h3>
+          <h3><a class="card-link" href="https://github.com/Mayukh-D/TokenEater" target="_blank" rel="noopener">TokenEater · Multi-Account Fork</a></h3>
           <p>An unofficial fork of a macOS menu bar app that tracks Claude usage, adding a second Claude account as a provider of its own across the menu bar, popover, dashboard and Studio. Proposed upstream as pull request #284. For everyday use, get the <a href="https://github.com/AThevon/TokenEater" target="_blank" rel="noopener">official TokenEater</a>.</p>
           <div class="project-foot">
             <span class="project-lang"><span class="lang-dot lang-swift"></span>Swift · SwiftUI</span>
             <span class="project-actions">
-            <a href="https://github.com/Mayukh-D/TokenEater/releases" target="_blank" rel="noopener" title="Unofficial build (read the warning first)" aria-label="Unofficial build"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M5 17v3h14v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-            <a href="https://github.com/Mayukh-D/TokenEater" target="_blank" rel="noopener" title="Source on GitHub" aria-label="Source on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></a>
+            <a href="https://github.com/Mayukh-D/TokenEater/releases" target="_blank" rel="noopener" title="Unofficial build (read the warning first)" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M5 17v3h14v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>build</span></a>
+            <a href="https://github.com/Mayukh-D/TokenEater" target="_blank" rel="noopener" title="Source on GitHub" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg><span>code</span></a>
             </span>
           </div>
         </div>
         <div class="project-card reveal" data-scroll>
           <img class="project-art" src="assets/cards/growthscope.svg" alt="" loading="lazy" width="476" height="132">
-          <h3>GrowthScope · First Hackathon</h3>
+          <h3><a class="card-link" href="https://github.com/Mayukh-D/GrowthScope" target="_blank" rel="noopener">GrowthScope · First Hackathon</a></h3>
           <p>My first hackathon and first vibe-coded app (ANU, 2025): sales analytics for small businesses. Kept as a benchmark, and revisited in 2026 with tests, a self-scoring revenue forecast, anomaly detection, and fixes for what I first shipped.</p>
           <div class="project-foot">
             <span class="project-lang"><span class="lang-dot lang-python"></span>Python · Flask</span>
             <span class="project-actions">
-            <a href="https://growthscope-j85i.onrender.com" target="_blank" rel="noopener" title="Live demo" aria-label="Live demo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.14v13.72L19 12 8 5.14z"/></svg></a>
-            <a href="https://github.com/Mayukh-D/GrowthScope" target="_blank" rel="noopener" title="Source on GitHub" aria-label="Source on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></a>
+            <a href="https://growthscope-j85i.onrender.com" target="_blank" rel="noopener" title="Live demo" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.14v13.72L19 12 8 5.14z"/></svg><span>demo</span></a>
+            <a href="https://github.com/Mayukh-D/GrowthScope" target="_blank" rel="noopener" title="Source on GitHub" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg><span>code</span></a>
             </span>
           </div>
         </div>
