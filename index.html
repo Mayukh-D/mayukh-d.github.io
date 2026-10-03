@@ -13,7 +13,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://mayukh-d.github.io/">
   <meta property="og:title" content="Mayukh Das · ML Engineer &amp; Architect">
-  <meta property="og:description" content="ML built from scratch, live demos, peer-reviewed publications, and a draggable U-Net hologram.">
+  <meta property="og:description" content="ML built from scratch, live demos, peer-reviewed publications, and a draggable U-TAE hologram.">
   <meta property="og:image" content="https://mayukh-d.github.io/assets/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -655,7 +655,7 @@
   <div id="holo-wrap" aria-hidden="true">
     <canvas id="holo"></canvas>
     <div id="holo-hint">[ drag to spin ]</div>
-    <div id="holo-label">U-NET · SATELLITE → CANOPY</div>
+    <div id="holo-label">U-TAE · SATELLITE TIME SERIES → CANOPY</div>
   </div>
 
   <section id="about" class="about">
@@ -1549,7 +1549,7 @@
     }, 1500);
   })();
 
-  /* ---------- U-Net wireframe hologram ---------- */
+  /* ---------- U-TAE wireframe hologram ---------- */
   (function () {
     var canvas = document.getElementById('holo');
     if (!canvas) return;
@@ -1562,12 +1562,24 @@
     function ring(idx) { for (var i = 0; i < idx.length; i++) e(idx[i], idx[(i + 1) % idx.length]); }
     function loft(a, b) { for (var i = 0; i < a.length; i++) e(a[i], b[i]); }
 
-    /* A U-Net, the encoder-decoder CNN behind my canopy mapping at Haizea.
-       Each feature map is a box: its face is the spatial size, its depth
-       along x the channel count. Down the left the maps shrink and deepen,
-       up the right they grow back, and skip connections arc across the top.
-       A satellite tile goes in on the left, a canopy map comes out on the
-       right. x: input -> output, y: up, z: across. */
+    /* A U-TAE (Garnot & Landrieu, 2021), the model behind my canopy mapping
+       at Haizea: a U-Net that reads a satellite time series. Each feature map
+       is a box: its face is the spatial size, its depth along x the channel
+       count. The encoder runs on every date, so its maps carry ghost frames,
+       one per date. At the bottleneck a temporal attention encoder (the
+       octahedron) collapses time, and its attention masks reach up to collapse
+       time in every skip connection too, which is what separates a U-TAE from
+       a plain U-Net. The decoder then works on single maps. A stack of dated
+       tiles goes in on the left, a canopy map comes out on the right.
+       x: input -> output, y: up, z: across. */
+    function ghosts(x, y, s, n) {        // earlier dates, stacked behind a face
+      var h = s / 2;
+      for (var k = 1; k <= n; k++) {
+        var o = 0.07 * k;
+        ring([v(x - o, y - h + o, -h + o), v(x - o, y - h + o, h + o),
+              v(x - o, y + h + o, h + o), v(x - o, y + h + o, -h + o)]);
+      }
+    }
     function box(x, y, s, d) {           // centre x/y, face size s, depth d
       var h = s / 2, x0 = x - d / 2, x1 = x + d / 2, f = [], k = [];
       [[-h, -h], [h, -h], [h, h], [-h, h]].forEach(function (c) {
@@ -1600,6 +1612,24 @@
       [ 2.45,  0.62, 1.15, 0.14]
     ];
     var B = LV.map(function (l) { return box(l[0], l[1], l[2], l[3]); });
+    for (var gi = 0; gi <= 3; gi++) ghosts(B[gi].x0, LV[gi][1], LV[gi][2], 2);   // encoder sees every date
+    // L-TAE: temporal attention under the bottleneck, as an octahedron
+    var tx = 0, ty = -1.26, tr = 0.23;
+    var oc = [v(tx + tr, ty, 0), v(tx, ty + tr, 0), v(tx - tr, ty, 0), v(tx, ty - tr, 0),
+              v(tx, ty, tr), v(tx, ty, -tr)];
+    ring([oc[0], oc[1], oc[2], oc[3]]);
+    [0, 1, 2, 3].forEach(function (i) { e(oc[i], oc[4]); e(oc[i], oc[5]); });
+    e(v(0, B[3].y - B[3].h, 0), oc[1]);
+    // its attention masks reach every skip connection (dotted)
+    for (var ai = 0; ai < 3; ai++) {
+      var ax = B[ai].x1 + 0.05, ay = B[ai].y + B[ai].h, pa = oc[2];
+      for (var am = 1; am <= 10; am++) {
+        var u2 = am / 10;
+        var p2 = v(tx - tr + (ax - tx + tr) * u2, ty + (ay - ty) * u2 - 0.35 * Math.sin(Math.PI * u2), 0);
+        if (am % 2 === 0) e(pa, p2);
+        pa = p2;
+      }
+    }
     for (var li = 0; li < B.length - 1; li++) {
       arrow([B[li].x1 + 0.04, B[li].y], [B[li + 1].x0 - 0.04, B[li + 1].y]);
     }
@@ -1626,6 +1656,7 @@
       }
     }
     tile(-3.15, 0.62, 1.15, 5);
+    ghosts(-3.15, 0.62, 1.15, 3);            // the time series: one tile per date
     arrow([-3.08, 0.62], [B[0].x0 - 0.04, 0.62]);
     tile(3.15, 0.62, 1.15, 3);
     arrow([B[6].x1 + 0.04, 0.62], [3.08, 0.62]);

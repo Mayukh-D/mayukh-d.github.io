@@ -62,9 +62,10 @@ The layout collapses to a single column and the nav trims to a contact link.
 
 ## Implementation notes
 
-- **Draggable U-Net hologram.** A wireframe of the encoder-decoder CNN behind my canopy
-  mapping work: feature maps as boxes that shrink and deepen, skip connections arcing over
-  the top, a satellite tile in and a canopy map out. Rotated with quaternions and slerped
+- **Draggable U-TAE hologram.** A wireframe of the U-TAE (a U-Net with temporal attention)
+  behind my canopy mapping work: a stack of dated satellite tiles in, encoder maps with a
+  ghost frame per date, a temporal attention node at the bottleneck whose masks reach every
+  skip connection, and a canopy map out. Rotated with quaternions and slerped
   between orientations. Drag it to spin; flick it and it keeps its angular momentum until
   friction settles it back to a resting pose.
 - **Rafale canvas.** The airframe is defined as a set of tonal polygons, sampled onto a
