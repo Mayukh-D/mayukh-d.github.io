@@ -62,11 +62,11 @@ The layout collapses to a single column and the nav trims to a contact link.
 
 ## Implementation notes
 
-- **Draggable Mirage 2000 hologram.** A wireframe delta-wing jet built from hand-placed
-  vertices and edges, rotated with quaternions and slerped between orientations. Drag it to
-  spin; flick it and it keeps its angular momentum until friction settles it back to a
-  resting pose. Hit testing is done against the projected silhouette, so the cursor only
-  turns to a grab handle over the aircraft itself.
+- **Draggable U-Net hologram.** A wireframe of the encoder-decoder CNN behind my canopy
+  mapping work: feature maps as boxes that shrink and deepen, skip connections arcing over
+  the top, a satellite tile in and a canopy map out. Rotated with quaternions and slerped
+  between orientations. Drag it to spin; flick it and it keeps its angular momentum until
+  friction settles it back to a resting pose.
 - **Rafale canvas.** The airframe is defined as a set of tonal polygons, sampled onto a
   hex-packed dot grid. Clouds are pre-rendered to offscreen canvases from a seeded PRNG, so
   the same sky comes back on every load.

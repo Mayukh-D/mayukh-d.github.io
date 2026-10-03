@@ -77,7 +77,7 @@ Links: GrowthScope · First Hackathon: https://github.com/Mayukh-D/GrowthScope |
 ## Interests
 - Machine Learning Generative models are my happy place: flow matching, diffusion, and transformers built from scratch in PyTorch. I like knowing what's under the hood, not just calling the API.
 - Problem Solving Give me a gnarly problem and I'm gone for the afternoon: algorithm puzzles, debugging sessions that turn into detective stories, and systems that finally click at 2am.
-- Defence & Geopolitics Where most of my free time goes: airpower doctrine, procurement politics, and how sovereign capability actually gets built rather than announced. An automobile engineer by first degree, so I read it as an engineering problem first. Hence the Mirage in the corner.
+- Defence & Geopolitics Where most of my free time goes: airpower doctrine, procurement politics, and how sovereign capability actually gets built rather than announced. An automobile engineer by first degree, so I read it as an engineering problem first. Hence the Rafale at the foot of the page.
 - History & Theology Away from the screen: political history, theology, and an ever-growing queue of long-form analysis. I like understanding why institutions, ideas, and power move the way they do.
 
 ## Skills (what he actually did with each)
