@@ -64,10 +64,15 @@ An unofficial fork of a macOS menu bar app that tracks Claude usage, adding a se
 Tech: Swift · SwiftUI
 Links: TokenEater · Multi-Account Fork: https://github.com/Mayukh-D/TokenEater | official TokenEater: https://github.com/AThevon/TokenEater | tl;dr: https://mayukh-d.github.io/#tldr-tokeneater | build: https://github.com/Mayukh-D/TokenEater/releases | code: https://github.com/Mayukh-D/TokenEater
 
+### Lantern · Screen Sync for a A$49 Light
+A Mac menu bar app that makes a cheap Bluetooth LED bar follow whatever is on screen, the feature Philips Hue sells for about A$550. I reverse-engineered the light's Bluetooth commands, calibrated LED colour against the screen, and shipped it with a website and a release.
+Tech: Swift · SwiftUI
+Links: Lantern · Screen Sync for a A$49 Light: https://github.com/Mayukh-D/lantern | tl;dr: https://mayukh-d.github.io/#tldr-lantern | site: https://mayukh-d.github.io/lantern/ | code: https://github.com/Mayukh-D/lantern
+
 ### GrowthScope · First Hackathon
 My first hackathon and first vibe-coded app (ANU, 2025): sales analytics for small businesses. Kept as a benchmark, and revisited in 2026 with tests, a self-scoring revenue forecast, anomaly detection, and fixes for what I first shipped.
 Tech: Python · Flask
-Links: GrowthScope · First Hackathon: https://github.com/Mayukh-D/GrowthScope | tl;dr: https://mayukh-d.github.io/#tldr-growthscope | demo: https://growthscope-j85i.onrender.com | code: https://github.com/Mayukh-D/GrowthScope
+Links: GrowthScope · First Hackathon: https://github.com/Mayukh-D/GrowthScope | tl;dr: https://mayukh-d.github.io/#tldr-growthscope | demo: https://growthscope-j85i.onrender.com | code: https://github.com/Mayukh-D/GrowthScope | More on GitHub → experiments, forks and side projects: https://github.com/Mayukh-D?tab=repositories
 
 ## Publications
 - 2024 An Overview on the Role of AI in Modern Advancements of Material Science ES General, Vol. 5 · First author Das, M. · DOI 10.30919/esg1183 . Also presented in work-in-progress form at RTCMM 2023.

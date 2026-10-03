@@ -453,6 +453,10 @@
       display: inline-block; margin-left: 8px; padding: 1px 6px; border: 1px solid var(--green-dim); border-radius: 3px;
       font-size: 0.64rem; letter-spacing: 0.06em; color: var(--green); background: rgba(0, 255, 65, 0.07); cursor: help;
     }
+    .project-card.more-card { justify-content: center; align-items: center; text-align: center; border-style: dashed; border-color: rgba(0,255,65,0.3); min-height: 200px; cursor: pointer; }
+    .more-card .more-title { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--text); font-size: 1rem; }
+    .more-card .more-sub { font-family: 'JetBrains Mono', monospace; color: var(--text-muted); font-size: 0.8rem; margin-top: 6px; }
+    .more-card:hover .more-title { color: var(--green); }
     .project-card p.project-role {
       flex-grow: 0; margin: 0 0 16px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--text-muted); opacity: 0.85;
     }
@@ -1056,6 +1060,21 @@
           </div>
         </div>
         <div class="project-card reveal" data-scroll>
+          <img class="project-art" src="assets/cards/lantern.svg" alt="" loading="lazy" width="476" height="132">
+          <h3><a class="card-link" href="https://github.com/Mayukh-D/lantern" target="_blank" rel="noopener">Lantern · Screen Sync for a A$49 Light</a></h3>
+          <p>A Mac menu bar app that makes a cheap Bluetooth LED bar follow whatever is on screen, the feature Philips Hue sells for about A$550. I reverse-engineered the light's Bluetooth commands, calibrated LED colour against the screen, and shipped it with a website and a release.</p>
+          <p class="project-outcome">The Hue screen-sync feature on a A$49 light.</p>
+          <p class="project-role">† reverse-engineered the light, designed and built the app</p>
+          <div class="project-foot">
+            <span class="project-lang"><span class="lang-dot lang-swift"></span>Swift · SwiftUI</span>
+            <span class="project-actions">
+            <a href="#tldr-lantern" data-tldr="lantern" title="The short version"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span>tl;dr</span></a>
+            <a href="https://mayukh-d.github.io/lantern/" target="_blank" rel="noopener" title="Website"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.14v13.72L19 12 8 5.14z"/></svg><span>site</span></a>
+            <a href="https://github.com/Mayukh-D/lantern" target="_blank" rel="noopener" title="Source on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg><span>code</span></a>
+            </span>
+          </div>
+        </div>
+        <div class="project-card reveal" data-scroll>
           <img class="project-art" src="assets/cards/growthscope.svg" alt="" loading="lazy" width="476" height="132">
           <h3><a class="card-link" href="https://github.com/Mayukh-D/GrowthScope" target="_blank" rel="noopener">GrowthScope · First Hackathon</a></h3>
           <p>My first hackathon and first vibe-coded app (ANU, 2025): sales analytics for small businesses. Kept as a benchmark, and revisited in 2026 with tests, a self-scoring revenue forecast, anomaly detection, and fixes for what I first shipped.</p>
@@ -1070,6 +1089,10 @@
             </span>
           </div>
         </div>
+        <a class="project-card more-card reveal" data-scroll href="https://github.com/Mayukh-D?tab=repositories" target="_blank" rel="noopener">
+          <span class="more-title">More on GitHub →</span>
+          <span class="more-sub">experiments, forks and side projects</span>
+        </a>
       </div>
     </div>
   </section>
@@ -2684,6 +2707,20 @@
         figs: [['assets/tldr/tokeneater-dashboard.jpg', 'The dashboard with both Claude accounts side by side (organisation names blurred).']],
         role: 'Solo: designed and built multi-account support, the fork build, and its release.',
         links: [['fork', 'https://github.com/Mayukh-D/TokenEater'], ['official app', 'https://github.com/AThevon/TokenEater']]
+      },
+      lantern: {
+        title: 'Lantern · Screen Sync for a A$49 Light', file: 'lantern',
+        q: 'Philips Hue can sync lights to your screen, for about A$550 in Australia. Can a A$49 Bluetooth LED bar do the same job?',
+        setup: 'The bar only came with a phone app and a remote. I worked out the commands it understands over Bluetooth, then built a native macOS menu bar app in SwiftUI that reads a tiny copy of the screen 30 times a second and sends the dominant colour to the light.',
+        findings: [
+          '<b>Undocumented protocol, decoded:</b> colour, brightness and power commands, plus the bar\'s own effects, found by sweeping effect codes and watching the light.',
+          '<b>Screens and LEDs mix colour differently:</b> screen colours look washed out on LEDs. A calibration tool showed that a strong gamma curve mattered far more than extra saturation.',
+          '<b>A rule for dark scenes:</b> black, greys and colours compete by how much of the screen each covers, and a strong colour still beats a mostly black screen.',
+          '<b>Shipped properly:</b> colour wheel, warmth scale, effects, an eyedropper, a website, a demo video and a downloadable release.'
+        ],
+        figs: [['assets/tldr/lantern-hero.jpg', 'Same bar, six screens: the light follows what covers the most of the display.']],
+        role: 'Solo: reverse-engineered the light, designed and built the app, and published it.',
+        links: [['website and video', 'https://mayukh-d.github.io/lantern/'], ['download', 'https://github.com/Mayukh-D/lantern/releases/latest'], ['code', 'https://github.com/Mayukh-D/lantern']]
       },
       growthscope: {
         title: 'GrowthScope · First Hackathon', file: 'growthscope',
