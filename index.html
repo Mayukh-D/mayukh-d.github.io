@@ -439,14 +439,40 @@
     button.skill::after { content: ' +' / ''; color: var(--green-dim); }
     button.skill[aria-expanded="true"] { border-color: var(--green); background: rgba(0, 255, 65, 0.14); box-shadow: 0 0 12px rgba(0,255,65,0.35); }
     button.skill[aria-expanded="true"]::after { content: ' \2212' / ''; }
-    /* What I actually did with the selected skill, shown under the list. */
+    /* What I actually did with the selected skill: a little terminal window. */
     .skill-note {
-      margin-top: 16px; padding: 14px 16px; max-width: 720px;
-      font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; line-height: 1.6;
-      color: var(--text-muted); background: var(--bg-soft);
-      border: 1px solid var(--border); border-left: 2px solid var(--green); border-radius: 4px;
+      margin-top: 18px; max-width: 760px; overflow: hidden;
+      background: #050805; border: 1px solid var(--border-bright); border-radius: 8px;
+      box-shadow: 0 0 0 1px rgba(0,255,65,0.05), 0 10px 40px rgba(0,255,65,0.08);
+      animation: term-in 0.25s ease-out;
     }
-    .skill-note b { color: var(--green); font-weight: 700; }
+    .term-bar {
+      display: flex; align-items: center; gap: 12px; padding: 8px 12px;
+      background: var(--bg-soft); border-bottom: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-muted);
+    }
+    .term-dots { display: flex; gap: 6px; }
+    .term-dots i { width: 10px; height: 10px; border-radius: 50%; background: #2a3a2a; }
+    .term-dots i:first-child { background: #ff5f57; } .term-dots i:nth-child(2) { background: #febc2e; } .term-dots i:last-child { background: #28c840; }
+    .term-title { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .term-close { background: none; border: 0; color: var(--text-muted); font-size: 1.1rem; line-height: 1; cursor: pointer; padding: 0 2px; }
+    .term-close:hover { color: var(--green); }
+    .term-body { padding: 14px 18px 18px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; line-height: 1.65; }
+    .term-prompt { color: var(--green); }
+    .term-cmd { color: var(--text); }
+    .term-cursor { display: inline-block; width: 7px; height: 1em; margin-left: 2px; vertical-align: -2px; background: var(--green); animation: term-blink 1s steps(1) infinite; }
+    .term-out { opacity: 0; transform: translateY(4px); transition: opacity 0.3s, transform 0.3s; }
+    .term-out.shown { opacity: 1; transform: none; }
+    .term-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 10px; }
+    .term-tag { font-size: 0.68rem; padding: 2px 8px; border: 1px solid var(--green-dim); border-radius: 3px; color: var(--green); background: rgba(0,255,65,0.06); }
+    .term-tag::before { content: '@'; opacity: 0.6; }
+    .term-lead { color: var(--text); margin-bottom: 10px; }
+    .term-points { list-style: none; padding: 0; margin: 0; }
+    .term-points li { position: relative; padding-left: 18px; color: var(--text-muted); margin-bottom: 6px; }
+    .term-points li::before { content: '▸'; position: absolute; left: 0; color: var(--green); }
+    @keyframes term-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+    @keyframes term-blink { 50% { opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) { .skill-note, .term-cursor { animation: none; } .term-out { transition: none; } }
 
     /* Contact */
     .contact p { color: var(--text-muted); max-width: 560px; margin-bottom: 28px; }
@@ -588,35 +614,38 @@
     <div class="container">
       <h2 class="reveal" data-scroll>skills</h2>
       <div class="skills-list reveal" data-scroll>
-        <button type="button" class="skill" data-note="My main language: Ingrain&#x27;s ML pipelines at Accenture, every research project here, and GrowthScope&#x27;s Flask backend." aria-expanded="false" aria-controls="skill-note">Python</button>
-        <button type="button" class="skill" data-note="Yuma, a native Android social app: post feed, reactions, DMs and moderation over a layered DAO architecture." aria-expanded="false" aria-controls="skill-note">Java</button>
-        <button type="button" class="skill" data-note="Full-stack .NET MVC systems at Cognizant, including a Hospital Logistics System for COVID-19 operations." aria-expanded="false" aria-controls="skill-note">C#</button>
-        <button type="button" class="skill" data-note="FoodLens, a PWA with live barcode scanning, and the web front ends I built at Cognizant." aria-expanded="false" aria-controls="skill-note">JavaScript</button>
-        <button type="button" class="skill" data-note="Used day to day at both Accenture and Cognizant." aria-expanded="false" aria-controls="skill-note">SQL</button>
-        <button type="button" class="skill" data-note="Flow matching, a 30M-parameter GPT, and the minGRU vs Transformer study, all written from scratch." aria-expanded="false" aria-controls="skill-note">PyTorch</button>
-        <button type="button" class="skill" data-note="MLOps at Accenture: I built the pipelines, and the models behind the automated ticket resolution (ATR) system were scikit-learn." aria-expanded="false" aria-controls="skill-note">scikit-learn</button>
-        <button type="button" class="skill" data-note="ANU coursework in CNNs, RNNs, transformers and generative models, put to work in the three research projects above." aria-expanded="false" aria-controls="skill-note">Deep Learning</button>
-        <button type="button" class="skill" data-note="Built a GPT from scratch with RoPE and RMSNorm, and pitted a LLaMA-recipe Transformer against minGRU and gMLP in 27 experiments." aria-expanded="false" aria-controls="skill-note">Transformers</button>
-        <button type="button" class="skill" data-note="Flow matching from first principles: v- vs x-prediction across data dimensions, plus a MeanFlow implementation." aria-expanded="false" aria-controls="skill-note">Diffusion Models</button>
-        <button type="button" class="skill" data-note="Trained a small GPT and fine-tuned it with DPO (25.77 to 24.67 perplexity); built Quasar++, a document chatbot, at Accenture." aria-expanded="false" aria-controls="skill-note">LLMs</button>
-        <button type="button" class="skill" data-note="Integrated explainability and model-performance reporting into Ingrain at Accenture, with the UIs designed from scratch." aria-expanded="false" aria-controls="skill-note">Explainable AI</button>
-        <button type="button" class="skill" data-note="React front ends for full-stack systems at Cognizant, and MERN stack work at Accenture." aria-expanded="false" aria-controls="skill-note">React</button>
-        <button type="button" class="skill" data-note="MERN stack development (MongoDB, Express, React, Node) at Accenture." aria-expanded="false" aria-controls="skill-note">Node</button>
-        <button type="button" class="skill" data-note="MVC web systems at Cognizant, including the COVID-19 Hospital Logistics System." aria-expanded="false" aria-controls="skill-note">.NET</button>
-        <button type="button" class="skill" data-note="I teach HCI at the ANU, and FoodLens logs A/B interactions for HCI research." aria-expanded="false" aria-controls="skill-note">HCI</button>
-        <button type="button" class="skill" data-note="Every project here. GrowthScope won&#x27;t push until lint, tests and a secret scan pass; TokenEater went upstream as PR #284." aria-expanded="false" aria-controls="skill-note">Git</button>
-        <button type="button" class="skill" data-note="The 27-experiment grid in Transformers&#x27; Revenge runs in notebooks." aria-expanded="false" aria-controls="skill-note">Jupyter</button>
-        <button type="button" class="skill" data-note="Quasar++ on the ChatGPT API at Accenture, and GrowthScope&#x27;s chat on Google Gemini." aria-expanded="false" aria-controls="skill-note">LLM APIs</button>
-        <button type="button" class="skill" data-note="FoodLens looks products up live from the Open Food Facts API; the TokenEater fork reads Claude&#x27;s usage API." aria-expanded="false" aria-controls="skill-note">REST APIs</button>
-        <button type="button" class="skill" data-note="Rated Advanced at Accenture; now architecting the Sovereign AI Community of Practice (SAICOP) at Eccoi." aria-expanded="false" aria-controls="skill-note">Solution Architecture</button>
-        <button type="button" class="skill" data-note="Rated Advanced in Cloud Application Architecture at Accenture; assessing and shortlisting platforms for SAICOP at Eccoi." aria-expanded="false" aria-controls="skill-note">Cloud Architecture</button>
-        <button type="button" class="skill" data-note="Agile at Accenture: weekly sprints, a stand-up every morning, scrum meetings, stories and story points." aria-expanded="false" aria-controls="skill-note">Agile</button>
-        <button type="button" class="skill" data-note="Trained as a data engineer at Accenture: Hadoop, Scala, PySpark and Cassandra." aria-expanded="false" aria-controls="skill-note">Hadoop</button>
-        <button type="button" class="skill" data-note="Trained as a data engineer at Accenture: Hadoop, Scala, PySpark and Cassandra." aria-expanded="false" aria-controls="skill-note">Scala</button>
-        <button type="button" class="skill" data-note="Trained as a data engineer at Accenture: Hadoop, Scala, PySpark and Cassandra." aria-expanded="false" aria-controls="skill-note">PySpark</button>
-        <button type="button" class="skill" data-note="Trained as a data engineer at Accenture: Hadoop, Scala, PySpark and Cassandra." aria-expanded="false" aria-controls="skill-note">Cassandra</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">Python</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">Java</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">C#</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">JavaScript</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">SQL</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">PyTorch</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">scikit-learn</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">Deep Learning</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">Transformers</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">Diffusion Models</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">LLMs</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">Explainable AI</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">React</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">Node</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">.NET</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">HCI</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">Git</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">Jupyter</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">LLM APIs</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">REST APIs</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">Solution Architecture</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">Cloud Architecture</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">Agile</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">Hadoop</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">Scala</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">PySpark</button>
+        <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">Cassandra</button>
       </div>
-      <p class="skill-note" id="skill-note" aria-live="polite" hidden></p>
+      <div class="skill-note" id="skill-note" aria-live="polite" hidden>
+        <div class="term-bar"><span class="term-dots"><i></i><i></i><i></i></span><span class="term-title"></span><button type="button" class="term-close" aria-label="Close">×</button></div>
+        <div class="term-body"></div>
+      </div>
     </div>
   </section>
 
@@ -1698,23 +1727,187 @@
   })();
   </script>
   <script>
-    // Skills: click a chip to see what I did with it; click again to close.
+    // Skills: click a chip to open what I actually did with it; click again to close.
+    const SKILL_NOTES = {
+      'Python': { where: ['Accenture', 'ANU', 'Projects'],
+        lead: 'My main language since 2020: production ML at Accenture, research code at ANU, and most of what I build for myself.',
+        points: [
+          'Accenture: built Ingrain, an AIOps tool generating predictive ML pipelines for automated IT ticket resolution, plus the MLOps pipelines around the models.',
+          'Curiouz TechLabs: trained an ML pipeline on historical patient records, reaching ~80% accuracy on malignant breast cancer detection.',
+          'ANU: flow matching, a GPT from scratch and the minGRU vs Transformer study, all in Python.',
+          'GrowthScope: a Flask analytics app, rebuilt with tests, a self-scoring forecast and a gate that has to pass before every push.' ] },
+      'Java': { where: ['ANU', 'Projects'],
+        lead: 'Three ANU courses took me from imperative Java to medium-scale, well-engineered systems.',
+        points: [
+          'Structured Programming: lists, trees, hash tables and graphs, abstract data types, and reasoning about time and space complexity; imperative Java first, then object-oriented.',
+          'Software Construction: OOP, design patterns, functional programming, persistence and data manipulation in medium-scale projects, with revision control and IDE tooling.',
+          'Software Engineering: process models, requirements, design and modelling, formal code inspection and software quality.',
+          'Yuma: a native Android social app (feed, reactions, DMs, admin moderation) using Singleton, Factory and Iterator patterns over a layered DAO architecture.' ] },
+      'C#': { where: ['Cognizant'],
+        lead: 'Full-stack .NET development at Cognizant.',
+        points: [
+          'Designed and implemented web systems on .NET MVC, with React, HTML, CSS and JavaScript front ends.',
+          'Delivered a Hospital Logistics System to manage COVID-19 operational workflows.' ] },
+      'JavaScript': { where: ['Projects', 'Accenture', 'Cognizant'],
+        lead: 'Front end to back end, from enterprise web apps to a research PWA.',
+        points: [
+          'FoodLens: a PWA with real-time barcode scanning, live Open Food Facts lookups, allergen, expiry and carbon flagging, and A/B interaction logging for HCI research.',
+          'Accenture: MERN stack development (MongoDB, Express, React, Node).',
+          'Cognizant: React, HTML, CSS and JavaScript front ends for .NET MVC systems.' ] },
+      'SQL': { where: ['Accenture', 'Cognizant'],
+        lead: 'Day-to-day work at both Accenture and Cognizant.',
+        points: [
+          'Cognizant: the data side of full-stack .NET MVC systems, including the Hospital Logistics System.',
+          'Accenture: data work alongside ML pipelines and the data engineering stack (Hadoop, PySpark, Cassandra).' ] },
+      'PyTorch': { where: ['ANU', 'Projects'],
+        lead: 'Two ANU courses, Deep Learning and Advanced Machine Learning, and every research project on this page.',
+        points: [
+          'Deep Learning: CNNs, RNNs, transformers and generative models, built and trained in PyTorch.',
+          'Advanced Machine Learning: generative AI, diffusion models and LLMs.',
+          'Flow Matching: v- vs x-prediction compared across data dimensions (x-prediction stays stable where v-prediction collapses), plus MeanFlow with Jacobian-vector-product targets.',
+          'nanoGPT: a 30M-parameter GPT trained on 3.7M tokens, testing depth vs width, RoPE + RMSNorm, and DPO fine-tuning (25.77 → 24.67 perplexity).',
+          'Transformers\' Revenge: minGRU vs a LLaMA-recipe Transformer vs a causal gMLP in a 27-experiment grid, including a phase transition in copy learning.' ] },
+      'scikit-learn': { where: ['Accenture'],
+        lead: 'The workhorse of my MLOps work at Accenture.',
+        points: [
+          'Built the ML pipelines end to end, from data preparation through training to deployment.',
+          'The models behind the automated ticket resolution (ATR) system were built with scikit-learn.' ] },
+      'Deep Learning': { where: ['ANU', 'Projects'],
+        lead: 'Studied it properly at ANU, then went deep in three research projects.',
+        points: [
+          'ANU Deep Learning: CNNs, RNNs, transformers and generative models.',
+          'ANU Advanced Machine Learning: generative AI, diffusion models and LLMs.',
+          'Research: flow matching parameterisation, a GPT trained in the data-scarce regime, and a 27-experiment architecture study.' ] },
+      'Transformers': { where: ['ANU', 'Projects'],
+        lead: 'Built from scratch, then stress-tested against the alternatives.',
+        points: [
+          'nanoGPT: a 30M-parameter GPT with RoPE and RMSNorm, comparing depth against width, then DPO fine-tuning.',
+          'Transformers\' Revenge: a LLaMA-recipe Transformer against minGRU and a causal gMLP on algorithmic reasoning, showing where each architecture breaks.',
+          'Found a phase transition in how the Transformer learns to copy.' ] },
+      'Diffusion Models': { where: ['ANU', 'Projects'],
+        lead: 'Generative modelling is my happy place.',
+        points: [
+          'ANU Advanced Machine Learning: diffusion models and generative AI.',
+          'Flow Matching from first principles: v- vs x-prediction across data dimensions, and why x-prediction stays stable where v-prediction collapses.',
+          'A MeanFlow implementation with Jacobian-vector-product targets.' ] },
+      'LLMs': { where: ['ANU', 'Accenture', 'Projects'],
+        lead: 'Trained one from scratch, and built a product on top of one.',
+        points: [
+          'nanoGPT: a 30M-parameter model on five-sentence stories, DPO fine-tuned from 25.77 to 24.67 perplexity, with a live demo on Hugging Face.',
+          'Accenture: built Quasar++, a ChatGPT API-based chatbot for querying internal documents.',
+          'ANU Advanced Machine Learning: LLMs and generative AI.' ] },
+      'Explainable AI': { where: ['Accenture'],
+        lead: 'AI that people can actually understand and trust.',
+        points: [
+          'Integrated explainability into Ingrain, Accenture\'s AIOps tool for automated ticket resolution.',
+          'Built dynamic model-performance reporting, and designed the supporting UIs from scratch.' ] },
+      'React': { where: ['Accenture', 'Cognizant'],
+        lead: 'Front ends at two companies.',
+        points: [
+          'Accenture: MERN stack development (MongoDB, Express, React, Node).',
+          'Cognizant: React front ends for full-stack .NET MVC systems.' ] },
+      'Node': { where: ['Accenture'],
+        lead: 'The back end of my MERN stack work at Accenture.',
+        points: [ 'MongoDB, Express, React and Node, built as full-stack applications.' ] },
+      '.NET': { where: ['Cognizant'],
+        lead: 'Full-stack web systems at Cognizant.',
+        points: [
+          '.NET MVC on the back end, React, HTML, CSS and JavaScript on the front.',
+          'Delivered a Hospital Logistics System to manage COVID-19 operational workflows.' ] },
+      'HCI': { where: ['ANU', 'Accenture', 'Projects'],
+        lead: 'I study it, research it and now teach it.',
+        points: [
+          'Casual Sessional Academic at ANU: running HCI tutorials on design thinking, prototyping and evaluation.',
+          'FoodLens: A/B interaction logging built in for HCI research.',
+          'HCI Design & Research: prototyping and AR system evaluation.',
+          'Rated Advanced in UX Design at Accenture, where I designed Ingrain\'s UIs from scratch.' ] },
+      'Git': { where: ['Projects', 'ANU'],
+        lead: 'Every project here lives in Git, and I treat the history as part of the work.',
+        points: [
+          'GrowthScope: a pre-push gate (lint, tests, a secret scan, a boot check) runs before anything leaves my machine, and a leaked key was scrubbed from history.',
+          'TokenEater: contributed multi-account support upstream as pull request #284.',
+          'ANU Software Construction: industry revision control on team projects.' ] },
+      'Jupyter': { where: ['ANU', 'Projects'],
+        lead: 'Where experiments get run and read.',
+        points: [ 'Transformers\' Revenge: the 27-experiment grid comparing minGRU, gMLP and a Transformer lives in notebooks.' ] },
+      'LLM APIs': { where: ['Accenture', 'Projects'],
+        lead: 'Putting hosted models to work, safely.',
+        points: [
+          'Accenture: Quasar++, a ChatGPT API chatbot for querying internal documents.',
+          'GrowthScope: plain-English questions about your own sales data, answered by Google Gemini on its free tier, rate-limited per visitor with the key kept server-side.' ] },
+      'REST APIs': { where: ['Projects'],
+        lead: 'Consuming and building them.',
+        points: [
+          'FoodLens: live product lookups from the Open Food Facts API as you scan.',
+          'TokenEater: reads Claude\'s usage API to track two accounts side by side.' ] },
+      'Solution Architecture': { where: ['Eccoi', 'Accenture'],
+        lead: 'Now my day job: architecture for sovereign AI.',
+        points: [
+          'Eccoi: architecting the Sovereign AI Community of Practice (SAICOP), defining architectural principles and the system context model.',
+          'Proving the conceptual architecture end to end, aligned to Australian Government delivery, security and procurement realities.',
+          'Rated Advanced in Solution Architecture at Accenture.' ] },
+      'Cloud Architecture': { where: ['Eccoi', 'Accenture'],
+        lead: 'Choosing where systems should run, and why.',
+        points: [
+          'Eccoi: assessing and shortlisting platforms for SAICOP.',
+          'Rated Advanced in Cloud Application Architecture at Accenture.' ] },
+      'Agile': { where: ['Accenture'],
+        lead: 'Three years of Agile delivery at Accenture.',
+        points: [ 'Weekly sprints, a stand-up every morning, scrum meetings, user stories and story-point estimation.' ] },
+    };
+    const DATA_ENG = { where: ['Accenture'],
+      lead: 'Trained as a data engineer at Accenture.',
+      points: [ 'Hands-on with the big data stack: Hadoop, Scala, PySpark and Cassandra.' ] };
+    ['Hadoop', 'Scala', 'PySpark', 'Cassandra'].forEach(k => { SKILL_NOTES[k] = DATA_ENG; });
+
     (() => {
-      const note = document.getElementById('skill-note');
-      let open = null;
+      const box = document.getElementById('skill-note');
+      const title = box.querySelector('.term-title');
+      const body = box.querySelector('.term-body');
+      const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text) e.textContent = text; return e; };
+      let open = null, timer = null;
+
+      function show(chip) {
+        const name = chip.textContent.trim();
+        const n = SKILL_NOTES[name];
+        const file = name.toLowerCase().replace(/[^a-z0-9#.+-]+/g, '-') + '.md';
+        title.textContent = '~/skills/' + file;
+        body.innerHTML = '';
+        const cmd = el('div', 'term-cmd');
+        const typed = el('span');
+        cmd.append(el('span', 'term-prompt', '$ '), typed, el('span', 'term-cursor'));
+        const out = el('div', 'term-out');
+        const tags = el('div', 'term-tags');
+        n.where.forEach(w => tags.append(el('span', 'term-tag', w)));
+        const list = el('ul', 'term-points');
+        n.points.forEach(p => list.append(el('li', null, p)));
+        out.append(tags, el('p', 'term-lead', n.lead), list);
+        body.append(cmd, out);
+        box.hidden = false;
+
+        const text = 'cat ' + file;
+        clearInterval(timer);
+        if (still) { typed.textContent = text; out.classList.add('shown'); return; }
+        let i = 0;
+        timer = setInterval(() => {
+          typed.textContent = text.slice(0, ++i);
+          if (i >= text.length) { clearInterval(timer); out.classList.add('shown'); }
+        }, 22);
+        const r = box.getBoundingClientRect();
+        if (r.bottom > innerHeight) box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
       document.querySelectorAll('button.skill').forEach(chip => {
         chip.addEventListener('click', () => {
           if (open) open.setAttribute('aria-expanded', 'false');
-          if (open === chip) { open = null; note.hidden = true; return; }
+          if (open === chip) { open = null; box.hidden = true; clearInterval(timer); return; }
           open = chip;
           chip.setAttribute('aria-expanded', 'true');
-          note.innerHTML = '';
-          const head = document.createElement('b');
-          head.textContent = '> ' + chip.textContent.toLowerCase() + ': ';
-          note.append(head, chip.dataset.note);
-          note.hidden = false;
+          show(chip);
         });
       });
+      box.querySelector('.term-close').addEventListener('click', () => open && open.click());
     })();
   </script>
 </body>
