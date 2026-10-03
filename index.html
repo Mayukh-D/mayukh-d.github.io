@@ -360,6 +360,9 @@
     .timeline-body p { color: var(--text-muted); font-size: 0.93rem; }
     .timeline-body a { color: var(--green); }
     .project-card p a { color: var(--green); }
+    /* The illustration panel from each project's profile card (README),
+       cropped to the artwork; the text stays real HTML below it. */
+    .project-art { display: block; width: 100%; height: auto; border-radius: 8px; margin-bottom: 16px; }
 
     /* Projects */
     .projects-grid {
@@ -759,6 +762,7 @@
       <h2 class="reveal" data-scroll>projects</h2>
       <div class="projects-grid">
         <div class="project-card reveal" data-scroll>
+          <img class="project-art" src="assets/cards/flow-matching.svg" alt="" loading="lazy" width="476" height="132">
           <h3>Flow Matching Parameterisation</h3>
           <p>Flow matching from first principles: comparing v- vs x-prediction across data dimensions (x-prediction stays stable where v-prediction collapses), plus a MeanFlow implementation with Jacobian-vector-product targets.</p>
           <div class="project-foot">
@@ -770,6 +774,7 @@
           </div>
         </div>
         <div class="project-card reveal" data-scroll>
+          <img class="project-art" src="assets/cards/nanogpt.svg" alt="" loading="lazy" width="476" height="132">
           <h3>GPT from Scratch (nanoGPT)</h3>
           <p>A 30M-parameter GPT built from scratch in PyTorch and trained on just 3.7M tokens of five-sentence stories, testing depth vs width, RoPE + RMSNorm, and DPO fine-tuning in the data-scarce regime (25.77 → 24.67 PPL).</p>
           <div class="project-foot">
@@ -782,6 +787,7 @@
           </div>
         </div>
         <div class="project-card reveal" data-scroll>
+          <img class="project-art" src="assets/cards/transformers-revenge.svg" alt="" loading="lazy" width="476" height="132">
           <h3>Transformers' Revenge</h3>
           <p>Stress-testing minGRU's "Were RNNs All We Needed?" claims against a LLaMA-recipe Transformer and a causal gMLP on algorithmic reasoning: a 27-experiment grid showing where each architecture breaks, plus a phase transition in Transformer copy learning.</p>
           <div class="project-foot">
@@ -793,6 +799,7 @@
           </div>
         </div>
         <div class="project-card reveal" data-scroll>
+          <img class="project-art" src="assets/cards/foodlens.svg" alt="" loading="lazy" width="476" height="132">
           <h3>FoodLens · Smart Food Scanner</h3>
           <p>A PWA for sustainable food shopping: real-time barcode scanning, live product lookup via Open Food Facts, allergen/expiry/carbon flagging, and A/B interaction logging for HCI research.</p>
           <div class="project-foot">
@@ -804,6 +811,7 @@
           </div>
         </div>
         <div class="project-card reveal" data-scroll>
+          <img class="project-art" src="assets/cards/yuma.svg" alt="" loading="lazy" width="476" height="132">
           <h3>Yuma Social Platform</h3>
           <p>A native Android social app (post feed, reactions, DMs, and admin moderation) applying Singleton, Factory, and Iterator patterns across a layered DAO architecture.</p>
           <div class="project-foot">
@@ -814,6 +822,7 @@
           </div>
         </div>
         <div class="project-card reveal" data-scroll>
+          <img class="project-art" src="assets/cards/hci.svg" alt="" loading="lazy" width="476" height="132">
           <h3>HCI Design & Research</h3>
           <p>A portfolio of human-computer interaction work, including prototyping and AR system evaluation.</p>
           <div class="project-foot">
@@ -824,6 +833,7 @@
           </div>
         </div>
         <div class="project-card reveal" data-scroll>
+          <img class="project-art" src="assets/cards/tokeneater.svg" alt="" loading="lazy" width="476" height="132">
           <h3>TokenEater · Multi-Account Fork</h3>
           <p>An unofficial fork of a macOS menu bar app that tracks Claude usage, adding a second Claude account as a provider of its own across the menu bar, popover, dashboard and Studio. Proposed upstream as pull request #284. For everyday use, get the <a href="https://github.com/AThevon/TokenEater" target="_blank" rel="noopener">official TokenEater</a>.</p>
           <div class="project-foot">
@@ -835,6 +845,7 @@
           </div>
         </div>
         <div class="project-card reveal" data-scroll>
+          <img class="project-art" src="assets/cards/growthscope.svg" alt="" loading="lazy" width="476" height="132">
           <h3>GrowthScope · First Hackathon</h3>
           <p>My first hackathon and first vibe-coded app (ANU, 2025): sales analytics for small businesses. Kept as a benchmark, and revisited in 2026 with tests, a self-scoring revenue forecast, anomaly detection, and fixes for what I first shipped.</p>
           <div class="project-foot">
