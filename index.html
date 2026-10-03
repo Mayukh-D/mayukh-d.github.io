@@ -1440,23 +1440,34 @@
         /* Rasterise once. Blitting one bitmap per cloud costs a fraction of
            re-stroking a few thousand arcs every frame, which is what lets the
            lattice be dense enough to read as cloud instead of speckle. */
-        var bw = Math.ceil(cw * 1.6), bh = Math.ceil(ch * 3.0);
+        /* The bitmap is cropped to the dots, rendered at the main canvas's
+           (capped) resolution, and has the layer's opacity baked in, so each
+           frame is a plain blit. At 2x on a 5K screen the uncapped, uncropped
+           version was ~23M pixels per cloud, which Safari could not keep up with. */
+        var x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
+        for (var q0 = 0; q0 < pts.length; q0++) {
+          x0 = Math.min(x0, pts[q0][0]); x1 = Math.max(x1, pts[q0][0]);
+          y0 = Math.min(y0, pts[q0][1]); y1 = Math.max(y1, pts[q0][1]);
+        }
+        if (!pts.length) continue;
+        x0 -= p; y0 -= p;
+        var bw = Math.ceil(x1 + p - x0), bh = Math.ceil(y1 + p - y0);
         var off = document.createElement('canvas');
-        off.width = Math.max(1, bw * DPR); off.height = Math.max(1, bh * DPR);
+        off.width = Math.max(1, Math.ceil(bw * px)); off.height = Math.max(1, Math.ceil(bh * px));
         var octx = off.getContext('2d');
-        octx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        octx.setTransform(px, 0, 0, px, 0, 0);
         for (var q = 0; q < pts.length; q++) {
           var pt = pts[q];
           var dw2 = Math.pow(pt[2], 0.75);
           octx.fillStyle = 'rgba(' + Math.round(78 + 96 * dw2) + ','
                                    + Math.round(158 + 64 * dw2) + ',255,'
-                                   + (0.50 + 0.50 * dw2).toFixed(3) + ')';
+                                   + ((0.50 + 0.50 * dw2) * L.a).toFixed(3) + ')';
           octx.beginPath();
-          octx.arc(bw / 2 + pt[0], bh / 2 + pt[1], p * 0.46 * (0.45 + 0.55 * dw2), 0, 6.2832);
+          octx.arc(pt[0] - x0, pt[1] - y0, p * 0.46 * (0.45 + 0.55 * dw2), 0, 6.2832);
           octx.fill();
         }
-        clouds.push({ img: off, w: bw, h: bh, y: H * (0.12 + 0.76 * rnd()), x: rnd(),
-                      v: L.v, a: L.a, span: cw * 1.5 });
+        clouds.push({ img: off, w: bw, h: bh, ox: x0, oy: y0, y: H * (0.12 + 0.76 * rnd()), x: rnd(),
+                      v: L.v, span: cw * 1.5 });
       }
     }
   }
@@ -1482,9 +1493,7 @@
       var span = W + c.span;
       var cx0 = ((c.x - t * c.v) % 1 + 1) % 1 * span - c.span / 2;
       if (cx0 + c.span / 2 < -40 || cx0 - c.span / 2 > W + 40) continue;
-      ctx.globalAlpha = c.a;
-      ctx.drawImage(c.img, cx0 - c.w / 2, c.y - c.h / 2, c.w, c.h);
-      ctx.globalAlpha = 1;
+      ctx.drawImage(c.img, cx0 + c.ox, c.y + c.oy, c.w, c.h);
     }
 
     // afterburner. Phase decreases with distance aft, so the bright wave
