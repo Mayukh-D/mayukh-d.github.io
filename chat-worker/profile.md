@@ -35,7 +35,7 @@ Tech: Python · PyTorch
 Links: Image Generation with Machine Learning: https://github.com/Mayukh-D/image-generation-with-machine-learning | report: https://mayukh-d.github.io/assets/reports/flow-matching-report.pdf | code: https://github.com/Mayukh-D/image-generation-with-machine-learning
 
 ### GPT from Scratch (nanoGPT)
-A 30M-parameter GPT built from scratch in PyTorch and trained on just 3.7M tokens of five-sentence stories, testing depth vs width, RoPE + RMSNorm, and DPO fine-tuning in the data-scarce regime (25.77 → 24.67 PPL).
+A 30M-parameter GPT built from scratch in PyTorch and trained on just 3.7M tokens of five-sentence stories, testing depth vs width and RoPE + RMSNorm (25.77 → 24.67 PPL), plus DPO fine-tuning, in the data-scarce regime.
 Tech: Python · PyTorch · CUDA
 Links: GPT from Scratch (nanoGPT): https://github.com/Mayukh-D/story-generation-nanoGPT | demo: https://huggingface.co/spaces/Mayukh1999/nanogpt-story-generator | report: https://mayukh-d.github.io/assets/reports/nanogpt-report.pdf | code: https://github.com/Mayukh-D/story-generation-nanoGPT
 
@@ -116,7 +116,7 @@ Two ANU courses, Deep Learning and Advanced Machine Learning, every research pro
 - Deep Learning: CNNs, RNNs, transformers and generative models, built and trained in PyTorch.
 - Advanced Machine Learning: generative AI, diffusion models and LLMs.
 - Image Generation with Machine Learning: flow matching, with v- vs x-prediction compared across data dimensions (x-prediction stays stable where v-prediction collapses), plus MeanFlow with Jacobian-vector-product targets.
-- nanoGPT: a 30M-parameter GPT trained on 3.7M tokens, testing depth vs width, RoPE + RMSNorm, and DPO fine-tuning (25.77 → 24.67 perplexity).
+- nanoGPT: a 30M-parameter GPT trained on 3.7M tokens; depth over width plus RoPE + RMSNorm took test perplexity from 25.77 to 24.67, and DPO fine-tuning followed.
 - Transformers' Revenge: minGRU vs a LLaMA-recipe Transformer vs a causal gMLP in a 27-experiment grid, including a phase transition in copy learning.
 - Haizea Analytics: U-TAE models (a U-Net with temporal attention) that map tree canopy from Sentinel-2 satellite time series, supervised by airborne LiDAR, trained and ablated across multiple seeds on GPU.
 
@@ -146,7 +146,7 @@ Generative modelling is my happy place.
 
 ### LLMs (ANU, Accenture, Projects)
 Trained one from scratch, and built a product on top of one.
-- nanoGPT: a 30M-parameter model on five-sentence stories, DPO fine-tuned from 25.77 to 24.67 perplexity, with a live demo on Hugging Face.
+- nanoGPT: a 30M-parameter model on five-sentence stories, 25.77 to 24.67 test perplexity through depth and RoPE + RMSNorm, then DPO fine-tuning, with a live demo on Hugging Face.
 - Accenture: built Quasar++, a ChatGPT API-based chatbot for querying internal documents.
 - ANU Advanced Machine Learning: LLMs and generative AI.
 

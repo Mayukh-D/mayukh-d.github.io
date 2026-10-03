@@ -230,6 +230,10 @@
       font-size: 0.98rem;
     }
     .hero-tagline strong { color: var(--text); font-weight: 600; }
+    .hero-thesis {
+      font-size: clamp(1.05rem, 2.2vw, 1.3rem); font-weight: 600; color: var(--text);
+      margin: 14px auto 0; max-width: 640px; text-align: center; letter-spacing: -0.01em;
+    }
     .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 30px; }
     .btn {
       font-family: 'JetBrains Mono', monospace;
@@ -394,6 +398,12 @@
     .timeline-body p { color: var(--text-muted); font-size: 0.93rem; }
     .timeline-body a { color: var(--green); }
     .project-card p a { color: var(--green); position: relative; z-index: 1; }
+    .project-card p.project-outcome {
+      flex-grow: 0; margin: -6px 0 6px; color: var(--green); font-style: italic; font-size: 0.86rem;
+    }
+    .project-card p.project-role {
+      flex-grow: 0; margin: 0 0 16px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--text-muted); opacity: 0.85;
+    }
     /* The title link stretches over the whole card, so clicking anywhere
        opens the repo; the buttons and inline links sit above it. */
     .project-card { position: relative; cursor: pointer; }
@@ -691,6 +701,7 @@
     </div>
     <h1 class="hero-name reveal" data-stage><span class="glitch" data-text="MAYUKH DAS">MAYUKH DAS</span></h1>
     <p class="hero-type mono reveal" data-stage><span class="prompt">$ whoami&nbsp;&nbsp;»&nbsp;</span><span id="typed"></span><span class="cursor"></span></p>
+    <p class="hero-thesis reveal" data-stage>I build models from first principles, then try to break them.</p>
     <p class="hero-tagline reveal" data-stage>
       ML Architect at <strong>Eccoi</strong>, working on sovereign AI.
       Satellite AI Research Trainee at <strong>Haizea Analytics</strong>, mapping Australia's tree canopy from space.
@@ -838,6 +849,8 @@
           <img class="project-art" src="assets/cards/flow-matching.svg" alt="" loading="lazy" width="476" height="132">
           <h3><a class="card-link" href="https://github.com/Mayukh-D/image-generation-with-machine-learning" target="_blank" rel="noopener">Image Generation with Machine Learning</a></h3>
           <p>Flow matching from first principles: comparing v- vs x-prediction across data dimensions (x-prediction stays stable where v-prediction collapses), plus a MeanFlow implementation with Jacobian-vector-product targets.</p>
+          <p class="project-outcome">x-prediction holds at 32 dimensions where v-prediction breaks.</p>
+          <p class="project-role">† designed, implemented and evaluated every parameterisation</p>
           <div class="project-foot">
             <span class="project-lang"><span class="lang-dot lang-python"></span>Python · PyTorch</span>
             <span class="project-actions">
@@ -849,7 +862,9 @@
         <div class="project-card reveal" data-scroll>
           <img class="project-art" src="assets/cards/nanogpt.svg" alt="" loading="lazy" width="476" height="132">
           <h3><a class="card-link" href="https://github.com/Mayukh-D/story-generation-nanoGPT" target="_blank" rel="noopener">GPT from Scratch (nanoGPT)</a></h3>
-          <p>A 30M-parameter GPT built from scratch in PyTorch and trained on just 3.7M tokens of five-sentence stories, testing depth vs width, RoPE + RMSNorm, and DPO fine-tuning in the data-scarce regime (25.77 → 24.67 PPL).</p>
+          <p>A 30M-parameter GPT built from scratch in PyTorch and trained on just 3.7M tokens of five-sentence stories, testing depth vs width and RoPE + RMSNorm (25.77 → 24.67 PPL), plus DPO fine-tuning, in the data-scarce regime.</p>
+          <p class="project-outcome">25.77 → 24.67 test perplexity. Depth beat width; SwiGLU didn't pay off at this scale.</p>
+          <p class="project-role">† built, trained and ablated every variant</p>
           <div class="project-foot">
             <span class="project-lang"><span class="lang-dot lang-python"></span>Python · PyTorch · CUDA</span>
             <span class="project-actions">
@@ -863,6 +878,8 @@
           <img class="project-art" src="assets/cards/transformers-revenge.svg" alt="" loading="lazy" width="476" height="132">
           <h3><a class="card-link" href="https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge" target="_blank" rel="noopener">Transformers' Revenge</a></h3>
           <p>Stress-testing minGRU's "Were RNNs All We Needed?" claims against a LLaMA-recipe Transformer and a causal gMLP on algorithmic reasoning: a 27-experiment grid showing where each architecture breaks, plus a phase transition in Transformer copy learning.</p>
+          <p class="project-outcome">Transformer ≥ 97% on induction at every length. minGRU: chance (~4%).</p>
+          <p class="project-role">† team of four; built the Transformer, designed the experiments</p>
           <div class="project-foot">
             <span class="project-lang"><span class="lang-dot lang-jupyter"></span>Jupyter · PyTorch</span>
             <span class="project-actions">
@@ -909,6 +926,8 @@
           <img class="project-art" src="assets/cards/tokeneater.svg" alt="" loading="lazy" width="476" height="132">
           <h3><a class="card-link" href="https://github.com/Mayukh-D/TokenEater" target="_blank" rel="noopener">TokenEater · Multi-Account Fork</a></h3>
           <p>An unofficial fork of a macOS menu bar app that tracks Claude usage, adding a second Claude account as a provider of its own across the menu bar, popover, dashboard and Studio. Proposed upstream as pull request #284. For everyday use, get the <a href="https://github.com/AThevon/TokenEater" target="_blank" rel="noopener">official TokenEater</a>.</p>
+          <p class="project-outcome">Proposed upstream as pull request #284.</p>
+          <p class="project-role">† designed and built multi-account support</p>
           <div class="project-foot">
             <span class="project-lang"><span class="lang-dot lang-swift"></span>Swift · SwiftUI</span>
             <span class="project-actions">
@@ -921,6 +940,8 @@
           <img class="project-art" src="assets/cards/growthscope.svg" alt="" loading="lazy" width="476" height="132">
           <h3><a class="card-link" href="https://github.com/Mayukh-D/GrowthScope" target="_blank" rel="noopener">GrowthScope · First Hackathon</a></h3>
           <p>My first hackathon and first vibe-coded app (ANU, 2025): sales analytics for small businesses. Kept as a benchmark, and revisited in 2026 with tests, a self-scoring revenue forecast, anomaly detection, and fixes for what I first shipped.</p>
+          <p class="project-outcome">Its own demo data: 41% analysed → 100%.</p>
+          <p class="project-role">† hackathon team of four; rebuilt it solo</p>
           <div class="project-foot">
             <span class="project-lang"><span class="lang-dot lang-python"></span>Python · Flask</span>
             <span class="project-actions">
@@ -2001,7 +2022,7 @@
           'Deep Learning: CNNs, RNNs, transformers and generative models, built and trained in PyTorch.',
           'Advanced Machine Learning: generative AI, diffusion models and LLMs.',
           'Image Generation with Machine Learning: flow matching, with v- vs x-prediction compared across data dimensions (x-prediction stays stable where v-prediction collapses), plus MeanFlow with Jacobian-vector-product targets.',
-          'nanoGPT: a 30M-parameter GPT trained on 3.7M tokens, testing depth vs width, RoPE + RMSNorm, and DPO fine-tuning (25.77 → 24.67 perplexity).',
+          'nanoGPT: a 30M-parameter GPT trained on 3.7M tokens; depth over width plus RoPE + RMSNorm took test perplexity from 25.77 to 24.67, and DPO fine-tuning followed.',
           'Transformers\' Revenge: minGRU vs a LLaMA-recipe Transformer vs a causal gMLP in a 27-experiment grid, including a phase transition in copy learning.',
           'Haizea Analytics: U-TAE models (a U-Net with temporal attention) that map tree canopy from Sentinel-2 satellite time series, supervised by airborne LiDAR, trained and ablated across multiple seeds on GPU.' ] },
       'scikit-learn': { where: ['Accenture'],
@@ -2031,7 +2052,7 @@
       'LLMs': { where: ['ANU', 'Accenture', 'Projects'],
         lead: 'Trained one from scratch, and built a product on top of one.',
         points: [
-          'nanoGPT: a 30M-parameter model on five-sentence stories, DPO fine-tuned from 25.77 to 24.67 perplexity, with a live demo on Hugging Face.',
+          'nanoGPT: a 30M-parameter model on five-sentence stories, 25.77 to 24.67 test perplexity through depth and RoPE + RMSNorm, then DPO fine-tuning, with a live demo on Hugging Face.',
           'Accenture: built Quasar++, a ChatGPT API-based chatbot for querying internal documents.',
           'ANU Advanced Machine Learning: LLMs and generative AI.' ] },
       'Explainable AI': { where: ['Accenture'],
