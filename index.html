@@ -378,6 +378,34 @@
       .rafale-cap { left: 16px; bottom: 12px; }
     }
     .interest-card p em { color: var(--cyan); font-style: normal; }
+    /* Flight notes: HUD-style callouts, each part of the jet paired with how I work */
+    .raf-hud { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 3; overflow: visible; }
+    .raf-hud .ln { fill: none; stroke: #00ff41; stroke-width: 1; opacity: 0.85;
+      stroke-dasharray: var(--l); stroke-dashoffset: var(--l); transition: stroke-dashoffset 0.5s ease-out var(--d); }
+    .raf-hud .pip { fill: none; stroke: #00ff41; stroke-width: 1.2; opacity: 0; transition: opacity 0.2s var(--d); }
+    .raf-hud text { font-family: 'JetBrains Mono', monospace; fill: #00ff41; opacity: 0; transition: opacity 0.35s ease-out calc(var(--d) + 0.3s);
+      paint-order: stroke; stroke: #010203; stroke-width: 3px; }
+    .raf-hud .t1 { font-size: clamp(9.5px, 0.76vw, 11px); font-weight: 700; letter-spacing: 0.08em; }
+    .raf-hud .t2 { font-size: clamp(8.5px, 0.69vw, 10px); fill: #7fdc9a; }
+    .raf-hud .t0 { font-size: clamp(8px, 0.62vw, 9px); fill: #4fa86a; letter-spacing: 0.1em; }
+    .rafale-visual:hover .raf-hud .ln, .raf-hud.on .ln { stroke-dashoffset: 0; }
+    .rafale-visual:hover .raf-hud .pip, .rafale-visual:hover .raf-hud text,
+    .raf-hud.on .pip, .raf-hud.on text { opacity: 1; }
+    .raf-hint {
+      position: absolute; top: 14px; right: max(24px, calc((100% - 960px) / 2 + 24px)); z-index: 2;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; color: var(--green); opacity: 0.45;
+      transition: opacity 0.3s;
+    }
+    .rafale-visual:hover .raf-hint, .raf-hint.on { opacity: 0; }
+    @media (hover: none) { .raf-hint::before { content: ''; } }
+    @media (max-width: 1100px) { .raf-hud .t2 { display: none; } .raf-hud .t1 { font-size: 9px; } .raf-hud .t0 { display: none; } }
+    /* phones: six notes won't fit, so each tap shows the next one on its own */
+    @media (max-width: 640px) {
+      .raf-hud g { visibility: hidden; }
+      .raf-hud g.cur { visibility: visible; }
+      .raf-hud .t2 { display: block; font-size: 9px; }
+      .raf-hint { top: 8px; right: 12px; }
+    }
 
     /* Experience / publications timeline */
     .timeline { display: flex; flex-direction: column; gap: 30px; }
@@ -397,6 +425,11 @@
       opacity: 0.9; transition: opacity 0.2s, filter 0.2s;
     }
     .org-logo-tall { height: 60px; }
+    /* two organisations on one entry, side by side */
+    .org-pair { display: flex; align-items: center; gap: 10px; max-width: 160px; margin-top: 12px; }
+    .org-pair .org-logo { margin: 0; height: 46px; }
+    .org-pair .org-logo:first-child { flex: 0 0 46px; }
+    .org-pair .org-logo:last-child { flex: 1; }
     .timeline-item:hover .org-logo { opacity: 1; filter: drop-shadow(0 0 4px rgba(0, 255, 65, 0.9)) drop-shadow(0 0 16px rgba(0, 255, 65, 0.45)); }
     .timeline-body .org {
       font-family: 'JetBrains Mono', monospace;
@@ -1201,7 +1234,7 @@
           </div>
         </div>
         <div class="timeline-item reveal" data-scroll>
-          <div class="timeline-date">2018 – 2019<span class="org-logo org-logo-tall" style="--logo: url(assets/logos/revels.png)" aria-hidden="true"></span></div>
+          <div class="timeline-date">2018 – 2019<span class="org-logo" style="--logo: url(assets/logos/revels.png)" aria-hidden="true"></span></div>
           <div class="timeline-body">
             <h3>Event Organiser</h3>
             <div class="org">Revels, Manipal Institute of Technology</div>
@@ -1209,7 +1242,7 @@
           </div>
         </div>
         <div class="timeline-item reveal" data-scroll>
-          <div class="timeline-date">Community<span class="org-logo org-logo-tall" style="--logo: url(assets/logos/rotary.png)" aria-hidden="true"></span><span class="org-logo" style="--logo: url(assets/logos/art-of-living.png)" aria-hidden="true"></span></div>
+          <div class="timeline-date">Community<span class="org-pair"><span class="org-logo" style="--logo: url(assets/logos/rotary.png)" aria-hidden="true"></span><span class="org-logo" style="--logo: url(assets/logos/art-of-living.png)" aria-hidden="true"></span></span></div>
           <div class="timeline-body">
             <h3>Volunteering &amp; Outreach</h3>
             <div class="org">Rotary Club · Art of Living</div>
@@ -1238,6 +1271,8 @@
   <section class="rafale-band">
     <div class="rafale-visual reveal" data-scroll>
       <canvas id="rafale"></canvas>
+      <svg class="raf-hud" id="raf-hud" aria-hidden="true"></svg>
+      <div class="raf-hint" id="raf-hint">[ hover for flight notes ]</div>
       <div class="rafale-cap">
         <strong>DASSAULT RAFALE EH</strong>
         <span>No. 17 SQN &middot; GOLDEN ARROWS</span>
@@ -1284,6 +1319,79 @@
       return on;
     };
     btn.addEventListener('click', function () { window.makeDapper(); });
+  })();
+
+  /* ---------- Rafale flight notes ----------
+     Each callout is a real part of the jet, paired with how I work.
+     Positions are airframe coordinates in metres (x: +nose, y: up). */
+  (function () {
+    var canvas = document.getElementById('rafale'), hud = document.getElementById('raf-hud'), hint = document.getElementById('raf-hint');
+    if (!canvas || !hud) return;
+    var NOTES = [
+      { at: [7.3, 0.0],   lbl: [6.1, 2.9],    part: 'RBE2 RADAR',          title: 'QUESTION FIRST',        sub: 'frame the problem before building the model' },
+      { at: [0.6, 0.44],  lbl: [3.7, -1.55],  part: 'CANARDS',             title: 'ONE VARIABLE AT A TIME', sub: 'small, measured changes' },
+      { at: [-5.0, 0.46], lbl: [-3.7, 3.05],  part: 'FLIGHT RECORDER',     title: 'EVERY RUN LOGGED',      sub: 'a change has to beat the noise floor' },
+      { at: [-7.45, 3.05], lbl: [-11.2, 3.3], part: 'SPECTRA',             title: 'BREAK IT FIRST',        sub: 'finding the failure is half solving it' },
+      { at: [-7.45, 0.0], lbl: [-11.2, -1.0], part: 'TWIN M88',            title: 'RESEARCH × ENGINEERING', sub: 'two engines, both running' },
+      { at: [-2.6, -0.42], lbl: [-1.6, -1.62], part: 'RELAXED STABILITY · FLY-BY-WIRE', title: 'UNSTABLE BY DESIGN', sub: 'novel ideas, kept honest by experiments' }
+    ];
+    var NS = 'http://www.w3.org/2000/svg';
+    function el(tag, attrs, text) {
+      var e = document.createElementNS(NS, tag);
+      for (var k in attrs) e.setAttribute(k, attrs[k]);
+      if (text) e.textContent = text;
+      return e;
+    }
+    canvas.addEventListener('layout', function (ev) {
+      var map = ev.detail, W = canvas.clientWidth, H = canvas.clientHeight;
+      hud.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+      hud.innerHTML = '';
+      NOTES.forEach(function (n, i) {
+        var a = map(n.at[0], n.at[1]), b = map(n.lbl[0], n.lbl[1]);
+        var right = b[0] < a[0];                    // label sits left of the part, so text ends at the elbow
+        var ex = b[0] + (right ? -8 : 8);           // short horizontal tail under the label
+        var pts = a[0] + ',' + a[1] + ' ' + b[0] + ',' + b[1] + ' ' + ex + ',' + b[1];
+        var len = Math.hypot(b[0] - a[0], b[1] - a[1]) + 8;
+        var g = el('g', { style: '--d:' + (i * 0.12) + 's;--l:' + Math.ceil(len) });
+        g.append(el('circle', { class: 'pip', cx: a[0], cy: a[1], r: 3.2 }));
+        g.append(el('polyline', { class: 'ln', points: pts }));
+        var anchor = right ? 'end' : 'start', tx = ex + (right ? -4 : 4);
+        var line = el('polyline', { class: 'ln', points: pts });
+        var texts = [el('text', { class: 't0', x: tx, y: b[1] - 22, 'text-anchor': anchor }, '[ ' + n.part + ' ]'),
+                     el('text', { class: 't1', x: tx, y: b[1] - 8, 'text-anchor': anchor }, n.title),
+                     el('text', { class: 't2', x: tx, y: b[1] + 13, 'text-anchor': anchor }, n.sub)];
+        g.lastChild.remove(); g.append(line);
+        texts.forEach(function (t) { g.append(t); });
+        hud.append(g);
+        // keep every label on screen: slide it in and stretch the leader's tail to meet it
+        var w = 0;
+        texts.forEach(function (t) { if (getComputedStyle(t).display !== 'none') w = Math.max(w, t.getComputedTextLength()); });
+        var shift = right ? Math.max(0, 12 - (tx - w)) : Math.min(0, (W - 12) - (tx + w));
+        if (shift) {
+          texts.forEach(function (t) { t.setAttribute('x', tx + shift); });
+          var nx = ex + shift;
+          line.setAttribute('points', a[0] + ',' + a[1] + ' ' + b[0] + ',' + b[1] + ' ' + nx + ',' + b[1]);
+          g.style.setProperty('--l', Math.ceil(len + Math.abs(shift)));
+        }
+      });
+    });
+    // touch screens have no hover. Tablets: a tap toggles all six. Phones: each
+    // tap shows the next note on its own, then the jet goes clean again.
+    var phone = matchMedia('(max-width: 640px)'), touch = matchMedia('(hover: none)');
+    function setHint() { if (hint) hint.textContent = (phone.matches || touch.matches) ? '[ tap for flight notes ]' : '[ hover for flight notes ]'; }
+    setHint(); phone.addEventListener('change', setHint);
+    var cur = -1;
+    canvas.parentNode.addEventListener('click', function () {
+      var gs = hud.querySelectorAll('g');
+      if (phone.matches) {
+        cur = cur + 1 >= gs.length ? -1 : cur + 1;
+        gs.forEach(function (g, i) { g.classList.toggle('cur', i === cur); });
+        hud.classList.toggle('on', cur >= 0);
+        if (hint) hint.textContent = cur >= 0 ? '[ ' + (cur + 1) + ' / ' + gs.length + ' · tap for next ]' : '[ tap for flight notes ]';
+      } else if (touch.matches) {
+        var on = hud.classList.toggle('on'); if (hint) hint.classList.toggle('on', on);
+      }
+    });
   })();
 
   /* ---------- typed hero line ---------- */
@@ -1378,7 +1486,7 @@
 
   // fixed refuelling probe and nose pitot
   reg(0.62, [[6.52, 0.56], [5.05, 0.82], [4.98, 0.62], [6.46, 0.36]]);
-  reg(0.58, [[7.62, 0.04], [8.62, 0.09], [8.62, -0.05], [7.62, -0.12]]);
+  reg(0.58, [[7.62, 0.045], [8.62, 0.075], [8.62, -0.065], [7.62, -0.095]]);   // pitot: kept under two dot rows thick
 
   var MINX = -11.7, MAXX = 8.8, MINY = -1.65, MAXY = 3.45;
 
@@ -1420,7 +1528,9 @@
     S = Math.min(W / spanX, H / spanY) * 0.86;
     ox = W / 2 - ((MINX + MAXX) / 2) * S;
     oy = H / 2 + ((MINY + MAXY) / 2) * S - H * 0.05;
-    step = Math.max(2.6, Math.min(4.6, W / 190));   // screen px between samples
+    // dot pitch grows with the band, so every screen gets the same halftone
+    // (~300 dots across) instead of a big monitor packing in a fine mesh
+    step = Math.max(2.6, W / 300);                  // screen px between samples
 
     // the flame is a small region, so it samples finer than the airframe
     plume = [];
@@ -1473,6 +1583,7 @@
     ctx.setTransform(px, 0, 0, px, 0, 0);
     build();
     buildClouds();
+    canvas.dispatchEvent(new CustomEvent('layout', { detail: function (x, y) { return [ox + x * S, oy - y * S]; } }));
     base.width = layer.width = canvas.width; base.height = layer.height = canvas.height;
     bctx.setTransform(px, 0, 0, px, 0, 0);
     lctx.setTransform(px, 0, 0, px, 0, 0);
@@ -1525,7 +1636,7 @@
                       ch * (top ? 0.55 + 0.28 * rnd() : 0.40 + 0.16 * rnd())
                          * (1 - 0.26 * Math.abs(fx))]);
         }
-        var pts = [], p = L.pitch, row = 0;
+        var pts = [], p = L.pitch * Math.max(1, W / 1440), row = 0;
         for (var y = -ch * 1.3; y <= ch * 1.3; y += p, row++) {
           for (var x = -cw * 0.75 + (row % 2 ? p / 2 : 0); x <= cw * 0.75; x += p) {
             var s = 0;
