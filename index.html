@@ -402,7 +402,10 @@
     /* below 1360px the callouts would crowd the jet, so the same notes become a list under it */
     .raf-list { display: none; }
     @media (max-width: 1360px) {
-      .raf-hud, .raf-hint { display: none; }
+      .raf-hud { display: none; }
+      .rafale-visual { cursor: pointer; }
+      .raf-list:not(.open) { display: none !important; }
+      .raf-list.open { animation: term-in 0.25s ease-out; }
       .raf-list { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 24px; list-style: none; margin: 22px auto 0; padding: 0 24px; max-width: 960px; }
       .raf-list li { border-left: 2px solid var(--green-dim); padding-left: 12px; font-family: 'JetBrains Mono', monospace; }
       .raf-list .p { display: block; font-size: 0.64rem; letter-spacing: 0.1em; color: #4fa86a; }
@@ -1341,8 +1344,16 @@
       { at: [-7.45, 0.0],  lbl: [-11.2, -1.0], part: 'TWIN SAFRAN M88 ENGINES',        title: 'TWO ENGINES, ONE AIRFRAME',    sub: 'research and engineering, both at full thrust' },
       { at: [-2.6, -0.42], lbl: [-1.9, -1.65], part: 'RELAXED STABILITY · FLY-BY-WIRE', title: 'UNSTABLE BY DESIGN',          sub: 'bold ideas, kept in the air by experiments' }
     ];
-    // the same notes as a plain list, shown under the jet on narrower screens
+    // the same notes as a plain list under the jet on narrower screens, opened by a tap
     var list = document.getElementById('raf-list');
+    var small = matchMedia('(max-width: 1360px)');
+    function hintText() { if (hint) hint.textContent = small.matches ? (list && list.classList.contains('open') ? '[ tap to hide flight notes ]' : '[ tap for flight notes ]') : '[ hover for flight notes ]'; }
+    hintText(); small.addEventListener('change', hintText);
+    canvas.parentNode.addEventListener('click', function () {
+      if (!small.matches || !list) return;
+      list.classList.toggle('open'); hintText();
+      if (list.classList.contains('open')) list.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
     if (list) NOTES.forEach(function (n) {
       var li = document.createElement('li');
       [['p', n.part], ['t', n.title], ['s', n.sub]].forEach(function (x) { var sp = document.createElement('span'); sp.className = x[0]; sp.textContent = x[1]; li.append(sp); });
