@@ -416,7 +416,7 @@
       flex-grow: 0; margin: 0 0 16px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--text-muted); opacity: 0.85;
     }
     /* The title link stretches over the whole card, so clicking anywhere
-       opens the repo; the buttons and inline links sit above it. */
+       opens the project's tl;dr; the buttons and inline links sit above it. */
     .project-card { position: relative; cursor: pointer; }
     .card-link { color: inherit; text-decoration: none; }
     .card-link::after { content: ''; position: absolute; inset: 0; border-radius: inherit; }
@@ -2530,6 +2530,15 @@
         if (opener) opener.focus();
       }
       document.querySelectorAll('[data-tldr]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); open(a.dataset.tldr, a); }));
+      // A plain click on a card opens its tl;dr; ⌘/ctrl/middle-click still opens GitHub.
+      document.querySelectorAll('.project-card').forEach(card => {
+        const t = card.querySelector('[data-tldr]'), link = card.querySelector('.card-link');
+        if (!t || !link) return;
+        link.addEventListener('click', e => {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+          e.preventDefault(); open(t.dataset.tldr, link);
+        });
+      });
       box.addEventListener('click', e => { if (e.target === box || e.target.closest('[data-tldr-close]')) close(); });
       document.addEventListener('keydown', e => { if (e.key === 'Escape' && !box.hidden) close(); });
       window.openTldr = open;
