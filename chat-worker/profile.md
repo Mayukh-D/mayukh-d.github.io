@@ -11,7 +11,7 @@ I'm a machine learning engineer and architect: from training generative models f
 - Oct 2021 – Jan 2022 Programmer Analyst Cognizant, India Designed and implemented full-stack web systems using .NET, MVC, React, HTML, CSS, and JavaScript; delivered a Hospital Logistics System to manage COVID-19 operational workflows.
 
 ## Education
-- Feb 2025 – Present Master of Computing Australian National University, Canberra, Australia Coursework in deep learning (CNNs, RNNs, transformers, generative models), advanced ML and generative AI (diffusion models, LLMs), statistical machine learning, HCI, and software engineering.
+- Feb 2025 – Present Master of Computing Australian National University, Canberra, Australia Coursework in deep learning (CNNs, RNNs, transformers, generative models), advanced ML and generative AI (diffusion models, LLMs), statistical machine learning, HCI, and software engineering. Every coursework project on this site was graded High Distinction (HD).
 - Aug 2017 – Sep 2021 B.Tech, Automobile Engineering Manipal Institute of Technology, Manipal, India Published peer-reviewed research on electric propulsion for fixed-wing aircraft during undergraduate studies.
 
 ## Student roles
@@ -31,32 +31,32 @@ I'm a machine learning engineer and architect: from training generative models f
 ## Projects
 ### Image Generation with Machine Learning
 Flow matching from first principles: comparing v- vs x-prediction across data dimensions (x-prediction stays stable where v-prediction collapses), plus a MeanFlow implementation with Jacobian-vector-product targets.
-Tech: Python · PyTorch
+Tech: Python · PyTorch HD
 Links: Image Generation with Machine Learning: https://github.com/Mayukh-D/image-generation-with-machine-learning | report: https://mayukh-d.github.io/assets/reports/flow-matching-report.pdf | code: https://github.com/Mayukh-D/image-generation-with-machine-learning
 
 ### GPT from Scratch (nanoGPT)
 A 30M-parameter GPT built from scratch in PyTorch and trained on just 3.7M tokens of five-sentence stories, testing depth vs width and RoPE + RMSNorm (25.77 → 24.67 PPL), plus DPO fine-tuning, in the data-scarce regime.
-Tech: Python · PyTorch · CUDA
+Tech: Python · PyTorch · CUDA HD
 Links: GPT from Scratch (nanoGPT): https://github.com/Mayukh-D/story-generation-nanoGPT | demo: https://huggingface.co/spaces/Mayukh1999/nanogpt-story-generator | report: https://mayukh-d.github.io/assets/reports/nanogpt-report.pdf | code: https://github.com/Mayukh-D/story-generation-nanoGPT
 
 ### Transformers' Revenge
 Stress-testing minGRU's "Were RNNs All We Needed?" claims against a LLaMA-recipe Transformer and a causal gMLP on algorithmic reasoning: a 27-experiment grid showing where each architecture breaks, plus a phase transition in Transformer copy learning.
-Tech: Jupyter · PyTorch
+Tech: Jupyter · PyTorch HD
 Links: Transformers' Revenge: https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge | report: https://mayukh-d.github.io/assets/reports/transformers-revenge.pdf | code: https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge
 
 ### FoodLens · Smart Food Scanner
 A PWA for sustainable food shopping: real-time barcode scanning, live product lookup via Open Food Facts, allergen/expiry/carbon flagging, and A/B interaction logging for HCI research.
-Tech: JavaScript · PWA
+Tech: JavaScript · PWA HD
 Links: FoodLens · Smart Food Scanner: https://github.com/Mayukh-D/foodlens-ar-sustainable-shopping | demo: https://foodlens-f281.onrender.com | code: https://github.com/Mayukh-D/foodlens-ar-sustainable-shopping
 
 ### Yuma Social Platform
 A native Android social app (post feed, reactions, DMs, and admin moderation) applying Singleton, Factory, and Iterator patterns across a layered DAO architecture.
-Tech: Java · Android
+Tech: Java · Android HD
 Links: Yuma Social Platform: https://github.com/Mayukh-D/yuma-social-platform | code: https://github.com/Mayukh-D/yuma-social-platform
 
 ### HCI Design & Research
 A portfolio of human-computer interaction work, including prototyping and AR system evaluation.
-Tech: Portfolio
+Tech: Portfolio HD
 Links: HCI Design & Research: https://github.com/Mayukh-D/hci-design-and-research | code: https://github.com/Mayukh-D/hci-design-and-research
 
 ### TokenEater · Multi-Account Fork
