@@ -29,10 +29,10 @@ I'm a machine learning engineer and architect: from training generative models f
 - Community Volunteering & Outreach Rotary Club · Art of Living Regular visits to a home for children with intellectual and developmental disabilities with the Rotary Club; sourced and distributed food, medicine, and rebuilding materials in West Bengal after Cyclone Amphan (2020).
 
 ## Projects
-### Flow Matching Parameterisation
+### Image Generation with Machine Learning
 Flow matching from first principles: comparing v- vs x-prediction across data dimensions (x-prediction stays stable where v-prediction collapses), plus a MeanFlow implementation with Jacobian-vector-product targets.
 Tech: Python · PyTorch
-Links: Flow Matching Parameterisation: https://github.com/Mayukh-D/image-generation-with-machine-learning | report: https://mayukh-d.github.io/assets/reports/flow-matching-report.pdf | code: https://github.com/Mayukh-D/image-generation-with-machine-learning
+Links: Image Generation with Machine Learning: https://github.com/Mayukh-D/image-generation-with-machine-learning | report: https://mayukh-d.github.io/assets/reports/flow-matching-report.pdf | code: https://github.com/Mayukh-D/image-generation-with-machine-learning
 
 ### GPT from Scratch (nanoGPT)
 A 30M-parameter GPT built from scratch in PyTorch and trained on just 3.7M tokens of five-sentence stories, testing depth vs width, RoPE + RMSNorm, and DPO fine-tuning in the data-scarce regime (25.77 → 24.67 PPL).
@@ -115,7 +115,7 @@ Day-to-day work at both Accenture and Cognizant.
 Two ANU courses, Deep Learning and Advanced Machine Learning, every research project on this page, and my work at Haizea Analytics.
 - Deep Learning: CNNs, RNNs, transformers and generative models, built and trained in PyTorch.
 - Advanced Machine Learning: generative AI, diffusion models and LLMs.
-- Flow Matching: v- vs x-prediction compared across data dimensions (x-prediction stays stable where v-prediction collapses), plus MeanFlow with Jacobian-vector-product targets.
+- Image Generation with Machine Learning: flow matching, with v- vs x-prediction compared across data dimensions (x-prediction stays stable where v-prediction collapses), plus MeanFlow with Jacobian-vector-product targets.
 - nanoGPT: a 30M-parameter GPT trained on 3.7M tokens, testing depth vs width, RoPE + RMSNorm, and DPO fine-tuning (25.77 → 24.67 perplexity).
 - Transformers' Revenge: minGRU vs a LLaMA-recipe Transformer vs a causal gMLP in a 27-experiment grid, including a phase transition in copy learning.
 - Haizea Analytics: U-TAE models (a U-Net with temporal attention) that map tree canopy from Sentinel-2 satellite time series, supervised by airborne LiDAR, trained and ablated across multiple seeds on GPU.
@@ -141,7 +141,7 @@ Built from scratch, then stress-tested against the alternatives.
 ### Diffusion Models (ANU, Projects)
 Generative modelling is my happy place.
 - ANU Advanced Machine Learning: diffusion models and generative AI.
-- Flow Matching from first principles: v- vs x-prediction across data dimensions, and why x-prediction stays stable where v-prediction collapses.
+- Image Generation with Machine Learning: flow matching from first principles, v- vs x-prediction across data dimensions, and why x-prediction stays stable where v-prediction collapses.
 - A MeanFlow implementation with Jacobian-vector-product targets.
 
 ### LLMs (ANU, Accenture, Projects)
