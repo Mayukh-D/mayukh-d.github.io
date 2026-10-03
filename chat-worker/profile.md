@@ -32,42 +32,42 @@ I'm a machine learning engineer and architect: from training generative models f
 ### Image Generation with Machine Learning
 Flow matching from first principles: comparing v- vs x-prediction across data dimensions (x-prediction stays stable where v-prediction collapses), plus a MeanFlow implementation with Jacobian-vector-product targets.
 Tech: Python · PyTorch HD
-Links: Image Generation with Machine Learning: https://github.com/Mayukh-D/image-generation-with-machine-learning | report: https://mayukh-d.github.io/assets/reports/flow-matching-report.pdf | code: https://github.com/Mayukh-D/image-generation-with-machine-learning
+Links: Image Generation with Machine Learning: https://github.com/Mayukh-D/image-generation-with-machine-learning | tl;dr: https://mayukh-d.github.io/#tldr-flow | report: https://mayukh-d.github.io/assets/reports/flow-matching-report.pdf | code: https://github.com/Mayukh-D/image-generation-with-machine-learning
 
 ### GPT from Scratch (nanoGPT)
 A 30M-parameter GPT built from scratch in PyTorch and trained on just 3.7M tokens of five-sentence stories, testing depth vs width and RoPE + RMSNorm (25.77 → 24.67 PPL), plus DPO fine-tuning, in the data-scarce regime.
 Tech: Python · PyTorch · CUDA HD
-Links: GPT from Scratch (nanoGPT): https://github.com/Mayukh-D/story-generation-nanoGPT | demo: https://huggingface.co/spaces/Mayukh1999/nanogpt-story-generator | report: https://mayukh-d.github.io/assets/reports/nanogpt-report.pdf | code: https://github.com/Mayukh-D/story-generation-nanoGPT
+Links: GPT from Scratch (nanoGPT): https://github.com/Mayukh-D/story-generation-nanoGPT | tl;dr: https://mayukh-d.github.io/#tldr-nanogpt | demo: https://huggingface.co/spaces/Mayukh1999/nanogpt-story-generator | report: https://mayukh-d.github.io/assets/reports/nanogpt-report.pdf | code: https://github.com/Mayukh-D/story-generation-nanoGPT
 
 ### Transformers' Revenge
 Stress-testing minGRU's "Were RNNs All We Needed?" claims against a LLaMA-recipe Transformer and a causal gMLP on algorithmic reasoning: a 27-experiment grid showing where each architecture breaks, plus a phase transition in Transformer copy learning.
 Tech: Jupyter · PyTorch HD
-Links: Transformers' Revenge: https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge | report: https://mayukh-d.github.io/assets/reports/transformers-revenge.pdf | code: https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge
+Links: Transformers' Revenge: https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge | tl;dr: https://mayukh-d.github.io/#tldr-transformers | report: https://mayukh-d.github.io/assets/reports/transformers-revenge.pdf | code: https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge
 
 ### FoodLens · Smart Food Scanner
 A PWA for sustainable food shopping: real-time barcode scanning, live product lookup via Open Food Facts, allergen/expiry/carbon flagging, and A/B interaction logging for HCI research.
 Tech: JavaScript · PWA HD
-Links: FoodLens · Smart Food Scanner: https://github.com/Mayukh-D/foodlens-ar-sustainable-shopping | demo: https://foodlens-f281.onrender.com | code: https://github.com/Mayukh-D/foodlens-ar-sustainable-shopping
+Links: FoodLens · Smart Food Scanner: https://github.com/Mayukh-D/foodlens-ar-sustainable-shopping | tl;dr: https://mayukh-d.github.io/#tldr-foodlens | demo: https://foodlens-f281.onrender.com | code: https://github.com/Mayukh-D/foodlens-ar-sustainable-shopping
 
 ### Yuma Social Platform
 A native Android social app (post feed, reactions, DMs, and admin moderation) applying Singleton, Factory, and Iterator patterns across a layered DAO architecture.
 Tech: Java · Android HD
-Links: Yuma Social Platform: https://github.com/Mayukh-D/yuma-social-platform | code: https://github.com/Mayukh-D/yuma-social-platform
+Links: Yuma Social Platform: https://github.com/Mayukh-D/yuma-social-platform | tl;dr: https://mayukh-d.github.io/#tldr-yuma | code: https://github.com/Mayukh-D/yuma-social-platform
 
 ### HCI Design & Research
 A portfolio of human-computer interaction work, including prototyping and AR system evaluation.
 Tech: Portfolio HD
-Links: HCI Design & Research: https://github.com/Mayukh-D/hci-design-and-research | code: https://github.com/Mayukh-D/hci-design-and-research
+Links: HCI Design & Research: https://github.com/Mayukh-D/hci-design-and-research | tl;dr: https://mayukh-d.github.io/#tldr-hci | code: https://github.com/Mayukh-D/hci-design-and-research
 
 ### TokenEater · Multi-Account Fork
 An unofficial fork of a macOS menu bar app that tracks Claude usage, adding a second Claude account as a provider of its own across the menu bar, popover, dashboard and Studio. Proposed upstream as pull request #284. For everyday use, get the official TokenEater .
 Tech: Swift · SwiftUI
-Links: TokenEater · Multi-Account Fork: https://github.com/Mayukh-D/TokenEater | official TokenEater: https://github.com/AThevon/TokenEater | build: https://github.com/Mayukh-D/TokenEater/releases | code: https://github.com/Mayukh-D/TokenEater
+Links: TokenEater · Multi-Account Fork: https://github.com/Mayukh-D/TokenEater | official TokenEater: https://github.com/AThevon/TokenEater | tl;dr: https://mayukh-d.github.io/#tldr-tokeneater | build: https://github.com/Mayukh-D/TokenEater/releases | code: https://github.com/Mayukh-D/TokenEater
 
 ### GrowthScope · First Hackathon
 My first hackathon and first vibe-coded app (ANU, 2025): sales analytics for small businesses. Kept as a benchmark, and revisited in 2026 with tests, a self-scoring revenue forecast, anomaly detection, and fixes for what I first shipped.
 Tech: Python · Flask
-Links: GrowthScope · First Hackathon: https://github.com/Mayukh-D/GrowthScope | demo: https://growthscope-j85i.onrender.com | code: https://github.com/Mayukh-D/GrowthScope
+Links: GrowthScope · First Hackathon: https://github.com/Mayukh-D/GrowthScope | tl;dr: https://mayukh-d.github.io/#tldr-growthscope | demo: https://growthscope-j85i.onrender.com | code: https://github.com/Mayukh-D/GrowthScope
 
 ## Publications
 - 2024 An Overview on the Role of AI in Modern Advancements of Material Science ES General, Vol. 5 · First author Das, M. · DOI 10.30919/esg1183 . Also presented in work-in-progress form at RTCMM 2023.

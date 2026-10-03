@@ -545,6 +545,55 @@
       .org-logo-tall { height: 50px; }
       section { padding: 56px 0; }
     }
+    /* tl;dr: the short version of a research project, in a terminal window */
+    .tldr-backdrop {
+      position: fixed; inset: 0; z-index: 220; display: flex; align-items: center; justify-content: center;
+      padding: 24px; background: rgba(0, 4, 1, 0.72); backdrop-filter: blur(3px);
+    }
+    .tldr-backdrop[hidden] { display: none; }
+    .tldr {
+      width: min(780px, 100%); max-height: min(86vh, 900px); display: flex; flex-direction: column; overflow: hidden;
+      background: #050805; border: 1px solid var(--border-bright); border-radius: 8px;
+      box-shadow: 0 0 0 1px rgba(0,255,65,0.06), 0 24px 70px rgba(0,0,0,0.8), 0 0 40px rgba(0,255,65,0.12);
+      animation: term-in 0.2s ease-out;
+    }
+    .tldr-body { overflow-y: auto; padding: 18px 22px 22px; overscroll-behavior: contain; }
+    .tldr-body h3 { font-family: 'JetBrains Mono', monospace; font-size: 1.05rem; margin-bottom: 4px; }
+    .tldr-body h3::before { content: '$ '; color: var(--green); }
+    .tldr-q { color: var(--text); font-size: 1rem; line-height: 1.55; margin: 10px 0 4px; }
+    .tldr-body h4 {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--green); margin: 18px 0 6px;
+    }
+    .tldr-body h4::before { content: '## '; opacity: 0.6; }
+    .tldr-body p, .tldr-body li { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
+    .tldr-body ul { list-style: none; padding: 0; }
+    .tldr-body li { position: relative; padding-left: 18px; margin-bottom: 6px; }
+    .tldr-body li::before { content: '▸'; position: absolute; left: 0; color: var(--green); }
+    .tldr-body b { color: var(--text); font-weight: 600; }
+    .tldr-body figure { margin: 6px 0 4px; }
+    .tldr-body figure { margin: 10px 0 6px; }
+    .tldr-body figure img { display: block; max-width: 100%; max-height: 480px; width: auto; height: auto; margin: 0 auto; border-radius: 6px; }
+    .tldr-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .tldr-row img { width: 100%; max-height: none; }
+    .tldr-body figcaption { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--text-muted); margin-top: 6px; }
+    .tldr-body table { width: 100%; border-collapse: collapse; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; }
+    .tldr-body td { padding: 5px 8px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+    .tldr-body td:last-child { text-align: right; color: var(--text); white-space: nowrap; }
+    .tldr-body tr.good td:last-child { color: var(--green); }
+    .tldr-body tr.bad td:last-child { color: #ff8a80; }
+    .tldr-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .tldr-links a {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--green); text-decoration: none;
+      border: 1px solid var(--border-bright); border-radius: 6px; padding: 8px 14px; background: rgba(0,255,65,0.04);
+    }
+    .tldr-links a:hover { border-color: var(--green); background: rgba(0,255,65,0.1); }
+    @media (max-width: 640px) {
+      .tldr-backdrop { padding: 0; align-items: flex-end; }
+      .tldr { max-height: 90vh; border-radius: 10px 10px 0 0; }
+      .tldr-body { padding: 16px; }
+    }
+
     /* Ask-me-anything terminal: opens from the blinking prompt in the nav. */
     .nav-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
     /* the whole bar left of the links opens the terminal, full height */
@@ -859,6 +908,7 @@
           <div class="project-foot">
             <span class="project-lang"><span class="lang-dot lang-python"></span>Python · PyTorch <span class="hd" title="Assignment graded High Distinction (HD), the top grade band at ANU">HD</span></span>
             <span class="project-actions">
+            <a href="#tldr-flow" data-tldr="flow" title="The short version"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span>tl;dr</span></a>
             <a href="assets/reports/flow-matching-report.pdf" target="_blank" rel="noopener" title="Report (PDF)" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 7V3.5L18.5 9H13zm-5 4h8v1.6H8V13zm0 3.4h8V18H8v-1.6z"/></svg><span>report</span></a>
             <a href="https://github.com/Mayukh-D/image-generation-with-machine-learning" target="_blank" rel="noopener" title="Source on GitHub" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg><span>code</span></a>
             </span>
@@ -873,6 +923,7 @@
           <div class="project-foot">
             <span class="project-lang"><span class="lang-dot lang-python"></span>Python · PyTorch · CUDA <span class="hd" title="Assignment graded High Distinction (HD), the top grade band at ANU">HD</span></span>
             <span class="project-actions">
+            <a href="#tldr-nanogpt" data-tldr="nanogpt" title="The short version"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span>tl;dr</span></a>
             <a href="https://huggingface.co/spaces/Mayukh1999/nanogpt-story-generator" target="_blank" rel="noopener" title="Live demo" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.14v13.72L19 12 8 5.14z"/></svg><span>demo</span></a>
             <a href="assets/reports/nanogpt-report.pdf" target="_blank" rel="noopener" title="Report (PDF)" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 7V3.5L18.5 9H13zm-5 4h8v1.6H8V13zm0 3.4h8V18H8v-1.6z"/></svg><span>report</span></a>
             <a href="https://github.com/Mayukh-D/story-generation-nanoGPT" target="_blank" rel="noopener" title="Source on GitHub" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg><span>code</span></a>
@@ -888,6 +939,7 @@
           <div class="project-foot">
             <span class="project-lang"><span class="lang-dot lang-jupyter"></span>Jupyter · PyTorch <span class="hd" title="Assignment graded High Distinction (HD), the top grade band at ANU">HD</span></span>
             <span class="project-actions">
+            <a href="#tldr-transformers" data-tldr="transformers" title="The short version"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span>tl;dr</span></a>
             <a href="assets/reports/transformers-revenge.pdf" target="_blank" rel="noopener" title="Report (PDF)" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 7V3.5L18.5 9H13zm-5 4h8v1.6H8V13zm0 3.4h8V18H8v-1.6z"/></svg><span>report</span></a>
             <a href="https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge" target="_blank" rel="noopener" title="Source on GitHub" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg><span>code</span></a>
             </span>
@@ -901,6 +953,7 @@
           <div class="project-foot">
             <span class="project-lang"><span class="lang-dot lang-js"></span>JavaScript · PWA <span class="hd" title="Assignment graded High Distinction (HD), the top grade band at ANU">HD</span></span>
             <span class="project-actions">
+            <a href="#tldr-foodlens" data-tldr="foodlens" title="The short version"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span>tl;dr</span></a>
             <a href="https://foodlens-f281.onrender.com" target="_blank" rel="noopener" title="Live demo" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.14v13.72L19 12 8 5.14z"/></svg><span>demo</span></a>
             <a href="https://github.com/Mayukh-D/foodlens-ar-sustainable-shopping" target="_blank" rel="noopener" title="Source on GitHub" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg><span>code</span></a>
             </span>
@@ -913,6 +966,7 @@
           <div class="project-foot">
             <span class="project-lang"><span class="lang-dot lang-java"></span>Java · Android <span class="hd" title="Assignment graded High Distinction (HD), the top grade band at ANU">HD</span></span>
             <span class="project-actions">
+            <a href="#tldr-yuma" data-tldr="yuma" title="The short version"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span>tl;dr</span></a>
             <a href="https://github.com/Mayukh-D/yuma-social-platform" target="_blank" rel="noopener" title="Source on GitHub" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg><span>code</span></a>
             </span>
           </div>
@@ -924,6 +978,7 @@
           <div class="project-foot">
             <span class="project-lang"><span class="lang-dot lang-python"></span>Portfolio <span class="hd" title="Assignment graded High Distinction (HD), the top grade band at ANU">HD</span></span>
             <span class="project-actions">
+            <a href="#tldr-hci" data-tldr="hci" title="The short version"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span>tl;dr</span></a>
             <a href="https://github.com/Mayukh-D/hci-design-and-research" target="_blank" rel="noopener" title="Source on GitHub" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg><span>code</span></a>
             </span>
           </div>
@@ -937,6 +992,7 @@
           <div class="project-foot">
             <span class="project-lang"><span class="lang-dot lang-swift"></span>Swift · SwiftUI</span>
             <span class="project-actions">
+            <a href="#tldr-tokeneater" data-tldr="tokeneater" title="The short version"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span>tl;dr</span></a>
             <a href="https://github.com/Mayukh-D/TokenEater/releases" target="_blank" rel="noopener" title="Unofficial build (read the warning first)" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M5 17v3h14v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>build</span></a>
             <a href="https://github.com/Mayukh-D/TokenEater" target="_blank" rel="noopener" title="Source on GitHub" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg><span>code</span></a>
             </span>
@@ -951,6 +1007,7 @@
           <div class="project-foot">
             <span class="project-lang"><span class="lang-dot lang-python"></span>Python · Flask</span>
             <span class="project-actions">
+            <a href="#tldr-growthscope" data-tldr="growthscope" title="The short version"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span>tl;dr</span></a>
             <a href="https://growthscope-j85i.onrender.com" target="_blank" rel="noopener" title="Live demo" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.14v13.72L19 12 8 5.14z"/></svg><span>demo</span></a>
             <a href="https://github.com/Mayukh-D/GrowthScope" target="_blank" rel="noopener" title="Source on GitHub" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg><span>code</span></a>
             </span>
@@ -1979,6 +2036,13 @@
     if (mq.matches) { draw(0); } else { requestAnimationFrame(draw); }
   })();
   </script>
+  <div class="tldr-backdrop" id="tldr" hidden>
+    <div class="tldr" role="dialog" aria-modal="true" aria-labelledby="tldr-h">
+      <div class="term-bar"><span class="term-dots"><i></i><i></i><i></i></span><span class="term-title" id="tldr-title"></span><button type="button" class="term-close" aria-label="Close" data-tldr-close>×</button></div>
+      <div class="tldr-body" id="tldr-body"></div>
+    </div>
+  </div>
+
   <div class="chat" id="chat" role="dialog" aria-label="Ask about Mayukh" hidden>
     <div class="term-bar"><span class="term-dots"><i></i><i></i><i></i></span><span class="term-title">~/ask-mayukh</span><button type="button" class="term-close" aria-label="Close" data-chat-close>×</button></div>
     <div class="chat-log" id="chat-log" aria-live="polite"></div>
@@ -2303,6 +2367,164 @@
       addEventListener('scroll', syncHint, { passive: true }); syncHint();
       document.querySelectorAll('[data-chat-open]').forEach(el => el.addEventListener('click', e => { e.preventDefault(); open(); }));
       panel.querySelector('[data-chat-close]').addEventListener('click', close);
+    })();
+    // tl;dr: each research card's short version. Everything here comes from the
+    // project's own report; the full PDF is one click away.
+    const TLDR = {
+      transformers: {
+        title: "Transformers' Revenge", file: 'transformers-revenge',
+        q: 'minGRU reportedly matches Transformers on language modelling ("Were RNNs All We Needed?"). Does that hold once the task needs real algorithmic reasoning?',
+        setup: '~750-800K-parameter models, 4 layers each, identical optimiser and schedule. 3 models (minGRU, a causal gMLP we adapted, a LLaMA-recipe Transformer) × 3 tasks (language modelling, verbatim copy, induction) × 3 sequence lengths = 27 runs, with predictions written down before running.',
+        findings: [
+          '<b>minGRU cannot retrieve by content.</b> Induction accuracy stays at chance (~0.04) at every length: its input-only gating rules it out by construction.',
+          '<b>The causal gMLP works inside its fixed spatial window</b> and fails beyond it.',
+          '<b>Only the Transformer solves induction at every length</b> (0.97-1.00).',
+          '<b>A phase transition:</b> on long induction the Transformer sits at chance for ~7,000 steps, then jumps to perfect between 8,000 and 10,000, consistent with circuit formation.'
+        ],
+        figs: [['assets/tldr/transformers-grid.jpg', 'All 27 runs. Green passes, red fails.'],
+               ['assets/tldr/transformers-phase.jpg', 'The phase transition: 0.04 to 1.0 in about 2,000 steps.']],
+        role: 'Team of four, with Vibhansh Gupta, Daniel Vaz and Adam Clark. I implemented the Transformer, designed the experiment grid and comparison framework, and wrote the report.',
+        next: 'Train long copy past 5,000 steps to see whether the same phase transition appears there, and add seeds to separate real gaps from single-seed noise.',
+        links: [['full report (PDF)', 'assets/reports/transformers-revenge.pdf'], ['code', 'https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge']]
+      },
+      nanogpt: {
+        title: 'GPT from Scratch (nanoGPT)', file: 'nanogpt',
+        q: 'How far can a 30M-parameter GPT get on 3.7M tokens of stories, roughly 160 times less data than Chinchilla scaling suggests for its size?',
+        setup: 'A decoder-only GPT trained from scratch on ROCStories, changing one thing at a time against a fixed baseline, on a single L4 GPU.',
+        findings: [
+          '<b>The tokenizer was the biggest lever.</b> Mistral\'s 32k vocabulary cut perplexity from 28.62 to 23.71 by freeing ~7M parameters from the embedding table (a research finding; the graded evaluation required GPT-2 tokens).',
+          '<b>Depth beat width</b> at matched parameter count (16 layers beat 11 by 0.28 PPL), unlike the neutral result at large scale.',
+          '<b>Only two of three LLaMA components transfer to small data:</b> RoPE and RMSNorm helped, SwiGLU hurt, because its gates need more data to learn.',
+          '<b>Distribution match beat data quantity:</b> TinyStories pretraining and synthetic stories both hurt; only quality-filtering ROCStories itself helped.',
+          '<b>Perplexity is not quality:</b> a 24.84 model wrote better stories than the 24.67 winner.'
+        ],
+        table: [['baseline (GPT-2 tokens)', '25.33', ''], ['+ RoPE', '24.69', 'good'], ['+ RMSNorm', '25.01', 'good'], ['+ SwiGLU', '25.62', 'bad'], ['+ RoPE + RMSNorm (final)', '24.67', 'good']],
+        tableCaption: 'Test perplexity, one change at a time (lower is better).',
+        role: 'Solo: built, trained and ablated every variant, then added DPO fine-tuning in the repo.',
+        links: [['full report (PDF)', 'assets/reports/nanogpt-report.pdf'], ['live demo', 'https://huggingface.co/spaces/Mayukh1999/nanogpt-story-generator'], ['code', 'https://github.com/Mayukh-D/story-generation-nanoGPT']]
+      },
+      flow: {
+        title: 'Image Generation with Machine Learning', file: 'flow-matching',
+        q: 'In flow matching, should the network predict the clean data (x) or the velocity (v)? And does the answer change as the data dimension grows?',
+        setup: 'A 5-layer MLP on swiss roll, Gaussian mixture and circles, projected into D = 2, 8 and 32, across all four prediction/loss combinations. Then MeanFlow for few-step generation.',
+        findings: [
+          '<b>At D = 32, x-prediction still generates clean structure;</b> both v-prediction setups collapse into noise.',
+          '<b>Why:</b> the clean data stays on a simple 2D manifold, while the velocity target scales with the full ambient dimension.',
+          '<b>Not fundamental:</b> widening the network to 1024 rescues v-prediction, at ~16 times the parameters (330K to 5.2M).',
+          '<b>MeanFlow</b> (one-step generation via Jacobian-vector products) handles manifold data in a single step but struggles on multi-modal data, and the paper\'s logit-normal sampler made that worse here.'
+        ],
+        figs: [['assets/tldr/flow-d32.jpg', 'D = 32. Columns: x-pred/x-loss, x-pred/v-loss, v-pred/v-loss, v-pred/x-loss.']],
+        role: 'Solo: designed, implemented and evaluated every parameterisation, plus MeanFlow.',
+        next: 'Recipes from large-scale work are tuned for failure modes that may not exist at small scale; the next step is checking where the crossover sits as models and data grow.',
+        links: [['full report (PDF)', 'assets/reports/flow-matching-report.pdf'], ['code', 'https://github.com/Mayukh-D/image-generation-with-machine-learning']]
+      },
+      foodlens: {
+        title: 'FoodLens · Smart Food Scanner', file: 'foodlens',
+        q: 'Can information shown at the moment of purchase nudge people toward safer, less wasteful shopping, and does a hands-free wearable do it better than a phone?',
+        setup: 'A phone-first PWA: scan a barcode, and allergens matched to your own profile, an expiry timeline against how fast you actually finish things, and a carbon band appear as an overlay. The same app runs in a hands-free glasses mode with voice and haptic alerts, logging every interaction for a within-subjects study (5 participants, phone vs glasses).',
+        findings: [
+          '<b>Tangible outcomes beat abstract ones:</b> food waste moved behaviour more than carbon footprint.',
+          '<b>The glasses scored higher on usability</b> but ran into social acceptability barriers.',
+          '<b>Allergen and additive information</b> was the most behaviourally influential feature.',
+          '<b>Personal beats generic:</b> expiry estimates switch from a population average to your own measured pace once you log what was left.'
+        ],
+        figs: [[['assets/tldr/foodlens-scan.jpg', 'assets/tldr/foodlens-product.jpg', 'assets/tldr/foodlens-insights.jpg'], 'Scan, the product overlay with an allergen alert and freshness timeline, and carbon milestones.'],
+               ['assets/tldr/foodlens-sus.jpg', 'System Usability Scale across 10 items (n = 5).']],
+        role: 'Solo: designed, built and deployed the app, ran the study, and analysed it, for the ANU HCI final project. Graded HD.',
+        links: [['live demo', 'https://foodlens-f281.onrender.com'], ['code', 'https://github.com/Mayukh-D/foodlens-ar-sustainable-shopping']]
+      },
+      hci: {
+        title: 'HCI Design & Research', file: 'hci-design-and-research',
+        q: 'Three projects across the full HCI pipeline: ideation and prototyping, user research with real participants, and the design and evaluation of a novel interactive system.',
+        setup: 'ANU Human-Computer Interaction (2025). Each project combines quantitative and qualitative methods. Raw participant data has been removed from the repository to protect the students who took part; methods and aggregated findings remain.',
+        findings: [
+          '<b>Prototyping:</b> a fitness tracker for macaws. Touchscreens fail for beaks and navigation happens in 3D flight, so the design uses voice and physical buttons, aerial overlays and species-specific health telemetry on an ankle band.',
+          '<b>User research (5 participants)</b> on an AI meal-photo calorie tracker: people expected near-perfect accuracy, trust dropped sharply after the first failed scan and did not recover, and speed over manual entry best predicted intent to keep using it.',
+          '<b>Final project:</b> FoodLens, evaluated phone vs AR glasses within subjects, with structured observation, interviews and SUS scoring.'
+        ],
+        figs: [['assets/tldr/hci-watch.jpg', 'The macaw smartwatch, as a paper prototype.'],
+               ['assets/tldr/hci-violin.jpg', 'User research: experienced vs new users across satisfaction, intent and perceived accuracy.']],
+        role: 'Solo across all three projects. Graded HD.',
+        links: [['code and write-ups', 'https://github.com/Mayukh-D/hci-design-and-research']]
+      },
+      yuma: {
+        title: 'Yuma Social Platform', file: 'yuma',
+        q: 'Turn a Java moderation backend from an earlier hackathon into a native Android social app, without breaking its models.',
+        setup: 'A five-person team hackathon at ANU. Login with member and admin roles, a searchable post feed, reactions, pinned messages, direct messages with sorted inboxes, and admin moderation, all persisted across restarts.',
+        findings: [
+          '<b>Consistent patterns throughout:</b> Singletons for the data stores and session, Factories for every sort strategy, and Iterators for every query.',
+          '<b>Open for extension, closed for modification:</b> reactions and pins live in their own stores keyed by message ID, so the core Message model is untouched.',
+          '<b>Found and fixed a silent bug</b> from the first hackathon: moderation calls always failed at runtime because the message store was never populated outside tests.'
+        ],
+        role: 'Team of five. Graded HD.',
+        links: [['code', 'https://github.com/Mayukh-D/yuma-social-platform']]
+      },
+      tokeneater: {
+        title: 'TokenEater · Multi-Account Fork', file: 'tokeneater',
+        q: 'TokenEater, an open-source macOS menu bar app, tracks one Claude account. I use two, personal and work, so I made it track both side by side.',
+        setup: 'A native SwiftUI and AppKit app. The second account is discovered from its own Keychain item without reading any secrets, gets its own usage store, and appears everywhere the first does: menu bar, popover, dashboard and Studio.',
+        findings: [
+          '<b>Proposed upstream</b> to the original project as pull request #284.',
+          '<b>Shipped as an unofficial build</b> with its own app identity, so it can never overwrite or be overwritten by the official app, and with clear warnings pointing people to the official version.',
+          '<b>Kept the project\'s rules:</b> unit tests and the repository\'s own documentation checks pass before every push.'
+        ],
+        figs: [['assets/tldr/tokeneater-dashboard.jpg', 'The dashboard with both Claude accounts side by side (organisation names blurred).']],
+        role: 'Solo: designed and built multi-account support, the fork build, and its release.',
+        links: [['fork', 'https://github.com/Mayukh-D/TokenEater'], ['official app', 'https://github.com/AThevon/TokenEater']]
+      },
+      growthscope: {
+        title: 'GrowthScope · First Hackathon', file: 'growthscope',
+        q: 'My first hackathon and first vibe-coded app (ANU, 2025): sales analytics for Australian small businesses. A year later, how good was it really?',
+        setup: 'Built in a weekend by a team of four. Revisited in 2026 with tests, a check that has to pass before every push, and an honest look at every page.',
+        findings: [
+          '<b>It analysed only 41% of its own demo data:</b> Australian day-first dates were silently dropped. Now it reads all of it.',
+          '<b>Security holes, fixed:</b> an API key in the source (scrubbed from history), an open redirect, and a route that let any visitor overwrite the login page.',
+          '<b>Four new features:</b> a revenue forecast that reports its own error, unusual-day detection with no false alarms on random data, flexible column mapping, and CSV reports.'
+        ],
+        figs: [['assets/tldr/growthscope-forecast.jpg', 'The revenue forecast, scored on the three months it did not see.']],
+        role: 'Hackathon team of four; the 2026 rebuild is mine. Kept on purpose as a benchmark of where I started.',
+        links: [['live demo', 'https://growthscope-j85i.onrender.com'], ['code', 'https://github.com/Mayukh-D/GrowthScope']]
+      }
+    };
+    (() => {
+      const box = document.getElementById('tldr'), body = document.getElementById('tldr-body');
+      const title = document.getElementById('tldr-title');
+      let opener = null;
+      const h = (tag, html, cls) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html) e.innerHTML = html; return e; };
+      function open(key, from) {
+        const t = TLDR[key]; if (!t) return;
+        opener = from || null;
+        title.textContent = '~/projects/' + t.file + '/tldr.md';
+        body.innerHTML = '';
+        const head = h('h3'); head.id = 'tldr-h'; head.textContent = t.title;
+        body.append(head, h('p', t.q, 'tldr-q'), h('h4', 'setup'), h('p', t.setup), h('h4', 'findings'));
+        const ul = h('ul'); t.findings.forEach(f => ul.append(h('li', f))); body.append(ul);
+        if (t.figs) t.figs.forEach(([src, cap]) => {
+          const f = h('figure'), row = h('div', '', Array.isArray(src) ? 'tldr-row' : '');
+          [].concat(src).forEach(u => { const img = h('img'); img.src = u; img.alt = cap; img.loading = 'lazy'; row.append(img); });
+          f.append(row, h('figcaption', cap)); body.append(f);
+        });
+        if (t.table) {
+          const tb = h('table'); t.table.forEach(([a, b, c]) => { const r = h('tr', '', c); r.append(h('td', a), h('td', b)); tb.append(r); });
+          body.append(tb, h('p', t.tableCaption, 'tldr-cap'));
+        }
+        body.append(h('h4', 'my part'), h('p', t.role));
+        if (t.next) body.append(h('h4', 'next'), h('p', t.next));
+        const links = h('div', '', 'tldr-links');
+        t.links.forEach(([label, href]) => { const a = h('a'); a.href = href; a.target = '_blank'; a.rel = 'noopener'; a.textContent = label + ' →'; links.append(a); });
+        body.append(links);
+        box.hidden = false; body.scrollTop = 0;
+        document.documentElement.style.overflow = 'hidden';
+        box.querySelector('.term-close').focus();
+      }
+      function close() {
+        box.hidden = true; document.documentElement.style.overflow = '';
+        if (opener) opener.focus();
+      }
+      document.querySelectorAll('[data-tldr]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); open(a.dataset.tldr, a); }));
+      box.addEventListener('click', e => { if (e.target === box || e.target.closest('[data-tldr-close]')) close(); });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape' && !box.hidden) close(); });
+      window.openTldr = open;
     })();
   </script>
 </body>
