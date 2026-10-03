@@ -125,7 +125,8 @@
       font-size: clamp(5rem, 21vw, 17rem);
       letter-spacing: 0.02em;
       color: transparent;
-      -webkit-text-stroke: 1.5px rgba(0, 255, 65, 0.13);
+      -webkit-text-stroke: 1.5px rgba(0, 255, 65, 0.42);
+      text-shadow: 0 0 28px rgba(0, 255, 65, 0.18);
       user-select: none; pointer-events: none;
       white-space: nowrap;
       z-index: 0;
@@ -385,9 +386,10 @@
     .raf-hud .pip { fill: none; stroke: #00ff41; stroke-width: 1.2; opacity: 0; transition: opacity 0.2s var(--d); }
     .raf-hud text { font-family: 'JetBrains Mono', monospace; fill: #00ff41; opacity: 0; transition: opacity 0.35s ease-out calc(var(--d) + 0.3s);
       paint-order: stroke; stroke: #010203; stroke-width: 3px; }
-    .raf-hud .t1 { font-size: clamp(9.5px, 0.76vw, 11px); font-weight: 700; letter-spacing: 0.08em; }
-    .raf-hud .t2 { font-size: clamp(8.5px, 0.69vw, 10px); fill: #7fdc9a; }
-    .raf-hud .t0 { font-size: clamp(8px, 0.62vw, 9px); fill: #4fa86a; letter-spacing: 0.1em; }
+    /* text grows with the band: ~11px on a laptop, up to ~18px on a 27" monitor */
+    .raf-hud .t1 { font-size: clamp(10px, 0.74vw, 19px); font-weight: 700; letter-spacing: 0.08em; }
+    .raf-hud .t2 { font-size: clamp(9px, 0.64vw, 16px); fill: #7fdc9a; }
+    .raf-hud .t0 { font-size: clamp(8px, 0.54vw, 14px); fill: #4fa86a; letter-spacing: 0.1em; }
     .rafale-visual:hover .raf-hud .ln, .raf-hud.on .ln { stroke-dashoffset: 0; }
     .rafale-visual:hover .raf-hud .pip, .rafale-visual:hover .raf-hud text,
     .raf-hud.on .pip, .raf-hud.on text { opacity: 1; }
@@ -397,15 +399,17 @@
       transition: opacity 0.3s;
     }
     .rafale-visual:hover .raf-hint, .raf-hint.on { opacity: 0; }
-    @media (hover: none) { .raf-hint::before { content: ''; } }
-    @media (max-width: 1100px) { .raf-hud .t2 { display: none; } .raf-hud .t1 { font-size: 9px; } .raf-hud .t0 { display: none; } }
-    /* phones: six notes won't fit, so each tap shows the next one on its own */
-    @media (max-width: 640px) {
-      .raf-hud g { visibility: hidden; }
-      .raf-hud g.cur { visibility: visible; }
-      .raf-hud .t2 { display: block; font-size: 9px; }
-      .raf-hint { top: 8px; right: 12px; }
+    /* below 1360px the callouts would crowd the jet, so the same notes become a list under it */
+    .raf-list { display: none; }
+    @media (max-width: 1360px) {
+      .raf-hud, .raf-hint { display: none; }
+      .raf-list { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 24px; list-style: none; margin: 22px auto 0; padding: 0 24px; max-width: 960px; }
+      .raf-list li { border-left: 2px solid var(--green-dim); padding-left: 12px; font-family: 'JetBrains Mono', monospace; }
+      .raf-list .p { display: block; font-size: 0.64rem; letter-spacing: 0.1em; color: #4fa86a; }
+      .raf-list .t { display: block; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; color: var(--green); margin: 2px 0; }
+      .raf-list .s { display: block; font-size: 0.74rem; color: var(--text-muted); line-height: 1.5; }
     }
+    @media (max-width: 640px) { .raf-list { grid-template-columns: 1fr; padding: 0 16px; } }
 
     /* Experience / publications timeline */
     .timeline { display: flex; flex-direction: column; gap: 30px; }
@@ -1280,6 +1284,7 @@
         <em>defence &middot; geopolitics &middot; airpower</em>
       </div>
     </div>
+    <ol class="raf-list" id="raf-list" aria-label="Flight notes"></ol>
   </section>
 
   <footer>
@@ -1329,13 +1334,20 @@
     var canvas = document.getElementById('rafale'), hud = document.getElementById('raf-hud'), hint = document.getElementById('raf-hint');
     if (!canvas || !hud) return;
     var NOTES = [
-      { at: [7.3, 0.0],   lbl: [6.1, 2.9],    part: 'RBE2 RADAR',          title: 'QUESTION FIRST',        sub: 'frame the problem before building the model' },
-      { at: [0.6, 0.44],  lbl: [3.7, -1.55],  part: 'CANARDS',             title: 'ONE VARIABLE AT A TIME', sub: 'small, measured changes' },
-      { at: [-5.0, 0.46], lbl: [-3.7, 3.05],  part: 'FLIGHT RECORDER',     title: 'EVERY RUN LOGGED',      sub: 'a change has to beat the noise floor' },
-      { at: [-7.45, 3.05], lbl: [-11.2, 3.3], part: 'SPECTRA',             title: 'BREAK IT FIRST',        sub: 'finding the failure is half solving it' },
-      { at: [-7.45, 0.0], lbl: [-11.2, -1.0], part: 'TWIN M88',            title: 'RESEARCH × ENGINEERING', sub: 'two engines, both running' },
-      { at: [-2.6, -0.42], lbl: [-1.6, -1.62], part: 'RELAXED STABILITY · FLY-BY-WIRE', title: 'UNSTABLE BY DESIGN', sub: 'novel ideas, kept honest by experiments' }
+      { at: [7.3, 0.0],    lbl: [6.0, 2.95],   part: 'RBE2 AESA RADAR',                title: 'SEE BEFORE YOU STRIKE',        sub: 'the radar looks first; I frame the question first' },
+      { at: [0.6, 0.44],   lbl: [3.5, -1.6],   part: 'CANARD FOREPLANES',              title: 'SMALL SURFACES, BIG CONTROL',  sub: 'one variable at a time, measured changes' },
+      { at: [-5.0, 0.46],  lbl: [-3.9, 3.1],   part: 'FLIGHT DATA RECORDER',           title: 'THE BLACK BOX REMEMBERS',      sub: 'every run logged; a change must beat the noise' },
+      { at: [-7.45, 3.05], lbl: [-11.2, 3.35], part: 'SPECTRA SELF-PROTECTION SUITE',  title: 'FIND THE THREAT FIRST',        sub: 'finding the failure is half solving it' },
+      { at: [-7.45, 0.0],  lbl: [-11.2, -1.0], part: 'TWIN SAFRAN M88 ENGINES',        title: 'TWO ENGINES, ONE AIRFRAME',    sub: 'research and engineering, both at full thrust' },
+      { at: [-2.6, -0.42], lbl: [-1.9, -1.65], part: 'RELAXED STABILITY · FLY-BY-WIRE', title: 'UNSTABLE BY DESIGN',          sub: 'bold ideas, kept in the air by experiments' }
     ];
+    // the same notes as a plain list, shown under the jet on narrower screens
+    var list = document.getElementById('raf-list');
+    if (list) NOTES.forEach(function (n) {
+      var li = document.createElement('li');
+      [['p', n.part], ['t', n.title], ['s', n.sub]].forEach(function (x) { var sp = document.createElement('span'); sp.className = x[0]; sp.textContent = x[1]; li.append(sp); });
+      list.append(li);
+    });
     var NS = 'http://www.w3.org/2000/svg';
     function el(tag, attrs, text) {
       var e = document.createElementNS(NS, tag);
@@ -1345,53 +1357,36 @@
     }
     canvas.addEventListener('layout', function (ev) {
       var map = ev.detail, W = canvas.clientWidth, H = canvas.clientHeight;
+      if (W <= 1360) { hud.innerHTML = ''; return; }
+      var k = Math.max(1, W / 1440);               // line spacing grows with the text
       hud.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
       hud.innerHTML = '';
       NOTES.forEach(function (n, i) {
         var a = map(n.at[0], n.at[1]), b = map(n.lbl[0], n.lbl[1]);
         var right = b[0] < a[0];                    // label sits left of the part, so text ends at the elbow
-        var ex = b[0] + (right ? -8 : 8);           // short horizontal tail under the label
+        var ex = b[0] + (right ? -8 : 8) * k;
         var pts = a[0] + ',' + a[1] + ' ' + b[0] + ',' + b[1] + ' ' + ex + ',' + b[1];
-        var len = Math.hypot(b[0] - a[0], b[1] - a[1]) + 8;
+        var len = Math.hypot(b[0] - a[0], b[1] - a[1]) + 8 * k;
         var g = el('g', { style: '--d:' + (i * 0.12) + 's;--l:' + Math.ceil(len) });
-        g.append(el('circle', { class: 'pip', cx: a[0], cy: a[1], r: 3.2 }));
-        g.append(el('polyline', { class: 'ln', points: pts }));
-        var anchor = right ? 'end' : 'start', tx = ex + (right ? -4 : 4);
+        g.append(el('circle', { class: 'pip', cx: a[0], cy: a[1], r: 3.2 * k }));
         var line = el('polyline', { class: 'ln', points: pts });
-        var texts = [el('text', { class: 't0', x: tx, y: b[1] - 22, 'text-anchor': anchor }, '[ ' + n.part + ' ]'),
-                     el('text', { class: 't1', x: tx, y: b[1] - 8, 'text-anchor': anchor }, n.title),
-                     el('text', { class: 't2', x: tx, y: b[1] + 13, 'text-anchor': anchor }, n.sub)];
-        g.lastChild.remove(); g.append(line);
+        g.append(line);
+        var anchor = right ? 'end' : 'start', tx = ex + (right ? -4 : 4) * k;
+        var texts = [el('text', { class: 't0', x: tx, y: b[1] - 22 * k, 'text-anchor': anchor }, '[ ' + n.part + ' ]'),
+                     el('text', { class: 't1', x: tx, y: b[1] - 8 * k, 'text-anchor': anchor }, n.title),
+                     el('text', { class: 't2', x: tx, y: b[1] + 13 * k, 'text-anchor': anchor }, n.sub)];
         texts.forEach(function (t) { g.append(t); });
         hud.append(g);
         // keep every label on screen: slide it in and stretch the leader's tail to meet it
         var w = 0;
-        texts.forEach(function (t) { if (getComputedStyle(t).display !== 'none') w = Math.max(w, t.getComputedTextLength()); });
+        texts.forEach(function (t) { w = Math.max(w, t.getComputedTextLength()); });
         var shift = right ? Math.max(0, 12 - (tx - w)) : Math.min(0, (W - 12) - (tx + w));
         if (shift) {
           texts.forEach(function (t) { t.setAttribute('x', tx + shift); });
-          var nx = ex + shift;
-          line.setAttribute('points', a[0] + ',' + a[1] + ' ' + b[0] + ',' + b[1] + ' ' + nx + ',' + b[1]);
+          line.setAttribute('points', a[0] + ',' + a[1] + ' ' + b[0] + ',' + b[1] + ' ' + (ex + shift) + ',' + b[1]);
           g.style.setProperty('--l', Math.ceil(len + Math.abs(shift)));
         }
       });
-    });
-    // touch screens have no hover. Tablets: a tap toggles all six. Phones: each
-    // tap shows the next note on its own, then the jet goes clean again.
-    var phone = matchMedia('(max-width: 640px)'), touch = matchMedia('(hover: none)');
-    function setHint() { if (hint) hint.textContent = (phone.matches || touch.matches) ? '[ tap for flight notes ]' : '[ hover for flight notes ]'; }
-    setHint(); phone.addEventListener('change', setHint);
-    var cur = -1;
-    canvas.parentNode.addEventListener('click', function () {
-      var gs = hud.querySelectorAll('g');
-      if (phone.matches) {
-        cur = cur + 1 >= gs.length ? -1 : cur + 1;
-        gs.forEach(function (g, i) { g.classList.toggle('cur', i === cur); });
-        hud.classList.toggle('on', cur >= 0);
-        if (hint) hint.textContent = cur >= 0 ? '[ ' + (cur + 1) + ' / ' + gs.length + ' · tap for next ]' : '[ tap for flight notes ]';
-      } else if (touch.matches) {
-        var on = hud.classList.toggle('on'); if (hint) hint.classList.toggle('on', on);
-      }
     });
   })();
 
