@@ -149,6 +149,28 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* Easter egg: a hat, monocle and moustache sketched onto the portrait. */
+    .dapper-btn {
+      position: absolute; left: 50%; top: -86px; transform: translateX(-50%); z-index: 3;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.04em;
+      color: #8dffae; background: none; border: 0; padding: 4px 8px; cursor: pointer;
+      text-shadow: 0 0 8px rgba(0, 255, 65, 0.45); opacity: 0.8; white-space: nowrap;
+    }
+    .dapper-btn::before { content: '> '; opacity: 0.6; }
+    @media (max-width: 640px) { .dapper-btn { left: auto; right: -6px; top: -34px; transform: none; } }
+    .dapper-btn:hover { opacity: 1; text-decoration: underline dotted; }
+    .dapper {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      overflow: visible; pointer-events: none; z-index: 2;
+      filter: drop-shadow(0 0 3px rgba(0, 255, 65, 0.9)) drop-shadow(0 0 10px rgba(0, 255, 65, 0.35));
+    }
+    .dapper path {
+      fill: none; stroke: #39ff6a; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round;
+      stroke-dasharray: var(--len); stroke-dashoffset: var(--len);
+    }
+    .dapper.on path { stroke-dashoffset: 0; transition: stroke-dashoffset var(--dur) cubic-bezier(.45,.05,.4,1) var(--delay); }
+    .dapper.off path { transition: stroke-dashoffset 0.35s ease-in; }
+
     h1.hero-name {
       font-family: 'JetBrains Mono', monospace;
       font-weight: 800;
@@ -634,6 +656,38 @@
     <div class="hero-bigword reveal" data-stage aria-hidden="true">WELCOME</div>
     <div class="hero-photo-wrap reveal" data-stage>
       <img class="hero-photo" src="assets/mayukh.jpg" width="900" height="900" alt="Portrait of Mayukh Das">
+      <button type="button" class="dapper-btn" id="dapper-btn" aria-pressed="false">make me dapper</button>
+      <svg class="dapper" id="dapper" viewBox="0 0 900 900" aria-hidden="true">
+        <defs>
+          <filter id="pencil" x="-10%" y="-30%" width="120%" height="160%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7" result="n"/>
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="7"/>
+          </filter>
+        </defs>
+        <g filter="url(#pencil)">
+          <!-- top hat, tilted with the head: brim, crown, band -->
+          <path d="M 258 132 C 270 96, 600 70, 640 96 C 652 112, 520 140, 440 142 C 360 146, 250 150, 258 132 Z"/>
+          <path d="M 332 120 L 318 -58"/>
+          <path d="M 562 98 L 586 -82"/>
+          <path d="M 318 -58 C 380 -82, 520 -96, 586 -82"/>
+          <path d="M 318 -58 C 390 -40, 530 -58, 586 -82"/>
+          <path d="M 328 82 C 400 76, 500 64, 566 60"/>
+          <path d="M 330 104 C 400 96, 500 84, 564 80"/>
+          <!-- monocle on his left eye, chain down to the lapel -->
+          <path d="M 537 194 C 572 194, 590 220, 588 246 C 586 276, 560 292, 534 290 C 506 288, 486 266, 488 240 C 490 214, 510 194, 537 194 Z"/>
+          <path d="M 530 290 C 560 360, 600 400, 590 460 C 584 500, 610 520, 640 540"/>
+          <!-- handlebar moustache -->
+          <path d="M 496 328 C 470 312, 440 314, 424 334 C 410 352, 390 350, 388 334 C 386 320, 400 316, 406 326"/>
+          <path d="M 496 328 C 522 310, 556 310, 572 330 C 586 348, 606 346, 608 330 C 610 316, 596 312, 590 322"/>
+          <path d="M 470 326 C 480 334, 512 334, 522 324"/>
+          <!-- a green tie over the real one: knot, blade, stripes -->
+          <path d="M 496 574 L 558 566 L 550 612 L 512 618 Z"/>
+          <path d="M 512 618 L 558 858 L 600 880 L 622 822 L 550 612"/>
+          <path d="M 520 664 L 566 652"/>
+          <path d="M 532 724 L 584 710"/>
+          <path d="M 546 786 L 602 770"/>
+        </g>
+      </svg>
     </div>
     <h1 class="hero-name reveal" data-stage><span class="glitch" data-text="MAYUKH DAS">MAYUKH DAS</span></h1>
     <p class="hero-type mono reveal" data-stage><span class="prompt">$ whoami&nbsp;&nbsp;»&nbsp;</span><span id="typed"></span><span class="cursor"></span></p>
@@ -1106,6 +1160,30 @@
     var addr = ['mayukh1999', 'gmail.com'].join('@');
     el.href = 'mailto:' + addr;
     el.textContent = addr;
+  })();
+
+  /* ---------- make me dapper ----------
+     Each stroke is drawn in with a dash offset, one after another, at a
+     speed proportional to its length, so it reads as a pen sketching. */
+  (function () {
+    var svg = document.getElementById('dapper'), btn = document.getElementById('dapper-btn');
+    if (!svg || !btn) return;
+    var t = 0;
+    [].forEach.call(svg.querySelectorAll('path'), function (p) {
+      var len = Math.ceil(p.getTotalLength()) + 2, dur = Math.max(0.18, len / 900);
+      p.style.setProperty('--len', len);
+      p.style.setProperty('--dur', dur + 's');
+      p.style.setProperty('--delay', t + 's');
+      t += dur + 0.06;
+    });
+    window.makeDapper = function (want) {
+      var on = want === undefined ? !svg.classList.contains('on') : want;
+      svg.classList.toggle('on', on); svg.classList.toggle('off', !on);
+      btn.textContent = on ? 'undo dapper' : 'make me dapper';
+      btn.setAttribute('aria-pressed', on);
+      return on;
+    };
+    btn.addEventListener('click', function () { window.makeDapper(); });
   })();
 
   /* ---------- typed hero line ---------- */
@@ -2106,6 +2184,7 @@
         '  `experience`     where he has worked',
         '  `contact`        how to reach him',
         '  `resume`         his resume (PDF)',
+        '  `make me dapper` you will see',
         '  `clear`, `exit`',
       ].join('\n');
 
@@ -2170,6 +2249,10 @@
         const [cmd, ...rest] = q.split(/\s+/);
         const c = cmd.toLowerCase(), arg = rest.join(' ').toLowerCase();
         if (c === 'clear') { log.innerHTML = ''; return; }
+        if (/^(sudo )?make me dapper$|^dapper$/i.test(q) && window.makeDapper) {
+          window.makeDapper(true); scrollTo({ top: 0, behavior: 'smooth' });
+          line('', 'Sketching a top hat, monocle, moustache and tie onto the portrait. Very distinguished.'); return;
+        }
         if (c === 'exit' || c === 'quit') { close(); return; }
         if (COMMANDS[c] && (rest.length === 0 || c === 'ls' || c === 'cat')) { line('', COMMANDS[c](arg)); return; }
         ask(q);
