@@ -3,6 +3,7 @@
 <head>
   <script>document.documentElement.classList.add('js');</script>
   <meta charset="UTF-8">
+  <meta name="color-scheme" content="dark">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mayukh Das · ML Engineer & Architect</title>
   <meta name="description" content="Mayukh Das: ML Architect at Eccoi working on sovereign AI, and Satellite AI Research Trainee at Haizea Analytics. Master of Computing at ANU, previously 3+ years at Accenture building AIOps tools and explainable AI systems.">
@@ -34,6 +35,12 @@
       --cyan-soft: rgba(0, 229, 255, 0.1);
       --red: #ff2b4e;
     }
+    /* Dark page, dark scrollbars: without this the browser draws its light default. */
+    :root { color-scheme: dark; scrollbar-color: rgba(0, 255, 65, 0.35) #050805; }
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: #050805; }
+    ::-webkit-scrollbar-thumb { background: rgba(0, 255, 65, 0.28); border-radius: 6px; border: 2px solid #050805; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(0, 255, 65, 0.5); }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
