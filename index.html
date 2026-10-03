@@ -355,10 +355,10 @@
     .timeline-body h3 { font-size: 1.02rem; font-weight: 600; }
     /* Each organisation's logo as a neon silhouette under the dates. */
     .org-logo {
-      display: block; width: 130px; height: 34px; margin-top: 12px;
+      display: block; width: 100%; max-width: 150px; height: 34px; margin-top: 12px;
       background: var(--green);
-      -webkit-mask: var(--logo) left center / contain no-repeat;
-      mask: var(--logo) left center / contain no-repeat;
+      -webkit-mask: var(--logo) center / contain no-repeat;
+      mask: var(--logo) center / contain no-repeat;
       filter: drop-shadow(0 0 3px rgba(0, 255, 65, 0.65)) drop-shadow(0 0 10px rgba(0, 255, 65, 0.3));
       opacity: 0.9; transition: opacity 0.2s, filter 0.2s;
     }
@@ -503,7 +503,7 @@
       .nav-links { display: flex; gap: 0; }
       .nav-links a:not([href="#contact"]) { display: none; }
       .timeline-item { grid-template-columns: 1fr; gap: 4px; }
-      .org-logo { width: 110px; height: 28px; margin: 8px 0 6px; }
+      .org-logo { width: 110px; height: 28px; margin: 8px 0 6px; -webkit-mask-position: left center; mask-position: left center; }
       .org-logo-tall { height: 50px; }
       section { padding: 56px 0; }
     }
