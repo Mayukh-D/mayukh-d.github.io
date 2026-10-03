@@ -436,9 +436,9 @@
     }
     .skill:hover { border-color: var(--green-dim); box-shadow: 0 0 12px rgba(0,255,65,0.25); }
     button.skill { cursor: pointer; line-height: inherit; }
-    button.skill::after { content: ' +'; color: var(--green-dim); }
+    button.skill::after { content: ' +' / ''; color: var(--green-dim); }
     button.skill[aria-expanded="true"] { border-color: var(--green); background: rgba(0, 255, 65, 0.14); box-shadow: 0 0 12px rgba(0,255,65,0.35); }
-    button.skill[aria-expanded="true"]::after { content: ' \2212'; }
+    button.skill[aria-expanded="true"]::after { content: ' \2212' / ''; }
     /* What I actually did with the selected skill, shown under the list. */
     .skill-note {
       margin-top: 16px; padding: 14px 16px; max-width: 720px;
@@ -592,16 +592,16 @@
         <button type="button" class="skill" data-note="Yuma, a native Android social app: post feed, reactions, DMs and moderation over a layered DAO architecture." aria-expanded="false" aria-controls="skill-note">Java</button>
         <button type="button" class="skill" data-note="Full-stack .NET MVC systems at Cognizant, including a Hospital Logistics System for COVID-19 operations." aria-expanded="false" aria-controls="skill-note">C#</button>
         <button type="button" class="skill" data-note="FoodLens, a PWA with live barcode scanning, and the web front ends I built at Cognizant." aria-expanded="false" aria-controls="skill-note">JavaScript</button>
-        <span class="skill">SQL</span>
+        <button type="button" class="skill" data-note="Used day to day at both Accenture and Cognizant." aria-expanded="false" aria-controls="skill-note">SQL</button>
         <button type="button" class="skill" data-note="Flow matching, a 30M-parameter GPT, and the minGRU vs Transformer study, all written from scratch." aria-expanded="false" aria-controls="skill-note">PyTorch</button>
-        <span class="skill">scikit-learn</span>
+        <button type="button" class="skill" data-note="MLOps at Accenture: I built the pipelines, and the models behind the automated ticket resolution (ATR) system were scikit-learn." aria-expanded="false" aria-controls="skill-note">scikit-learn</button>
         <button type="button" class="skill" data-note="ANU coursework in CNNs, RNNs, transformers and generative models, put to work in the three research projects above." aria-expanded="false" aria-controls="skill-note">Deep Learning</button>
         <button type="button" class="skill" data-note="Built a GPT from scratch with RoPE and RMSNorm, and pitted a LLaMA-recipe Transformer against minGRU and gMLP in 27 experiments." aria-expanded="false" aria-controls="skill-note">Transformers</button>
         <button type="button" class="skill" data-note="Flow matching from first principles: v- vs x-prediction across data dimensions, plus a MeanFlow implementation." aria-expanded="false" aria-controls="skill-note">Diffusion Models</button>
         <button type="button" class="skill" data-note="Trained a small GPT and fine-tuned it with DPO (25.77 to 24.67 perplexity); built Quasar++, a document chatbot, at Accenture." aria-expanded="false" aria-controls="skill-note">LLMs</button>
         <button type="button" class="skill" data-note="Integrated explainability and model-performance reporting into Ingrain at Accenture, with the UIs designed from scratch." aria-expanded="false" aria-controls="skill-note">Explainable AI</button>
-        <button type="button" class="skill" data-note="Full-stack web systems at Cognizant, React on the front end." aria-expanded="false" aria-controls="skill-note">React</button>
-        <span class="skill">Node</span>
+        <button type="button" class="skill" data-note="React front ends for full-stack systems at Cognizant, and MERN stack work at Accenture." aria-expanded="false" aria-controls="skill-note">React</button>
+        <button type="button" class="skill" data-note="MERN stack development (MongoDB, Express, React, Node) at Accenture." aria-expanded="false" aria-controls="skill-note">Node</button>
         <button type="button" class="skill" data-note="MVC web systems at Cognizant, including the COVID-19 Hospital Logistics System." aria-expanded="false" aria-controls="skill-note">.NET</button>
         <button type="button" class="skill" data-note="I teach HCI at the ANU, and FoodLens logs A/B interactions for HCI research." aria-expanded="false" aria-controls="skill-note">HCI</button>
         <button type="button" class="skill" data-note="Every project here. GrowthScope won&#x27;t push until lint, tests and a secret scan pass; TokenEater went upstream as PR #284." aria-expanded="false" aria-controls="skill-note">Git</button>
@@ -610,8 +610,11 @@
         <button type="button" class="skill" data-note="FoodLens looks products up live from the Open Food Facts API; the TokenEater fork reads Claude&#x27;s usage API." aria-expanded="false" aria-controls="skill-note">REST APIs</button>
         <button type="button" class="skill" data-note="Rated Advanced at Accenture; now architecting the Sovereign AI Community of Practice (SAICOP) at Eccoi." aria-expanded="false" aria-controls="skill-note">Solution Architecture</button>
         <button type="button" class="skill" data-note="Rated Advanced in Cloud Application Architecture at Accenture; assessing and shortlisting platforms for SAICOP at Eccoi." aria-expanded="false" aria-controls="skill-note">Cloud Architecture</button>
-        <span class="skill">Agile</span>
-        <span class="skill">Hadoop</span>
+        <button type="button" class="skill" data-note="Agile at Accenture: weekly sprints, a stand-up every morning, scrum meetings, stories and story points." aria-expanded="false" aria-controls="skill-note">Agile</button>
+        <button type="button" class="skill" data-note="Trained as a data engineer at Accenture: Hadoop, Scala, PySpark and Cassandra." aria-expanded="false" aria-controls="skill-note">Hadoop</button>
+        <button type="button" class="skill" data-note="Trained as a data engineer at Accenture: Hadoop, Scala, PySpark and Cassandra." aria-expanded="false" aria-controls="skill-note">Scala</button>
+        <button type="button" class="skill" data-note="Trained as a data engineer at Accenture: Hadoop, Scala, PySpark and Cassandra." aria-expanded="false" aria-controls="skill-note">PySpark</button>
+        <button type="button" class="skill" data-note="Trained as a data engineer at Accenture: Hadoop, Scala, PySpark and Cassandra." aria-expanded="false" aria-controls="skill-note">Cassandra</button>
       </div>
       <p class="skill-note" id="skill-note" aria-live="polite" hidden></p>
     </div>
