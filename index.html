@@ -509,7 +509,8 @@
     }
     /* Ask-me-anything terminal: opens from the blinking prompt in the nav. */
     .nav-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
-    .nav-left { position: relative; }
+    /* the whole bar left of the links opens the terminal, full height */
+    .nav-left { position: relative; flex: 1; align-self: stretch; margin: -14px 24px -14px 0; padding: 14px 0; cursor: pointer; }
     /* hangs under the prompt like a tab; hidden once the visitor scrolls on */
     .ask-hint {
       position: absolute; top: calc(100% + 14px); left: -2px;
@@ -612,9 +613,9 @@
 <body>
   <nav>
     <div class="container nav-inner">
-      <div class="nav-left">
+      <div class="nav-left" data-chat-open title="Ask about me">
         <a href="#" class="nav-logo" data-chat-open title="Ask me anything"><span>root@mayukh</span>:~$<span class="cursor"></span></a>
-        <button type="button" class="ask-hint" data-chat-open><span class="ask-long">&uarr; click here to ask about anything</span><span class="ask-short">&uarr; tap to ask about anything</span></button>
+        <button type="button" class="ask-hint" data-chat-open><span class="ask-long">&uarr; click here to ask about me</span><span class="ask-short">&uarr; tap to ask about me</span></button>
       </div>
       <div class="nav-links">
         <a href="#about">about</a>
