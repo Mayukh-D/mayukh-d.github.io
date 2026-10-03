@@ -284,7 +284,8 @@
     }
 
     /* About */
-    .about p { color: var(--text-muted); max-width: 700px; margin-bottom: 16px; }
+    .about p { color: var(--text-muted); margin-bottom: 16px; text-align: justify; }
+    @media (max-width: 640px) { .about p { text-align: left; } }
     .about p strong { color: var(--text); }
     .about a { color: var(--green); }
 
