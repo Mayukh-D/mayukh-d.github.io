@@ -1,0 +1,14 @@
+{
+  "name": "mayukh-chat",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "profile": "node build-profile.mjs",
+    "dev": "node build-profile.mjs && wrangler dev",
+    "deploy": "node build-profile.mjs && wrangler deploy",
+    "test": "node --test test/"
+  },
+  "devDependencies": {
+    "wrangler": "^4"
+  }
+}

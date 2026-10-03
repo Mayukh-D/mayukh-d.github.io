@@ -78,7 +78,7 @@
     }
     .nav-inner {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 0;
+      padding: 14px 24px;
     }
     .nav-logo {
       font-family: 'JetBrains Mono', monospace;
@@ -507,6 +507,63 @@
       .org-logo-tall { height: 50px; }
       section { padding: 56px 0; }
     }
+    /* Ask-me-anything terminal: opens from the blinking prompt in the nav. */
+    .nav-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .nav-left { position: relative; }
+    /* hangs under the prompt like a tab; hidden once the visitor scrolls on */
+    .ask-hint {
+      position: absolute; top: calc(100% + 14px); left: -2px;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--green);
+      background: rgba(1, 8, 3, 0.92); border: 1px dashed var(--green-dim); border-radius: 4px;
+      padding: 5px 10px; cursor: pointer; white-space: nowrap;
+      animation: ask-pulse 2.4s ease-in-out infinite;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .ask-hint::before {
+      content: ''; position: absolute; top: -6px; left: 18px; width: 10px; height: 10px;
+      background: inherit; border-left: 1px dashed var(--green-dim); border-top: 1px dashed var(--green-dim);
+      transform: rotate(45deg);
+    }
+    .ask-hint.gone { opacity: 0; transform: translateY(-6px); pointer-events: none; }
+    .ask-hint:hover { border-style: solid; background: rgba(0, 255, 65, 0.12); }
+    .ask-short { display: none; }
+    @keyframes ask-pulse { 50% { box-shadow: 0 0 12px rgba(0, 255, 65, 0.35); } }
+    .chat {
+      position: fixed; right: 24px; bottom: 24px; z-index: 200;
+      width: min(440px, calc(100vw - 32px)); height: min(560px, calc(100vh - 110px));
+      display: flex; flex-direction: column; overflow: hidden;
+      background: #050805; border: 1px solid var(--border-bright); border-radius: 8px;
+      box-shadow: 0 0 0 1px rgba(0,255,65,0.06), 0 20px 60px rgba(0,0,0,0.7), 0 0 40px rgba(0,255,65,0.12);
+      animation: term-in 0.2s ease-out;
+    }
+    .chat[hidden] { display: none; }
+    .chat-log {
+      flex: 1; overflow-y: auto; padding: 14px 16px;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; line-height: 1.6;
+      color: var(--text-muted); overscroll-behavior: contain;
+    }
+    .chat-log > div { margin-bottom: 10px; white-space: pre-wrap; word-wrap: break-word; }
+    .chat-log .q { color: var(--text); }
+    .chat-log .q::before { content: '$ '; color: var(--green); }
+    .chat-log .sys { color: var(--green-dim); }
+    .chat-log .err { color: #ff8a80; }
+    .chat-log .ai::before { content: '\203A  '; color: var(--green); }
+    .chat-log a { color: var(--green); }
+    .chat-log code { color: var(--green); }
+    .chat-log .thinking::after { content: '\2588'; color: var(--green); animation: term-blink 1s steps(1) infinite; }
+    .chat-form { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-top: 1px solid var(--border); background: var(--bg-soft); }
+    .chat-form label { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--green); white-space: nowrap; }
+    .chat-form input {
+      flex: 1; min-width: 0; background: transparent; border: 0; outline: none; color: var(--text);
+      font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; caret-color: var(--green);
+    }
+    .chat-foot { padding: 0 14px 8px; background: var(--bg-soft); font-family: 'JetBrains Mono', monospace; font-size: 0.64rem; color: var(--text-muted); opacity: 0.75; }
+    @media (max-width: 640px) {
+      .ask-long { display: none; } .ask-short { display: inline; }
+      .chat { right: 0; bottom: 0; width: 100vw; height: 78vh; border-radius: 10px 10px 0 0; }
+      .chat-form input { font-size: 16px; } /* stops iOS zooming on focus */
+    }
+    @media (prefers-reduced-motion: reduce) { .ask-hint, .chat { animation: none; } }
     /* Reveal animations. The hidden state is scoped behind .js, which the
        inline script in <head> sets before first paint, so if the script
        never runs the page still renders in full rather than blank. */
@@ -555,7 +612,10 @@
 <body>
   <nav>
     <div class="container nav-inner">
-      <a href="#" class="nav-logo"><span>root@mayukh</span>:~$<span class="cursor"></span></a>
+      <div class="nav-left">
+        <a href="#" class="nav-logo" data-chat-open title="Ask me anything"><span>root@mayukh</span>:~$<span class="cursor"></span></a>
+        <button type="button" class="ask-hint" data-chat-open><span class="ask-long">&uarr; click here to ask about anything</span><span class="ask-short">&uarr; tap to ask about anything</span></button>
+      </div>
       <div class="nav-links">
         <a href="#about">about</a>
         <a href="#experience">experience</a>
@@ -669,9 +729,17 @@
       <h2 class="reveal" data-scroll>experience</h2>
       <div class="timeline">
         <div class="timeline-item reveal" data-scroll>
+          <div class="timeline-date">Sep 2026 – Present</div>
+          <div class="timeline-body">
+            <h3>Satellite AI Research Trainee</h3>
+            <div class="org">Haizea Analytics, Canberra, Australia</div>
+            <p>Mapping live tree canopy cover across Australia at 10 m resolution: deep learning models that read four years of quarterly Sentinel-2 imagery and are trained on airborne LiDAR measurements, across more than 13,000 footprints. The goal is accurate amounts of canopy, not just a good-looking map, scored once on a held-out test set against Haizea's existing model. Run as a pre-registered, multi-seed experiment programme where every change has to beat the noise floor, handed over as a clean repository with the model, validation code and a ranked record of experiments.</p>
+          </div>
+        </div>
+        <div class="timeline-item reveal" data-scroll>
           <div class="timeline-date">Jul 2026 – Present<span class="org-logo" style="--logo: url(assets/logos/eccoi.svg)" aria-hidden="true"></span></div>
           <div class="timeline-body">
-            <h3>System Architect Intern</h3>
+            <h3>ML Architect · System Architect Intern</h3>
             <div class="org">Eccoi, Canberra, Australia</div>
             <p>Architecting the Sovereign AI Community of Practice (SAICOP): defining architectural principles and the system context model, assessing and shortlisting platforms, and proving the conceptual architecture end-to-end, aligned to Australian Government delivery, security, and procurement realities.</p>
           </div>
@@ -1739,6 +1807,16 @@
     if (mq.matches) { draw(0); } else { requestAnimationFrame(draw); }
   })();
   </script>
+  <div class="chat" id="chat" role="dialog" aria-label="Ask about Mayukh" hidden>
+    <div class="term-bar"><span class="term-dots"><i></i><i></i><i></i></span><span class="term-title">~/ask-mayukh</span><button type="button" class="term-close" aria-label="Close" data-chat-close>×</button></div>
+    <div class="chat-log" id="chat-log" aria-live="polite"></div>
+    <form class="chat-form" id="chat-form" autocomplete="off">
+      <label for="chat-input">you@mayukh:~$</label>
+      <input id="chat-input" maxlength="500" placeholder="ask anything, or type help" spellcheck="false">
+    </form>
+    <div class="chat-foot">Free-form questions are answered by Google Gemini (free tier), which may use them to improve its products. Built-in commands stay in your browser.</div>
+  </div>
+
   <script>
     // Skills: click a chip to open what I actually did with it; click again to close.
     const SKILL_NOTES = {
@@ -1772,25 +1850,27 @@
         points: [
           'Cognizant: the data side of full-stack .NET MVC systems, including the Hospital Logistics System.',
           'Accenture: data work alongside ML pipelines and the data engineering stack (Hadoop, PySpark, Cassandra).' ] },
-      'PyTorch': { where: ['ANU', 'Projects'],
-        lead: 'Two ANU courses, Deep Learning and Advanced Machine Learning, and every research project on this page.',
+      'PyTorch': { where: ['ANU', 'Haizea', 'Projects'],
+        lead: 'Two ANU courses, Deep Learning and Advanced Machine Learning, every research project on this page, and my work at Haizea Analytics.',
         points: [
           'Deep Learning: CNNs, RNNs, transformers and generative models, built and trained in PyTorch.',
           'Advanced Machine Learning: generative AI, diffusion models and LLMs.',
           'Flow Matching: v- vs x-prediction compared across data dimensions (x-prediction stays stable where v-prediction collapses), plus MeanFlow with Jacobian-vector-product targets.',
           'nanoGPT: a 30M-parameter GPT trained on 3.7M tokens, testing depth vs width, RoPE + RMSNorm, and DPO fine-tuning (25.77 → 24.67 perplexity).',
-          'Transformers\' Revenge: minGRU vs a LLaMA-recipe Transformer vs a causal gMLP in a 27-experiment grid, including a phase transition in copy learning.' ] },
+          'Transformers\' Revenge: minGRU vs a LLaMA-recipe Transformer vs a causal gMLP in a 27-experiment grid, including a phase transition in copy learning.',
+          'Haizea Analytics: CNNs that map tree canopy from Sentinel-2 satellite time series, supervised by airborne LiDAR, trained and ablated across multiple seeds on GPU.' ] },
       'scikit-learn': { where: ['Accenture'],
         lead: 'The workhorse of my MLOps work at Accenture.',
         points: [
           'Built the ML pipelines end to end, from data preparation through training to deployment.',
           'The models behind the automated ticket resolution (ATR) system were built with scikit-learn.' ] },
-      'Deep Learning': { where: ['ANU', 'Projects'],
+      'Deep Learning': { where: ['ANU', 'Haizea', 'Projects'],
         lead: 'Studied it properly at ANU, then went deep in three research projects.',
         points: [
           'ANU Deep Learning: CNNs, RNNs, transformers and generative models.',
           'ANU Advanced Machine Learning: generative AI, diffusion models and LLMs.',
-          'Research: flow matching parameterisation, a GPT trained in the data-scarce regime, and a 27-experiment architecture study.' ] },
+          'Research: flow matching parameterisation, a GPT trained in the data-scarce regime, and a 27-experiment architecture study.',
+          'Haizea Analytics: deep learning for Earth observation, predicting LiDAR-measured crown cover and forest extent at 10 m from satellite imagery.' ] },
       'Transformers': { where: ['ANU', 'Projects'],
         lead: 'Built from scratch, then stress-tested against the alternatives.',
         points: [
@@ -1921,6 +2001,131 @@
         });
       });
       box.querySelector('.term-close').addEventListener('click', () => open && open.click());
+    })();
+    // Ask-me-anything terminal. Built-in commands answer from the page itself;
+    // anything else goes to a small Cloudflare Worker that asks Gemini, grounded
+    // only in this site's content (see chat-worker/).
+    const CHAT_ENDPOINT = '';
+    (() => {
+      const panel = document.getElementById('chat');
+      const log = document.getElementById('chat-log');
+      const form = document.getElementById('chat-form');
+      const input = document.getElementById('chat-input');
+      const history = [];          // {role: 'user'|'model', text} sent to the AI
+      const typed = [];            // previous inputs, for the up arrow
+      let cursor = 0, busy = false, greeted = false;
+
+      const clean = el => el.textContent.replace(/\s+/g, ' ').trim();
+      const projects = () => [...document.querySelectorAll('.project-card')].map(c => ({
+        name: clean(c.querySelector('h3')),
+        desc: clean(c.querySelector('p')),
+        link: c.querySelector('.card-link')?.href }));
+
+      function line(cls, text) {
+        const d = document.createElement('div');
+        d.className = cls;
+        // linkify http(s) URLs and `code`, everything else as plain text
+        text.split(/(https?:\/\/[^\s)]+|`[^`]+`)/g).forEach(part => {
+          if (/^https?:\/\//.test(part)) {
+            const url = part.replace(/[.,;:]+$/, ''), rest = part.slice(url.length);
+            const a = document.createElement('a'); a.href = url; a.textContent = url; a.target = '_blank'; a.rel = 'noopener';
+            d.append(a, rest);
+          } else if (/^`[^`]+`$/.test(part)) {
+            const c = document.createElement('code'); c.textContent = part.slice(1, -1); d.append(c);
+          } else d.append(part);
+        });
+        log.append(d);
+        log.scrollTop = log.scrollHeight;
+        return d;
+      }
+
+      const HELP = [
+        'Ask anything about Mayukh in plain English, or try:',
+        '  `whoami`         who he is, in a line',
+        '  `ls projects`    his projects',
+        '  `ls skills`      skills you can `cat`',
+        '  `cat pytorch`    what he did with a skill',
+        '  `experience`     where he has worked',
+        '  `contact`        how to reach him',
+        '  `resume`         his resume (PDF)',
+        '  `clear`, `exit`',
+      ].join('\n');
+
+      const COMMANDS = {
+        help: () => HELP,
+        whoami: () => clean(document.querySelector('#about p')),
+        ls: arg => {
+          if (/^skills?/.test(arg)) return Object.keys(SKILL_NOTES).join('  ·  ') + '\n\nTry `cat <skill>`.';
+          return projects().map(p => '- ' + p.name).join('\n') + '\n\nAsk about any of them for details.';
+        },
+        projects: () => projects().map(p => `- ${p.name}: ${p.desc}\n  ${p.link}`).join('\n\n'),
+        cat: arg => {
+          const key = Object.keys(SKILL_NOTES).find(k => k.toLowerCase() === arg.replace(/\.md$/, '').trim().toLowerCase());
+          if (!key) return arg ? `cat: ${arg}: no such skill. Try \`ls skills\`.` : 'usage: cat <skill>';
+          const n = SKILL_NOTES[key];
+          return `${key}  [${n.where.join(', ')}]\n${n.lead}\n${n.points.map(p => '- ' + p).join('\n')}`;
+        },
+        experience: () => [...document.querySelectorAll('#experience .timeline-item')].map(it =>
+          `- ${clean(it.querySelector('h3'))}, ${clean(it.querySelector('.org'))} (${clean(it.querySelector('.timeline-date'))})`).join('\n'),
+        contact: () => 'Email and links are in the contact section at the bottom of the page.\nLinkedIn: https://www.linkedin.com/in/mayukh-das-a38319148\nGitHub: https://github.com/Mayukh-D',
+        resume: () => 'https://mayukh-d.github.io/assets/Mayukh_Das_Resume.pdf',
+      };
+      COMMANDS.ls.alias = true;
+
+      function greet() {
+        if (greeted) return;
+        greeted = true;
+        line('sys', 'Connected to mayukh. Ask anything about his work, studies or projects.');
+        line('sys', 'Type `help` for built-in commands.');
+      }
+
+      function open() { panel.hidden = false; greet(); input.focus(); }
+      function close() { panel.hidden = true; }
+
+      async function ask(q) {
+        if (!CHAT_ENDPOINT) {
+          line('err', "The AI side isn't switched on yet. Built-in commands work now: type `help`.");
+          return;
+        }
+        history.push({ role: 'user', text: q });
+        const t = line('ai thinking', '');
+        busy = true;
+        try {
+          const res = await fetch(CHAT_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: history.slice(-8) }) });
+          const data = await res.json().catch(() => ({}));
+          t.remove();
+          if (data.reply) { history.push({ role: 'model', text: data.reply }); line('ai', data.reply); }
+          else { history.pop(); line('err', data.error || 'Something went wrong. Type `help` for built-in commands.'); }
+        } catch {
+          t.remove(); history.pop();
+          line('err', "Couldn't reach the AI. Built-in commands still work: type `help`.");
+        } finally { busy = false; }
+      }
+
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        const q = input.value.trim();
+        if (!q || busy) return;
+        input.value = '';
+        typed.push(q); cursor = typed.length;
+        line('q', q);
+        const [cmd, ...rest] = q.split(/\s+/);
+        const c = cmd.toLowerCase(), arg = rest.join(' ').toLowerCase();
+        if (c === 'clear') { log.innerHTML = ''; return; }
+        if (c === 'exit' || c === 'quit') { close(); return; }
+        if (COMMANDS[c] && (rest.length === 0 || c === 'ls' || c === 'cat')) { line('', COMMANDS[c](arg)); return; }
+        ask(q);
+      });
+      input.addEventListener('keydown', e => {
+        if (e.key === 'ArrowUp' && cursor > 0) { input.value = typed[--cursor]; e.preventDefault(); }
+        if (e.key === 'ArrowDown') { cursor = Math.min(typed.length, cursor + 1); input.value = typed[cursor] || ''; e.preventDefault(); }
+      });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape' && !panel.hidden) close(); });
+      const hint = document.querySelector('.ask-hint');
+      const syncHint = () => hint.classList.toggle('gone', scrollY > 120);
+      addEventListener('scroll', syncHint, { passive: true }); syncHint();
+      document.querySelectorAll('[data-chat-open]').forEach(el => el.addEventListener('click', e => { e.preventDefault(); open(); }));
+      panel.querySelector('[data-chat-close]').addEventListener('click', close);
     })();
   </script>
 </body>

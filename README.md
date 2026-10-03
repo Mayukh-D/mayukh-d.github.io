@@ -2,7 +2,9 @@
 
 My personal portfolio: a single-page, terminal-themed site built with plain HTML, CSS, and
 JavaScript. No frameworks, no build step, no dependencies. One `index.html` file plus a
-handful of static assets, served straight off GitHub Pages.
+handful of static assets, served straight off GitHub Pages. The one moving part is the
+optional "ask me anything" terminal, backed by a small Cloudflare Worker in
+[`chat-worker/`](chat-worker/).
 
 **Live at [mayukh-d.github.io](https://mayukh-d.github.io/)**
 
@@ -10,8 +12,8 @@ handful of static assets, served straight off GitHub Pages.
 
 ## What's in it
 
-The page runs top to bottom as a single scroll: about, skills, interests, experience,
-student roles, internships, education, projects, beyond_the_terminal, publications, and
+The page runs top to bottom as a single scroll: about, skills, experience, projects,
+education, publications, student roles, internships, interests, beyond_the_terminal, and
 contact. Two hand-rolled canvas pieces carry the visual identity, and everything else is
 CSS.
 
@@ -110,3 +112,25 @@ python3 -m http.server 8000
 
 GitHub Pages builds from the default branch. Push to it and the live site updates within a
 minute or so.
+
+## Ask-me-anything terminal
+
+Click the blinking `root@mayukh:~$` prompt to open a terminal. Built-in commands (`help`,
+`whoami`, `ls projects`, `cat pytorch`, `experience`, `contact`) answer instantly from the
+page itself. Anything else goes to [`chat-worker/`](chat-worker/), a Cloudflare Worker that
+asks Google Gemini to answer **only** from `chat-worker/profile.md`, which
+`build-profile.mjs` generates from `index.html`, so the bot can't drift from what the page
+says. The Gemini key lives in the Worker as a secret; visitors are rate-limited per IP and
+only this site's origin is accepted.
+
+```bash
+cd chat-worker
+npm install
+npm test                                 # worker unit tests
+npx wrangler login                       # once
+npx wrangler secret put GEMINI_API_KEY   # once; paste the key at the prompt
+npm run deploy                           # rebuilds profile.md, then deploys
+```
+
+After editing the site, run `npm run deploy` again so the bot learns the changes.
+
