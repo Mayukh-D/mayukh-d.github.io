@@ -2009,7 +2009,7 @@
     // Ask-me-anything terminal. Built-in commands answer from the page itself;
     // anything else goes to a small Cloudflare Worker that asks Gemini, grounded
     // only in this site's content (see chat-worker/).
-    const CHAT_ENDPOINT = '';
+    const CHAT_ENDPOINT = 'https://mayukh-chat.mayukh-d.workers.dev/chat';
     (() => {
       const panel = document.getElementById('chat');
       const log = document.getElementById('chat-log');

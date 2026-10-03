@@ -16,6 +16,7 @@ PROFILE:
 
 const MAX_TURNS = 8;
 const MAX_CHARS = 600;
+const MAX_BODY = 16 * 1024;   // bytes; real requests are a few KB at most
 
 export function corsHeaders(origin, allowed) {
   return {
@@ -24,6 +25,8 @@ export function corsHeaders(origin, allowed) {
     'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Max-Age': '86400',
     Vary: 'Origin',
+    'X-Content-Type-Options': 'nosniff',
+    'Cache-Control': 'no-store',
   };
 }
 
@@ -69,8 +72,11 @@ export async function handle(request, env, profile, fetchImpl = fetch) {
     if (!success) return json({ error: 'Too many questions in a row. Give it a minute and try again.' }, 429);
   }
 
+  if (!(request.headers.get('Content-Type') || '').includes('application/json')) return json({ error: 'Bad request.' }, 415);
+  const raw = await request.text();
+  if (raw.length > MAX_BODY) return json({ error: 'That message is too long.' }, 413);
   let body;
-  try { body = await request.json(); } catch { return json({ error: 'Bad request.' }, 400); }
+  try { body = JSON.parse(raw); } catch { return json({ error: 'Bad request.' }, 400); }
   const contents = toContents(body?.messages);
   if (!contents) return json({ error: 'Bad request.' }, 400);
   if (!env.GEMINI_API_KEY) return json({ error: 'The AI is not configured yet. Type help for built-in commands.' }, 503);
@@ -80,14 +86,19 @@ export async function handle(request, env, profile, fetchImpl = fetch) {
   try {
     upstream = await fetchImpl(`${base}/v1beta/models/${env.GEMINI_MODEL}:generateContent`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': env.GEMINI_API_KEY },
+      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': env.GEMINI_API_KEY.trim() },
       body: JSON.stringify(geminiBody(profile, contents)),
     });
   } catch {
     return json({ error: 'The AI is unreachable right now. Type help for built-in commands.' }, 502);
   }
   if (upstream.status === 429) return json({ error: 'The AI has hit its free daily limit. Type help for built-in commands, or try tomorrow.' }, 503);
-  if (!upstream.ok) return json({ error: 'The AI is unavailable right now. Type help for built-in commands.' }, 502);
+  if (!upstream.ok) {
+    // Gemini's short error code (e.g. API_KEY_INVALID) helps diagnose; never its message or our key.
+    const e = await upstream.json().catch(() => ({}));
+    const code = e?.error?.details?.find?.(d => d.reason)?.reason || e?.error?.status || '';
+    return json({ error: 'The AI is unavailable right now. Type help for built-in commands.', upstream: upstream.status, code: String(code).replace(/[^A-Z_]/g, '').slice(0, 40) }, 502);
+  }
 
   const reply = replyText(await upstream.json());
   return json({ reply: reply || "I don't have an answer for that. Try asking Mayukh directly via the contact section." });
