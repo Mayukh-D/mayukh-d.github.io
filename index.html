@@ -435,6 +435,7 @@
       transition: box-shadow 0.2s, border-color 0.2s;
     }
     .skill:hover { border-color: var(--green-dim); box-shadow: 0 0 12px rgba(0,255,65,0.25); }
+    .skills-hint { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--text-muted); margin: -12px 0 18px; }
     button.skill { cursor: pointer; line-height: inherit; }
     button.skill::after { content: ' +' / ''; color: var(--green-dim); }
     button.skill[aria-expanded="true"] { border-color: var(--green); background: rgba(0, 255, 65, 0.14); box-shadow: 0 0 12px rgba(0,255,65,0.35); }
@@ -613,6 +614,7 @@
   <section id="skills">
     <div class="container">
       <h2 class="reveal" data-scroll>skills</h2>
+      <p class="skills-hint reveal" data-scroll>// click a skill to find out more</p>
       <div class="skills-list reveal" data-scroll>
         <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">Python</button>
         <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">Java</button>
