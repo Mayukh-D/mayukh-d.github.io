@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" font-family="JetBrains Mono, ui-monospace, Menlo, monospace">
+  <rect width="760" height="420" rx="10" fill="#050805"/>
+  <defs>
+    <marker id="a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L8 4L0 8z" fill="#00ff41"/></marker>
+    <filter id="g"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <g font-size="11" fill="#7f9c88">
+    <text x="24" y="34">ANDROID UI</text><text x="24" y="134">FACADES</text><text x="24" y="234">DATA ACCESS</text><text x="24" y="334">PERSISTENCE</text>
+  </g>
+  <g fill="none" stroke="#00ff41" stroke-width="1.4" filter="url(#g)">
+    <rect x="130" y="16" width="606" height="58" rx="6"/>
+    <rect x="130" y="116" width="606" height="58" rx="6"/>
+    <rect x="130" y="216" width="606" height="58" rx="6"/>
+    <rect x="130" y="316" width="606" height="58" rx="6"/>
+  </g>
+  <g font-size="12" fill="#d8e4dc">
+    <text x="146" y="42">Login · Feed · Post viewer · Inbox · Conversation · Reports</text>
+    <text x="146" y="62" fill="#7f9c88" font-size="11">9 Activities + 5 Adapters, role-aware (member / admin)</text>
+    <text x="146" y="142">ReactionTools · DirectMessageTools · PinTools · ModerationTools</text>
+    <text x="146" y="162" fill="#7f9c88" font-size="11">every query returns an Iterator&lt;T&gt;; sorting via strategy Factories</text>
+    <text x="146" y="242">MessageDAO · ReactionDAO · DirectMessageDAO · PinDAO · UserDAO …</text>
+    <text x="146" y="262" fill="#7f9c88" font-size="11">Singletons; reactions and pins keyed by message ID, Message untouched</text>
+    <text x="146" y="342">DataManager: 7 CSV pipelines</text>
+    <text x="146" y="362" fill="#7f9c88" font-size="11">users · posts · messages · reports · reactions · DMs · pins survive restarts</text>
+  </g>
+  <g stroke="#00ff41" stroke-width="1.4" marker-end="url(#a)">
+    <line x1="433" y1="74" x2="433" y2="112"/><line x1="433" y1="174" x2="433" y2="212"/><line x1="433" y1="274" x2="433" y2="312"/>
+  </g>
+  <g font-size="10" fill="#00ff41">
+    <rect x="640" y="24" width="86" height="18" rx="3" fill="rgba(0,255,65,0.08)" stroke="#00ff41" stroke-width="0.8"/><text x="652" y="37">my frontend</text>
+    <rect x="640" y="124" width="86" height="18" rx="3" fill="rgba(0,255,65,0.08)" stroke="#00ff41" stroke-width="0.8"/><text x="656" y="137">Iterator</text>
+    <rect x="640" y="146" width="86" height="18" rx="3" fill="rgba(0,255,65,0.08)" stroke="#00ff41" stroke-width="0.8"/><text x="659" y="159">Factory</text>
+    <rect x="640" y="224" width="86" height="18" rx="3" fill="rgba(0,255,65,0.08)" stroke="#00ff41" stroke-width="0.8"/><text x="653" y="237">Singleton</text>
+  </g>
+</svg>

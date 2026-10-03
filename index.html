@@ -583,6 +583,14 @@
     .tldr-body figure img { display: block; max-width: 100%; max-height: 480px; width: auto; height: auto; margin: 0 auto; border-radius: 6px; }
     .tldr-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
     .tldr-row img { width: 100%; max-height: none; }
+    /* an app screen in a phone frame, beside a diagram */
+    .tldr-app { display: grid; grid-template-columns: 170px 1fr; gap: 16px; align-items: center; }
+    .tldr-app img:first-child {
+      width: 100%; max-height: none; border-radius: 22px; padding: 10px 6px 18px;
+      background: #111613; border: 2px solid #2a3a2e; box-shadow: 0 0 24px rgba(0,255,65,0.12);
+    }
+    .tldr-app img:last-child { width: 100%; max-height: none; }
+    @media (max-width: 640px) { .tldr-app { grid-template-columns: 1fr; gap: 14px; } .tldr-app img:first-child { width: 160px; margin: 0 auto; } }
     .tldr-body figcaption { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--text-muted); margin-top: 6px; }
     .tldr-body table { width: 100%; border-collapse: collapse; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; }
     .tldr-body td { padding: 5px 8px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
@@ -2464,6 +2472,7 @@
           '<b>Open for extension, closed for modification:</b> reactions and pins live in their own stores keyed by message ID, so the core Message model is untouched.',
           '<b>Found and fixed a silent bug</b> from the first hackathon: moderation calls always failed at runtime because the message store was never populated outside tests.'
         ],
+        figs: [[['assets/tldr/yuma-login.jpg', 'assets/tldr/yuma-architecture.svg'], 'The sign-in screen, and the layers underneath it.', 'app']],
         role: 'Team of five. I built the entire Android frontend, and on the backend the initial skeleton and its design patterns, including the Iterator-based queries. Graded HD.',
         links: [['code', 'https://github.com/Mayukh-D/yuma-social-platform']]
       },
@@ -2507,8 +2516,8 @@
         const head = h('h3'); head.id = 'tldr-h'; head.textContent = t.title;
         body.append(head, h('p', t.q, 'tldr-q'), h('h4', 'setup'), h('p', t.setup), h('h4', 'findings'));
         const ul = h('ul'); t.findings.forEach(f => ul.append(h('li', f))); body.append(ul);
-        if (t.figs) t.figs.forEach(([src, cap]) => {
-          const f = h('figure'), row = h('div', '', Array.isArray(src) ? 'tldr-row' : '');
+        if (t.figs) t.figs.forEach(([src, cap, kind]) => {
+          const f = h('figure'), row = h('div', '', kind === 'app' ? 'tldr-app' : Array.isArray(src) ? 'tldr-row' : '');
           [].concat(src).forEach(u => { const img = h('img'); img.src = u; img.alt = cap; img.loading = 'lazy'; row.append(img); });
           f.append(row, h('figcaption', cap)); body.append(f);
         });
