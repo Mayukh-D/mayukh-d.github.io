@@ -118,7 +118,7 @@ Two ANU courses, Deep Learning and Advanced Machine Learning, every research pro
 - Flow Matching: v- vs x-prediction compared across data dimensions (x-prediction stays stable where v-prediction collapses), plus MeanFlow with Jacobian-vector-product targets.
 - nanoGPT: a 30M-parameter GPT trained on 3.7M tokens, testing depth vs width, RoPE + RMSNorm, and DPO fine-tuning (25.77 → 24.67 perplexity).
 - Transformers' Revenge: minGRU vs a LLaMA-recipe Transformer vs a causal gMLP in a 27-experiment grid, including a phase transition in copy learning.
-- Haizea Analytics: CNNs that map tree canopy from Sentinel-2 satellite time series, supervised by airborne LiDAR, trained and ablated across multiple seeds on GPU.
+- Haizea Analytics: U-TAE models (a U-Net with temporal attention) that map tree canopy from Sentinel-2 satellite time series, supervised by airborne LiDAR, trained and ablated across multiple seeds on GPU.
 
 ### scikit-learn (Accenture)
 The workhorse of my MLOps work at Accenture.
@@ -130,7 +130,7 @@ Studied it properly at ANU, then went deep in three research projects.
 - ANU Deep Learning: CNNs, RNNs, transformers and generative models.
 - ANU Advanced Machine Learning: generative AI, diffusion models and LLMs.
 - Research: flow matching parameterisation, a GPT trained in the data-scarce regime, and a 27-experiment architecture study.
-- Haizea Analytics: deep learning for Earth observation, predicting LiDAR-measured crown cover and forest extent at 10 m from satellite imagery.
+- Haizea Analytics: deep learning for Earth observation, a U-TAE (a U-Net with temporal attention) predicting LiDAR-measured crown cover and forest extent at 10 m from satellite time series.
 
 ### Transformers (ANU, Projects)
 Built from scratch, then stress-tested against the alternatives.
