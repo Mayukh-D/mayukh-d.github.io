@@ -435,6 +435,18 @@
       transition: box-shadow 0.2s, border-color 0.2s;
     }
     .skill:hover { border-color: var(--green-dim); box-shadow: 0 0 12px rgba(0,255,65,0.25); }
+    button.skill { cursor: pointer; line-height: inherit; }
+    button.skill::after { content: ' +'; color: var(--green-dim); }
+    button.skill[aria-expanded="true"] { border-color: var(--green); background: rgba(0, 255, 65, 0.14); box-shadow: 0 0 12px rgba(0,255,65,0.35); }
+    button.skill[aria-expanded="true"]::after { content: ' \2212'; }
+    /* What I actually did with the selected skill, shown under the list. */
+    .skill-note {
+      margin-top: 16px; padding: 14px 16px; max-width: 720px;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; line-height: 1.6;
+      color: var(--text-muted); background: var(--bg-soft);
+      border: 1px solid var(--border); border-left: 2px solid var(--green); border-radius: 4px;
+    }
+    .skill-note b { color: var(--green); font-weight: 700; }
 
     /* Contact */
     .contact p { color: var(--text-muted); max-width: 560px; margin-bottom: 28px; }
@@ -576,31 +588,32 @@
     <div class="container">
       <h2 class="reveal" data-scroll>skills</h2>
       <div class="skills-list reveal" data-scroll>
-        <span class="skill">Python</span>
-        <span class="skill">Java</span>
-        <span class="skill">C#</span>
-        <span class="skill">JavaScript</span>
+        <button type="button" class="skill" data-note="My main language: Ingrain&#x27;s ML pipelines at Accenture, every research project here, and GrowthScope&#x27;s Flask backend." aria-expanded="false" aria-controls="skill-note">Python</button>
+        <button type="button" class="skill" data-note="Yuma, a native Android social app: post feed, reactions, DMs and moderation over a layered DAO architecture." aria-expanded="false" aria-controls="skill-note">Java</button>
+        <button type="button" class="skill" data-note="Full-stack .NET MVC systems at Cognizant, including a Hospital Logistics System for COVID-19 operations." aria-expanded="false" aria-controls="skill-note">C#</button>
+        <button type="button" class="skill" data-note="FoodLens, a PWA with live barcode scanning, and the web front ends I built at Cognizant." aria-expanded="false" aria-controls="skill-note">JavaScript</button>
         <span class="skill">SQL</span>
-        <span class="skill">PyTorch</span>
+        <button type="button" class="skill" data-note="Flow matching, a 30M-parameter GPT, and the minGRU vs Transformer study, all written from scratch." aria-expanded="false" aria-controls="skill-note">PyTorch</button>
         <span class="skill">scikit-learn</span>
-        <span class="skill">Deep Learning</span>
-        <span class="skill">Transformers</span>
-        <span class="skill">Diffusion Models</span>
-        <span class="skill">LLMs</span>
-        <span class="skill">Explainable AI</span>
-        <span class="skill">React</span>
+        <button type="button" class="skill" data-note="ANU coursework in CNNs, RNNs, transformers and generative models, put to work in the three research projects above." aria-expanded="false" aria-controls="skill-note">Deep Learning</button>
+        <button type="button" class="skill" data-note="Built a GPT from scratch with RoPE and RMSNorm, and pitted a LLaMA-recipe Transformer against minGRU and gMLP in 27 experiments." aria-expanded="false" aria-controls="skill-note">Transformers</button>
+        <button type="button" class="skill" data-note="Flow matching from first principles: v- vs x-prediction across data dimensions, plus a MeanFlow implementation." aria-expanded="false" aria-controls="skill-note">Diffusion Models</button>
+        <button type="button" class="skill" data-note="Trained a small GPT and fine-tuned it with DPO (25.77 to 24.67 perplexity); built Quasar++, a document chatbot, at Accenture." aria-expanded="false" aria-controls="skill-note">LLMs</button>
+        <button type="button" class="skill" data-note="Integrated explainability and model-performance reporting into Ingrain at Accenture, with the UIs designed from scratch." aria-expanded="false" aria-controls="skill-note">Explainable AI</button>
+        <button type="button" class="skill" data-note="Full-stack web systems at Cognizant, React on the front end." aria-expanded="false" aria-controls="skill-note">React</button>
         <span class="skill">Node</span>
-        <span class="skill">.NET</span>
-        <span class="skill">HCI</span>
-        <span class="skill">Git</span>
-        <span class="skill">Jupyter</span>
-        <span class="skill">LLM APIs</span>
-        <span class="skill">REST APIs</span>
-        <span class="skill">Solution Architecture</span>
-        <span class="skill">Cloud Architecture</span>
+        <button type="button" class="skill" data-note="MVC web systems at Cognizant, including the COVID-19 Hospital Logistics System." aria-expanded="false" aria-controls="skill-note">.NET</button>
+        <button type="button" class="skill" data-note="I teach HCI at the ANU, and FoodLens logs A/B interactions for HCI research." aria-expanded="false" aria-controls="skill-note">HCI</button>
+        <button type="button" class="skill" data-note="Every project here. GrowthScope won&#x27;t push until lint, tests and a secret scan pass; TokenEater went upstream as PR #284." aria-expanded="false" aria-controls="skill-note">Git</button>
+        <button type="button" class="skill" data-note="The 27-experiment grid in Transformers&#x27; Revenge runs in notebooks." aria-expanded="false" aria-controls="skill-note">Jupyter</button>
+        <button type="button" class="skill" data-note="Quasar++ on the ChatGPT API at Accenture, and GrowthScope&#x27;s chat on Google Gemini." aria-expanded="false" aria-controls="skill-note">LLM APIs</button>
+        <button type="button" class="skill" data-note="FoodLens looks products up live from the Open Food Facts API; the TokenEater fork reads Claude&#x27;s usage API." aria-expanded="false" aria-controls="skill-note">REST APIs</button>
+        <button type="button" class="skill" data-note="Rated Advanced at Accenture; now architecting the Sovereign AI Community of Practice (SAICOP) at Eccoi." aria-expanded="false" aria-controls="skill-note">Solution Architecture</button>
+        <button type="button" class="skill" data-note="Rated Advanced in Cloud Application Architecture at Accenture; assessing and shortlisting platforms for SAICOP at Eccoi." aria-expanded="false" aria-controls="skill-note">Cloud Architecture</button>
         <span class="skill">Agile</span>
         <span class="skill">Hadoop</span>
       </div>
+      <p class="skill-note" id="skill-note" aria-live="polite" hidden></p>
     </div>
   </section>
 
@@ -1680,6 +1693,26 @@
 
     if (mq.matches) { draw(0); } else { requestAnimationFrame(draw); }
   })();
+  </script>
+  <script>
+    // Skills: click a chip to see what I did with it; click again to close.
+    (() => {
+      const note = document.getElementById('skill-note');
+      let open = null;
+      document.querySelectorAll('button.skill').forEach(chip => {
+        chip.addEventListener('click', () => {
+          if (open) open.setAttribute('aria-expanded', 'false');
+          if (open === chip) { open = null; note.hidden = true; return; }
+          open = chip;
+          chip.setAttribute('aria-expanded', 'true');
+          note.innerHTML = '';
+          const head = document.createElement('b');
+          head.textContent = '> ' + chip.textContent.toLowerCase() + ': ';
+          note.append(head, chip.dataset.note);
+          note.hidden = false;
+        });
+      });
+    })();
   </script>
 </body>
 </html>
