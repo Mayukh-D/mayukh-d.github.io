@@ -156,7 +156,40 @@
     .hero-regal { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease 0.3s; }
     .hero-photo-wrap.regal .hero-regal { opacity: 1; }
     .hero-bigword { z-index: 1; }
-    header > :not(.hero-photo-wrap):not(.hero-bigword) { position: relative; z-index: 52; }
+    /* rotating word: slides up out, the next slides up in */
+    .rot { display: inline-block; color: var(--green); text-shadow: 0 0 14px rgba(0, 255, 65, 0.45), 0 0 12px #000; transition: transform 0.32s cubic-bezier(.5, 0, .2, 1), opacity 0.32s, filter 0.32s; }
+    .rot.out { transform: translateY(-0.5em); opacity: 0; filter: blur(3px); }
+    .rot.pre { transform: translateY(0.5em); opacity: 0; filter: blur(3px); transition: none; }
+    /* experience headline, big swapping type in the Valentin spirit */
+    .xp-big { font-family: 'JetBrains Mono', monospace; font-weight: 800; text-transform: uppercase; line-height: 1.02;
+      font-size: clamp(2rem, 6.4vw, 4.6rem); letter-spacing: -0.03em; color: var(--text); margin: 6px 0 46px; }
+    .xp-big .rot { text-shadow: 0 0 22px rgba(0, 255, 65, 0.35); }
+    .xp-big .xp-dim { color: transparent; -webkit-text-stroke: 1.2px rgba(0, 255, 65, 0.5); }
+    /* intro: a green scan line draws across, then the screen splits open on it */
+    .scan-intro { position: absolute; inset: 0; z-index: 300; pointer-events: none; }
+    .scan-intro i { position: absolute; left: 0; right: 0; height: 50%; background: #010203; }
+    .scan-intro .si-top { top: 0; } .scan-intro .si-bot { bottom: 0; }
+    .scan-intro .si-line { position: absolute; left: 0; top: 50%; height: 2px; width: 100%; margin-top: -1px; transform-origin: left; transform: scaleX(0);
+      background: var(--green); box-shadow: 0 0 12px var(--green), 0 0 34px rgba(0, 255, 65, 0.6); }
+    .js .scan-intro .si-line { animation: si-draw 0.55s cubic-bezier(.7, 0, .3, 1) 0.15s forwards, si-fade 0.35s ease 0.95s forwards; }
+    .js .scan-intro .si-top { animation: si-up 0.75s cubic-bezier(.75, 0, .2, 1) 0.72s forwards; }
+    .js .scan-intro .si-bot { animation: si-down 0.75s cubic-bezier(.75, 0, .2, 1) 0.72s forwards; }
+    .js .scan-intro { animation: si-gone 0s linear 1.6s forwards; }
+    .no-js .scan-intro, html:not(.js) .scan-intro { display: none; }
+    @keyframes si-draw { to { transform: scaleX(1); } }
+    @keyframes si-fade { to { opacity: 0; } }
+    @keyframes si-up { to { transform: translateY(-101%); } }
+    @keyframes si-down { to { transform: translateY(101%); } }
+    @keyframes si-gone { to { visibility: hidden; } }
+    /* scroll push-in: the camera moves towards him as the hero scrolls away */
+    .hero-photo-wrap { scale: var(--push-me, 1); transform-origin: 50% 30%; }
+    .hero-bigword { scale: var(--push-word, 1); }
+    @media (prefers-reduced-motion: reduce) {
+      .scan-intro { display: none; }
+      .hero-photo-wrap, .hero-bigword { scale: 1; }
+    }
+
+    header > :not(.hero-photo-wrap):not(.hero-bigword):not(.scan-intro) { position: relative; z-index: 52; }
     h1.hero-name { margin-top: 36svh !important; }
     .hero-type, .hero-thesis, .hero-tagline { text-shadow: 0 0 12px #000, 0 0 26px #000, 0 0 40px #000; }
     @media (max-width: 640px) {
@@ -269,7 +302,7 @@
     .hero-tagline strong { color: var(--text); font-weight: 600; }
     .hero-thesis {
       font-size: clamp(1.05rem, 2.2vw, 1.3rem); font-weight: 600; color: var(--text);
-      margin: 14px auto 0; max-width: 640px; text-align: center; letter-spacing: -0.01em;
+      margin: 14px auto 0; max-width: 780px; text-align: center; letter-spacing: -0.01em;
     }
     .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 30px; }
     .btn {
@@ -856,6 +889,7 @@
   </nav>
 
   <header>
+    <div class="scan-intro" aria-hidden="true"><i class="si-top"></i><i class="si-bot"></i><b class="si-line"></b></div>
     <div class="hero-bigword reveal" data-stage aria-hidden="true">WELCOME</div>
     <div class="hero-photo-wrap reveal" data-stage>
       <img class="hero-photo" src="assets/mayukh-full.webp" width="575" height="1800" alt="Mayukh Das, standing in a grey suit with arms crossed" fetchpriority="high">
@@ -916,7 +950,7 @@
     </div>
     <h1 class="hero-name reveal" data-stage><span class="glitch" data-text="MAYUKH DAS">MAYUKH DAS</span></h1>
     <p class="hero-type mono reveal" data-stage><span class="prompt">$ whoami&nbsp;&nbsp;»&nbsp;</span><span id="typed"></span><span class="cursor"></span></p>
-    <p class="hero-thesis reveal" data-stage>I build models from first principles, then try to break them.</p>
+    <p class="hero-thesis reveal" data-stage>I build <span class="rot" data-rotate="satellite models|transformers|sovereign AI|generative models">satellite models</span> from first principles, then try to break them.</p>
     <p class="hero-tagline reveal" data-stage>
       ML Architect at <strong>Eccoi</strong>, working on sovereign AI.
       Satellite AI Research Trainee at <strong>Haizea Analytics</strong>, mapping Australia's tree canopy from space.
@@ -1011,6 +1045,7 @@
   <section id="experience">
     <div class="container">
       <h2 class="reveal" data-scroll>experience</h2>
+      <p class="xp-big reveal" data-scroll aria-label="Shipping since 2021: full-stack apps, AIOps tools, ML pipelines, satellite AI and sovereign AI"><span class="xp-dim">shipping</span><br><span class="rot" data-rotate="full-stack apps|AIOps tools|ML pipelines|satellite AI|sovereign AI">full-stack apps</span><br><span class="xp-dim">since</span> 2021</p>
       <div class="timeline">
         <div class="timeline-item reveal" data-scroll>
           <div class="timeline-date">Sep 2026 – Present<span class="org-logo" style="--logo: url(assets/logos/haizea.png)" aria-hidden="true"></span></div>
@@ -1428,6 +1463,36 @@
     var addr = ['mayukh1999', 'gmail.com'].join('@');
     el.href = 'mailto:' + addr;
     el.textContent = addr;
+  })();
+
+
+  /* ---------- rotating words and the scroll push-in ---------- */
+  (function () {
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    [].forEach.call(document.querySelectorAll('[data-rotate]'), function (el, n) {
+      var words = el.getAttribute('data-rotate').split('|'), i = 0;
+      if (reduce || words.length < 2) return;
+      setTimeout(function () {
+        setInterval(function () {
+          if (document.hidden) return;
+          el.classList.add('out');
+          setTimeout(function () {
+            i = (i + 1) % words.length; el.textContent = words[i];
+            el.classList.remove('out'); el.classList.add('pre'); void el.offsetWidth; el.classList.remove('pre');
+          }, 330);
+        }, 2300);
+      }, 1800 + n * 700);
+    });
+    if (reduce) return;
+    var header = document.querySelector('header'), root = document.documentElement, ticking = false;
+    function push() {
+      ticking = false;
+      var h = header.offsetHeight || 1, p = Math.max(0, Math.min(1, window.scrollY / h));
+      root.style.setProperty('--push-me', (1 + p * 0.16).toFixed(4));
+      root.style.setProperty('--push-word', (1 + p * 0.55).toFixed(4));
+    }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(push); } }, { passive: true });
+    push();
   })();
 
   /* ---------- make me dapper ----------
@@ -1934,7 +1999,7 @@
       stage.forEach(show);
     } else {
       stage.forEach(function (el, i) {
-        setTimeout(function () { show(el); }, 90 + i * 130);
+        setTimeout(function () { show(el); }, 780 + i * 130);
       });
     }
 
