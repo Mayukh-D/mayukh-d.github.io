@@ -74,6 +74,15 @@ My first hackathon and first vibe-coded app (ANU, 2025): sales analytics for sma
 Tech: Python · Flask
 Links: GrowthScope · First Hackathon: https://github.com/Mayukh-D/GrowthScope | tl;dr: https://mayukh-d.github.io/#tldr-growthscope | demo: https://growthscope-j85i.onrender.com | code: https://github.com/Mayukh-D/GrowthScope | More on GitHub → experiments, forks and side projects: https://github.com/Mayukh-D?tab=repositories
 
+## How he works (his own principles)
+In one line: He builds models from first principles, then tries to break them.
+- Find the right question, then optimise for it ("see before you strike")
+- One variable at a time, measured changes ("small surfaces, big control")
+- Every run logged; a change must beat the noise ("the black box remembers")
+- Finding the failure is half solving it ("find the threat first")
+- Research and engineering, both at full thrust ("two engines, one airframe")
+- Bold ideas, kept in the air by experiments ("unstable by design")
+
 ## Publications
 - 2024 An Overview on the Role of AI in Modern Advancements of Material Science ES General, Vol. 5 · First author Das, M. · DOI 10.30919/esg1183 . Also presented in work-in-progress form at RTCMM 2023.
 - 2023 Revolutionizing Organ Donation With Blockchain Technology J. of Computers, Mechanical and Management, Vol. 2(5) · Scopus-indexed Momaya, V.J., Das, M. et al. · DOI 10.57159/gadl.jcmm.2.5.23071

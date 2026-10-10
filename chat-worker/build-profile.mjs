@@ -37,6 +37,13 @@ for (const card of items(section('projects'), 'project-card')) {
   out.push(`### ${title}`, desc, `Tech: ${tech}`, `Links: ${[...new Set(links.filter(l => !l.startsWith('link: ') || true))].join(' | ')}`, '');
 }
 
+// How he works: his principles from the homepage's Rafale callouts, plus his one-line thesis.
+const thesis = 'He builds models from first principles, then tries to break them.';
+const rafale = [...html.matchAll(/title: '([^']+)',\s*sub: '([^']+)'/g)];
+out.push('## How he works (his own principles)', `In one line: ${thesis}`);
+for (const [, t, sub] of rafale) out.push(`- ${sub.charAt(0).toUpperCase() + sub.slice(1)} ("${t.toLowerCase()}")`);
+out.push('');
+
 out.push('## Publications');
 for (const it of items(section('publications'), 'timeline-item')) out.push('- ' + text(it));
 out.push('');
