@@ -18,27 +18,68 @@
   <h1>What transfers to a GPT trained on 3.7M tokens, and what doesn't</h1>
   <p class="meta">from Advanced Machine Learning, ANU · Mayukh Das</p>
   <p>For an Advanced Machine Learning project at the ANU, I trained a GPT from scratch on five-sentence stories: about 30 million parameters, and only <b>3.7 million training tokens</b>. Chinchilla-style scaling would suggest around 600 million tokens for a model that size, so this is roughly 160 times less data than it "wants". That constraint turned every design choice into a question of efficiency rather than capacity, and it made several large-scale habits misbehave.</p>
+  <p>The models below are drawn to scale from the real configurations: volume is parameters.</p>
+
   <h2>1. The tokenizer was the biggest lever</h2>
-  <p>The largest single gain didn't come from the architecture at all. With the GPT-2 tokenizer (50,257 tokens), the embedding table alone holds about 19.3M parameters: over 60% of the model. Switching to a 32k vocabulary shrank that table and freed about 7M parameters for the layers that actually learn, and test perplexity fell from <b>28.62 to 23.71</b> on an otherwise identical model.</p>
+  <div class="demo">
+    <div class="demo-h">the same model, two tokenizers</div>
+    <div class="seg" data-seg="tokenizer"><button class="on" data-v="gpt2">GPT-2 · 50,257 tokens</button><button data-v="mistral">Mistral · 32,000 tokens</button></div>
+    <div class="holo"><canvas data-holo="tokenizer" aria-label="Embedding table and transformer layers drawn to parameter scale"></canvas><span class="hint">DRAG TO SPIN</span></div>
+    <p class="readout" data-out="tokenizer"><b>19.3M</b> of 31.69M parameters (61%) sit in the lookup table. Test perplexity <b>28.62</b>.</p>
+  </div>
+  <p>The largest single gain didn't come from the architecture at all. With the GPT-2 tokenizer, the embedding table alone holds 50,257 × 384 ≈ 19.3M parameters: over 60% of the model, spent on a lookup table. Switching to a 32k vocabulary shrank it to about 12.3M and freed about 7M parameters for the layers that actually learn, and test perplexity fell from <b>28.62 to 23.71</b> on an otherwise identical model.</p>
   <p>The graded evaluation required GPT-2 tokens, so the final model couldn't use it, but the lesson stands: when parameters are scarce, where they sit matters more than how many there are.</p>
+
   <h2>2. Depth beat width</h2>
-  <p>At matched parameter counts, deeper and narrower consistently won: 16 layers beat 11 layers by 0.28 perplexity at nearly identical size, and a 20-layer model was the best of the grid. That contradicts the large-scale finding that depth versus width barely matters. My reading is that on small data each extra layer refines the previous one's features, while extra width adds parallel features the data is too small to teach.</p>
+  <div class="demo">
+    <div class="demo-h">four shapes, one budget (~31.7M)</div>
+    <div class="holo"><canvas data-holo="depth" aria-label="Four model shapes at the same parameter budget"></canvas><span class="hint">DRAG TO SPIN</span></div>
+    <label><span>layers</span><input type="range" min="0" max="3" step="1" value="3" data-range="depth"></label>
+    <p class="readout" data-out="depth"></p>
+  </div>
+  <p>At matched parameter counts, deeper and narrower won every time: 7 layers scored 25.77, 11 scored 25.45, 16 scored 25.17, and 20 layers at width 272 scored 25.12. That contradicts the large-scale finding that depth versus width barely matters. My reading is that on small data each extra layer refines the previous one's features, while extra width adds parallel features the data is too small to teach.</p>
+
   <h2>3. Only two of three LLaMA components transferred</h2>
-  <table>
-    <tr><th>Change (from a 25.33 baseline)</th><th>Test perplexity</th></tr>
-    <tr><td>RoPE positions instead of learned ones</td><td class="ok">24.69</td></tr>
-    <tr><td>RMSNorm instead of LayerNorm</td><td class="ok">25.01</td></tr>
-    <tr><td>SwiGLU instead of GELU</td><td class="bad">25.62, and it diverged after 6,500 steps</td></tr>
-    <tr><td>RoPE + RMSNorm</td><td class="ok"><b>24.67</b></td></tr>
-  </table>
-  <p>RoPE was a pure win because it encodes position at no parameter cost. SwiGLU's gates need enough data to learn meaningful values, and 3.7M tokens wasn't it. The two helpful changes were complementary but not additive.</p>
+  <div class="demo">
+    <div class="demo-h">switch components on and off</div>
+    <div class="seg" data-seg="block"><button data-v="rope">RoPE</button><button data-v="rms">RMSNorm</button><button data-v="swiglu">SwiGLU</button></div>
+    <div class="holo tall"><canvas data-holo="block" aria-label="One transformer block, rebuilt as components change"></canvas><span class="hint">DRAG TO SPIN</span></div>
+    <p class="readout" data-out="block">Test perplexity <b>25.33</b> · the baseline</p>
+  </div>
+  <p>RoPE was the biggest win (25.33 to 24.69) because it encodes position by rotating queries and keys, at no parameter cost: the learned position table disappears. RMSNorm helped modestly (25.01). SwiGLU's gates need enough data to learn meaningful values, and 3.7M tokens wasn't it: perplexity rose to 25.62 and training diverged after 6,500 steps. RoPE and RMSNorm together reached <b>24.67</b>: complementary, but not additive.</p>
+
   <h2>4. Matching the data beat having more of it</h2>
-  <p>Pretraining on TinyStories, a much larger dataset of simple children's stories, performed worst of all, and adding a few thousand synthetic stories also hurt. The one data strategy that helped was quality-filtering the original stories (perplexity 25.33 to 24.92). Data that doesn't match the test distribution made things worse, regardless of quality or size.</p>
+  <div class="demo">
+    <div class="demo-h">test perplexity by data strategy · lower is better · the plane is the score to beat</div>
+    <div class="holo"><canvas data-holo="data" aria-label="Towers of test perplexity for each data strategy"></canvas><span class="hint">DRAG TO SPIN</span></div>
+  </div>
+  <p>Pretraining on TinyStories, a much larger dataset of simple children's stories, was the worst result of the project (53.26), and adding synthetic stories also hurt. Fine-tuning on stories written by Gemini worsened perplexity too, but its stories read better. The one strategy that improved both was quality-filtering the original stories (25.33 to 24.92). Data that doesn't match the test distribution made things worse, regardless of quality or size.</p>
+
   <h2>5. Perplexity is not quality</h2>
-  <p>A model with perplexity 24.84 wrote noticeably better stories than the 24.67 winner. Perplexity measures how well a model predicts the test set's exact words, not whether its stories are coherent. It is the right metric to optimise, but the wrong one to stop looking at the outputs.</p>
+  <div class="demo">
+    <div class="demo-h">the two finalists</div>
+    <div class="holo"><canvas data-holo="final" aria-label="The submitted model beside the one that wrote better stories"></canvas><span class="hint">DRAG TO SPIN</span></div>
+  </div>
+  <p>The submitted model (20 layers × 256, RoPE and RMSNorm) scored 24.67. A slightly wider sibling scored 24.84 and wrote noticeably better stories. Perplexity measures how well a model predicts the test set's exact words, not whether its stories are coherent. It is the right metric to optimise, and the wrong one to stop looking past.</p>
+  <div class="demo">
+    <div class="demo-h">real samples from the submitted model · same prompt</div>
+    <div class="seg" data-seg="stories"><button data-v="0.6">temperature 0.6</button><button class="on" data-v="0.65">0.65</button><button data-v="0.8">0.8</button></div>
+    <div data-out="stories"></div>
+  </div>
+  <figure><img class="plot" src="/assets/notes/gpt-loss.png" alt="Training and validation loss of the submitted model over 12,000 steps" loading="lazy"><figcaption>The submitted model's training (blue) and validation (orange) loss. Validation flattens after about 6,000 steps while training keeps falling.</figcaption></figure>
+
+  <h2>Try the model</h2>
+  <div class="demo">
+    <div class="demo-h">the live model, on Hugging Face</div>
+    <button class="btn" type="button" data-live>load the story generator →</button>
+    <p class="demo-note">It may take a minute to wake up.</p>
+  </div>
+
   <h2>The thread through all of it</h2>
   <p>Recipes from large-scale training are tuned for large-scale problems. At small scale, some of them are free wins (RoPE), some are neutral, and some actively hurt (SwiGLU). The only reliable way to know which is to change one thing at a time and measure.</p>
   <div class="links"><a href="/assets/reports/nanogpt-report.pdf">full report (PDF) →</a><a href="https://huggingface.co/spaces/Mayukh1999/nanogpt-story-generator">live demo →</a><a href="https://github.com/Mayukh-D/story-generation-nanoGPT">code →</a></div>
+  <script src="/assets/notes/holo.js"></script>
+  <script src="/assets/notes/small-data-gpt.js"></script>
 </main>
 </body>
 </html>

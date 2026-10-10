@@ -20,19 +20,54 @@
   <p>Flow matching trains a network to turn noise into data. One design choice sounds like a detail: should the network predict the <b>clean data</b> (x-prediction) or the <b>velocity</b> that moves noise towards data (v-prediction)? Mathematically the two contain the same information. In practice, for an Advanced Machine Learning project at the ANU, they behaved completely differently.</p>
   <h2>The experiment</h2>
   <p>I used simple 2D datasets (a swiss roll, a ring of Gaussians, circles) and embedded them in 2, 8 and 32 dimensions, so the data always lies on a flat 2D sheet inside a bigger space. The same small network (5 layers, 256 wide) was trained with every combination of prediction target and loss.</p>
-  <figure><img src="/assets/tldr/flow-d32.jpg" alt="Samples at 32 dimensions for the four combinations of prediction target and loss" loading="lazy"><figcaption>At 32 dimensions: both x-prediction setups still draw the shapes, while both v-prediction setups lose them.</figcaption></figure>
+  <div class="demo">
+    <div class="demo-h">the setup, in 3D · data on a flat sheet, noise everywhere</div>
+    <div class="seg" data-seg="flow"><button class="on" data-v="zt">noisy samples</button><button data-v="x">x targets</button><button data-v="v">v targets</button></div>
+    <div class="holo"><canvas data-holo="flow" aria-label="Swiss roll on a flat sheet in 3D, with noise"></canvas><span class="hint">DRAG TO SPIN</span></div>
+    <label><span>t</span><input type="range" min="0" max="1" step="0.01" value="0.25" data-range="t"></label>
+    <p class="readout" data-out="flow"></p>
+  </div>
+  <figure><img class="plot" src="/assets/tldr/flow-d32.jpg" alt="Samples at 32 dimensions for the four combinations of prediction target and loss" loading="lazy"><figcaption>At 32 dimensions: both x-prediction setups still draw the shapes, while both v-prediction setups lose them.</figcaption></figure>
   <h2>What happened</h2>
   <p>At 2 dimensions, everything worked. At 8, v-prediction started to blur. At 32, both v-prediction setups failed completely, while both x-prediction setups still produced clean spirals, rings and clusters. The loss type mattered much less than the prediction target: matching the loss to the target helped a little, but never rescued v-prediction.</p>
   <h2>Why</h2>
   <p>The clean data still lives on a simple 2D sheet, however many dimensions it is embedded in, so x-prediction only has to learn that simple shape. The velocity, though, includes the noise, and the noise fills all 32 dimensions. So v-prediction has to model a target whose complexity grows with the full space.</p>
+  <div class="demo">
+    <div class="demo-h">where each target's variance lives, as the space grows</div>
+    <svg viewBox="0 0 320 150" data-out="spectrum" role="img" aria-label="Variance per direction for x and v targets"></svg>
+    <label><span>dimensions</span><input type="range" min="0" max="5" step="1" value="4" data-range="dim"></label>
+    <p class="readout" data-out="dim"></p>
+    <p class="demo-note">Illustrative, with data and noise at the same scale: each bar is one direction of the space.</p>
+  </div>
   <div class="callout"><p>Same information, different difficulty: x-prediction's target stays low-dimensional, v-prediction's grows with the space.</p></div>
   <h2>Can v-prediction be rescued?</h2>
   <p>Yes, so the failure is about capacity, not impossibility. Widening the network from 256 to 1024 units gave clean spirals with v-prediction, but that means going from about 330K to 5.2M parameters: <b>roughly 16 times the compute</b> for what x-prediction did at the small size. Shifting the noise schedule, a trick from large-scale work, didn't help on its own.</p>
+  <div class="demo">
+    <div class="demo-h">v-prediction at 32 dimensions, from the report's sweep</div>
+    <div class="pair">
+      <figure style="margin:0"><div class="frames"><img data-frame="width" alt="v-prediction samples at the chosen width"></div><figcaption data-out="width"></figcaption></figure>
+      <figure style="margin:0"><div class="frames"><img src="/assets/notes/flow-width-0.jpg" alt="x-prediction reference at width 256"></div><figcaption>x-prediction at width <b>256</b>, for reference</figcaption></figure>
+    </div>
+    <label><span>width</span><input type="range" min="0" max="2" step="1" value="0" data-range="width"></label>
+    <label><span>schedule</span><input type="checkbox" data-k="shift"> <span style="min-width:0">shifted noise schedule</span></label>
+  </div>
   <h2>So why do big image models predict velocity?</h2>
   <p>Because their world is different. Production models like SD3 and FLUX work in dense, learned latent spaces, where the data no longer sits on a simple low-dimensional sheet, so x-prediction loses its advantage. And v-prediction keeps the difficulty more even across noise levels, while x-prediction must reconstruct clean data from almost pure noise at the start. At scale, that steadier optimisation wins.</p>
+  <h2>How many steps does sampling need?</h2>
+  <p>Generating means following the learned flow from noise to data in small Euler steps. With the best setup (x-prediction at 32 dimensions), recognisable structure appeared by about 10 steps, and quality saturated between 20 and 50. Beyond that, extra steps bought almost nothing.</p>
+  <div class="demo">
+    <div class="demo-h">circles at 32 dimensions, from the report</div>
+    <div class="frames" style="max-width:380px;margin:0 auto"><img data-frame="steps" alt="Samples after the chosen number of Euler steps"></div>
+    <label><span>steps</span><input type="range" min="0" max="7" step="1" value="0" data-range="steps"></label>
+    <p class="readout" data-out="steps"></p>
+  </div>
+
   <h2>A footnote on one-step generation</h2>
   <p>I also implemented MeanFlow, which learns the average velocity over a whole interval so it can generate in a single step. It drew the swiss roll and circles in one step, but struggled with the separate Gaussian clusters, where averaging pulls the modes together. The paper's recommended timestep sampler made that worse here, which was a useful reminder in itself: recipes from large-scale work are tuned for failure modes that may not exist in a small problem.</p>
+  <figure><img class="plot" src="/assets/notes/flow-meanflow.jpg" alt="MeanFlow samples at 1, 2 and 5 steps for three datasets" loading="lazy"><figcaption>MeanFlow at 1, 2 and 5 steps. The spiral and rings hold up in one step; the eight Gaussian clusters smear together.</figcaption></figure>
   <div class="links"><a href="/assets/reports/flow-matching-report.pdf">full report (PDF) →</a><a href="https://github.com/Mayukh-D/image-generation-with-machine-learning">code →</a></div>
+  <script src="/assets/notes/holo.js"></script>
+  <script src="/assets/notes/flow.js"></script>
 </main>
 </body>
 </html>

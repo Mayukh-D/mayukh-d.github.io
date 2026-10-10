@@ -677,6 +677,29 @@
       background: rgba(1, 2, 3, 0.86); backdrop-filter: blur(10px); border: 0; border-bottom: 1px solid var(--border);
       padding: 14px 24px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted); }
     .deep-close:hover { color: var(--green); }
+    .et-sheet { display: none; }
+    /* Laptop: each tab is the edge of a real page poking in from the right. Hover slides it out
+       far enough to read; a click grows it from there into the full page. */
+    @media (min-width: 861px) {
+      .edge-tabs { gap: 16px; width: 40px; align-items: flex-start; }
+      .edge-tab { writing-mode: horizontal-tb; transform: rotate(-1.2deg); width: 230px; flex: none; height: 128px; padding: 0;
+        position: relative; border: 1px solid var(--border-bright); border-right: 0; border-radius: 10px 0 0 10px; overflow: hidden;
+        background: linear-gradient(90deg, #07110b 0 40px, #050a07 40px); box-shadow: -10px 6px 28px rgba(0, 0, 0, 0.55), -2px 0 16px rgba(0, 255, 65, 0.07);
+        transition: transform 0.38s cubic-bezier(.2, .8, .2, 1), box-shadow 0.3s; }
+      .edge-tab:nth-child(2) { transform: rotate(0.8deg); }
+      .edge-tab:nth-child(3) { transform: rotate(-0.4deg); }
+      .edge-tab::before { content: none; }
+      .edge-tab:hover, .edge-tab:focus-visible { transform: translateX(-190px) rotate(0); padding: 0; background: linear-gradient(90deg, #0a1a10 0 40px, #060c08 40px);
+        box-shadow: -16px 8px 36px rgba(0, 0, 0, 0.6), -4px 0 26px rgba(0, 255, 65, 0.18); }
+      .et-label { position: absolute; left: 0; top: 0; bottom: 0; width: 40px; display: flex; align-items: center; justify-content: center;
+        writing-mode: vertical-rl; transform: rotate(180deg); font-size: 0.74rem; letter-spacing: 0.08em; }
+      .et-label::before { content: '~/'; opacity: 0.55; }
+      .et-sheet { display: block; position: absolute; left: 52px; right: 14px; top: 14px; bottom: 12px; color: var(--text); }
+      .et-sheet i { display: block; font-style: normal; font-size: 0.58rem; color: var(--green); opacity: 0.8; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .et-sheet b { display: block; font: 600 0.72rem/1.3 'JetBrains Mono', monospace; color: var(--text); margin-bottom: 9px; }
+      .et-sheet::after { content: ''; display: block; height: 30px; opacity: 0.5;
+        background: repeating-linear-gradient(180deg, var(--border-bright) 0 2px, transparent 2px 8px); mask-image: linear-gradient(90deg, #000 70%, transparent); -webkit-mask-image: linear-gradient(90deg, #000 70%, transparent); }
+    }
     @media (max-width: 640px) { .edge-tab { font-size: 0.66rem; padding: 12px 6px 12px 5px; } .edge-tabs { top: 42%; } }
     @media (prefers-reduced-motion: reduce) { .deep-panel.swing-in, .deep-panel.swing-out { animation-duration: 0.01s; } }
 
@@ -2298,9 +2321,9 @@
   })();
   </script>
   <nav class="edge-tabs" aria-label="Deep dives">
-    <a class="edge-tab" href="/work/lantern/" data-deep-link>lantern</a>
-    <a class="edge-tab" href="/work/transformers-revenge/" data-deep-link>research</a>
-    <a class="edge-tab" href="/notes/" data-deep-link>notes</a>
+    <a class="edge-tab" href="/work/lantern/" data-deep-link><span class="et-label">lantern</span><span class="et-sheet" aria-hidden="true"><i>~/work/lantern</i><b>The Hue feature on a A$49 light</b></span></a>
+    <a class="edge-tab" href="/work/transformers-revenge/" data-deep-link><span class="et-label">research</span><span class="et-sheet" aria-hidden="true"><i>~/work/transformers-revenge</i><b>Where "Were RNNs All We Needed?" breaks</b></span></a>
+    <a class="edge-tab" href="/notes/" data-deep-link><span class="et-label">notes</span><span class="et-sheet" aria-hidden="true"><i>~/notes</i><b>Short write-ups, with demos to play with</b></span></a>
   </nav>
   <div class="deep-panel" id="deep-panel" role="dialog" aria-modal="true" aria-label="Deep dive" hidden>
     <button type="button" class="deep-close" data-deep-close>← back to the page</button>
@@ -2827,6 +2850,10 @@
       const panel = document.getElementById('deep-panel'), host = document.getElementById('deep-host');
       const home = location.pathname;
       let opener = null, busy = false;
+      // on a laptop the edge tabs are page sheets: open from, and close back into, the one clicked
+      const sheetRect = () => opener && opener.classList.contains('edge-tab') && matchMedia('(min-width: 861px)').matches
+        && !matchMedia('(prefers-reduced-motion: reduce)').matches ? opener.getBoundingClientRect() : null;
+      const inset = r => `inset(${r.top}px ${innerWidth - r.right}px ${innerHeight - r.bottom}px ${r.left}px round 10px)`;
       async function open(href, push) {
         if (busy) return; busy = true;
         try {
@@ -2836,21 +2863,37 @@
           if (!res.ok || !main) { location.href = href; return; }
           host.replaceChildren(document.importNode(main, true));
           host.querySelectorAll('video[autoplay]').forEach(v => { v.muted = true; v.play().catch(() => {}); });
+          // parsed scripts are inert; re-create them so a page's demos run in the panel, in order
+          host.querySelectorAll('script').forEach(old => {
+            const s = document.createElement('script');
+            for (const a of old.attributes) s.setAttribute(a.name, a.value);
+            s.async = false; s.textContent = old.textContent; old.replaceWith(s);
+          });
           document.title = doc.title;
           const wasOpen = !panel.hidden;
           if (push) history.pushState({ deep: href, depth: wasOpen && history.state && history.state.depth ? history.state.depth + 1 : 1 }, '', href);
           panel.hidden = false; panel.scrollTop = 0;
-          if (!wasOpen) { panel.classList.remove('swing-out'); void panel.offsetWidth; panel.classList.add('swing-in'); }
+          if (!wasOpen) {
+            panel.classList.remove('swing-out', 'swing-in');
+            const r = sheetRect();
+            if (r) panel.animate([{ clipPath: inset(r), opacity: 0.85 }, { clipPath: 'inset(0px 0px 0px 0px round 0px)', opacity: 1 }],
+                                 { duration: 560, easing: 'cubic-bezier(.2, .8, .2, 1)' });
+            else { void panel.offsetWidth; panel.classList.add('swing-in'); }
+          }
           document.documentElement.style.overflow = 'hidden';
           panel.querySelector('.deep-close').focus({ preventScroll: true });
-        } catch { location.href = href; }
+        } catch (err) { console.error(err); location.href = href; }
         finally { busy = false; }
       }
       function close(pop) {
         if (panel.hidden) return;
-        panel.classList.remove('swing-in'); void panel.offsetWidth; panel.classList.add('swing-out');
+        const r = sheetRect();
+        panel.classList.remove('swing-in');
+        const shut = r ? panel.animate([{ clipPath: 'inset(0px 0px 0px 0px round 0px)', opacity: 1 }, { clipPath: inset(r), opacity: 0.6 }],
+                                       { duration: 420, easing: 'cubic-bezier(.5, 0, .75, .2)', fill: 'forwards' }) : null;
+        if (!r) { void panel.offsetWidth; panel.classList.add('swing-out'); }
         setTimeout(() => {
-          panel.hidden = true; panel.classList.remove('swing-out'); host.replaceChildren();
+          panel.hidden = true; panel.classList.remove('swing-out'); host.replaceChildren(); if (shut) shut.cancel();
           document.documentElement.style.overflow = ''; document.title = window.__homeTitle;
           if (opener) opener.focus({ preventScroll: true });
         }, 430);

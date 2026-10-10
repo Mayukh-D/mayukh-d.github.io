@@ -21,6 +21,16 @@
   <h2>The problem: everything looked pastel</h2>
   <p>The first version simply sent the screen's colour straight to the light. A teal on screen, say red 40, green 180, blue 180, went to the bar as exactly those numbers. On the bar it looked minty white. So did most other colours: deep blue became pale blue, orange became peach. Everything drifted towards white.</p>
   <p>The bar wasn't broken. A screen and an LED don't mix light the same way.</p>
+  <div class="demo" data-demo="led">
+    <div class="demo-h">top: the colour on screen · bottom: the bar (simulated)</div>
+    <div class="seg" data-seg="led"><button class="on" data-v="raw">send it raw</button><button data-v="sat">more saturation</button><button data-v="lantern">Lantern's settings</button></div>
+    <div class="swatches" data-out="swatches"></div>
+    <label><span>saturation</span><input type="range" min="1" max="3" step="0.05" value="1" data-k="sat"><output></output></label>
+    <label><span>gamma</span><input type="range" min="1" max="4" step="0.1" value="1" data-k="gamma"><output></output></label>
+    <label><span>balance</span><input type="checkbox" data-k="bal"> <span style="min-width:0">turn green and blue down (0.85, 0.45)</span></label>
+    <label><span>your colour</span><input type="color" value="#c0392b" data-pick></label>
+    <p class="demo-note">The colour maths is Lantern's own code. The bar is a simple model: it drives each channel in proportion to the value sent, with green and blue brighter than red.</p>
+  </div>
   <h2>Why it happens</h2>
   <p>A screen is built to reproduce colours accurately: its red, green and blue are balanced, and it applies a gamma curve so that a value of 40 out of 255 really is dim. A cheap LED controller does neither. It roughly drives each channel in proportion to the number you send, and its green and blue are much stronger than its red.</p>
   <p>So that small red 40 in a teal, nearly invisible on a screen, becomes a noticeable glow of red on the bar, and the weak channels together add up to white.</p>
@@ -30,6 +40,11 @@
   <p>That was the giveaway. Saturation acts on the whole colour at once, while the actual problem was the <i>small</i> channels specifically.</p>
   <h2>What worked: gamma</h2>
   <p>Gamma correction raises each channel to a power. With a gamma of 3.5, a channel at full strength stays at full strength, but a channel at 20% drops to under 1%. That is the right shape for this problem: it suppresses the weak channels hard and barely touches the strong ones. The red in the teal all but disappears, so the bar shows teal, not mint, while a dusty blue keeps its slight green and stays distinct from navy.</p>
+  <div class="demo">
+    <div class="demo-h">the gamma curve · follows the gamma slider above</div>
+    <svg viewBox="0 0 300 170" data-out="curve" role="img" aria-label="Gamma curve"></svg>
+    <p class="readout" data-out="ratio"></p>
+  </div>
   <p>One more adjustment was needed. Gamma also dims the colour overall, so after applying it I rescale the result back to its original brightness. Only the purity changes, not the brightness.</p>
   <h2>How I found the numbers</h2>
   <p>Not by theory. I built a calibration window: pick a colour from a wheel, or grab any pixel from the screen, and the bar shows it next to the on-screen swatch while sliders adjust saturation, gamma and each channel's strength. Then I tuned by eye until they matched.</p>
@@ -37,6 +52,7 @@
   <h2>The general lesson</h2>
   <p>When an output disagrees with your input, it is tempting to reach for the control that sounds right: the colours look washed out, so add saturation. The better question is <i>where</i> the error comes from. Here it came from the smallest components of each colour, and the fix was the one that targets exactly those. It is the same instinct as debugging a model: find the part of the input the error actually lives in, rather than turning the global knob.</p>
   <div class="links"><a href="/work/lantern/" data-deep-link>the Lantern write-up →</a><a href="https://github.com/Mayukh-D/lantern">code →</a></div>
+  <script src="/assets/notes/gamma.js"></script>
 </main>
 </body>
 </html>
