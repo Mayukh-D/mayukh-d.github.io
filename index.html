@@ -688,6 +688,7 @@
         transition: transform 0.38s cubic-bezier(.2, .8, .2, 1), box-shadow 0.3s; }
       .edge-tab:nth-child(2) { transform: rotate(0.8deg); }
       .edge-tab:nth-child(3) { transform: rotate(-0.4deg); }
+      .edge-tab:nth-child(4) { transform: rotate(1deg); }
       .edge-tab::before { content: none; }
       .edge-tab:hover, .edge-tab:focus-visible { transform: translateX(-190px) rotate(0); padding: 0; background: linear-gradient(90deg, #0a1a10 0 40px, #060c08 40px);
         box-shadow: -16px 8px 36px rgba(0, 0, 0, 0.6), -4px 0 26px rgba(0, 255, 65, 0.18); }
@@ -2323,6 +2324,7 @@
   <nav class="edge-tabs" aria-label="Deep dives">
     <a class="edge-tab" href="/work/lantern/" data-deep-link><span class="et-label">lantern</span><span class="et-sheet" aria-hidden="true"><i>~/work/lantern</i><b>The Hue feature on a A$49 light</b></span></a>
     <a class="edge-tab" href="/work/transformers-revenge/" data-deep-link><span class="et-label">research</span><span class="et-sheet" aria-hidden="true"><i>~/work/transformers-revenge</i><b>Where "Were RNNs All We Needed?" breaks</b></span></a>
+    <a class="edge-tab" href="/jobs/" data-deep-link><span class="et-label">jobs</span><span class="et-sheet" aria-hidden="true"><i>~/jobs</i><b>From being handed the spec to owning it</b></span></a>
     <a class="edge-tab" href="/notes/" data-deep-link><span class="et-label">notes</span><span class="et-sheet" aria-hidden="true"><i>~/notes</i><b>Short write-ups, with demos to play with</b></span></a>
   </nav>
   <div class="deep-panel" id="deep-panel" role="dialog" aria-modal="true" aria-label="Deep dive" hidden>
@@ -2906,7 +2908,7 @@
       }));
       // Links inside a deep page (e.g. the notes list) stay in the panel.
       host.addEventListener('click', e => {
-        const a = e.target.closest('a[href^="/work/"], a[href^="/notes/"]');
+        const a = e.target.closest('a[href^="/work/"], a[href^="/notes/"], a[href^="/jobs/"]');
         if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
         e.preventDefault(); open(a.getAttribute('href'), true);
       });
