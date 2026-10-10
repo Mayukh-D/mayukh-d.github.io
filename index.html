@@ -950,7 +950,6 @@
       </svg>
     </div>
     <h1 class="hero-name reveal" data-stage><span class="glitch" data-text="MAYUKH DAS">MAYUKH DAS</span></h1>
-    <p class="hero-type mono reveal" data-stage><span class="prompt">$ whoami&nbsp;&nbsp;»&nbsp;</span><span id="typed"></span><span class="cursor"></span></p>
     <p class="hero-thesis reveal" data-stage>I build <span class="rot" data-rotate="satellite models|transformers|sovereign AI|generative models">satellite models</span> from first principles, then try to break them.</p>
     <p class="hero-tagline reveal" data-stage>
       ML Architect at <strong>Eccoi</strong>, working on sovereign AI.
@@ -1597,6 +1596,7 @@
   (function () {
     var phrases = ['ML architect', 'machine learning engineer', 'satellite AI researcher', 'problem solver', 'defence nerd'];
     var el = document.getElementById('typed');
+    if (!el) return;
     var pi = 0, ci = 0, deleting = false;
     function tick() {
       var p = phrases[pi];
