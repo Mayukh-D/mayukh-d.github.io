@@ -157,6 +157,16 @@
     .hero-regal { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease 0.3s; }
     .hero-photo-wrap.regal .hero-regal { opacity: 1; }
     .hero-bigword { z-index: 52; }
+    /* the big outline word is now the name: smaller per letter so ten letters fit like WELCOME's seven */
+    .hero-bigword { font-size: clamp(3.4rem, 14vw, 12rem); -webkit-text-stroke-color: rgba(0, 255, 65, 0.36); }
+    .hero-bigword { top: 39%; }
+    @media (max-width: 640px) { .hero-bigword { top: 42.5svh; font-size: 14.2vw; } }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    h1.hero-name.hero-build { margin-top: 36svh !important; font-size: clamp(2.2rem, 6.4vw, 5.2rem); line-height: 1.02;
+      display: flex; flex-direction: column; align-items: center; gap: 2px; }
+    .hero-build .hb-pre { font-size: 0.55em; color: var(--text); letter-spacing: 0.02em; }
+    .hero-build .rot { color: var(--green); text-shadow: 0 0 24px rgba(0, 255, 65, 0.5), 0 0 14px #000; }
+    .hero-thesis { margin-top: 10px; }
     /* rotating word: slides up out, the next slides up in */
     .rot { display: inline-block; color: var(--green); text-shadow: 0 0 14px rgba(0, 255, 65, 0.45), 0 0 12px #000; transition: transform 0.32s cubic-bezier(.5, 0, .2, 1), opacity 0.32s, filter 0.32s; }
     .rot.out { transform: translateY(-0.5em); opacity: 0; filter: blur(3px); }
@@ -745,7 +755,7 @@
        about a centimetre; a click grows it from there into the full page. */
     @media (min-width: 861px) {
       /* covers scale with the window, like the hologram: bigger on big screens, smaller on small */
-      .edge-tabs { --tw: clamp(160px, min(17vw, 24vh), 330px); gap: 0; width: calc(var(--tw) * 0.47); align-items: flex-start; top: 66px; transform: none; }
+      .edge-tabs { --tw: clamp(180px, min(19vw, 30vh), 340px); gap: 0; width: calc(var(--tw) * 0.47); align-items: flex-start; top: 66px; transform: none; }
       .edge-tab { writing-mode: horizontal-tb; flex: none; position: relative; width: var(--tw); height: calc(var(--tw) * 0.652); padding: 0;
         margin: calc(var(--tw) * -0.06) 0; transform: translateX(var(--dx, 0)) rotate(var(--tilt, -6deg)); overflow: hidden;
         border: 6px solid #0b0f0d; border-radius: 16px; outline: 1px solid var(--border-bright); outline-offset: -1px;
@@ -893,7 +903,7 @@
 
   <header>
     <div class="scan-intro" aria-hidden="true"><i class="si-top"></i><i class="si-bot"></i><b class="si-line"></b></div>
-    <div class="hero-bigword reveal" data-stage aria-hidden="true">WELCOME</div>
+    <div class="hero-bigword reveal" data-stage aria-hidden="true">MAYUKH DAS</div>
     <div class="hero-photo-wrap reveal" data-stage>
       <img class="hero-photo" src="assets/mayukh-full.webp" width="575" height="1800" alt="Mayukh Das, standing in a grey suit with arms crossed" fetchpriority="high">
       <button type="button" class="dapper-btn" id="dapper-btn" aria-pressed="false">make me dapper</button>
@@ -949,9 +959,8 @@
         </g>
       </svg>
     </div>
-    <h1 class="hero-name reveal" data-stage><span class="glitch" data-text="MAYUKH DAS">MAYUKH DAS</span></h1>
-    <p class="hero-type mono reveal" data-stage><span class="prompt">$ whoami&nbsp;&nbsp;»&nbsp;</span><span id="typed"></span><span class="cursor"></span></p>
-    <p class="hero-thesis reveal" data-stage>I build <span class="rot" data-rotate="satellite models|transformers|sovereign AI|generative models">satellite models</span> from first principles, then try to break them.</p>
+    <h1 class="hero-name hero-build reveal" data-stage><span class="sr-only">Mayukh Das: </span><span class="hb-pre">I build</span><span class="rot" data-rotate="satellite models|transformers|sovereign AI|generative models">satellite models</span></h1>
+    <p class="hero-thesis reveal" data-stage>from first principles, then try to break them.</p>
     <p class="hero-tagline reveal" data-stage>
       ML Architect at <strong>Eccoi</strong>, working on sovereign AI.
       Satellite AI Research Trainee at <strong>Haizea Analytics</strong>, mapping Australia's tree canopy from space.
@@ -1597,6 +1606,7 @@
   (function () {
     var phrases = ['ML architect', 'machine learning engineer', 'satellite AI researcher', 'problem solver', 'defence nerd'];
     var el = document.getElementById('typed');
+    if (!el) return;
     var pi = 0, ci = 0, deleting = false;
     function tick() {
       var p = phrases[pi];
