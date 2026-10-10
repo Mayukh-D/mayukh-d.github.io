@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Lantern: the Hue feature on a A$49 light · Mayukh Das</title>
+<meta name="description" content="How I made a A$49 Bluetooth LED bar follow my Mac's screen: reverse-engineering its protocol, calibrating LED colour, and shipping it as an app.">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/deep.css">
+</head>
+<body class="deep-standalone">
+<nav class="deep-bar"><a href="/" data-deep-back>← mayukh-d.github.io</a></nav>
+<main class="deep" data-deep="lantern">
+  <div class="kicker">lantern</div>
+  <h1>The Hue feature on a A$49 light</h1>
+  <p class="lede">Philips Hue can make your lights follow your screen. In Australia that means about A$550 of Hue hardware. I bought the cheapest Bluetooth LED bar I could find, for A$49, and built the missing piece myself.</p>
+
+  <figure class="narrow">
+    <video src="/lantern/images/demo.mp4" poster="/lantern/images/demo-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="The LED bar changing colour as the laptop screen changes"></video>
+    <figcaption>The bar following the screen. Filmed on a phone; trimmed and cropped only.</figcaption>
+  </figure>
+
+  <h2>The problem</h2>
+  <p>The bar came with a phone app and a remote, and nothing else. There was no way for my Mac to talk to it, and no documentation for how it talks at all. What I wanted was simple to say: when the screen turns green, the room turns green.</p>
+
+  <h2>Finding the protocol</h2>
+  <p>A Bluetooth scan from a small Swift program found the bar advertising as <code>MELK-OA10</code>. Connecting to it exposed one service, <code>FFF0</code>, with a single writable characteristic, <code>FFF3</code>. That pattern belongs to a family of cheap controllers (often called ELK-BLEDOM), which take short 9-byte commands. The colour command turned out to be <code>7E 07 05 03 RR GG BB 10 EF</code>, and the first test flashed the bar red, green, blue and white.</p>
+  <p>The built-in rainbow effects were harder, because their codes vary between models and the standard ones did nothing useful. So I wrote a small sweep: a window that stepped through every effect code every four seconds, showing the code in large type, while I watched the bar. The flowing rainbow I wanted turned out to be <code>0x01</code>, and <code>0x02</code> is the same one running the other way.</p>
+
+  <h2>The hard part: screens lie about colour</h2>
+  <p>The first version worked and looked wrong. Every colour came out pastel, almost white. The reason is that a screen and an LED mix light differently: on a bar, even a small amount of the "other" channels in a colour (some red in a teal, say) shows up strongly and washes it out.</p>
+  <p>Rather than guess, I built a calibration window: pick any colour from a wheel, or grab one straight off the screen, and the bar shows it next to the on-screen swatch while sliders adjust the mapping. Tuning it by eye made the answer clear.</p>
+  <div class="callout"><p><b>Gamma mattered far more than saturation.</b> Raising saturation just pushed everything towards the same few primaries. A strong gamma curve (3.5) strips out the weak channels while keeping in-between hues distinct, and a lower blue gain (0.45) fixed this bar's blue cast.</p></div>
+
+  <h2>Deciding what "the screen's colour" means</h2>
+  <p>The app reads a tiny 96 × 54 copy of the screen 30 times a second and groups the pixels into colours. The obvious rule, "show the most common colour", broke in two ways:</p>
+  <ul>
+    <li><b>Dark scenes:</b> black often covers the most pixels, which switched the bar off even when something bright was on screen. Now, if any single colour covers at least 10% of the screen (adjustable), it beats black.</li>
+    <li><b>Greys:</b> colours are spread over many hue buckets, while every grey pixel lands in one, so greys always won. Now all the colours compete together against the greys and against black, and the biggest single colour is shown when colour wins.</li>
+  </ul>
+  <p>A toad photo on the website shows the rule working as intended: the bar matched the green background, not the toad, because the background covers far more of the screen.</p>
+
+  <h2>Shipping it</h2>
+  <p>Lantern is a native SwiftUI menu bar app: a colour wheel, a 2700 to 6500 K warmth scale, the bar's own effects plus a smooth whole-bar spectrum, the calibration tool, and screen sync. It is open source, with a website, a downloadable release and the protocol notes for anyone with a similar bar.</p>
+  <figure>
+    <img src="/lantern/images/sync.png" alt="Lantern's Screen Sync tab showing the screen's palette" loading="lazy">
+    <figcaption>Screen Sync: the screen's top ten colours, and what is on the light.</figcaption>
+  </figure>
+
+  <h2>What I'd do next</h2>
+  <ul>
+    <li>Fade between colours on the light itself rather than sending a stream of steps, to make transitions smoother.</li>
+    <li>Support more controllers in the same family, which needs owners of other bars to test their effect codes.</li>
+  </ul>
+
+  <div class="links">
+    <a href="/lantern/">website and video →</a>
+    <a href="https://github.com/Mayukh-D/lantern/releases/latest">download →</a>
+    <a href="https://github.com/Mayukh-D/lantern">code →</a>
+  </div>
+</main>
+</body>
+</html>

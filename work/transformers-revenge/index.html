@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Transformers' Revenge: stress-testing minGRU · Mayukh Das</title>
+<meta name="description" content="Does minGRU really match Transformers once a task needs content-based retrieval? A pre-registered 27-run grid across three architectures.">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/deep.css">
+</head>
+<body class="deep-standalone">
+<nav class="deep-bar"><a href="/" data-deep-back>← mayukh-d.github.io</a></nav>
+<main class="deep" data-deep="transformers-revenge">
+  <div class="kicker">transformers-revenge</div>
+  <h1>Transformers' Revenge: where "Were RNNs All We Needed?" breaks</h1>
+  <p class="lede">A recent paper showed that a minimal recurrent model, minGRU, matches Transformers on language modelling while training in linear time. We asked whether that still holds when a task needs genuine algorithmic reasoning, and wrote down what we expected before running anything.</p>
+
+  <h2>The question</h2>
+  <p>Language modelling mostly rewards local statistical patterns, where even simple models do well. The tasks that separate architectures are the ones that need <b>content-based retrieval</b>: using what you see now as a query to find something specific from earlier. minGRU's gates depend only on the current input, which suggested it could not do this at all. We wanted to test that precisely, and to find where each architecture's limits are.</p>
+
+  <h2>The setup</h2>
+  <ul>
+    <li><b>Three architectures</b> at about 750–800K parameters, 4 layers each, with an identical optimiser and schedule: minGRU as published; a nanoGPT-based Transformer with the LLaMA recipe (RoPE, RMSNorm, no biases); and a causal gMLP, which we adapted from the original bidirectional design as a middle point that mixes across positions with fixed weights inside a 256-token window.</li>
+    <li><b>Three tasks:</b> character-level Shakespeare (language modelling), verbatim copying of a sequence, and induction heads (complete a pattern seen earlier in the sequence).</li>
+    <li><b>Three sequence lengths</b> per task, chosen to cross the gMLP's window. 3 × 3 × 3 = 27 runs.</li>
+  </ul>
+
+  <h2>Predictions, made before the runs</h2>
+  <ol>
+    <li><b>Transformer:</b> succeeds on every task; attention can reach any earlier token by content.</li>
+    <li><b>minGRU:</b> fails every algorithmic task at every length; input-only gating cannot retrieve by content, whatever its size.</li>
+    <li><b>gMLP:</b> succeeds while the needed retrieval falls inside its window, and fails sharply beyond it.</li>
+    <li><b>Everyone:</b> similar results on Shakespeare, since that is the domain where the original claim was made.</li>
+  </ol>
+
+  <h2>What happened</h2>
+  <figure>
+    <img src="/assets/tldr/transformers-grid.jpg" alt="Results of all 27 runs: green passes, red fails" loading="lazy">
+    <figcaption>All 27 runs. Shakespeare: perplexity. Copy: recall perplexity (1.0 perfect, about 26 random). Induction: accuracy (1.0 perfect, about 0.04 random).</figcaption>
+  </figure>
+  <table>
+    <tr><th>Prediction</th><th>Observed</th><th></th></tr>
+    <tr><td>minGRU fails copy and induction at every length</td><td>chance level throughout (induction accuracy ≈ 0.04)</td><td class="ok">confirmed</td></tr>
+    <tr><td>gMLP succeeds inside its window, fails beyond</td><td>copy-short perfect (perplexity 1.003); copy-medium and induction-long at chance</td><td class="ok">confirmed</td></tr>
+    <tr><td>Transformer succeeds everywhere</td><td>induction 0.97–1.00 at every length; copy-long failed (perplexity 26.1)</td><td class="bad">one miss</td></tr>
+    <tr><td>Similar Shakespeare perplexity for all</td><td>3.7–4.4</td><td class="ok">confirmed</td></tr>
+  </table>
+  <p>So the original claim holds where it was tested, on language modelling, and breaks exactly where the architecture analysis said it would: any task that needs data-dependent retrieval.</p>
+
+  <h2>The surprise: a phase transition</h2>
+  <figure>
+    <img src="/assets/tldr/transformers-phase.jpg" alt="Transformer induction accuracy over training: flat for about 7,000 steps, then a jump to perfect" loading="lazy">
+    <figcaption>Transformer, induction at length 2048: near chance for about 7,000 steps, then perfect between steps 8,000 and 10,000.</figcaption>
+  </figure>
+  <p>The Transformer did not learn long induction gradually. It sat near chance for about 7,000 steps and then jumped to perfect accuracy within about 2,000 more, which is consistent with the attention heads suddenly forming an induction circuit. That also offers an explanation for our one missed prediction: copy-long only had 5,000 training steps, possibly too few for the same jump. We say so as a hypothesis, because the copy-long training curve itself shows no sign of a transition starting.</p>
+
+  <h2>What was weak</h2>
+  <ul>
+    <li>Single seeds per run, so small gaps (like the gMLP's slightly worse Shakespeare perplexity) are not conclusive.</li>
+    <li>The copy-long budget of 5,000 steps leaves the Transformer's one failure unexplained by evidence; the next step is to train it longer.</li>
+    <li>The tasks were chosen to expose limits. We think that is fair, since copy and induction are capabilities trained Transformers develop naturally, but it is a choice worth stating.</li>
+  </ul>
+
+  <h2>My part</h2>
+  <p>A team of four at the ANU (Deep Learning, 2026), with Vibhansh Gupta, Daniel Vaz and Adam Clark. I implemented the Transformer, designed the 27-run experiment grid and the comparison framework, and wrote the report.</p>
+
+  <div class="links">
+    <a href="/assets/reports/transformers-revenge.pdf">full report (PDF) →</a>
+    <a href="https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge">code →</a>
+  </div>
+</main>
+</body>
+</html>

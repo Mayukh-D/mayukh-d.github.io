@@ -20,6 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/deep.css">
   <style>
     :root {
       --bg: #010203;
@@ -653,6 +654,31 @@
       .tldr { max-height: 90vh; border-radius: 10px 10px 0 0; }
       .tldr-body { padding: 16px; }
     }
+
+    /* Deep pages: folder tabs stick out of the right edge; one click swings the page in,
+       hinged on that edge like a door opening towards you. Each page is also a real URL. */
+    .edge-tabs { position: fixed; right: 0; top: 50%; transform: translateY(-50%); z-index: 70;
+      display: flex; flex-direction: column; gap: 10px; align-items: flex-end; }
+    .edge-tab { writing-mode: vertical-rl; transform: rotate(180deg); font-family: 'JetBrains Mono', monospace; font-size: 0.74rem;
+      letter-spacing: 0.08em; color: var(--green); text-decoration: none; padding: 16px 9px 16px 8px;
+      background: rgba(5, 12, 7, 0.92); border: 1px solid var(--border-bright); border-left: 0; border-radius: 8px 0 0 8px;
+      box-shadow: -4px 0 18px rgba(0, 255, 65, 0.08); transition: padding 0.25s, background 0.25s, box-shadow 0.25s; }
+    .edge-tab { border-left: 1px solid var(--border-bright); border-right: 0; border-radius: 0 8px 8px 0; }
+    .edge-tab::before { content: '~/'; opacity: 0.55; }
+    .edge-tab:hover, .edge-tab:focus-visible { padding-bottom: 26px; background: rgba(0, 255, 65, 0.1); box-shadow: -6px 0 24px rgba(0, 255, 65, 0.22); outline: none; }
+    .deep-panel { position: fixed; inset: 0; z-index: 210; overflow-y: auto; overscroll-behavior: contain; background: var(--bg);
+      transform-origin: right center; perspective: 1600px; }
+    .deep-panel[hidden] { display: none; }
+    .deep-panel.swing-in { animation: deep-swing-in 0.62s cubic-bezier(.2, .8, .2, 1) both; }
+    .deep-panel.swing-out { animation: deep-swing-out 0.45s cubic-bezier(.5, 0, .75, .2) both; }
+    @keyframes deep-swing-in { from { transform: perspective(1600px) rotateY(-78deg); opacity: 0.2; } to { transform: perspective(1600px) rotateY(0); opacity: 1; } }
+    @keyframes deep-swing-out { from { transform: perspective(1600px) rotateY(0); opacity: 1; } to { transform: perspective(1600px) rotateY(-78deg); opacity: 0; } }
+    .deep-close { position: sticky; top: 0; z-index: 2; display: block; width: 100%; text-align: left; cursor: pointer;
+      background: rgba(1, 2, 3, 0.86); backdrop-filter: blur(10px); border: 0; border-bottom: 1px solid var(--border);
+      padding: 14px 24px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted); }
+    .deep-close:hover { color: var(--green); }
+    @media (max-width: 640px) { .edge-tab { font-size: 0.66rem; padding: 12px 6px 12px 5px; } .edge-tabs { top: 42%; } }
+    @media (prefers-reduced-motion: reduce) { .deep-panel.swing-in, .deep-panel.swing-out { animation-duration: 0.01s; } }
 
     /* Ask-me-anything terminal: opens from the blinking prompt in the nav. */
     .nav-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
@@ -2271,6 +2297,15 @@
     if (mq.matches) { draw(0); } else { requestAnimationFrame(draw); }
   })();
   </script>
+  <nav class="edge-tabs" aria-label="Deep dives">
+    <a class="edge-tab" href="/work/lantern/" data-deep-link>lantern</a>
+    <a class="edge-tab" href="/work/transformers-revenge/" data-deep-link>research</a>
+  </nav>
+  <div class="deep-panel" id="deep-panel" role="dialog" aria-modal="true" aria-label="Deep dive" hidden>
+    <button type="button" class="deep-close" data-deep-close>← back to the page</button>
+    <div id="deep-host"></div>
+  </div>
+
   <div class="tldr-backdrop" id="tldr" hidden>
     <div class="tldr" role="dialog" aria-modal="true" aria-labelledby="tldr-h">
       <div class="term-bar"><span class="term-dots"><i></i><i></i><i></i></span><span class="term-title" id="tldr-title"></span><button type="button" class="term-close" aria-label="Close" data-tldr-close>×</button></div>
@@ -2784,6 +2819,49 @@
       box.addEventListener('click', e => { if (e.target === box || e.target.closest('[data-tldr-close]')) close(); });
       document.addEventListener('keydown', e => { if (e.key === 'Escape' && !box.hidden) close(); });
       window.openTldr = open;
+    })();
+    // Deep pages: fetch the page, swing it in from the right edge, and give it its own URL.
+    // Visiting /work/<page>/ directly serves the same page standalone.
+    (() => {
+      const panel = document.getElementById('deep-panel'), host = document.getElementById('deep-host');
+      const home = location.pathname;
+      let opener = null, busy = false;
+      async function open(href, push) {
+        if (busy) return; busy = true;
+        try {
+          const res = await fetch(href, { cache: 'no-cache' });
+          const doc = new DOMParser().parseFromString(await res.text(), 'text/html');
+          const main = doc.querySelector('main.deep');
+          if (!res.ok || !main) { location.href = href; return; }
+          host.replaceChildren(document.importNode(main, true));
+          host.querySelectorAll('video[autoplay]').forEach(v => { v.muted = true; v.play().catch(() => {}); });
+          document.title = doc.title;
+          if (push) history.pushState({ deep: href }, '', href);
+          panel.hidden = false; panel.scrollTop = 0;
+          panel.classList.remove('swing-out'); void panel.offsetWidth; panel.classList.add('swing-in');
+          document.documentElement.style.overflow = 'hidden';
+          panel.querySelector('.deep-close').focus({ preventScroll: true });
+        } catch { location.href = href; }
+        finally { busy = false; }
+      }
+      function close(pop) {
+        if (panel.hidden) return;
+        panel.classList.remove('swing-in'); void panel.offsetWidth; panel.classList.add('swing-out');
+        setTimeout(() => {
+          panel.hidden = true; panel.classList.remove('swing-out'); host.replaceChildren();
+          document.documentElement.style.overflow = ''; document.title = window.__homeTitle;
+          if (opener) opener.focus({ preventScroll: true });
+        }, 430);
+        if (!pop && history.state && history.state.deep) history.back();
+      }
+      window.__homeTitle = document.title;
+      document.querySelectorAll('[data-deep-link]').forEach(a => a.addEventListener('click', e => {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+        e.preventDefault(); opener = a; open(a.getAttribute('href'), true);
+      }));
+      panel.querySelector('[data-deep-close]').addEventListener('click', () => close(false));
+      document.addEventListener('keydown', e => { if (e.key === 'Escape' && !panel.hidden) close(false); });
+      addEventListener('popstate', e => { if (e.state && e.state.deep) open(e.state.deep, false); else close(true); });
     })();
   </script>
 </body>
