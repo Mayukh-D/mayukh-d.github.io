@@ -233,7 +233,9 @@
     .dapper.on path.lace { fill-opacity: 0.9; }
     .dapper.on path.goldfill { fill-opacity: 0.95; }
     .dapper.off path { transition: stroke-dashoffset 0.35s ease-in, fill-opacity 0.25s ease-in; }
-    .dapper-back { z-index: 0; }
+    .dapper.dapper-back { z-index: 0; }
+    .dapper-back .cape-fill { fill: rgba(0, 255, 65, 0.1); stroke: none; fill-opacity: 0; transition: fill-opacity 0.8s ease 1.2s; }
+    .dapper-back.on .cape-fill { fill-opacity: 1; }
     .dapper-back .cape-fill { fill: rgba(0, 255, 65, 0.07); fill-opacity: 0; transition: fill-opacity 0.6s ease 0.2s; }
     .dapper-back.on .cape-fill { fill-opacity: 1; }
     .cape-sway { transform-box: view-box; transform-origin: 350px 520px; }
@@ -899,12 +901,15 @@
       <button type="button" class="dapper-btn" id="dapper-btn" aria-pressed="false">make me dapper</button>
       <svg class="dapper dapper-back" id="dapper-back" viewBox="0 0 575 1800" aria-hidden="true">
         <g transform="scale(0.6919)"><g class="cape-sway" filter="url(#pencil)">
-          <!-- a cape behind him, away from the way he faces: falling from the shoulders and trailing across the floor -->
-          <path d="M 640 575 C 780 950, 930 1550, 1080 2050 C 1170 2330, 1330 2500, 1560 2560"/>
-          <path d="M 420 2600 C 700 2615, 1000 2605, 1250 2590 C 1400 2580, 1500 2570, 1560 2560"/>
-          <path d="M 1560 2560 C 1600 2545, 1610 2520, 1580 2505"/>
-          <path d="M 700 820 C 830 1300, 980 1900, 1260 2500"/>
-          <path d="M 745 1500 C 830 1900, 900 2250, 1140 2560"/>
+          <!-- a cape behind him, on the side away from the way he faces: both edges from the shoulders,
+               billowing out to his left and trailing along the floor. A faint fill makes it read as cloth. -->
+          <path class="cape-fill" d="M 70 600 C 40 1300, 80 2000, 160 2560 C 600 2610, 1100 2605, 1660 2560 C 1500 2470, 1420 2250, 1390 1900 C 1340 1300, 1060 760, 640 575 Z"/>
+          <path d="M 640 575 C 1060 760, 1340 1300, 1390 1900 C 1420 2250, 1500 2470, 1660 2560"/>
+          <path d="M 70 600 C 40 1300, 80 2000, 160 2560"/>
+          <path d="M 160 2560 C 600 2610, 1100 2605, 1660 2560"/>
+          <path d="M 1660 2560 C 1710 2546, 1718 2520, 1686 2506"/>
+          <path d="M 690 640 C 960 900, 1150 1500, 1230 2560"/>
+          <path d="M 680 760 C 860 1150, 980 1800, 1010 2590"/>
         </g></g>
       </svg>
       <svg class="dapper" id="dapper" viewBox="0 0 575 1800" aria-hidden="true">
@@ -917,10 +922,10 @@
         <g filter="url(#pencil)" transform="scale(0.6919)">
           <!-- top hat, tilted with the head: brim, crown, band -->
           <path d="M 120 115 C 135 85, 470 70, 500 95 C 510 111, 400 133, 320 135 C 240 139, 112 137, 120 115 Z"/>
-          <path d="M 190 107 L 176 -155"/>
-          <path d="M 430 93 L 452 -169"/>
-          <path d="M 176 -155 C 240 -181, 390 -191, 452 -169"/>
-          <path d="M 176 -155 C 250 -139, 400 -151, 452 -169"/>
+          <path d="M 190 107 L 180 -65"/>
+          <path d="M 430 93 L 446 -79"/>
+          <path d="M 180 -65 C 240 -91, 390 -101, 446 -79"/>
+          <path d="M 180 -65 C 250 -49, 400 -61, 446 -79"/>
           <path d="M 186 69 C 260 63, 360 53, 434 49"/>
           <path d="M 188 91 C 260 83, 360 73, 432 69"/>
           <!-- monocle on his left eye, chain down to the lapel -->
