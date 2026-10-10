@@ -84,6 +84,17 @@
       border-bottom: 1px solid var(--border);
     }
     /* the page covers are a <nav> too: keep the menu's blur, background and border off them */
+    /* Reading progress: a thin line along the menu's bottom edge. It fills as you scroll past the hero,
+       ticks mark where each section starts, and the menu link for the section you're in lights up.
+       It only moves when you scroll, and only by scaling, so it costs nothing at rest. */
+    .read-bar { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; pointer-events: none; }
+    .read-bar .rb-fill { position: absolute; inset: 0; background: var(--green); box-shadow: 0 0 8px rgba(0, 255, 65, 0.7);
+      transform-origin: left; transform: scaleX(var(--read, 0)); }
+    .read-bar .rb-ticks i { position: absolute; top: -2px; width: 1px; height: 6px; background: var(--green-dim); opacity: 0.7; }
+    .read-bar .rb-ticks i.done { background: var(--green); opacity: 1; }
+    .nav-links a.here { color: var(--green); text-shadow: 0 0 8px rgba(0, 255, 65, 0.6); }
+    .deep-close { position: relative; }
+    @media (max-width: 640px) { .read-bar .rb-ticks { display: none; } }
     nav.edge-tabs { position: fixed; backdrop-filter: none; background: none; border: 0; }
     .nav-inner {
       display: flex; align-items: center; justify-content: space-between;
@@ -891,6 +902,7 @@
         <a href="#contact">contact</a>
       </div>
     </div>
+    <div class="read-bar" aria-hidden="true"><i class="rb-fill"></i><span class="rb-ticks"></span></div>
   </nav>
 
   <header>
@@ -1506,6 +1518,47 @@
     }
     window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(push); } }, { passive: true });
     push();
+  })();
+
+
+  /* ---------- reading progress in the menu ---------- */
+  (function () {
+    var bar = document.querySelector('nav .read-bar'); if (!bar) return;
+    var fill = bar.querySelector('.rb-fill'), ticksEl = bar.querySelector('.rb-ticks');
+    var header = document.querySelector('header');
+    var links = [].slice.call(document.querySelectorAll('.nav-links a[href^="#"]'));
+    var secs = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+    var start = 0, span = 1, marks = [], ticks = [], ticking = false;
+    function measure() {
+      start = header ? header.offsetHeight * 0.6 : 0;
+      span = Math.max(1, document.documentElement.scrollHeight - innerHeight - start);
+      marks = secs.map(function (s) { return s ? Math.max(0, Math.min(1, (s.offsetTop - 70 - start) / span)) : 0; });
+      ticksEl.innerHTML = marks.map(function (m) { return '<i style="left:' + (m * 100).toFixed(2) + '%"></i>'; }).join('');
+      ticks = [].slice.call(ticksEl.children); update();
+    }
+    function update() {
+      ticking = false;
+      var p = Math.max(0, Math.min(1, (scrollY - start) / span));
+      fill.style.setProperty('--read', p.toFixed(4));
+      var cur = -1;
+      secs.forEach(function (s, i) { if (s && s.getBoundingClientRect().top < innerHeight * 0.35) cur = i; });
+      links.forEach(function (a, i) { a.classList.toggle('here', i === cur); });
+      ticks.forEach(function (t, i) { t.classList.toggle('done', marks[i] <= p + 0.001 && p > 0); });
+    }
+    addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    addEventListener('resize', measure);
+    addEventListener('load', measure);
+    measure();
+    // the deep panel gets its own line under "back to the page"
+    // (the panel is further down the page than this script, so hook it up once the DOM is ready)
+    function hookPanel() {
+      var panel = document.getElementById('deep-panel'), pfill = panel && panel.querySelector('.read-bar .rb-fill');
+      if (pfill) panel.addEventListener('scroll', function () {
+        var m = panel.scrollHeight - panel.clientHeight;
+        pfill.style.setProperty('--read', m > 0 ? (panel.scrollTop / m).toFixed(4) : 0);
+      }, { passive: true });
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', hookPanel); else hookPanel();
   })();
 
   /* ---------- make me dapper ----------
@@ -2475,7 +2528,7 @@
     <a class="edge-tab" href="/notes/" data-deep-link style="--shot: url(/assets/tabs/notes.jpg)"><span class="et-label">1am</span></a>
   </nav>
   <div class="deep-panel" id="deep-panel" role="dialog" aria-modal="true" aria-label="Deep dive" hidden>
-    <button type="button" class="deep-close" data-deep-close>← back to the page</button>
+    <button type="button" class="deep-close" data-deep-close>← back to the page<span class="read-bar" aria-hidden="true"><i class="rb-fill"></i></span></button>
     <div id="deep-host"></div>
   </div>
 
@@ -3021,7 +3074,7 @@
           document.title = doc.title;
           const wasOpen = !panel.hidden;
           if (push) history.pushState({ deep: href, depth: wasOpen && history.state && history.state.depth ? history.state.depth + 1 : 1 }, '', href);
-          panel.hidden = false; panel.scrollTop = 0;
+          panel.hidden = false; panel.scrollTop = 0; panel.dispatchEvent(new Event('scroll'));
           if (!wasOpen) {
             panel.classList.remove('swing-out', 'swing-in');
             const r = sheetRect();
