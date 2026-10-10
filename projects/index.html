@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Projects · Mayukh Das</title>
+<meta name="description" content="Mayukh Das on building small, useful things where every decision is deliberate, and the projects that show it.">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/deep.css">
+</head>
+<body class="deep-standalone">
+<nav class="deep-bar"><a href="/" data-deep-back>← mayukh-d.github.io</a></nav>
+<main class="deep" data-deep="projects">
+  <div class="kicker">projects</div>
+  <h1>Small, useful, and obvious once you use it</h1>
+  <p class="lede">Claude can build something that looks like enterprise software in an afternoon, so that is no longer what I want my GitHub to show. I would rather build small things that are genuinely useful, where every decision was made on purpose, and where the person using it finds those decisions obvious.</p>
+
+  <div class="tenets">
+    <div><b>01</b><h3>Start from a real annoyance</h3><p>Not from a gap in a portfolio. If it doesn't bother me, I won't build it well.</p></div>
+    <div><b>02</b><h3>Small and finished</h3><p>One problem, solved properly and shipped, beats a large app that does everything generically.</p></div>
+    <div><b>03</b><h3>Thoughtful should feel effortless</h3><p>If the user has to stop and think about a decision, it was the wrong one.</p></div>
+  </div>
+  <p class="demo-note" style="text-align:center">Under each project: the decisions you'd notice using it. Open one to see why it's built that way.</p>
+
+  <h2>Lantern: the A$550 feature on a A$49 light</h2>
+  <figure><img src="/assets/tldr/lantern-hero.jpg" alt="The same LED bar behind six different screens, matching each" loading="lazy"><figcaption>Same bar, six screens: the light follows whatever covers most of the display.</figcaption></figure>
+  <p>Philips Hue sells screen-synced lighting for about A$550 of hardware. I bought the cheapest Bluetooth LED bar I could find, worked out how it talks, and built the missing piece as a Mac menu bar app.</p>
+  <div class="whys">
+      <details class="why"><summary>It lives in the menu bar</summary><p>Lighting is something you set and forget. A full window would ask for attention the job doesn't need, so Lantern stays one click away and otherwise out of sight.</p></details>
+      <details class="why"><summary>A dark scene doesn't switch the room off</summary><p>Black often covers most of a film frame. If a strong colour covers even 10% of the screen, it wins, so the light follows the scene rather than dropping out whenever it gets dark.</p></details>
+      <details class="why"><summary>Colours look right, not pastel</summary><p>A screen and an LED mix light differently. A calibration tool showed that gamma, not saturation, fixes it; the full story is in a note.</p></details>
+      <details class="why"><summary>The calibration tool ships with the app</summary><p>My numbers suit my bar. Another bar will need its own, so the tuning tool is part of the app instead of my values being hard-coded.</p></details>
+  </div>
+  <div class="links"><a href="/work/lantern/">the full write-up →</a><a href="/notes/gamma-beat-saturation/">the gamma note →</a><a href="https://mayukh-d.github.io/lantern/">website →</a><a href="https://github.com/Mayukh-D/lantern">code →</a></div>
+
+  <h2>TokenEater, multi-account: two accounts, no confusion</h2>
+  <figure><img src="/assets/tldr/tokeneater-dashboard.jpg" alt="TokenEater dashboard showing two Claude accounts side by side" loading="lazy"><figcaption>Both Claude accounts side by side (organisation names blurred).</figcaption></figure>
+  <p>TokenEater is an open-source menu bar app that tracks Claude usage, for one account. I use two, personal and work, so I made it track both.</p>
+  <div class="whys">
+      <details class="why"><summary>The second account appears everywhere the first does</summary><p>Menu bar, popover, dashboard and Studio. A second account that only shows up in one place is a feature you have to remember exists.</p></details>
+      <details class="why"><summary>It never reads your secrets</summary><p>It finds the second login by the Keychain item's presence alone. A usage tracker has no reason to touch credentials, so it doesn't.</p></details>
+      <details class="why"><summary>It can't overwrite the official app</summary><p>The fork ships with its own app identity, so installing it never replaces or breaks the real TokenEater, and a clear warning points people to the official version.</p></details>
+      <details class="why"><summary>It went upstream, not just sideways</summary><p>I proposed it to the original project as pull request #284, so if it's useful, everyone gets it.</p></details>
+  </div>
+  <div class="links"><a href="https://github.com/Mayukh-D/TokenEater">fork →</a><a href="https://github.com/AThevon/TokenEater">official app →</a></div>
+
+  <h2>FoodLens: the right fact at the moment of purchase</h2>
+  <div class="pair three"><img src="/assets/tldr/foodlens-scan.jpg" alt="Scanning a barcode" loading="lazy"><img src="/assets/tldr/foodlens-product.jpg" alt="Product overlay with allergen alert and freshness timeline" loading="lazy"><img src="/assets/tldr/foodlens-insights.jpg" alt="Carbon milestones" loading="lazy"></div>
+  <p>For my ANU HCI final project: scan a barcode in the shop and see what matters to you, before you buy. I built it, ran a study with it, and let the study shape it.</p>
+  <div class="whys">
+      <details class="why"><summary>Allergens are matched to your profile</summary><p>A generic allergen list makes you do the matching in the aisle. FoodLens only alerts on what you said matters to you.</p></details>
+      <details class="why"><summary>Expiry follows how fast you actually eat</summary><p>It starts from an average, then switches to your own measured pace once you log what was left. Personal beats generic.</p></details>
+      <details class="why"><summary>Waste comes before carbon</summary><p>In the study, tangible outcomes like food waste changed behaviour more than an abstract carbon number, so the design leads with them.</p></details>
+      <details class="why"><summary>It's a web app, not an install</summary><p>Nobody installs an app to check one yoghurt. A phone-first PWA opens from a link and works on the spot.</p></details>
+  </div>
+  <div class="links"><a href="https://foodlens-f281.onrender.com">live demo →</a><a href="https://github.com/Mayukh-D/foodlens-ar-sustainable-shopping">code →</a></div>
+
+  <h2>GrowthScope: the benchmark I kept on purpose</h2>
+  <figure><img src="/assets/tldr/growthscope-forecast.jpg" alt="Revenue forecast scored on held-out months" loading="lazy"><figcaption>The rebuilt forecast, scored on the three months it never saw.</figcaption></figure>
+  <p>My first hackathon and my first vibe-coded app. It looked finished. A year later I found it analysed only 41% of its own demo data, because Australian day-first dates were silently dropped. I keep it as a benchmark of the gap between looking finished and being thought through.</p>
+  <div class="whys">
+      <details class="why"><summary>The forecast tells you how wrong it is</summary><p>It reports its own error on months it didn't see. A forecast without an error bar asks for trust it hasn't earned.</p></details>
+      <details class="why"><summary>Unusual days, without crying wolf</summary><p>The anomaly detector was tuned to raise no alarms on random data, because a detector you learn to ignore is worse than none.</p></details>
+      <details class="why"><summary>Your columns, your names</summary><p>Flexible column mapping means a shop's own spreadsheet works as it is, instead of being reformatted to suit the tool.</p></details>
+      <details class="why"><summary>A check runs before every push</summary><p>Tests and a gate have to pass first. It's how the 41% bug would have been caught the first time.</p></details>
+  </div>
+  <div class="links"><a href="https://growthscope-j85i.onrender.com">live demo →</a><a href="https://github.com/Mayukh-D/GrowthScope">code →</a></div>
+
+  <h2>The thread</h2>
+  <p>None of these is big. Each started from something that annoyed me, and each decision was made so that the person using it never has to wonder why. That's the bar: thoughtful enough to be effortless.</p>
+  <div class="links"><a href="https://github.com/Mayukh-D?tab=repositories">everything on GitHub →</a></div>
+</main>
+</body>
+</html>

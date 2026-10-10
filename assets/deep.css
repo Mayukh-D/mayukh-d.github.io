@@ -105,6 +105,23 @@
 .deep .divide { text-align: center; font: 0.72rem 'JetBrains Mono', monospace; letter-spacing: 0.12em; color: var(--green); margin: 40px 0 0; }
 .deep .divide::before, .deep .divide::after { content: ' ─── '; color: var(--border-bright); }
 @media (max-width: 640px) { .deep .track { grid-template-columns: repeat(3, 1fr); row-gap: 18px; } .deep .track::before { display: none; } .deep .spec { display: none; } }
+/* projects: tenets and "why it's built that way" decisions */
+.deep .tenets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 8px 0 6px; }
+.deep .tenets > div { border: 1px solid var(--border-bright); border-radius: 10px; padding: 14px; background: var(--bg-soft); }
+.deep .tenets b { font: 700 0.7rem 'JetBrains Mono', monospace; color: var(--green); }
+.deep .tenets h3 { font: 600 0.88rem 'JetBrains Mono', monospace; color: var(--text); margin: 6px 0; }
+.deep .tenets p { font-size: 0.85rem; margin: 0; }
+.deep .whys { margin: 6px 0 4px; }
+.deep details.why { border: 1px solid var(--border); border-radius: 8px; margin: 8px 0; background: var(--bg-soft); transition: border-color 0.2s; }
+.deep details.why[open], .deep details.why:hover { border-color: var(--border-bright); }
+.deep details.why summary { list-style: none; cursor: pointer; padding: 11px 14px; font: 500 0.85rem 'JetBrains Mono', monospace; color: var(--text); display: flex; gap: 10px; align-items: baseline; }
+.deep details.why summary::-webkit-details-marker { display: none; }
+.deep details.why summary::before { content: '+'; color: var(--green); width: 10px; flex: none; }
+.deep details.why[open] summary::before { content: '−'; }
+.deep details.why p { margin: 0; padding: 0 14px 12px 34px; font-size: 0.9rem; }
+.deep .pair.three { grid-template-columns: repeat(3, 1fr); margin: 20px 0; }
+.deep .pair.three img { width: 100%; border-radius: 8px; border: 1px solid var(--border); }
+@media (max-width: 640px) { .deep .tenets { grid-template-columns: 1fr; } .deep .pair.three { grid-template-columns: repeat(3, 1fr); gap: 6px; } }
 /* standalone-only chrome */
 .deep-bar { position: sticky; top: 0; z-index: 5; background: rgba(1,2,3,0.86); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
 .deep-bar a { display: inline-block; padding: 14px 24px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted); text-decoration: none; }
