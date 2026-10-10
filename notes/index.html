@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Notes · Mayukh Das</title>
+<meta name="description" content="Short write-ups of things Mayukh Das learned the hard way, from projects and coursework.">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/deep.css">
+</head>
+<body class="deep-standalone">
+<nav class="deep-bar"><a href="/" data-deep-back>← mayukh-d.github.io</a></nav>
+<main class="deep" data-deep="notes">
+  <div class="kicker">notes</div>
+  <h1>Notes</h1>
+  <p class="lede">Short write-ups of things I learned the hard way, from projects and coursework.</p>
+  <ul class="postlist">
+    <li><a href="/notes/gamma-beat-saturation/" data-deep-link>Gamma beat saturation: why screen colours lie on cheap LEDs</a><p>Screen colours looked pastel on a A$49 LED bar. More saturation made it worse; a gamma curve fixed it. Why the error lived in the smallest part of each colour.</p><span class="src">from building Lantern</span></li>
+    <li><a href="/notes/small-data-gpt/" data-deep-link>What transfers to a GPT trained on 3.7M tokens, and what doesn't</a><p>A 30M-parameter GPT on about 160 times less data than scaling laws suggest. The tokenizer mattered most, depth beat width, and SwiGLU did not survive the small data.</p><span class="src">from Advanced Machine Learning, ANU</span></li>
+    <li><a href="/notes/x-vs-v-prediction/" data-deep-link>Predict the data, not the velocity, until you can't</a><p>In flow matching, predicting the clean data held up at 32 dimensions where predicting the velocity collapsed. Why, what it cost to rescue, and why production models still predict velocity.</p><span class="src">from Advanced Machine Learning, ANU</span></li>
+  </ul>
+</main>
+</body>
+</html>

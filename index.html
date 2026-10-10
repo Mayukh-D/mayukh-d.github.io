@@ -2300,6 +2300,7 @@
   <nav class="edge-tabs" aria-label="Deep dives">
     <a class="edge-tab" href="/work/lantern/" data-deep-link>lantern</a>
     <a class="edge-tab" href="/work/transformers-revenge/" data-deep-link>research</a>
+    <a class="edge-tab" href="/notes/" data-deep-link>notes</a>
   </nav>
   <div class="deep-panel" id="deep-panel" role="dialog" aria-modal="true" aria-label="Deep dive" hidden>
     <button type="button" class="deep-close" data-deep-close>← back to the page</button>
@@ -2821,7 +2822,7 @@
       window.openTldr = open;
     })();
     // Deep pages: fetch the page, swing it in from the right edge, and give it its own URL.
-    // Visiting /work/<page>/ directly serves the same page standalone.
+    // Visiting /work/<page>/ or /notes/<page>/ directly serves the same page standalone.
     (() => {
       const panel = document.getElementById('deep-panel'), host = document.getElementById('deep-host');
       const home = location.pathname;
@@ -2836,9 +2837,10 @@
           host.replaceChildren(document.importNode(main, true));
           host.querySelectorAll('video[autoplay]').forEach(v => { v.muted = true; v.play().catch(() => {}); });
           document.title = doc.title;
-          if (push) history.pushState({ deep: href }, '', href);
+          const wasOpen = !panel.hidden;
+          if (push) history.pushState({ deep: href, depth: wasOpen && history.state && history.state.depth ? history.state.depth + 1 : 1 }, '', href);
           panel.hidden = false; panel.scrollTop = 0;
-          panel.classList.remove('swing-out'); void panel.offsetWidth; panel.classList.add('swing-in');
+          if (!wasOpen) { panel.classList.remove('swing-out'); void panel.offsetWidth; panel.classList.add('swing-in'); }
           document.documentElement.style.overflow = 'hidden';
           panel.querySelector('.deep-close').focus({ preventScroll: true });
         } catch { location.href = href; }
@@ -2852,13 +2854,19 @@
           document.documentElement.style.overflow = ''; document.title = window.__homeTitle;
           if (opener) opener.focus({ preventScroll: true });
         }, 430);
-        if (!pop && history.state && history.state.deep) history.back();
+        if (!pop && history.state && history.state.deep) history.go(-(history.state.depth || 1));
       }
       window.__homeTitle = document.title;
       document.querySelectorAll('[data-deep-link]').forEach(a => a.addEventListener('click', e => {
         if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
         e.preventDefault(); opener = a; open(a.getAttribute('href'), true);
       }));
+      // Links inside a deep page (e.g. the notes list) stay in the panel.
+      host.addEventListener('click', e => {
+        const a = e.target.closest('a[href^="/work/"], a[href^="/notes/"]');
+        if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+        e.preventDefault(); open(a.getAttribute('href'), true);
+      });
       panel.querySelector('[data-deep-close]').addEventListener('click', () => close(false));
       document.addEventListener('keydown', e => { if (e.key === 'Escape' && !panel.hidden) close(false); });
       addEventListener('popstate', e => { if (e.state && e.state.deep) open(e.state.deep, false); else close(true); });

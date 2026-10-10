@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>What transfers to a GPT trained on 3.7M tokens, and what doesn't · Mayukh Das</title>
+<meta name="description" content="Training a 30M-parameter GPT on 3.7M tokens: the tokenizer mattered most, depth beat width, and only two of three LLaMA components helped.">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/deep.css">
+</head>
+<body class="deep-standalone">
+<nav class="deep-bar"><a href="/" data-deep-back>← mayukh-d.github.io</a></nav>
+<main class="deep" data-deep="small-data-gpt">
+  <div class="kicker">notes/small-data-gpt</div>
+  <h1>What transfers to a GPT trained on 3.7M tokens, and what doesn't</h1>
+  <p class="meta">from Advanced Machine Learning, ANU · Mayukh Das</p>
+  <p>For an Advanced Machine Learning project at the ANU, I trained a GPT from scratch on five-sentence stories: about 30 million parameters, and only <b>3.7 million training tokens</b>. Chinchilla-style scaling would suggest around 600 million tokens for a model that size, so this is roughly 160 times less data than it "wants". That constraint turned every design choice into a question of efficiency rather than capacity, and it made several large-scale habits misbehave.</p>
+  <h2>1. The tokenizer was the biggest lever</h2>
+  <p>The largest single gain didn't come from the architecture at all. With the GPT-2 tokenizer (50,257 tokens), the embedding table alone holds about 19.3M parameters: over 60% of the model. Switching to a 32k vocabulary shrank that table and freed about 7M parameters for the layers that actually learn, and test perplexity fell from <b>28.62 to 23.71</b> on an otherwise identical model.</p>
+  <p>The graded evaluation required GPT-2 tokens, so the final model couldn't use it, but the lesson stands: when parameters are scarce, where they sit matters more than how many there are.</p>
+  <h2>2. Depth beat width</h2>
+  <p>At matched parameter counts, deeper and narrower consistently won: 16 layers beat 11 layers by 0.28 perplexity at nearly identical size, and a 20-layer model was the best of the grid. That contradicts the large-scale finding that depth versus width barely matters. My reading is that on small data each extra layer refines the previous one's features, while extra width adds parallel features the data is too small to teach.</p>
+  <h2>3. Only two of three LLaMA components transferred</h2>
+  <table>
+    <tr><th>Change (from a 25.33 baseline)</th><th>Test perplexity</th></tr>
+    <tr><td>RoPE positions instead of learned ones</td><td class="ok">24.69</td></tr>
+    <tr><td>RMSNorm instead of LayerNorm</td><td class="ok">25.01</td></tr>
+    <tr><td>SwiGLU instead of GELU</td><td class="bad">25.62, and it diverged after 6,500 steps</td></tr>
+    <tr><td>RoPE + RMSNorm</td><td class="ok"><b>24.67</b></td></tr>
+  </table>
+  <p>RoPE was a pure win because it encodes position at no parameter cost. SwiGLU's gates need enough data to learn meaningful values, and 3.7M tokens wasn't it. The two helpful changes were complementary but not additive.</p>
+  <h2>4. Matching the data beat having more of it</h2>
+  <p>Pretraining on TinyStories, a much larger dataset of simple children's stories, performed worst of all, and adding a few thousand synthetic stories also hurt. The one data strategy that helped was quality-filtering the original stories (perplexity 25.33 to 24.92). Data that doesn't match the test distribution made things worse, regardless of quality or size.</p>
+  <h2>5. Perplexity is not quality</h2>
+  <p>A model with perplexity 24.84 wrote noticeably better stories than the 24.67 winner. Perplexity measures how well a model predicts the test set's exact words, not whether its stories are coherent. It is the right metric to optimise, but the wrong one to stop looking at the outputs.</p>
+  <h2>The thread through all of it</h2>
+  <p>Recipes from large-scale training are tuned for large-scale problems. At small scale, some of them are free wins (RoPE), some are neutral, and some actively hurt (SwiGLU). The only reliable way to know which is to change one thing at a time and measure.</p>
+  <div class="links"><a href="/assets/reports/nanogpt-report.pdf">full report (PDF) →</a><a href="https://huggingface.co/spaces/Mayukh1999/nanogpt-story-generator">live demo →</a><a href="https://github.com/Mayukh-D/story-generation-nanoGPT">code →</a></div>
+</main>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Gamma beat saturation: why screen colours lie on cheap LEDs · Mayukh Das</title>
+<meta name="description" content="Why screen colours look washed out on a cheap RGB LED, and why gamma fixed it when saturation could not.">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/deep.css">
+</head>
+<body class="deep-standalone">
+<nav class="deep-bar"><a href="/" data-deep-back>← mayukh-d.github.io</a></nav>
+<main class="deep" data-deep="gamma-beat-saturation">
+  <div class="kicker">notes/gamma-beat-saturation</div>
+  <h1>Gamma beat saturation: why screen colours lie on cheap LEDs</h1>
+  <p class="meta">from building Lantern · Mayukh Das</p>
+  <p>I built a small Mac app that makes a A$49 Bluetooth LED bar follow whatever is on my screen. Getting the bar to <i>change</i> colour took an afternoon. Getting it to show the <i>right</i> colour took much longer, and taught me something I didn't expect.</p>
+  <h2>The problem: everything looked pastel</h2>
+  <p>The first version simply sent the screen's colour straight to the light. A teal on screen, say red 40, green 180, blue 180, went to the bar as exactly those numbers. On the bar it looked minty white. So did most other colours: deep blue became pale blue, orange became peach. Everything drifted towards white.</p>
+  <p>The bar wasn't broken. A screen and an LED don't mix light the same way.</p>
+  <h2>Why it happens</h2>
+  <p>A screen is built to reproduce colours accurately: its red, green and blue are balanced, and it applies a gamma curve so that a value of 40 out of 255 really is dim. A cheap LED controller does neither. It roughly drives each channel in proportion to the number you send, and its green and blue are much stronger than its red.</p>
+  <p>So that small red 40 in a teal, nearly invisible on a screen, becomes a noticeable glow of red on the bar, and the weak channels together add up to white.</p>
+  <div class="callout"><p>On a screen, the minor channels of a colour are a nuance. On an LED, they are contamination.</p></div>
+  <h2>What I tried first: more saturation</h2>
+  <p>The obvious fix was to boost saturation and push every colour away from grey. It helped a little and broke something else: everything collapsed towards the nearest primary. A dusty blue and a navy both became the same full blue. The bar was no longer pastel, but it had lost every in-between hue.</p>
+  <p>That was the giveaway. Saturation acts on the whole colour at once, while the actual problem was the <i>small</i> channels specifically.</p>
+  <h2>What worked: gamma</h2>
+  <p>Gamma correction raises each channel to a power. With a gamma of 3.5, a channel at full strength stays at full strength, but a channel at 20% drops to under 1%. That is the right shape for this problem: it suppresses the weak channels hard and barely touches the strong ones. The red in the teal all but disappears, so the bar shows teal, not mint, while a dusty blue keeps its slight green and stays distinct from navy.</p>
+  <p>One more adjustment was needed. Gamma also dims the colour overall, so after applying it I rescale the result back to its original brightness. Only the purity changes, not the brightness.</p>
+  <h2>How I found the numbers</h2>
+  <p>Not by theory. I built a calibration window: pick a colour from a wheel, or grab any pixel from the screen, and the bar shows it next to the on-screen swatch while sliders adjust saturation, gamma and each channel's strength. Then I tuned by eye until they matched.</p>
+  <p>The settings I landed on for this bar: <b>gamma 3.5, saturation left unchanged, and blue turned down to 0.45</b>, because this bar runs blue. Another bar would need different numbers, which is why the calibration tool ships with the app instead of the values being hard-coded.</p>
+  <h2>The general lesson</h2>
+  <p>When an output disagrees with your input, it is tempting to reach for the control that sounds right: the colours look washed out, so add saturation. The better question is <i>where</i> the error comes from. Here it came from the smallest components of each colour, and the fix was the one that targets exactly those. It is the same instinct as debugging a model: find the part of the input the error actually lives in, rather than turning the global knob.</p>
+  <div class="links"><a href="/work/lantern/" data-deep-link>the Lantern write-up →</a><a href="https://github.com/Mayukh-D/lantern">code →</a></div>
+</main>
+</body>
+</html>

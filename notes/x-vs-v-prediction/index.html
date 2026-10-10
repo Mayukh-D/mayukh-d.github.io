@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Predict the data, not the velocity, until you can't · Mayukh Das</title>
+<meta name="description" content="In flow matching, x-prediction stays stable at higher dimension where v-prediction breaks. Why, how to rescue v-prediction, and why big models still use it.">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/deep.css">
+</head>
+<body class="deep-standalone">
+<nav class="deep-bar"><a href="/" data-deep-back>← mayukh-d.github.io</a></nav>
+<main class="deep" data-deep="x-vs-v-prediction">
+  <div class="kicker">notes/x-vs-v-prediction</div>
+  <h1>Predict the data, not the velocity, until you can't</h1>
+  <p class="meta">from Advanced Machine Learning, ANU · Mayukh Das</p>
+  <p>Flow matching trains a network to turn noise into data. One design choice sounds like a detail: should the network predict the <b>clean data</b> (x-prediction) or the <b>velocity</b> that moves noise towards data (v-prediction)? Mathematically the two contain the same information. In practice, for an Advanced Machine Learning project at the ANU, they behaved completely differently.</p>
+  <h2>The experiment</h2>
+  <p>I used simple 2D datasets (a swiss roll, a ring of Gaussians, circles) and embedded them in 2, 8 and 32 dimensions, so the data always lies on a flat 2D sheet inside a bigger space. The same small network (5 layers, 256 wide) was trained with every combination of prediction target and loss.</p>
+  <figure><img src="/assets/tldr/flow-d32.jpg" alt="Samples at 32 dimensions for the four combinations of prediction target and loss" loading="lazy"><figcaption>At 32 dimensions: both x-prediction setups still draw the shapes, while both v-prediction setups lose them.</figcaption></figure>
+  <h2>What happened</h2>
+  <p>At 2 dimensions, everything worked. At 8, v-prediction started to blur. At 32, both v-prediction setups failed completely, while both x-prediction setups still produced clean spirals, rings and clusters. The loss type mattered much less than the prediction target: matching the loss to the target helped a little, but never rescued v-prediction.</p>
+  <h2>Why</h2>
+  <p>The clean data still lives on a simple 2D sheet, however many dimensions it is embedded in, so x-prediction only has to learn that simple shape. The velocity, though, includes the noise, and the noise fills all 32 dimensions. So v-prediction has to model a target whose complexity grows with the full space.</p>
+  <div class="callout"><p>Same information, different difficulty: x-prediction's target stays low-dimensional, v-prediction's grows with the space.</p></div>
+  <h2>Can v-prediction be rescued?</h2>
+  <p>Yes, so the failure is about capacity, not impossibility. Widening the network from 256 to 1024 units gave clean spirals with v-prediction, but that means going from about 330K to 5.2M parameters: <b>roughly 16 times the compute</b> for what x-prediction did at the small size. Shifting the noise schedule, a trick from large-scale work, didn't help on its own.</p>
+  <h2>So why do big image models predict velocity?</h2>
+  <p>Because their world is different. Production models like SD3 and FLUX work in dense, learned latent spaces, where the data no longer sits on a simple low-dimensional sheet, so x-prediction loses its advantage. And v-prediction keeps the difficulty more even across noise levels, while x-prediction must reconstruct clean data from almost pure noise at the start. At scale, that steadier optimisation wins.</p>
+  <h2>A footnote on one-step generation</h2>
+  <p>I also implemented MeanFlow, which learns the average velocity over a whole interval so it can generate in a single step. It drew the swiss roll and circles in one step, but struggled with the separate Gaussian clusters, where averaging pulls the modes together. The paper's recommended timestep sampler made that worse here, which was a useful reminder in itself: recipes from large-scale work are tuned for failure modes that may not exist in a small problem.</p>
+  <div class="links"><a href="/assets/reports/flow-matching-report.pdf">full report (PDF) →</a><a href="https://github.com/Mayukh-D/image-generation-with-machine-learning">code →</a></div>
+</main>
+</body>
+</html>
