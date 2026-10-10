@@ -189,7 +189,7 @@
     .dapper-back.on .cape-fill { fill-opacity: 1; }
     .cape-sway { transform-box: view-box; transform-origin: 350px 520px; }
     .dapper-back.on .cape-sway { animation: cape-sway 5.5s ease-in-out infinite; }
-    @keyframes cape-sway { 0%, 100% { transform: rotate(-1.6deg) skewX(-2deg); } 50% { transform: rotate(1.4deg) skewX(2.5deg); } }
+    @keyframes cape-sway { 0%, 100% { transform: skewX(-0.8deg); } 50% { transform: skewX(0.9deg); } }
     @media (prefers-reduced-motion: reduce) { .dapper-back.on .cape-sway { animation: none; } }
     .dapper.on path { stroke-dashoffset: 0; transition: stroke-dashoffset var(--dur) cubic-bezier(.45,.05,.4,1) var(--delay); }
     .dapper.off path { transition: stroke-dashoffset 0.35s ease-in; }
@@ -848,11 +848,16 @@
       <button type="button" class="dapper-btn" id="dapper-btn" aria-pressed="false">make me dapper</button>
       <svg class="dapper dapper-back" id="dapper-back" viewBox="0 0 575 1800" aria-hidden="true">
         <g transform="scale(0.6919)"><g class="cape-sway" filter="url(#pencil)">
-          <!-- a cape caught by the wind, billowing out to his left -->
-          <path class="cape-fill" d="M 70 560 C -90 900, -190 1500, -90 2060 C 160 2010, 420 2090, 680 1990 C 900 2040, 1100 1940, 1290 1900 C 1180 1500, 980 960, 640 560 Z"/>
-          <path d="M 760 760 C 900 1150, 1020 1520, 1120 1930"/>
-          <path d="M 700 900 C 790 1250, 860 1600, 900 1990"/>
-          <path d="M -30 1000 C -90 1400, -110 1750, -60 2050"/>
+          <!-- a cape hanging behind him, gathered at the shoulders and bunching in folds at the hem -->
+          <path class="cape-fill" d="M 60 575 C 0 1000, -50 1500, -40 2010 C 10 2050, 60 1990, 110 2035 C 170 2075, 230 2000, 300 2040 C 380 2080, 450 2000, 520 2040 C 590 2080, 650 2000, 710 2035 C 760 2060, 790 2025, 805 2005 C 790 1500, 730 1000, 640 570 Z"/>
+          <path d="M 44 610 C 22 650, 34 690, 12 735"/>
+          <path d="M 70 640 C 52 690, 62 735, 44 780"/>
+          <path d="M 652 605 C 676 648, 666 692, 692 738"/>
+          <path d="M 626 640 C 646 690, 640 735, 660 782"/>
+          <path d="M 10 900 C -20 1250, -32 1600, -18 1995"/>
+          <path d="M 60 1150 C 40 1450, 34 1720, 60 2025"/>
+          <path d="M 705 900 C 742 1250, 762 1600, 770 2010"/>
+          <path d="M 660 1150 C 690 1450, 700 1720, 690 2030"/>
         </g></g>
       </svg>
       <svg class="dapper" id="dapper" viewBox="0 0 575 1800" aria-hidden="true">
