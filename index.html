@@ -2324,7 +2324,7 @@
   </script>
   <nav class="edge-tabs" aria-label="Deep dives">
     <a class="edge-tab" href="/projects/" data-deep-link style="--shot: url(/assets/tabs/projects.jpg)"><span class="et-label">projects</span></a>
-    <a class="edge-tab" href="/work/transformers-revenge/" data-deep-link style="--shot: url(/assets/tabs/research.jpg)"><span class="et-label">research</span></a>
+    <a class="edge-tab" href="/research/" data-deep-link style="--shot: url(/assets/tabs/research.jpg)"><span class="et-label">research</span></a>
     <a class="edge-tab" href="/jobs/" data-deep-link style="--shot: url(/assets/tabs/jobs.jpg)"><span class="et-label">jobs</span></a>
     <a class="edge-tab" href="/notes/" data-deep-link style="--shot: url(/assets/tabs/notes.jpg)"><span class="et-label">notes</span></a>
   </nav>
@@ -2909,7 +2909,7 @@
       }));
       // Links inside a deep page (e.g. the notes list) stay in the panel.
       host.addEventListener('click', e => {
-        const a = e.target.closest('a[href^="/work/"], a[href^="/notes/"], a[href^="/jobs/"], a[href^="/projects/"]');
+        const a = e.target.closest('a[href^="/work/"], a[href^="/notes/"], a[href^="/jobs/"], a[href^="/projects/"], a[href^="/research/"]');
         if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
         e.preventDefault(); open(a.getAttribute('href'), true);
       });

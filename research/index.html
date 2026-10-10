@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Research · Mayukh Das</title>
+<meta name="description" content="Mayukh Das on the research he was set, what each project taught him, and how it led to deep learning work at Haizea Analytics.">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/deep.css">
+</head>
+<body class="deep-standalone">
+<nav class="deep-bar"><a href="/" data-deep-back>← mayukh-d.github.io</a></nav>
+<main class="deep" data-deep="research">
+  <div class="kicker">research</div>
+  <h1>Given a question, learn the discipline</h1>
+  <p class="lede">Most of my research started as someone else's brief: a course project, a question a lecturer posed, a claim worth testing. What counts is what I did with it, what each one taught me, and how together they got me into deep learning research at Haizea Analytics.</p>
+
+  <div class="demo">
+    <div class="demo-h">what each project showed · tap one</div>
+    <svg viewBox="0 0 640 300" data-out="lineage" role="img" aria-label="How each project connects to what it showed and to Haizea"></svg>
+    <p class="readout" data-out="lineage-note"></p>
+  </div>
+
+  <h2 id="transformers">Transformers' Revenge: where a bold claim breaks</h2>
+  <div class="rcard">
+    <img class="plot" src="/assets/tldr/transformers-phase.jpg" alt="Transformer accuracy jumping from chance to perfect over training" loading="lazy">
+    <div><div class="setby"><span>set by</span> ANU Deep Learning (2026), as a team of four</div><p>A recent paper claimed a minimal recurrent model, minGRU, matches Transformers. We tested it on tasks that need real retrieval, with 27 runs across three architectures, and wrote our predictions down before running anything. I built the Transformer and designed the experiment grid.</p><p class="learned"><span>what I learned</span> Commit to a prediction before you see the result. Three of our four predictions held. We reported the one that didn't, along with a phase transition we hadn't predicted that may explain it.</p></div>
+  </div>
+  <div class="links"><a href="/work/transformers-revenge/">the full write-up →</a><a href="/assets/reports/transformers-revenge.pdf">report →</a><a href="https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge">code →</a></div>
+  <h2 id="nanogpt">A GPT from scratch, on almost no data</h2>
+  <div class="rcard">
+    <img src="/assets/notes/thumb-gpt.jpg" alt="Wireframes of four model shapes at the same parameter budget" loading="lazy">
+    <div><div class="setby"><span>set by</span> ANU Advanced Machine Learning</div><p>A 30M-parameter GPT trained on 3.7M tokens, about 160 times less data than scaling laws suggest. I changed one thing at a time against a fixed baseline, and shipped the model as a live demo.</p><p class="learned"><span>what I learned</span> Small data changes the rules. The tokenizer mattered more than the architecture, depth beat width, and a component that helps at scale (SwiGLU) hurt here.</p></div>
+  </div>
+  <div class="links"><a href="/notes/small-data-gpt/">the note →</a><a href="https://huggingface.co/spaces/Mayukh1999/nanogpt-story-generator">live demo →</a><a href="https://github.com/Mayukh-D/story-generation-nanoGPT">code →</a></div>
+  <h2 id="flow">Flow matching: what the network should predict</h2>
+  <div class="rcard">
+    <img src="/assets/notes/thumb-flow.jpg" alt="Wireframe of data on a flat sheet inside a larger space" loading="lazy">
+    <div><div class="setby"><span>set by</span> ANU Advanced Machine Learning</div><p>Should a generative model predict the clean data or the velocity? I tested every combination as the data dimension grew, worked out why one collapses, found what it costs to rescue, and implemented one-step MeanFlow.</p><p class="learned"><span>what I learned</span> Ask why a result happens, not just whether. And recipes tuned at large scale solve problems a small model may not have.</p></div>
+  </div>
+  <div class="links"><a href="/notes/x-vs-v-prediction/">the note →</a><a href="/assets/reports/flow-matching-report.pdf">report →</a><a href="https://github.com/Mayukh-D/image-generation-with-machine-learning">code →</a></div>
+  <h2 id="hci">FoodLens and HCI: research with real people</h2>
+  <div class="rcard">
+    <img class="plot" src="/assets/tldr/foodlens-sus.jpg" alt="Usability scores across ten questions" loading="lazy">
+    <div><div class="setby"><span>set by</span> ANU Human-Computer Interaction (2025)</div><p>Three projects across the HCI pipeline, ending with FoodLens: an app I built and deployed, then evaluated with participants, phone against smart glasses, with observation, interviews and usability scoring.</p><p class="learned"><span>what I learned</span> Measure what people do, not what you hope they do. Trust in an AI feature dropped after its first failure and did not come back.</p></div>
+  </div>
+  <div class="links"><a href="/projects/">FoodLens on the projects page →</a><a href="https://github.com/Mayukh-D/hci-design-and-research">code and write-ups →</a></div>
+  <h2 id="pubs">Before ANU: publishing as an undergraduate</h2>
+  <p>At Manipal I co-authored peer-reviewed papers on electric propulsion for fixed-wing aircraft (2021) and blockchain for organ donation (2023), and was first author on a review of AI in material science (2024). They taught me to read a literature properly, write for reviewers, and take criticism in public.</p>
+  <div class="links"><a href="/#publications">publications →</a></div>
+
+  <h2 id="haizea">How it added up: Haizea</h2>
+  <p>This body of work is what got me into Haizea Analytics, where I now do deep learning on satellite imagery to map Australia's tree canopy. It showed four things:</p>
+  <ul>
+    <li><b>I could deliver real ML</b>, trained, evaluated and shipped, not left in a notebook.</li>
+    <li><b>Research discipline</b>: predictions first, one change at a time, and honesty about what didn't work.</li>
+    <li><b>Small-data work</b>: when data is scarce, every design choice becomes a question of efficiency.</li>
+    <li><b>Real deep learning skill, and instinct</b> for which question to ask next.</li>
+  </ul>
+  <div class="callout"><p>The briefs were set by others. The discipline I took from them is mine, and it is what I bring to the work now.</p></div>
+  <script src="/assets/notes/research.js"></script>
+</main>
+</body>
+</html>

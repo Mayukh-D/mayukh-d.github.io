@@ -122,6 +122,15 @@
 .deep .pair.three { grid-template-columns: repeat(3, 1fr); margin: 20px 0; }
 .deep .pair.three img { width: 100%; border-radius: 8px; border: 1px solid var(--border); }
 @media (max-width: 640px) { .deep .tenets { grid-template-columns: 1fr; } .deep .pair.three { grid-template-columns: repeat(3, 1fr); gap: 6px; } }
+/* research: project cards with who set them and what they taught */
+.deep .rcard { display: grid; grid-template-columns: 200px 1fr; gap: 18px; align-items: start; }
+.deep .rcard img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 10px; border: 1px solid var(--border); background: #000; }
+.deep .rcard p { margin: 0 0 10px; }
+.deep .setby { font: 0.74rem 'JetBrains Mono', monospace; color: var(--text); margin-bottom: 8px; }
+.deep .setby span, .deep .learned span { color: var(--green); margin-right: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.deep .learned { color: var(--text) !important; }
+@media (max-width: 640px) { .deep .rcard { grid-template-columns: 1fr; } }
+.deep .demo svg[data-out="lineage"] { max-width: none; }
 /* standalone-only chrome */
 .deep-bar { position: sticky; top: 0; z-index: 5; background: rgba(1,2,3,0.86); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
 .deep-bar a { display: inline-block; padding: 14px 24px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted); text-decoration: none; }
