@@ -152,6 +152,9 @@
         radial-gradient(ellipse 34% 2.6% at 50% 98.6%, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0) 100%),
         radial-gradient(ellipse 48% 5% at 50% 98.5%, rgba(0, 255, 65, 0.12), rgba(0, 255, 65, 0) 100%),
         radial-gradient(ellipse 42% 34% at 50% 34%, rgba(0, 255, 65, 0.13), rgba(0, 255, 65, 0.04) 55%, transparent 75%); }
+    /* "make me dapper": the suit turns to green velvet and cream under the sketched coat */
+    .hero-regal { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease 0.3s; }
+    .hero-photo-wrap.regal .hero-regal { opacity: 1; }
     .hero-bigword { z-index: 1; }
     header > :not(.hero-photo-wrap):not(.hero-bigword) { position: relative; z-index: 52; }
     h1.hero-name { margin-top: 36svh !important; }
@@ -184,6 +187,17 @@
       fill: none; stroke: #39ff6a; stroke-width: 9; stroke-linecap: round; stroke-linejoin: round;
       stroke-dasharray: var(--len); stroke-dashoffset: var(--len);
     }
+    /* the regal coat: gold thread, green velvet, white lace */
+    .dapper path.gold { stroke: #e8c46a; }
+    .dapper path.thin { stroke-width: 5; }
+    .dapper path.velvet, .dapper path.lace, .dapper path.goldfill { fill-opacity: 0; transition: fill-opacity 0.5s ease var(--fill-delay, 0s); }
+    .dapper path.velvet { fill: url(#velvet); }
+    .dapper path.lace { fill: #f1eee2; }
+    .dapper path.goldfill { fill: #c99a3c; }
+    .dapper.on path.velvet { fill-opacity: 0.94; }
+    .dapper.on path.lace { fill-opacity: 0.9; }
+    .dapper.on path.goldfill { fill-opacity: 0.95; }
+    .dapper.off path { transition: stroke-dashoffset 0.35s ease-in, fill-opacity 0.25s ease-in; }
     .dapper-back { z-index: 0; }
     .dapper-back .cape-fill { fill: rgba(0, 255, 65, 0.07); fill-opacity: 0; transition: fill-opacity 0.6s ease 0.2s; }
     .dapper-back.on .cape-fill { fill-opacity: 1; }
@@ -845,50 +859,58 @@
     <div class="hero-bigword reveal" data-stage aria-hidden="true">WELCOME</div>
     <div class="hero-photo-wrap reveal" data-stage>
       <img class="hero-photo" src="assets/mayukh-full.webp" width="575" height="1800" alt="Mayukh Das, standing in a grey suit with arms crossed" fetchpriority="high">
+      <img class="hero-photo hero-regal" src="assets/mayukh-regal.webp" width="575" height="1800" alt="" aria-hidden="true" loading="lazy">
       <button type="button" class="dapper-btn" id="dapper-btn" aria-pressed="false">make me dapper</button>
-      <svg class="dapper dapper-back" id="dapper-back" viewBox="0 0 575 1800" aria-hidden="true">
-        <g transform="scale(0.6919)"><g class="cape-sway" filter="url(#pencil)">
-          <!-- a cape hanging behind him, gathered at the shoulders and bunching in folds at the hem -->
-          <path class="cape-fill" d="M 60 575 C 0 1000, -50 1500, -40 2010 C 10 2050, 60 1990, 110 2035 C 170 2075, 230 2000, 300 2040 C 380 2080, 450 2000, 520 2040 C 590 2080, 650 2000, 710 2035 C 760 2060, 790 2025, 805 2005 C 790 1500, 730 1000, 640 570 Z"/>
-          <path d="M 44 610 C 22 650, 34 690, 12 735"/>
-          <path d="M 70 640 C 52 690, 62 735, 44 780"/>
-          <path d="M 652 605 C 676 648, 666 692, 692 738"/>
-          <path d="M 626 640 C 646 690, 640 735, 660 782"/>
-          <path d="M 10 900 C -20 1250, -32 1600, -18 1995"/>
-          <path d="M 60 1150 C 40 1450, 34 1720, 60 2025"/>
-          <path d="M 705 900 C 742 1250, 762 1600, 770 2010"/>
-          <path d="M 660 1150 C 690 1450, 700 1720, 690 2030"/>
-        </g></g>
-      </svg>
       <svg class="dapper" id="dapper" viewBox="0 0 575 1800" aria-hidden="true">
         <defs>
+          <linearGradient id="velvet" x1="0" y1="0" x2="1" y2="0.35">
+            <stop offset="0" stop-color="#07331a"/><stop offset="0.32" stop-color="#14703b"/>
+            <stop offset="0.5" stop-color="#0a4523"/><stop offset="0.78" stop-color="#1a8045"/><stop offset="1" stop-color="#062a15"/>
+          </linearGradient>
           <filter id="pencil" x="-10%" y="-30%" width="120%" height="160%">
             <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7" result="n"/>
             <feDisplacementMap in="SourceGraphic" in2="n" scale="7"/>
           </filter>
         </defs>
         <g filter="url(#pencil)" transform="scale(0.6919)">
-          <!-- top hat, tilted with the head: brim, crown, band -->
-          <path d="M 120 115 C 135 85, 470 70, 500 95 C 510 111, 400 133, 320 135 C 240 139, 112 137, 120 115 Z"/>
-          <path d="M 190 107 L 176 -155"/>
-          <path d="M 430 93 L 452 -169"/>
-          <path d="M 176 -155 C 240 -181, 390 -191, 452 -169"/>
-          <path d="M 176 -155 C 250 -139, 400 -151, 452 -169"/>
-          <path d="M 186 69 C 260 63, 360 53, 434 49"/>
-          <path d="M 188 91 C 260 83, 360 73, 432 69"/>
-          <!-- monocle on his left eye, chain down to the lapel -->
-          <path d="M 395 172 C 425 172, 437 195, 436 214 C 434 238, 414 254, 393 252 C 370 250, 355 232, 356 212 C 358 190, 372 172, 395 172 Z"/>
-          <path d="M 390 252 C 420 320, 450 360, 440 420 C 434 460, 455 490, 480 520"/>
-          <!-- handlebar moustache -->
-          <path d="M 352 302 C 330 290, 300 290, 286 306 C 274 322, 256 320, 254 306 C 252 294, 264 290, 270 298"/>
-          <path d="M 352 302 C 376 288, 408 288, 422 304 C 434 320, 452 318, 454 304 C 456 292, 444 288, 438 296"/>
-          <path d="M 330 300 C 340 308, 366 308, 376 298"/>
-          <!-- a green tie over the real one: knot, blade, stripes -->
-          <path d="M 352 540 L 416 532 L 410 578 L 374 584 Z"/>
-          <path d="M 374 584 L 440 830 L 478 850 L 492 790 L 410 578"/>
-          <path d="M 384 630 L 428 618"/>
-          <path d="M 398 690 L 446 676"/>
-          <path d="M 414 752 L 464 738"/>
+          <g data-step="0">
+          <path class="velvet gold" d="M 600 600 C 680 556, 724 596, 762 690 C 900 1000, 1100 1460, 1240 1900 C 1170 1965, 1080 1890, 990 1945 C 905 2000, 830 1955, 770 1995 C 755 1600, 690 1110, 600 600 Z"/>
+          </g>
+          <g data-step="1">
+          <path class="gold thin" d="M 640 700 C 700 1050, 760 1500, 800 1900 M 658 808 C 638 816, 631 836, 647 836 C 654 832, 651 823, 646 826 M 658 808 C 671 808, 679 823, 665 828 M 676 921 C 697 923, 710 939, 695 944 C 687 943, 687 934, 692 934 M 676 921 C 663 925, 661 942, 675 942 M 691 1018 C 671 1026, 663 1046, 679 1046 C 686 1042, 684 1034, 679 1036 M 691 1018 C 704 1019, 711 1033, 697 1038 M 705 1118 C 726 1120, 739 1137, 724 1141 C 716 1140, 716 1131, 721 1131 M 705 1118 C 693 1122, 690 1139, 704 1139 M 719 1220 C 699 1228, 691 1247, 707 1247 C 715 1244, 712 1235, 707 1237 M 719 1220 C 732 1220, 740 1235, 726 1240 M 733 1323 C 754 1325, 767 1342, 752 1346 C 744 1345, 744 1336, 749 1336 M 733 1323 C 720 1327, 717 1343, 732 1344 M 746 1426 C 726 1434, 718 1454, 734 1454 C 742 1451, 739 1442, 734 1444 M 746 1426 C 760 1427, 767 1442, 753 1447 M 759 1531 C 780 1533, 793 1550, 778 1554 C 770 1553, 770 1544, 775 1544 M 759 1531 C 747 1535, 743 1551, 758 1552 M 771 1634 C 751 1642, 743 1661, 759 1662 C 766 1659, 764 1650, 759 1652 M 771 1634 C 785 1636, 792 1650, 778 1655 M 783 1738 C 804 1741, 817 1758, 801 1762 C 793 1760, 794 1751, 799 1752 M 783 1738 C 770 1742, 767 1758, 781 1759 M 794 1840 C 774 1847, 765 1866, 781 1867 C 789 1864, 786 1855, 781 1857 M 794 1840 C 807 1841, 814 1856, 800 1860"/>
+          <path class="gold thin" d="M 770 760 C 920 1100, 1080 1500, 1185 1860 M 815 864 C 798 877, 796 898, 811 894 C 817 888, 813 880, 808 884 M 815 864 C 828 861, 839 873, 827 881 M 853 952 C 874 949, 891 962, 878 970 C 869 971, 867 962, 872 961 M 853 952 C 842 960, 843 976, 858 973 M 891 1043 C 874 1056, 871 1076, 886 1073 C 893 1068, 888 1060, 884 1063 M 891 1043 C 904 1040, 915 1053, 902 1061 M 928 1135 C 950 1132, 966 1145, 953 1153 C 944 1154, 942 1145, 947 1144 M 928 1135 C 917 1142, 918 1158, 933 1156 M 965 1228 C 948 1240, 945 1261, 960 1258 C 967 1252, 962 1244, 958 1247 M 965 1228 C 978 1225, 989 1238, 977 1246 M 1002 1321 C 1023 1319, 1039 1332, 1025 1340 C 1017 1340, 1015 1331, 1020 1331 M 1002 1321 C 990 1328, 991 1345, 1005 1342 M 1037 1415 C 1019 1427, 1016 1448, 1031 1445 C 1038 1440, 1033 1432, 1029 1435 M 1037 1415 C 1050 1413, 1060 1426, 1048 1433 M 1071 1509 C 1092 1507, 1108 1521, 1094 1528 C 1086 1529, 1084 1520, 1089 1519 M 1071 1509 C 1059 1516, 1060 1532, 1074 1530 M 1103 1603 C 1085 1614, 1081 1635, 1097 1632 C 1104 1627, 1099 1619, 1095 1622 M 1103 1603 C 1116 1601, 1126 1614, 1114 1621 M 1134 1696 C 1156 1694, 1171 1708, 1157 1716 C 1149 1715, 1147 1706, 1153 1706 M 1134 1696 C 1123 1702, 1123 1719, 1137 1717 M 1163 1787 C 1145 1799, 1140 1819, 1156 1817 C 1163 1812, 1159 1804, 1154 1807 M 1163 1787 C 1176 1786, 1186 1800, 1173 1806"/>
+          </g>
+          <g data-step="2">
+          <path class="gold" d="M 222 472 C 226 420, 250 398, 296 398 M 470 462 C 472 410, 446 392, 404 394 M 222 472 C 300 494, 400 490, 470 462"/>
+          <path class="gold" d="M 327 505 a 18 18 0 1 0 36 0 a 18 18 0 1 0 -36 0"/>
+          <path class="gold thin" d="M 338 505 a 7 7 0 1 0 14 0 a 7 7 0 1 0 -14 0"/>
+          </g>
+          <g data-step="3">
+          <path class="lace gold thin" d="M 311 535 C 324.6 517, 365.4 517, 379 535 C 368.8 561, 321.2 561, 311 535 Z M 301 569 C 318.6 551, 371.4 551, 389 569 C 375.8 595, 314.2 595, 301 569 Z M 291 603 C 312.6 585, 377.4 585, 399 603 C 382.8 629, 307.2 629, 291 603 Z M 281 637 C 306.6 619, 383.4 619, 409 637 C 389.8 663, 300.2 663, 281 637 Z"/>
+          </g>
+          <g data-step="4">
+          <path class="goldfill gold" d="M 28 622 C 60 572, 160 548, 206 560 L 206 600 C 150 602, 80 612, 28 640 Z"/>
+          <path class="gold thin" d="M 40 618 L 36 705 M 61 618 L 57 715 M 82 618 L 78 705 M 103 618 L 99 715 M 124 618 L 120 705 M 145 618 L 141 715 M 166 618 L 162 705 M 187 618 L 183 715"/>
+          </g>
+          <g data-step="5">
+          <path class="goldfill gold" d="M 574 610 a 26 26 0 1 0 52 0 a 26 26 0 1 0 -52 0"/>
+          <path class="gold thin" d="M 590 610 a 10 10 0 1 0 20 0 a 10 10 0 1 0 -20 0"/>
+          <path class="gold thin" d="M 590 628 C 520 715, 390 712, 300 668 M 586 634 C 515 780, 380 785, 282 735"/>
+          </g>
+          <g data-step="6">
+          <path class="goldfill gold thin" d="M 261 650 a 11 11 0 1 0 22 0 a 11 11 0 1 0 -22 0 M 261 722 a 11 11 0 1 0 22 0 a 11 11 0 1 0 -22 0 M 261 794 a 11 11 0 1 0 22 0 a 11 11 0 1 0 -22 0 M 431 650 a 11 11 0 1 0 22 0 a 11 11 0 1 0 -22 0 M 431 722 a 11 11 0 1 0 22 0 a 11 11 0 1 0 -22 0 M 431 794 a 11 11 0 1 0 22 0 a 11 11 0 1 0 -22 0 M 289 1230 a 11 11 0 1 0 22 0 a 11 11 0 1 0 -22 0 M 289 1300 a 11 11 0 1 0 22 0 a 11 11 0 1 0 -22 0 M 409 1230 a 11 11 0 1 0 22 0 a 11 11 0 1 0 -22 0 M 409 1300 a 11 11 0 1 0 22 0 a 11 11 0 1 0 -22 0"/>
+          </g>
+          <g data-step="7">
+          <path class="gold" d="M 18 1140 C 200 1162, 450 1162, 600 1132 M 22 1186 C 200 1208, 450 1208, 600 1178"/>
+          <path class="goldfill gold" d="M 384 1165 a 36 36 0 1 0 72 0 a 36 36 0 1 0 -72 0"/>
+          <path class="gold thin" d="M 440 1165 L 452 1165 M 434 1179 L 443 1188 M 420 1185 L 420 1197 M 406 1179 L 397 1188 M 400 1165 L 388 1165 M 406 1151 L 397 1142 M 420 1145 L 420 1133 M 434 1151 L 443 1142"/>
+          </g>
+          <g data-step="8">
+          <path class="velvet gold" d="M 24 1190 C 4 1500, -10 1800, 40 2060 C 130 2020, 230 1910, 290 1720 C 330 1540, 350 1340, 362 1206"/>
+          </g>
+          <g data-step="9">
+          <path class="gold thin" d="M 350 1240 C 330 1450, 300 1650, 250 1860 M 339 1344 C 318 1347, 305 1364, 321 1368 C 329 1367, 328 1357, 323 1358 M 339 1344 C 352 1348, 355 1364, 341 1365 M 326 1447 C 346 1455, 354 1475, 338 1475 C 331 1472, 333 1463, 338 1465 M 326 1447 C 313 1448, 306 1463, 320 1468 M 311 1550 C 290 1552, 277 1568, 292 1573 C 300 1572, 300 1563, 295 1563 M 311 1550 C 324 1555, 326 1571, 312 1571 M 294 1653 C 313 1661, 320 1681, 304 1681 C 297 1677, 300 1668, 305 1671 M 294 1653 C 280 1653, 273 1667, 286 1672 M 273 1756 C 252 1757, 238 1772, 253 1778 C 261 1777, 262 1768, 256 1768 M 273 1756 C 286 1761, 287 1777, 273 1777 M 252 1850 C 272 1859, 278 1879, 262 1878 C 255 1874, 258 1866, 263 1868 M 252 1850 C 239 1849, 231 1863, 244 1869"/>
+          </g>
         </g>
       </svg>
     </div>
@@ -1416,16 +1438,23 @@
     if (!svg || !btn) return;
     var layers = back ? [back, svg] : [svg];
     var t = 0;
-    [].forEach.call(document.querySelectorAll('#dapper-back path, #dapper path'), function (p) {
-      var len = Math.ceil(p.getTotalLength()) + 2, dur = Math.max(0.14, len / 1800);
-      p.style.setProperty('--len', len);
-      p.style.setProperty('--dur', dur + 's');
-      p.style.setProperty('--delay', t + 's');
-      t += dur + 0.06;
+    // each group (the cape, the collar, the chains...) sketches in at once; groups follow each other
+    [].forEach.call(svg.querySelectorAll('[data-step]'), function (g) {
+      var longest = 0;
+      [].forEach.call(g.querySelectorAll('path'), function (p) {
+        var len = Math.ceil(p.getTotalLength()) + 2, dur = Math.min(1.6, Math.max(0.3, len / 2400));
+        p.style.setProperty('--len', len);
+        p.style.setProperty('--dur', dur + 's');
+        p.style.setProperty('--delay', t + 's');
+        p.style.setProperty('--fill-delay', (t + dur * 0.8) + 's');
+        longest = Math.max(longest, dur);
+      });
+      t += longest * 0.7;
     });
     window.makeDapper = function (want) {
       var on = want === undefined ? !svg.classList.contains('on') : want;
       layers.forEach(function (l) { l.classList.toggle('on', on); l.classList.toggle('off', !on); });
+      var wrap = svg.closest('.hero-photo-wrap'); if (wrap) wrap.classList.toggle('regal', on);
       btn.textContent = on ? 'undo dapper' : 'make me dapper';
       btn.setAttribute('aria-pressed', on);
       return on;
