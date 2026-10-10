@@ -53,6 +53,29 @@ for (const [name, n] of Object.entries(ctx.SKILL_NOTES)) {
   out.push(`### ${name} (${n.where.join(', ')})`, n.lead, ...n.points.map(p => '- ' + p), '');
 }
 
+// The deep pages (swung in from the homepage's side tabs): his own words on projects, research,
+// jobs, and the 1 AM reflections notes. Text only; demos and figures are skipped.
+const deep = [
+  ['projects/index.html', 'Projects page: how he builds (philosophy, favourite projects, design decisions)'],
+  ['research/index.html', 'Research page: who set each project, what it taught him, how it led to Haizea'],
+  ['jobs/index.html', 'Jobs page: his career journey and what each job taught him'],
+  ['work/lantern/index.html', 'Lantern write-up'],
+  ['work/transformers-revenge/index.html', "Transformers' Revenge write-up"],
+  ['notes/gamma-beat-saturation/index.html', '1 AM reflections: Gamma beat saturation'],
+  ['notes/small-data-gpt/index.html', '1 AM reflections: what transfers to a GPT trained on 3.7M tokens'],
+  ['notes/x-vs-v-prediction/index.html', '1 AM reflections: predict the data, not the velocity'],
+];
+for (const [file, title] of deep) {
+  const page = readFileSync(new URL('../' + file, here), 'utf8');
+  const main = page.match(/<main class="deep"[\s\S]*?<\/main>/)[0]
+    .replace(/<div class="demo"[\s\S]*?(?=<h2|<p>|<div class="links"|<\/main>)/g, ' ')
+    .replace(/<(h1|h2|h3)[^>]*>/g, '\n$&').replace(/<\/(p|li|h1|h2|h3)>/g, '$&\n');
+  const url = 'https://mayukh-d.github.io/' + file.replace(/index\.html$/, '');
+  const body = decode(main.replace(/<script[\s\S]*?<\/script>/g, '').replace(/<[^>]+>/g, ' '))
+    .split('\n').map(l => l.replace(/\s+/g, ' ').trim()).filter(Boolean).join('\n');
+  out.push(`## ${title}`, `URL: ${url}`, body, '');
+}
+
 out.push('## Contact',
   'Open to opportunities in software engineering and machine learning, based in Canberra, ACT.',
   'Email: use the contact section at the bottom of https://mayukh-d.github.io/',

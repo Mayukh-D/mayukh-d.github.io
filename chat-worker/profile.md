@@ -232,6 +232,252 @@ Trained as a data engineer at Accenture.
 Trained as a data engineer at Accenture.
 - Hands-on with the big data stack: Hadoop, Scala, PySpark and Cassandra.
 
+## Projects page: how he builds (philosophy, favourite projects, design decisions)
+URL: https://mayukh-d.github.io/projects/
+projects
+Small, useful, and obvious once you use it
+Claude can build something that looks like enterprise software in an afternoon, so that is no longer what I want my GitHub to show. I would rather build small things that are genuinely useful, where every decision was made on purpose, and where the person using it finds those decisions obvious.
+01
+Start from a real annoyance
+Not from a gap in a portfolio. If it doesn't bother me, I won't build it well.
+02
+Small and finished
+One problem, solved properly and shipped, beats a large app that does everything generically.
+03
+Thoughtful should feel effortless
+If the user has to stop and think about a decision, it was the wrong one.
+Under each project: the decisions you'd notice using it. Open one to see why it's built that way.
+Lantern: the A$550 feature on a A$49 light
+Same bar, six screens: the light follows whatever covers most of the display.
+Philips Hue sells screen-synced lighting for about A$550 of hardware. I bought the cheapest Bluetooth LED bar I could find, worked out how it talks, and built the missing piece as a Mac menu bar app.
+It lives in the menu bar Lighting is something you set and forget. A full window would ask for attention the job doesn't need, so Lantern stays one click away and otherwise out of sight.
+A dark scene doesn't switch the room off Black often covers most of a film frame. If a strong colour covers even 10% of the screen, it wins, so the light follows the scene rather than dropping out whenever it gets dark.
+Colours look right, not pastel A screen and an LED mix light differently. A calibration tool showed that gamma, not saturation, fixes it; the full story is in a note.
+The calibration tool ships with the app My numbers suit my bar. Another bar will need its own, so the tuning tool is part of the app instead of my values being hard-coded.
+the full write-up → the gamma note → website → code →
+TokenEater, multi-account: two accounts, no confusion
+Both Claude accounts side by side (organisation names blurred).
+TokenEater is an open-source menu bar app that tracks Claude usage, for one account. I use two, personal and work, so I made it track both.
+The second account appears everywhere the first does Menu bar, popover, dashboard and Studio. A second account that only shows up in one place is a feature you have to remember exists.
+It never reads your secrets It finds the second login by the Keychain item's presence alone. A usage tracker has no reason to touch credentials, so it doesn't.
+It can't overwrite the official app The fork ships with its own app identity, so installing it never replaces or breaks the real TokenEater, and a clear warning points people to the official version.
+It went upstream, not just sideways I proposed it to the original project as pull request #284, so if it's useful, everyone gets it.
+fork → official app →
+FoodLens: the right fact at the moment of purchase
+For my ANU HCI final project: scan a barcode in the shop and see what matters to you, before you buy. I built it, ran a study with it, and let the study shape it.
+Allergens are matched to your profile A generic allergen list makes you do the matching in the aisle. FoodLens only alerts on what you said matters to you.
+Expiry follows how fast you actually eat It starts from an average, then switches to your own measured pace once you log what was left. Personal beats generic.
+Waste comes before carbon In the study, tangible outcomes like food waste changed behaviour more than an abstract carbon number, so the design leads with them.
+It's a web app, not an install Nobody installs an app to check one yoghurt. A phone-first PWA opens from a link and works on the spot.
+live demo → code →
+GrowthScope: the benchmark I kept on purpose
+The rebuilt forecast, scored on the three months it never saw.
+My first hackathon and my first vibe-coded app. It looked finished. A year later I found it analysed only 41% of its own demo data, because Australian day-first dates were silently dropped. I keep it as a benchmark of the gap between looking finished and being thought through.
+The forecast tells you how wrong it is It reports its own error on months it didn't see. A forecast without an error bar asks for trust it hasn't earned.
+Unusual days, without crying wolf The anomaly detector was tuned to raise no alarms on random data, because a detector you learn to ignore is worse than none.
+Your columns, your names Flexible column mapping means a shop's own spreadsheet works as it is, instead of being reformatted to suit the tool.
+A check runs before every push Tests and a gate have to pass first. It's how the 41% bug would have been caught the first time.
+live demo → code →
+The thread
+None of these is big. Each started from something that annoyed me, and each decision was made so that the person using it never has to wonder why. That's the bar: thoughtful enough to be effortless.
+everything on GitHub →
+
+## Research page: who set each project, what it taught him, how it led to Haizea
+URL: https://mayukh-d.github.io/research/
+research
+Given a question, learn the discipline
+Most of my research started as someone else's brief: a course project, a question a lecturer posed, a claim worth testing. What counts is what I did with it, what each one taught me, and how together they got me into deep learning research at Haizea Analytics.
+Transformers' Revenge: where a bold claim breaks
+set by ANU Deep Learning (2026), as a team of four A recent paper claimed a minimal recurrent model, minGRU, matches Transformers. We tested it on tasks that need real retrieval, with 27 runs across three architectures, and wrote our predictions down before running anything. I built the Transformer and designed the experiment grid.
+what I learned Commit to a prediction before you see the result. Three of our four predictions held. We reported the one that didn't, along with a phase transition we hadn't predicted that may explain it.
+the full write-up → report → code →
+A GPT from scratch, on almost no data
+set by ANU Advanced Machine Learning A 30M-parameter GPT trained on 3.7M tokens, about 160 times less data than scaling laws suggest. I changed one thing at a time against a fixed baseline, and shipped the model as a live demo.
+what I learned Small data changes the rules. The tokenizer mattered more than the architecture, depth beat width, and a component that helps at scale (SwiGLU) hurt here.
+the note → live demo → code →
+Flow matching: what the network should predict
+set by ANU Advanced Machine Learning Should a generative model predict the clean data or the velocity? I tested every combination as the data dimension grew, worked out why one collapses, found what it costs to rescue, and implemented one-step MeanFlow.
+what I learned Ask why a result happens, not just whether. And recipes tuned at large scale solve problems a small model may not have.
+the note → report → code →
+FoodLens and HCI: research with real people
+set by ANU Human-Computer Interaction (2025) Three projects across the HCI pipeline, ending with FoodLens: an app I built and deployed, then evaluated with participants, phone against smart glasses, with observation, interviews and usability scoring.
+what I learned Measure what people do, not what you hope they do. Trust in an AI feature dropped after its first failure and did not come back.
+FoodLens on the projects page → code and write-ups →
+Before ANU: publishing as an undergraduate
+At Manipal I co-authored peer-reviewed papers on electric propulsion for fixed-wing aircraft (2021) and blockchain for organ donation (2023), and was first author on a review of AI in material science (2024). They taught me to read a literature properly, write for reviewers, and take criticism in public.
+publications →
+How it added up: Haizea
+This body of work is what got me into Haizea Analytics, where I now do deep learning on satellite imagery to map Australia's tree canopy. It showed four things:
+I could deliver real ML , trained, evaluated and shipped, not left in a notebook.
+Research discipline : predictions first, one change at a time, and honesty about what didn't work.
+Small-data work : when data is scarce, every design choice becomes a question of efficiency.
+Real deep learning skill, and instinct for which question to ask next.
+The briefs were set by others. The discipline I took from them is mine, and it is what I bring to the work now.
+
+## Jobs page: his career journey and what each job taught him
+URL: https://mayukh-d.github.io/jobs/
+jobs
+From being handed the spec to owning it
+I've loved machine learning since school. I studied engineering anyway, because my dad told me to be different. The road back to ML ran through every job below, and the jobs split cleanly in two: the ones where the work arrived defined, and the ones since ANU, where deciding what to build is the work.
+Engineering: learning to think in structures
+My degree was in automobile engineering at Manipal, on the mechanical side. It taught me to think structurally: to break a system into parts, understand how each part loads the others, and adapt when one of them gives. That habit has outlasted everything else I learned there.
+I had been coding since high school, though, and near the end of the degree I moved towards computer science one step at a time: projects first, then internships, including an ML pipeline for early breast cancer detection, and eventually a job.
+Cognizant: proof that the switch was real
+My first job, straight out of college, building full-stack .NET and React systems, including a logistics system for hospitals running COVID-19 operations. Its real value was what it proved: that an engineering graduate could make the move into software. I was wanted, I could build, and I did well, all before AI tools existed to help. It is where I earned my first full-stack chops.
+Accenture: how real ML gets done
+I had loved machine learning since school, so when the chance came to work with data, I jumped. Accenture trained me as a data engineer (Hadoop, Scala, PySpark, Cassandra) and put me inside a real production environment: Agile sprints, a stand-up every morning, stories and story points, and seniors who were genuinely great to learn from.
+I built the MLOps pipelines behind Ingrain, an AIOps tool for automated IT ticket resolution, along with its explainability and reporting. That is where I learned why data and pipeline design matter as much as the model, the language of real ML workflows, and how a strong team actually works together.
+THEN ANU, AND AI
+Up to this point, the work arrived defined. Someone decided what to implement, and my job was to implement it well. I did.
+ANU: talking at their level
+Alongside the Master's, I am a Student Ambassador for the College of Systems and Society, talking to prospective students at recruitment events and school visits. The lesson there was simple and harder than it sounds: talk at their level. A student should walk away with a sparkle about what they could study, not a frown of worry about whether they are good enough for it.
+Eccoi and Haizea: nobody hands you the spec
+My two jobs since ANU are new ground in both directions: systems engineering at Eccoi, where I architect sovereign AI, and deep learning at Haizea Analytics, where I map Australia's tree canopy from satellite imagery. Both began after AI changed how software gets built.
+The difference is independence. When I ask what to implement, the answer is that it is mine to decide. I am in the driver's seat. I learned agentic frameworks along the way, and the work became human-in-the-loop: the tools do more of the building, while the judgement about what to build, and whether it is right, stays with me.
+Before, my job was the answer. Now it starts with the question.
+The thread
+Engineering taught me structure. Cognizant proved I could build. Accenture taught me how real machine learning runs. The jobs since ANU are teaching me the part no one can hand over: deciding what should be built at all.
+full experience on the main page → resume →
+
+## Lantern write-up
+URL: https://mayukh-d.github.io/work/lantern/
+work/lantern
+The Hue feature on a A$49 light
+Philips Hue can make your lights follow your screen. In Australia that means about A$550 of Hue hardware. I bought the cheapest Bluetooth LED bar I could find, for A$49, and built the missing piece myself.
+The bar following the screen. Filmed on a phone; trimmed and cropped only.
+The problem
+The bar came with a phone app and a remote, and nothing else. There was no way for my Mac to talk to it, and no documentation for how it talks at all. What I wanted was simple to say: when the screen turns green, the room turns green.
+Finding the protocol
+A Bluetooth scan from a small Swift program found the bar advertising as MELK-OA10 . Connecting to it exposed one service, FFF0 , with a single writable characteristic, FFF3 . That pattern belongs to a family of cheap controllers (often called ELK-BLEDOM), which take short 9-byte commands. The colour command turned out to be 7E 07 05 03 RR GG BB 10 EF , and the first test flashed the bar red, green, blue and white.
+The built-in rainbow effects were harder, because their codes vary between models and the standard ones did nothing useful. So I wrote a small sweep: a window that stepped through every effect code every four seconds, showing the code in large type, while I watched the bar. The flowing rainbow I wanted turned out to be 0x01 , and 0x02 is the same one running the other way.
+The hard part: screens lie about colour
+The first version worked and looked wrong. Every colour came out pastel, almost white. The reason is that a screen and an LED mix light differently: on a bar, even a small amount of the "other" channels in a colour (some red in a teal, say) shows up strongly and washes it out.
+Rather than guess, I built a calibration window: pick any colour from a wheel, or grab one straight off the screen, and the bar shows it next to the on-screen swatch while sliders adjust the mapping. Tuning it by eye made the answer clear.
+Gamma mattered far more than saturation. Raising saturation just pushed everything towards the same few primaries. A strong gamma curve (3.5) strips out the weak channels while keeping in-between hues distinct, and a lower blue gain (0.45) fixed this bar's blue cast.
+Deciding what "the screen's colour" means
+The app reads a tiny 96 × 54 copy of the screen 30 times a second and groups the pixels into colours. The obvious rule, "show the most common colour", broke in two ways:
+Dark scenes: black often covers the most pixels, which switched the bar off even when something bright was on screen. Now, if any single colour covers at least 10% of the screen (adjustable), it beats black.
+Greys: colours are spread over many hue buckets, while every grey pixel lands in one, so greys always won. Now all the colours compete together against the greys and against black, and the biggest single colour is shown when colour wins.
+A toad photo on the website shows the rule working as intended: the bar matched the green background, not the toad, because the background covers far more of the screen.
+Shipping it
+Lantern is a native SwiftUI menu bar app: a colour wheel, a 2700 to 6500 K warmth scale, the bar's own effects plus a smooth whole-bar spectrum, the calibration tool, and screen sync. It is open source, with a website, a downloadable release and the protocol notes for anyone with a similar bar.
+Screen Sync: the screen's top ten colours, and what is on the light.
+What I'd do next
+Fade between colours on the light itself rather than sending a stream of steps, to make transitions smoother.
+Support more controllers in the same family, which needs owners of other bars to test their effect codes.
+website and video →
+download →
+code →
+
+## Transformers' Revenge write-up
+URL: https://mayukh-d.github.io/work/transformers-revenge/
+work/transformers-revenge
+Transformers' Revenge: where "Were RNNs All We Needed?" breaks
+A recent paper showed that a minimal recurrent model, minGRU, matches Transformers on language modelling while training in linear time. We asked whether that still holds when a task needs genuine algorithmic reasoning, and wrote down what we expected before running anything.
+The question
+Language modelling mostly rewards local statistical patterns, where even simple models do well. The tasks that separate architectures are the ones that need content-based retrieval : using what you see now as a query to find something specific from earlier. minGRU's gates depend only on the current input, which suggested it could not do this at all. We wanted to test that precisely, and to find where each architecture's limits are.
+The setup
+Three architectures at about 750–800K parameters, 4 layers each, with an identical optimiser and schedule: minGRU as published; a nanoGPT-based Transformer with the LLaMA recipe (RoPE, RMSNorm, no biases); and a causal gMLP, which we adapted from the original bidirectional design as a middle point that mixes across positions with fixed weights inside a 256-token window.
+Three tasks: character-level Shakespeare (language modelling), verbatim copying of a sequence, and induction heads (complete a pattern seen earlier in the sequence).
+Three sequence lengths per task, chosen to cross the gMLP's window. 3 × 3 × 3 = 27 runs.
+Predictions, made before the runs
+Transformer: succeeds on every task; attention can reach any earlier token by content.
+minGRU: fails every algorithmic task at every length; input-only gating cannot retrieve by content, whatever its size.
+gMLP: succeeds while the needed retrieval falls inside its window, and fails sharply beyond it.
+Everyone: similar results on Shakespeare, since that is the domain where the original claim was made.
+What happened
+All 27 runs. Shakespeare: perplexity. Copy: recall perplexity (1.0 perfect, about 26 random). Induction: accuracy (1.0 perfect, about 0.04 random).
+Prediction Observed
+minGRU fails copy and induction at every length chance level throughout (induction accuracy ≈ 0.04) confirmed
+gMLP succeeds inside its window, fails beyond copy-short perfect (perplexity 1.003); copy-medium and induction-long at chance confirmed
+Transformer succeeds everywhere induction 0.97–1.00 at every length; copy-long failed (perplexity 26.1) one miss
+Similar Shakespeare perplexity for all 3.7–4.4 confirmed
+So the original claim holds where it was tested, on language modelling, and breaks exactly where the architecture analysis said it would: any task that needs data-dependent retrieval.
+The surprise: a phase transition
+Transformer, induction at length 2048: near chance for about 7,000 steps, then perfect between steps 8,000 and 10,000.
+The Transformer did not learn long induction gradually. It sat near chance for about 7,000 steps and then jumped to perfect accuracy within about 2,000 more, which is consistent with the attention heads suddenly forming an induction circuit. That also offers an explanation for our one missed prediction: copy-long only had 5,000 training steps, possibly too few for the same jump. We say so as a hypothesis, because the copy-long training curve itself shows no sign of a transition starting.
+What was weak
+Single seeds per run, so small gaps (like the gMLP's slightly worse Shakespeare perplexity) are not conclusive.
+The copy-long budget of 5,000 steps leaves the Transformer's one failure unexplained by evidence; the next step is to train it longer.
+The tasks were chosen to expose limits. We think that is fair, since copy and induction are capabilities trained Transformers develop naturally, but it is a choice worth stating.
+My part
+A team of four at the ANU (Deep Learning, 2026), with Vibhansh Gupta, Daniel Vaz and Adam Clark. I implemented the Transformer, designed the 27-run experiment grid and the comparison framework, and wrote the report.
+full report (PDF) →
+code →
+
+## 1 AM reflections: Gamma beat saturation
+URL: https://mayukh-d.github.io/notes/gamma-beat-saturation/
+1am/gamma-beat-saturation
+Gamma beat saturation: why screen colours lie on cheap LEDs
+from building Lantern · Mayukh Das
+I built a small Mac app that makes a A$49 Bluetooth LED bar follow whatever is on my screen. Getting the bar to change colour took an afternoon. Getting it to show the right colour took much longer, and taught me something I didn't expect.
+The problem: everything looked pastel
+The first version simply sent the screen's colour straight to the light. A teal on screen, say red 40, green 180, blue 180, went to the bar as exactly those numbers. On the bar it looked minty white. So did most other colours: deep blue became pale blue, orange became peach. Everything drifted towards white.
+The bar wasn't broken. A screen and an LED don't mix light the same way.
+Why it happens
+A screen is built to reproduce colours accurately: its red, green and blue are balanced, and it applies a gamma curve so that a value of 40 out of 255 really is dim. A cheap LED controller does neither. It roughly drives each channel in proportion to the number you send, and its green and blue are much stronger than its red.
+So that small red 40 in a teal, nearly invisible on a screen, becomes a noticeable glow of red on the bar, and the weak channels together add up to white.
+On a screen, the minor channels of a colour are a nuance. On an LED, they are contamination.
+What I tried first: more saturation
+The obvious fix was to boost saturation and push every colour away from grey. It helped a little and broke something else: everything collapsed towards the nearest primary. A dusty blue and a navy both became the same full blue. The bar was no longer pastel, but it had lost every in-between hue.
+That was the giveaway. Saturation acts on the whole colour at once, while the actual problem was the small channels specifically.
+What worked: gamma
+Gamma correction raises each channel to a power. With a gamma of 3.5, a channel at full strength stays at full strength, but a channel at 20% drops to under 1%. That is the right shape for this problem: it suppresses the weak channels hard and barely touches the strong ones. The red in the teal all but disappears, so the bar shows teal, not mint, while a dusty blue keeps its slight green and stays distinct from navy.
+One more adjustment was needed. Gamma also dims the colour overall, so after applying it I rescale the result back to its original brightness. Only the purity changes, not the brightness.
+How I found the numbers
+Not by theory. I built a calibration window: pick a colour from a wheel, or grab any pixel from the screen, and the bar shows it next to the on-screen swatch while sliders adjust saturation, gamma and each channel's strength. Then I tuned by eye until they matched.
+The settings I landed on for this bar: gamma 3.5, saturation left unchanged, and blue turned down to 0.45 , because this bar runs blue. Another bar would need different numbers, which is why the calibration tool ships with the app instead of the values being hard-coded.
+The general lesson
+When an output disagrees with your input, it is tempting to reach for the control that sounds right: the colours look washed out, so add saturation. The better question is where the error comes from. Here it came from the smallest components of each colour, and the fix was the one that targets exactly those. It is the same instinct as debugging a model: find the part of the input the error actually lives in, rather than turning the global knob.
+the Lantern write-up → code →
+
+## 1 AM reflections: what transfers to a GPT trained on 3.7M tokens
+URL: https://mayukh-d.github.io/notes/small-data-gpt/
+1am/small-data-gpt
+What transfers to a GPT trained on 3.7M tokens, and what doesn't
+from Advanced Machine Learning, ANU · Mayukh Das
+For an Advanced Machine Learning project at the ANU, I trained a GPT from scratch on five-sentence stories: about 30 million parameters, and only 3.7 million training tokens . Chinchilla-style scaling would suggest around 600 million tokens for a model that size, so this is roughly 160 times less data than it "wants". That constraint turned every design choice into a question of efficiency rather than capacity, and it made several large-scale habits misbehave.
+The models below are drawn to scale from the real configurations: volume is parameters.
+1. The tokenizer was the biggest lever
+The largest single gain didn't come from the architecture at all. With the GPT-2 tokenizer, the embedding table alone holds 50,257 × 384 ≈ 19.3M parameters: over 60% of the model, spent on a lookup table. Switching to a 32k vocabulary shrank it to about 12.3M and freed about 7M parameters for the layers that actually learn, and test perplexity fell from 28.62 to 23.71 on an otherwise identical model.
+The graded evaluation required GPT-2 tokens, so the final model couldn't use it, but the lesson stands: when parameters are scarce, where they sit matters more than how many there are.
+2. Depth beat width
+At matched parameter counts, deeper and narrower won every time: 7 layers scored 25.77, 11 scored 25.45, 16 scored 25.17, and 20 layers at width 272 scored 25.12. That contradicts the large-scale finding that depth versus width barely matters. My reading is that on small data each extra layer refines the previous one's features, while extra width adds parallel features the data is too small to teach.
+3. Only two of three LLaMA components transferred
+RoPE was the biggest win (25.33 to 24.69) because it encodes position by rotating queries and keys, at no parameter cost: the learned position table disappears. RMSNorm helped modestly (25.01). SwiGLU's gates need enough data to learn meaningful values, and 3.7M tokens wasn't it: perplexity rose to 25.62 and training diverged after 6,500 steps. RoPE and RMSNorm together reached 24.67 : complementary, but not additive.
+4. Matching the data beat having more of it
+Pretraining on TinyStories, a much larger dataset of simple children's stories, was the worst result of the project (53.26), and adding synthetic stories also hurt. Fine-tuning on stories written by Gemini worsened perplexity too, but its stories read better. The one strategy that improved both was quality-filtering the original stories (25.33 to 24.92). Data that doesn't match the test distribution made things worse, regardless of quality or size.
+5. Perplexity is not quality
+The submitted model (20 layers × 256, RoPE and RMSNorm) scored 24.67. A slightly wider sibling scored 24.84 and wrote noticeably better stories. Perplexity measures how well a model predicts the test set's exact words, not whether its stories are coherent. It is the right metric to optimise, and the wrong one to stop looking past.
+Try the model
+The thread through all of it
+Recipes from large-scale training are tuned for large-scale problems. At small scale, some of them are free wins (RoPE), some are neutral, and some actively hurt (SwiGLU). The only reliable way to know which is to change one thing at a time and measure.
+full report (PDF) → live demo → code →
+
+## 1 AM reflections: predict the data, not the velocity
+URL: https://mayukh-d.github.io/notes/x-vs-v-prediction/
+1am/x-vs-v-prediction
+Predict the data, not the velocity, until you can't
+from Advanced Machine Learning, ANU · Mayukh Das
+Flow matching trains a network to turn noise into data. One design choice sounds like a detail: should the network predict the clean data (x-prediction) or the velocity that moves noise towards data (v-prediction)? Mathematically the two contain the same information. In practice, for an Advanced Machine Learning project at the ANU, they behaved completely differently.
+The experiment
+I used simple 2D datasets (a swiss roll, a ring of Gaussians, circles) and embedded them in 2, 8 and 32 dimensions, so the data always lies on a flat 2D sheet inside a bigger space. The same small network (5 layers, 256 wide) was trained with every combination of prediction target and loss.
+What happened
+At 2 dimensions, everything worked. At 8, v-prediction started to blur. At 32, both v-prediction setups failed completely, while both x-prediction setups still produced clean spirals, rings and clusters. The loss type mattered much less than the prediction target: matching the loss to the target helped a little, but never rescued v-prediction.
+Why
+The clean data still lives on a simple 2D sheet, however many dimensions it is embedded in, so x-prediction only has to learn that simple shape. The velocity, though, includes the noise, and the noise fills all 32 dimensions. So v-prediction has to model a target whose complexity grows with the full space.
+Same information, different difficulty: x-prediction's target stays low-dimensional, v-prediction's grows with the space.
+Can v-prediction be rescued?
+Yes, so the failure is about capacity, not impossibility. Widening the network from 256 to 1024 units gave clean spirals with v-prediction, but that means going from about 330K to 5.2M parameters: roughly 16 times the compute for what x-prediction did at the small size. Shifting the noise schedule, a trick from large-scale work, didn't help on its own.
+So why do big image models predict velocity?
+Because their world is different. Production models like SD3 and FLUX work in dense, learned latent spaces, where the data no longer sits on a simple low-dimensional sheet, so x-prediction loses its advantage. And v-prediction keeps the difficulty more even across noise levels, while x-prediction must reconstruct clean data from almost pure noise at the start. At scale, that steadier optimisation wins.
+How many steps does sampling need?
+Generating means following the learned flow from noise to data in small Euler steps. With the best setup (x-prediction at 32 dimensions), recognisable structure appeared by about 10 steps, and quality saturated between 20 and 50. Beyond that, extra steps bought almost nothing.
+A footnote on one-step generation
+I also implemented MeanFlow, which learns the average velocity over a whole interval so it can generate in a single step. It drew the swiss roll and circles in one step, but struggled with the separate Gaussian clusters, where averaging pulls the modes together. The paper's recommended timestep sampler made that worse here, which was a useful reminder in itself: recipes from large-scale work are tuned for failure modes that may not exist in a small problem.
+MeanFlow at 1, 2 and 5 steps. The spiral and rings hold up in one step; the eight Gaussian clusters smear together.
+full report (PDF) → code →
+
 ## Contact
 Open to opportunities in software engineering and machine learning, based in Canberra, ACT.
 Email: use the contact section at the bottom of https://mayukh-d.github.io/
