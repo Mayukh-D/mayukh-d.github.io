@@ -235,11 +235,11 @@
     .dapper.on path.goldfill { fill-opacity: 0.95; }
     .dapper.off path { transition: stroke-dashoffset 0.35s ease-in, fill-opacity 0.25s ease-in; }
     .dapper.dapper-back { z-index: 0; }
+    .dapper-back path.fold { stroke-width: 5.5; opacity: 0.8; }
     .dapper-back .cape-fill { fill: rgba(0, 255, 65, 0.1); stroke: none; fill-opacity: 0; transition: fill-opacity 0.8s ease 1.2s; }
     .dapper-back.on .cape-fill { fill-opacity: 1; }
     .dapper-back .cape-fill { fill: rgba(0, 255, 65, 0.07); fill-opacity: 0; transition: fill-opacity 0.6s ease 0.2s; }
     .dapper-back.on .cape-fill { fill-opacity: 1; }
-    .cape-sway { transform-box: view-box; transform-origin: 350px 520px; }
     @keyframes cape-sway { 0%, 100% { transform: skewX(-1.2deg); } 50% { transform: skewX(1.2deg); } }
     @media (prefers-reduced-motion: reduce) { .dapper-back.on .cape-sway { animation: none; } }
     .dapper.on path { stroke-dashoffset: 0; transition: stroke-dashoffset var(--dur) cubic-bezier(.45,.05,.4,1) var(--delay); }
@@ -900,15 +900,25 @@
       <img class="hero-photo" src="assets/mayukh-full.webp" width="575" height="1800" alt="Mayukh Das, standing in a grey suit with arms crossed" fetchpriority="high">
       <button type="button" class="dapper-btn" id="dapper-btn" aria-pressed="false">make me dapper</button>
       <svg class="dapper dapper-back" id="dapper-back" viewBox="0 0 575 1800" aria-hidden="true">
-        <g transform="scale(0.6919)"><g class="cape-sway">
-          <!-- a cape behind him, on both sides and widest on the viewer's left (away from the way he faces),
-               hem at his feet. Each line breathes between two shapes so the cloth billows; plain strokes,
-               no pencil filter, and paused whenever the cape is off or out of view. -->
-          <path d="M 80 575 C -260 760, -480 1300, -540 1900 C -570 2200, -620 2420, -700 2500"><animate attributeName="d" dur="4.6s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines=".45 0 .55 1;.45 0 .55 1" values="M 80 575 C -260 760, -480 1300, -540 1900 C -570 2200, -620 2420, -700 2500;M 80 575 C -330 740, -600 1250, -660 1850 C -700 2180, -760 2400, -860 2470;M 80 575 C -260 760, -480 1300, -540 1900 C -570 2200, -620 2420, -700 2500"/></path>
-          <path d="M 660 590 C 740 1200, 800 1900, 850 2500"><animate attributeName="d" dur="4.6s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines=".45 0 .55 1;.45 0 .55 1" values="M 660 590 C 740 1200, 800 1900, 850 2500;M 660 590 C 760 1180, 840 1880, 900 2480;M 660 590 C 740 1200, 800 1900, 850 2500"/></path>
-          <path d="M 850 2500 C 600 2530, 400 2490, 150 2520 C -100 2550, -400 2490, -700 2500"><animate attributeName="d" dur="4.6s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines=".45 0 .55 1;.45 0 .55 1" values="M 850 2500 C 600 2530, 400 2490, 150 2520 C -100 2550, -400 2490, -700 2500;M 900 2480 C 640 2500, 420 2550, 170 2510 C -110 2470, -440 2550, -860 2470;M 850 2500 C 600 2530, 400 2490, 150 2520 C -100 2550, -400 2490, -700 2500"/></path>
-          <path d="M 30 640 C -200 900, -360 1500, -420 2510"><animate attributeName="d" dur="4.6s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines=".45 0 .55 1;.45 0 .55 1" values="M 30 640 C -200 900, -360 1500, -420 2510;M 30 640 C -250 880, -440 1450, -520 2490;M 30 640 C -200 900, -360 1500, -420 2510"/></path>
-          <path d="M 40 760 C -120 1150, -220 1800, -240 2525"><animate attributeName="d" dur="4.6s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines=".45 0 .55 1;.45 0 .55 1" values="M 40 760 C -120 1150, -220 1800, -240 2525;M 40 760 C -150 1130, -280 1780, -310 2505;M 40 760 C -120 1150, -220 1800, -240 2525"/></path>
+        <g transform="scale(0.6919)"><g class="cape-drawn" filter="url(#pencil)">
+          <!-- a still cape, drawn like cloth: gathered at both shoulders, falling behind him in long folds
+               (widest on the viewer's left, away from the way he faces), bunching into a scalloped hem at
+               the floor and trailing out behind him with creases and a turned-over tip -->
+          <path d="M 40 600 C -90 760, -230 1250, -290 1850 C -320 2180, -400 2420, -580 2516"/>
+          <path d="M 700 600 C 790 960, 850 1650, 880 2380 C 890 2470, 860 2540, 800 2585"/>
+          <path d="M 110 2588 C 60 2600, 10 2575, -40 2590 C -100 2606, -150 2580, -210 2596 C -300 2618, -420 2600, -520 2604 C -660 2608, -800 2590, -900 2560"/>
+          <path d="M 800 2585 C 740 2600, 690 2575, 630 2592"/>
+          <path d="M -580 2516 C -700 2502, -810 2514, -900 2560"/>
+          <path d="M -900 2560 C -870 2538, -820 2534, -786 2548"/>
+          <path class="fold" d="M 70 680 C 0 1000, -60 1500, -110 2000 C -130 2250, -150 2420, -170 2584"/>
+          <path class="fold" d="M 40 760 C -50 1060, -150 1600, -200 2100 C -220 2320, -240 2470, -262 2592"/>
+          <path class="fold" d="M -60 920 C -130 1260, -190 1650, -225 1980"/>
+          <path class="fold" d="M 690 700 C 750 1100, 790 1800, 805 2420"/>
+          <path class="fold" d="M -330 2470 C -380 2520, -430 2565, -470 2600"/>
+          <path class="fold" d="M -520 2510 C -560 2545, -605 2580, -640 2604"/>
+          <path class="fold" d="M -650 2520 C -700 2545, -740 2572, -772 2594"/>
+          <path class="fold" d="M 50 620 C 80 640, 90 670, 80 700 M 92 610 C 116 634, 122 664, 110 690 M 132 604 C 152 625, 154 650, 144 672"/>
+          <path class="fold" d="M 690 618 C 664 640, 660 668, 670 696 M 654 608 C 632 630, 628 655, 638 680"/>
         </g></g>
       </svg>
       <svg class="dapper" id="dapper" viewBox="0 0 575 1800" aria-hidden="true">
@@ -1515,19 +1525,9 @@
       p.style.setProperty('--delay', t + 's');
       t += dur * 0.85 + 0.01;
     });
-    // the cape's billow (SVG animation) only runs while it is on and the hero is on screen
-    var heroSeen = true;
-    function capeMotion() {
-      if (!back || !back.pauseAnimations) return;
-      var go = svg.classList.contains('on') && heroSeen && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (go) back.unpauseAnimations(); else back.pauseAnimations();
-    }
-    if (back && back.pauseAnimations) back.pauseAnimations();
-    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { heroSeen = es[0].isIntersecting; capeMotion(); }).observe(document.querySelector('header'));
     window.makeDapper = function (want) {
       var on = want === undefined ? !svg.classList.contains('on') : want;
       layers.forEach(function (l) { l.classList.toggle('on', on); l.classList.toggle('off', !on); });
-      capeMotion();
       btn.textContent = on ? 'undo dapper' : 'make me dapper';
       btn.setAttribute('aria-pressed', on);
       return on;
