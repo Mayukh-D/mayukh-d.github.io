@@ -6,7 +6,7 @@ handful of static assets, served straight off GitHub Pages. The one moving part 
 optional "ask me anything" terminal, backed by a small Cloudflare Worker in
 [`chat-worker/`](chat-worker/).
 
-**Live at [mayukhdas.com](https://mayukhdas.com/)**
+**Live at [mayukh-d.github.io](https://mayukh-d.github.io/)**
 
 ![Hero](assets/screenshots/hero.png)
 

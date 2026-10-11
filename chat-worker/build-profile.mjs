@@ -30,7 +30,7 @@ for (const [id, title] of [['experience', 'Experience'], ['education', 'Educatio
 out.push('## Projects');
 for (const card of items(section('projects'), 'project-card')) {
   const links = [...card.matchAll(/<a [^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g)]
-    .map(([, href, inner]) => `${text(inner) || 'link'}: ${href.startsWith('http') ? href : 'https://mayukhdas.com/' + href}`);
+    .map(([, href, inner]) => `${text(inner) || 'link'}: ${href.startsWith('http') ? href : 'https://mayukh-d.github.io/' + href}`);
   const title = text(card.match(/<h3>([\s\S]*?)<\/h3>/)[1]);
   const desc = text(card.match(/<p>([\s\S]*?)<\/p>/)[1]);
   const tech = text(card.match(/<span class="project-lang">([\s\S]*?)<\/span>\s*<span/)?.[1] || '');
@@ -77,7 +77,7 @@ for (const [file, title] of deep) {
   const main = page.match(/<main class="deep"[\s\S]*?<\/main>/)[0]
     .replace(/<div class="demo"[\s\S]*?(?=<h2|<p>|<div class="links"|<\/main>)/g, ' ')
     .replace(/<(h1|h2|h3)[^>]*>/g, '\n$&').replace(/<\/(p|li|h1|h2|h3)>/g, '$&\n');
-  const url = 'https://mayukhdas.com/' + file.replace(/index\.html$/, '');
+  const url = 'https://mayukh-d.github.io/' + file.replace(/index\.html$/, '');
   const body = decode(main.replace(/<script[\s\S]*?<\/script>/g, '').replace(/<[^>]+>/g, ' '))
     .split('\n').map(l => l.replace(/\s+/g, ' ').trim()).filter(Boolean).join('\n');
   out.push(`## ${title}`, `URL: ${url}`, body, '');
@@ -85,10 +85,10 @@ for (const [file, title] of deep) {
 
 out.push('## Contact',
   'Open to opportunities in software engineering and machine learning, based in Canberra, ACT.',
-  'Email: use the contact section at the bottom of https://mayukhdas.com/',
+  'Email: use the contact section at the bottom of https://mayukh-d.github.io/',
   'LinkedIn: https://www.linkedin.com/in/mayukh-das-a38319148',
   'GitHub: https://github.com/Mayukh-D',
-  'Resume (PDF): https://mayukhdas.com/assets/Mayukh_Das_Resume.pdf', '');
+  'Resume (PDF): https://mayukh-d.github.io/assets/Mayukh_Das_Resume.pdf', '');
 
 writeFileSync(new URL('profile.md', here), out.join('\n'));
 console.log(`profile.md: ${out.join('\n').length} chars`);
