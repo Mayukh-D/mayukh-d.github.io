@@ -64,7 +64,7 @@ export async function handle(request, env, profile, fetchImpl = fetch) {
 
   if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
   if (request.method !== 'POST' || new URL(request.url).pathname !== '/chat') return json({ error: 'Not found.' }, 404);
-  if (!allowed.includes(origin)) return json({ error: 'This assistant only answers on mayukh-d.github.io.' }, 403);
+  if (!allowed.includes(origin)) return json({ error: 'This assistant only answers on mayukhdas.com.' }, 403);
 
   if (env.LIMITER) {
     const ip = request.headers.get('CF-Connecting-IP') || 'unknown';

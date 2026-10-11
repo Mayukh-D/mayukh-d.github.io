@@ -32,47 +32,47 @@ I'm a machine learning engineer and architect: from training generative models f
 ### Image Generation with Machine Learning
 Flow matching from first principles: comparing v- vs x-prediction across data dimensions (x-prediction stays stable where v-prediction collapses), plus a MeanFlow implementation with Jacobian-vector-product targets.
 Tech: Python · PyTorch HD
-Links: Image Generation with Machine Learning: https://github.com/Mayukh-D/image-generation-with-machine-learning | tl;dr: https://mayukh-d.github.io/#tldr-flow | report: https://mayukh-d.github.io/assets/reports/flow-matching-report.pdf | code: https://github.com/Mayukh-D/image-generation-with-machine-learning
+Links: Image Generation with Machine Learning: https://github.com/Mayukh-D/image-generation-with-machine-learning | tl;dr: https://mayukhdas.com/#tldr-flow | report: https://mayukhdas.com/assets/reports/flow-matching-report.pdf | code: https://github.com/Mayukh-D/image-generation-with-machine-learning
 
 ### GPT from Scratch (nanoGPT)
 A 30M-parameter GPT built from scratch in PyTorch and trained on just 3.7M tokens of five-sentence stories, testing depth vs width and RoPE + RMSNorm (25.77 → 24.67 PPL), plus DPO fine-tuning, in the data-scarce regime.
 Tech: Python · PyTorch · CUDA HD
-Links: GPT from Scratch (nanoGPT): https://github.com/Mayukh-D/story-generation-nanoGPT | tl;dr: https://mayukh-d.github.io/#tldr-nanogpt | demo: https://huggingface.co/spaces/Mayukh1999/nanogpt-story-generator | report: https://mayukh-d.github.io/assets/reports/nanogpt-report.pdf | code: https://github.com/Mayukh-D/story-generation-nanoGPT
+Links: GPT from Scratch (nanoGPT): https://github.com/Mayukh-D/story-generation-nanoGPT | tl;dr: https://mayukhdas.com/#tldr-nanogpt | demo: https://huggingface.co/spaces/Mayukh1999/nanogpt-story-generator | report: https://mayukhdas.com/assets/reports/nanogpt-report.pdf | code: https://github.com/Mayukh-D/story-generation-nanoGPT
 
 ### Transformers' Revenge
 Stress-testing minGRU's "Were RNNs All We Needed?" claims against a LLaMA-recipe Transformer and a causal gMLP on algorithmic reasoning: a 27-experiment grid showing where each architecture breaks, plus a phase transition in Transformer copy learning.
 Tech: Jupyter · PyTorch HD
-Links: Transformers' Revenge: https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge | tl;dr: https://mayukh-d.github.io/#tldr-transformers | report: https://mayukh-d.github.io/assets/reports/transformers-revenge.pdf | code: https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge
+Links: Transformers' Revenge: https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge | tl;dr: https://mayukhdas.com/#tldr-transformers | report: https://mayukhdas.com/assets/reports/transformers-revenge.pdf | code: https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge
 
 ### FoodLens · Smart Food Scanner
 A PWA for sustainable food shopping: real-time barcode scanning, live product lookup via Open Food Facts, allergen/expiry/carbon flagging, and A/B interaction logging for HCI research.
 Tech: JavaScript · PWA HD
-Links: FoodLens · Smart Food Scanner: https://github.com/Mayukh-D/foodlens-ar-sustainable-shopping | tl;dr: https://mayukh-d.github.io/#tldr-foodlens | demo: https://foodlens-f281.onrender.com | code: https://github.com/Mayukh-D/foodlens-ar-sustainable-shopping
+Links: FoodLens · Smart Food Scanner: https://github.com/Mayukh-D/foodlens-ar-sustainable-shopping | tl;dr: https://mayukhdas.com/#tldr-foodlens | demo: https://foodlens-f281.onrender.com | code: https://github.com/Mayukh-D/foodlens-ar-sustainable-shopping
 
 ### Yuma Social Platform
 A native Android social app (post feed, reactions, DMs, and admin moderation) applying Singleton, Factory, and Iterator patterns across a layered DAO architecture.
 Tech: Java · Android HD
-Links: Yuma Social Platform: https://github.com/Mayukh-D/yuma-social-platform | tl;dr: https://mayukh-d.github.io/#tldr-yuma | code: https://github.com/Mayukh-D/yuma-social-platform
+Links: Yuma Social Platform: https://github.com/Mayukh-D/yuma-social-platform | tl;dr: https://mayukhdas.com/#tldr-yuma | code: https://github.com/Mayukh-D/yuma-social-platform
 
 ### HCI Design & Research
 A portfolio of human-computer interaction work, including prototyping and AR system evaluation.
 Tech: Portfolio HD
-Links: HCI Design & Research: https://github.com/Mayukh-D/hci-design-and-research | tl;dr: https://mayukh-d.github.io/#tldr-hci | code: https://github.com/Mayukh-D/hci-design-and-research
+Links: HCI Design & Research: https://github.com/Mayukh-D/hci-design-and-research | tl;dr: https://mayukhdas.com/#tldr-hci | code: https://github.com/Mayukh-D/hci-design-and-research
 
 ### TokenEater · Multi-Account Fork
 An unofficial fork of a macOS menu bar app that tracks Claude usage, adding a second Claude account as a provider of its own across the menu bar, popover, dashboard and Studio. Proposed upstream as pull request #284. For everyday use, get the official TokenEater .
 Tech: Swift · SwiftUI
-Links: TokenEater · Multi-Account Fork: https://github.com/Mayukh-D/TokenEater | official TokenEater: https://github.com/AThevon/TokenEater | tl;dr: https://mayukh-d.github.io/#tldr-tokeneater | build: https://github.com/Mayukh-D/TokenEater/releases | code: https://github.com/Mayukh-D/TokenEater
+Links: TokenEater · Multi-Account Fork: https://github.com/Mayukh-D/TokenEater | official TokenEater: https://github.com/AThevon/TokenEater | tl;dr: https://mayukhdas.com/#tldr-tokeneater | build: https://github.com/Mayukh-D/TokenEater/releases | code: https://github.com/Mayukh-D/TokenEater
 
 ### Lantern · Screen Sync for a A$49 Light
 A Mac menu bar app that makes a cheap Bluetooth LED bar follow whatever is on screen, the feature Philips Hue sells for about A$550. I reverse-engineered the light's Bluetooth commands, calibrated LED colour against the screen, and shipped it with a website and a release.
 Tech: Swift · SwiftUI
-Links: Lantern · Screen Sync for a A$49 Light: https://github.com/Mayukh-D/lantern | tl;dr: https://mayukh-d.github.io/#tldr-lantern | site: https://mayukh-d.github.io/lantern/ | code: https://github.com/Mayukh-D/lantern
+Links: Lantern · Screen Sync for a A$49 Light: https://github.com/Mayukh-D/lantern | tl;dr: https://mayukhdas.com/#tldr-lantern | site: https://mayukhdas.com/lantern/ | code: https://github.com/Mayukh-D/lantern
 
 ### GrowthScope · First Hackathon
 My first hackathon and first vibe-coded app (ANU, 2025): sales analytics for small businesses. Kept as a benchmark, and revisited in 2026 with tests, a self-scoring revenue forecast, anomaly detection, and fixes for what I first shipped.
 Tech: Python · Flask
-Links: GrowthScope · First Hackathon: https://github.com/Mayukh-D/GrowthScope | tl;dr: https://mayukh-d.github.io/#tldr-growthscope | demo: https://growthscope-j85i.onrender.com | code: https://github.com/Mayukh-D/GrowthScope | More on GitHub → experiments, forks and side projects: https://github.com/Mayukh-D?tab=repositories
+Links: GrowthScope · First Hackathon: https://github.com/Mayukh-D/GrowthScope | tl;dr: https://mayukhdas.com/#tldr-growthscope | demo: https://growthscope-j85i.onrender.com | code: https://github.com/Mayukh-D/GrowthScope | More on GitHub → experiments, forks and side projects: https://github.com/Mayukh-D?tab=repositories
 
 ## How he works (his own principles)
 In one line: He builds models from first principles, then tries to break them.
@@ -242,7 +242,7 @@ Trained as a data engineer at Accenture.
 - Hands-on with the big data stack: Hadoop, Scala, PySpark and Cassandra.
 
 ## Projects page: how he builds (philosophy, favourite projects, design decisions)
-URL: https://mayukh-d.github.io/projects/
+URL: https://mayukhdas.com/projects/
 projects
 Small, useful, and obvious once you use it
 Claude can build something that looks like enterprise software in an afternoon, so that is no longer what I want my GitHub to show. I would rather build small things that are genuinely useful, where every decision was made on purpose, and where the person using it finds those decisions obvious.
@@ -292,7 +292,7 @@ None of these is big. Each started from something that annoyed me, and each deci
 everything on GitHub →
 
 ## Research page: who set each project, what it taught him, how it led to Haizea
-URL: https://mayukh-d.github.io/research/
+URL: https://mayukhdas.com/research/
 research
 Given a question, learn the discipline
 Most of my research started as someone else's brief: a course project, a question a lecturer posed, a claim worth testing. What counts is what I did with it, what each one taught me, and how together they got me into deep learning research at Haizea Analytics.
@@ -324,7 +324,7 @@ Real deep learning skill, and instinct for which question to ask next.
 The briefs were set by others. The discipline I took from them is mine, and it is what I bring to the work now.
 
 ## Jobs page: his career journey and what each job taught him
-URL: https://mayukh-d.github.io/jobs/
+URL: https://mayukhdas.com/jobs/
 jobs
 From being handed the spec to owning it
 I've loved machine learning since school. I studied engineering anyway, because my dad told me to be different. The road back to ML ran through every job below, and the jobs split cleanly in two: the ones where the work arrived defined, and the ones since ANU, where deciding what to build is the work.
@@ -349,7 +349,7 @@ Engineering taught me structure. Cognizant proved I could build. Accenture taugh
 full experience on the main page → resume →
 
 ## Lantern write-up
-URL: https://mayukh-d.github.io/work/lantern/
+URL: https://mayukhdas.com/work/lantern/
 work/lantern
 The Hue feature on a A$49 light
 Philips Hue can make your lights follow your screen. In Australia that means about A$550 of Hue hardware. I bought the cheapest Bluetooth LED bar I could find, for A$49, and built the missing piece myself.
@@ -379,7 +379,7 @@ download →
 code →
 
 ## Transformers' Revenge write-up
-URL: https://mayukh-d.github.io/work/transformers-revenge/
+URL: https://mayukhdas.com/work/transformers-revenge/
 work/transformers-revenge
 Transformers' Revenge: where "Were RNNs All We Needed?" breaks
 A recent paper showed that a minimal recurrent model, minGRU, matches Transformers on language modelling while training in linear time. We asked whether that still holds when a task needs genuine algorithmic reasoning, and wrote down what we expected before running anything.
@@ -415,7 +415,7 @@ full report (PDF) →
 code →
 
 ## 1 AM reflections: Gamma beat saturation
-URL: https://mayukh-d.github.io/notes/gamma-beat-saturation/
+URL: https://mayukhdas.com/notes/gamma-beat-saturation/
 1am/gamma-beat-saturation
 Gamma beat saturation: why screen colours lie on cheap LEDs
 from building Lantern · Mayukh Das
@@ -441,7 +441,7 @@ When an output disagrees with your input, it is tempting to reach for the contro
 the Lantern write-up → code →
 
 ## 1 AM reflections: what transfers to a GPT trained on 3.7M tokens
-URL: https://mayukh-d.github.io/notes/small-data-gpt/
+URL: https://mayukhdas.com/notes/small-data-gpt/
 1am/small-data-gpt
 What transfers to a GPT trained on 3.7M tokens, and what doesn't
 from Advanced Machine Learning, ANU · Mayukh Das
@@ -464,7 +464,7 @@ Recipes from large-scale training are tuned for large-scale problems. At small s
 full report (PDF) → live demo → code →
 
 ## 1 AM reflections: predict the data, not the velocity
-URL: https://mayukh-d.github.io/notes/x-vs-v-prediction/
+URL: https://mayukhdas.com/notes/x-vs-v-prediction/
 1am/x-vs-v-prediction
 Predict the data, not the velocity, until you can't
 from Advanced Machine Learning, ANU · Mayukh Das
@@ -489,7 +489,7 @@ full report (PDF) → code →
 
 ## Contact
 Open to opportunities in software engineering and machine learning, based in Canberra, ACT.
-Email: use the contact section at the bottom of https://mayukh-d.github.io/
+Email: use the contact section at the bottom of https://mayukhdas.com/
 LinkedIn: https://www.linkedin.com/in/mayukh-das-a38319148
 GitHub: https://github.com/Mayukh-D
-Resume (PDF): https://mayukh-d.github.io/assets/Mayukh_Das_Resume.pdf
+Resume (PDF): https://mayukhdas.com/assets/Mayukh_Das_Resume.pdf
