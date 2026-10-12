@@ -418,7 +418,7 @@ code →
 URL: https://mayukhdas.com/notes/gamma-beat-saturation/
 1am/gamma-beat-saturation
 Gamma beat saturation: why screen colours lie on cheap LEDs
-from building Lantern · Mayukh Das
+4 Oct 2026 · from building Lantern · Mayukh Das
 I built a small Mac app that makes a A$49 Bluetooth LED bar follow whatever is on my screen. Getting the bar to change colour took an afternoon. Getting it to show the right colour took much longer, and taught me something I didn't expect.
 The problem: everything looked pastel
 The first version simply sent the screen's colour straight to the light. A teal on screen, say red 40, green 180, blue 180, went to the bar as exactly those numbers. On the bar it looked minty white. So did most other colours: deep blue became pale blue, orange became peach. Everything drifted towards white.
@@ -444,54 +444,71 @@ the Lantern write-up → code →
 URL: https://mayukhdas.com/notes/small-data-gpt/
 1am/small-data-gpt
 What transfers to a GPT trained on 3.7M tokens, and what doesn't
-from Advanced Machine Learning, ANU · Mayukh Das
-For an Advanced Machine Learning project at the ANU, I trained a GPT from scratch on five-sentence stories: about 30 million parameters, and only 3.7 million training tokens . Chinchilla-style scaling would suggest around 600 million tokens for a model that size, so this is roughly 160 times less data than it "wants". That constraint turned every design choice into a question of efficiency rather than capacity, and it made several large-scale habits misbehave.
+31 Mar 2026 · from Advanced Machine Learning, ANU · Mayukh Das
+A GPT is a program that writes by guessing the next word, over and over. For an Advanced Machine Learning project at the ANU I built a small one from scratch and trained it on five-sentence stories. It had about 30 million parameters, the adjustable numbers it tunes as it learns, and only 3.7 million tokens to learn from, a token being the word or piece of a word it reads at a time.
+That is very little. The usual rule of thumb for a model this size, known as Chinchilla scaling, suggests around 600 million tokens, so mine had roughly 160 times less data than it "wants". With so little to learn from, every design choice became a question of not wasting anything, and several habits from large models stopped working.
+One number runs through everything below: perplexity , the score I was graded on. It measures how surprised the model is by text it has never seen, so lower is better.
 The models below are drawn to scale from the real configurations: volume is parameters.
 1. The tokenizer was the biggest lever
-The largest single gain didn't come from the architecture at all. With the GPT-2 tokenizer, the embedding table alone holds 50,257 × 384 ≈ 19.3M parameters: over 60% of the model, spent on a lookup table. Switching to a 32k vocabulary shrank it to about 12.3M and freed about 7M parameters for the layers that actually learn, and test perplexity fell from 28.62 to 23.71 on an otherwise identical model.
-The graded evaluation required GPT-2 tokens, so the final model couldn't use it, but the lesson stands: when parameters are scarce, where they sit matters more than how many there are.
+The largest single gain didn't come from the model's design at all. It came from the tokenizer, the dictionary that chops text into tokens. A model keeps a lookup table with one row for every token in that dictionary. With the standard GPT-2 dictionary of 50,257 tokens, that table alone held about 19.3 million parameters: over 60% of the model, spent on a lookup table. Switching to a dictionary of 32,000 tokens shrank it to about 12.3 million and freed about 7 million parameters for the layers that actually learn, and test perplexity fell from 28.62 to 23.71 on an otherwise identical model.
+The graded evaluation required the GPT-2 dictionary, so the final model couldn't use the smaller one, but the lesson stands: when parameters are scarce, where they sit matters more than how many there are.
 2. Depth beat width
-At matched parameter counts, deeper and narrower won every time: 7 layers scored 25.77, 11 scored 25.45, 16 scored 25.17, and 20 layers at width 272 scored 25.12. That contradicts the large-scale finding that depth versus width barely matters. My reading is that on small data each extra layer refines the previous one's features, while extra width adds parallel features the data is too small to teach.
-3. Only two of three LLaMA components transferred
-RoPE was the biggest win (25.33 to 24.69) because it encodes position by rotating queries and keys, at no parameter cost: the learned position table disappears. RMSNorm helped modestly (25.01). SwiGLU's gates need enough data to learn meaningful values, and 3.7M tokens wasn't it: perplexity rose to 25.62 and training diverged after 6,500 steps. RoPE and RMSNorm together reached 24.67 : complementary, but not additive.
+A model of a fixed size can be shaped two ways: many thin layers stacked up (deep), or a few fat ones (wide). At the same parameter count, deeper and narrower won every time: 7 layers scored 25.77, 11 scored 25.45, 16 scored 25.17, and 20 layers at width 272 scored 25.12. That contradicts the finding from large models that the shape barely matters. My reading is that on small data each extra layer refines what the previous one worked out, while extra width adds parallel features that the data is too small to teach.
+3. Only two of three modern upgrades transferred
+Modern open models such as LLaMA add three upgrades to the original GPT design, and I tried each one. RoPE, a different way of telling the model where each word sits in the sentence, was the biggest win (25.33 to 24.69), and it costs no parameters: the table the model used to keep for positions disappears. RMSNorm, a simpler way of keeping the numbers inside the model in a steady range, helped modestly (25.01). SwiGLU, a more elaborate version of one of the model's inner steps, has extra parts that need enough data to learn anything useful, and 3.7 million tokens wasn't it: perplexity rose to 25.62 and training became unstable after 6,500 steps. RoPE and RMSNorm together reached 24.67 : they help each other, but their gains don't simply add up.
 4. Matching the data beat having more of it
-Pretraining on TinyStories, a much larger dataset of simple children's stories, was the worst result of the project (53.26), and adding synthetic stories also hurt. Fine-tuning on stories written by Gemini worsened perplexity too, but its stories read better. The one strategy that improved both was quality-filtering the original stories (25.33 to 24.92). Data that doesn't match the test distribution made things worse, regardless of quality or size.
+The obvious cure for too little data is more data, so I tried that. Training first on TinyStories, a much larger collection of simple children's stories, gave the worst result of the project (53.26), and adding machine-written stories also hurt. Continuing the training on stories written by Gemini worsened perplexity too, though the stories the model then wrote read better. The one strategy that improved both was filtering the original stories for quality (25.33 to 24.92). Data that doesn't resemble what the model will be tested on made things worse, however good or plentiful it was.
 5. Perplexity is not quality
-The submitted model (20 layers × 256, RoPE and RMSNorm) scored 24.67. A slightly wider sibling scored 24.84 and wrote noticeably better stories. Perplexity measures how well a model predicts the test set's exact words, not whether its stories are coherent. It is the right metric to optimise, and the wrong one to stop looking past.
+The submitted model (20 layers, with RoPE and RMSNorm) scored 24.67. A slightly wider sibling scored 24.84 and wrote noticeably better stories. Perplexity measures how well a model predicts the exact words of the test stories, not whether its own stories make sense. It is the right number to optimise, and the wrong one to stop looking past.
 Try the model
 The thread through all of it
-Recipes from large-scale training are tuned for large-scale problems. At small scale, some of them are free wins (RoPE), some are neutral, and some actively hurt (SwiGLU). The only reliable way to know which is to change one thing at a time and measure.
+Recipes from large-scale training are tuned for large-scale problems. At small scale, some of them are free wins (RoPE), some make no difference, and some actively hurt (SwiGLU). The only reliable way to know which is to change one thing at a time and measure.
 full report (PDF) → live demo → code →
 
 ## 1 AM reflections: predict the data, not the velocity
 URL: https://mayukhdas.com/notes/x-vs-v-prediction/
 1am/x-vs-v-prediction
 Predict the data, not the velocity, until you can't
-from Advanced Machine Learning, ANU · Mayukh Das
-Flow matching trains a network to turn noise into data. One design choice sounds like a detail: should the network predict the clean data (x-prediction) or the velocity that moves noise towards data (v-prediction)? Mathematically the two contain the same information. In practice, for an Advanced Machine Learning project at the ANU, they behaved completely differently.
+10 May 2026 · from Advanced Machine Learning, ANU · Mayukh Das
+AI image generators start from pure static and gradually turn it into a picture. Flow matching is one of the methods that teaches a network to do that, and it comes with a design choice that sounds like a detail: what, exactly, should the network be asked to predict? For an Advanced Machine Learning project at the ANU I tried both options. On paper they are the same thing. In practice they behaved completely differently.
+The idea, without the maths
+Take one real example from your data and one random blob of static, and imagine a straight line between them. Flow matching trains a network so that, dropped anywhere along a line like that, it knows how to carry on towards the data end. Train it on enough of these lines and it can start from brand-new static and find its own way to something that looks real.
+start: pure static
+the data
+the network is dropped here
+velocity: which way, how fast
+destination: the clean data
+One training example. The network is dropped somewhere on the line and asked either for the destination or for the arrow.
+There are two natural things to ask the network for at each point on the line:
+The destination. "Where does this end up?" The network predicts the clean data itself. This is called x-prediction, because x is the usual name for the data.
+The velocity. "Which way do I move right now, and how fast?" The network predicts the arrow that carries static towards data. This is v-prediction.
+These are two descriptions of the same line. If you know where you are and where you are going, you can work out the arrow, and the other way round. One detail turns out to matter a great deal, though: the arrow is the destination minus the static you started from, so the velocity has the static baked into it .
 The experiment
-I used simple 2D datasets (a swiss roll, a ring of Gaussians, circles) and embedded them in 2, 8 and 32 dimensions, so the data always lies on a flat 2D sheet inside a bigger space. The same small network (5 layers, 256 wide) was trained with every combination of prediction target and loss.
+I didn't use images. I used shapes simple enough to judge by eye: dots arranged in a spiral (a "swiss roll"), a ring of blobs, and circles. Each one is flat, like a drawing on a sheet of paper. Then I placed that sheet inside bigger and bigger spaces: 2, 8 and 32 dimensions. A sheet of paper in a room is still flat, even though the room has three dimensions; this is the same idea with a 32-dimensional room. Real images work like this too: a photo is millions of numbers, but real photos take up only a thin, structured slice of all the combinations those numbers could make.
+The same small network (5 layers, 256 units wide) was trained with every combination of prediction target and loss, the loss being how its mistakes are scored.
 What happened
-At 2 dimensions, everything worked. At 8, v-prediction started to blur. At 32, both v-prediction setups failed completely, while both x-prediction setups still produced clean spirals, rings and clusters. The loss type mattered much less than the prediction target: matching the loss to the target helped a little, but never rescued v-prediction.
+At 2 dimensions, everything worked. At 8, v-prediction started to blur. At 32, both v-prediction setups failed completely, while both x-prediction setups still drew clean spirals, rings and clusters. How the mistakes were scored mattered much less than what was being predicted: matching the loss to the target helped a little, but never rescued v-prediction.
 Why
-The clean data still lives on a simple 2D sheet, however many dimensions it is embedded in, so x-prediction only has to learn that simple shape. The velocity, though, includes the noise, and the noise fills all 32 dimensions. So v-prediction has to model a target whose complexity grows with the full space.
-Same information, different difficulty: x-prediction's target stays low-dimensional, v-prediction's grows with the space.
+However big the room, the clean data still lives on its flat sheet, so a network predicting the destination only ever has to learn that simple shape. The velocity is different. It has the static baked in, and static fills every direction of the room, all 32 of them. So a network predicting the velocity has to describe something that gets more complicated every time the room grows.
+Same information, different difficulty: the destination stays as simple as the data, while the velocity gets harder as the space grows.
 Can v-prediction be rescued?
-Yes, so the failure is about capacity, not impossibility. Widening the network from 256 to 1024 units gave clean spirals with v-prediction, but that means going from about 330K to 5.2M parameters: roughly 16 times the compute for what x-prediction did at the small size. Shifting the noise schedule, a trick from large-scale work, didn't help on its own.
+Yes, so the failure is about the size of the network, not about what is possible. Making the network four times wider, from 256 to 1024 units, gave clean spirals with v-prediction. But that takes it from about 330 thousand adjustable numbers to 5.2 million: roughly 16 times the compute for what x-prediction managed at the small size. Changing how the static is mixed in during training, a trick from large-scale work called shifting the noise schedule, didn't help on its own.
 So why do big image models predict velocity?
-Because their world is different. Production models like SD3 and FLUX work in dense, learned latent spaces, where the data no longer sits on a simple low-dimensional sheet, so x-prediction loses its advantage. And v-prediction keeps the difficulty more even across noise levels, while x-prediction must reconstruct clean data from almost pure noise at the start. At scale, that steadier optimisation wins.
+Because their world is different. Production models like Stable Diffusion 3 and FLUX don't work on pixels. They work on a compressed description of the image that another network has learned, and in that compressed space the data no longer sits on a simple flat sheet, so predicting the destination loses its advantage. Predicting the velocity also keeps the job about equally hard at every stage, whereas a network predicting the destination has to guess a whole clean image from almost pure static at the very start. At scale, that steadier training wins.
 How many steps does sampling need?
-Generating means following the learned flow from noise to data in small Euler steps. With the best setup (x-prediction at 32 dimensions), recognisable structure appeared by about 10 steps, and quality saturated between 20 and 50. Beyond that, extra steps bought almost nothing.
+Generating means starting from static and following the network's directions in small straight steps. With the best setup (x-prediction at 32 dimensions), recognisable structure appeared by about 10 steps, and quality stopped improving somewhere between 20 and 50. Beyond that, extra steps bought almost nothing.
 A footnote on one-step generation
-I also implemented MeanFlow, which learns the average velocity over a whole interval so it can generate in a single step. It drew the swiss roll and circles in one step, but struggled with the separate Gaussian clusters, where averaging pulls the modes together. The paper's recommended timestep sampler made that worse here, which was a useful reminder in itself: recipes from large-scale work are tuned for failure modes that may not exist in a small problem.
-MeanFlow at 1, 2 and 5 steps. The spiral and rings hold up in one step; the eight Gaussian clusters smear together.
+I also implemented MeanFlow, a method that learns the average velocity over a whole stretch of the journey, so it can make the trip in a single step. It drew the swiss roll and the circles in one step, but struggled with the separate clusters, where averaging pulls them together. The paper's recommended way of choosing which points along the line to train on made that worse here, which was a useful reminder in itself: recipes from large-scale work are tuned for failure modes that may not exist in a small problem.
+MeanFlow at 1, 2 and 5 steps. The spiral and rings hold up in one step; the eight separate clusters smear together.
+What I took from it
+Two things can be identical on paper and very different to learn. Asking for the destination was easier here because the destination was simple and the route was noisy. When the destination stops being simple, as it does in large image models, the answer flips. A design choice is only right for the problem in front of it.
 full report (PDF) → code →
 
 ## 1 AM reflections: a rule my agents can't break is code, not a sentence
 URL: https://mayukhdas.com/notes/agent-atoll/
 1am/agent-atoll
 A rule my agents can't break is code, not a sentence
-from running a research project with AI agents · Mayukh Das
+13 Oct 2026 · from running a research project with AI agents · Mayukh Das
 My canopy-mapping work runs on a GPU box that trains models around the clock, and I spend about 45 minutes a day on it. Everything else is done by a team of Claude agents: one orchestrator I talk to, and a dozen specialists it hands work to. It works now. It didn't at first, and most of what I learned was about rules.
 The team
 Every agent has one job and a role file that says what it may and may not do. The orchestrator plans, delegates and keeps the record, and it never writes experiment code itself. The rest:
@@ -519,7 +536,7 @@ more 1 AM reflections → the research behind it →
 URL: https://mayukhdas.com/notes/attention-was-all-we-needed/
 1am/attention-was-all-we-needed
 Yes, attention definitely was all we needed
-from Deep Learning, ANU · Mayukh Das
+7 Jun 2026 · from Deep Learning, ANU · Mayukh Das
 In 2017 a paper called "Attention Is All You Need" introduced the Transformer, the design behind today's chatbots. In 2024 another paper asked a cheeky question back: "Were RNNs All We Needed?" Its authors, Feng and colleagues, took an older and simpler kind of model, stripped it down even further, called it minGRU, and showed it kept up with Transformers at predicting text while being cheaper to train.
 For our Deep Learning project, four of us set out to find where that stops being true. This is what we built, and why the answer came out the way it did.
 Three ways to remember
