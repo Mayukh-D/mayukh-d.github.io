@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Yes, attention definitely was all we needed · 1 AM reflections</title>
+<meta name="description" content="A paper asked whether a far simpler model could replace the Transformer. We tested it. Why looking things up beat taking notes, in plain language.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Mayukh Das">
+<meta property="og:url" content="https://mayukhdas.com/notes/attention-was-all-we-needed/">
+<meta property="og:title" content="Yes, attention definitely was all we needed · 1 AM reflections">
+<meta property="og:description" content="A paper asked whether a far simpler model could replace the Transformer. We tested it. Why looking things up beat taking notes, in plain language.">
+<meta property="og:image" content="https://mayukhdas.com/assets/og/attention-was-all-we-needed.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://mayukhdas.com/notes/attention-was-all-we-needed/">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/deep.css">
+</head>
+<body class="deep-standalone">
+<nav class="deep-bar"><a href="/" data-deep-back>← mayukhdas.com</a></nav>
+<main class="deep" data-deep="attention-was-all-we-needed">
+  <div class="kicker">1am/attention-was-all-we-needed</div>
+  <h1>Yes, attention definitely was all we needed</h1>
+  <p class="meta">from Deep Learning, ANU · Mayukh Das</p>
+  <p>In 2017 a paper called "Attention Is All You Need" introduced the Transformer, the design behind today's chatbots. In 2024 another paper asked a cheeky question back: "Were RNNs All We Needed?" Its authors, Feng and colleagues, took an older and simpler kind of model, stripped it down even further, called it minGRU, and showed it kept up with Transformers at predicting text while being cheaper to train.</p>
+  <p>For our Deep Learning project, four of us set out to find where that stops being true. This is what we built, and why the answer came out the way it did.</p>
+  <h2>Three ways to remember</h2>
+  <p>All three models do the same job: read text one character at a time and guess the next one. Where they differ is in how the current character gets to use what came before it. We built all three at roughly the same size, under a million adjustable numbers and four layers each, and trained them the same way, so that this was the only real difference between them.</p>
+  <p>In each picture below the model is standing on the last box, the question mark. It has just read "K Q X" and has to say what comes next. The answer, M, is sitting earlier in the text, where "K Q X M" appeared once before.</p>
+  <p><b>minGRU: a running notepad.</b> minGRU reads left to right and keeps a single notepad. At each character it does two things: it drafts what it might write down, and it decides how much of the old notepad to overwrite with that draft. Then it moves on. It never looks back at the text; all it has is the notepad. The catch is in how it decides. The decision looks only at the character in front of it, not at what is already on the notepad, and not at what it will be asked later. We followed the paper's own recipe, in which each layer also sees the last four characters through a small filter.</p>
+  <figure><svg class="seq" data-arch="gru" viewBox="0 0 644 132" role="img" aria-label="minGRU: information passes from each character to the next into one running summary"></svg><figcaption>minGRU passes one summary along the line. Nothing reaches back to the earlier "M".</figcaption></figure>
+  <p><b>gMLP: a fixed set of glances.</b> The gMLP can look back, but only in a fixed way. For each position it holds a set of weights saying how much to take from one character back, two back, and so on, up to 256 characters. Those weights are learned once in training and then stay put: it glances at the same places with the same strength, no matter what is written there. The original gMLP reads its whole input at once, in both directions. We adapted it to read left to right so that it could be compared fairly, and that adaptation was our own addition.</p>
+  <figure><svg class="seq" data-arch="gmlp" viewBox="0 0 644 132" role="img" aria-label="gMLP: the last character takes fixed amounts from every character inside a window"></svg><figcaption>The gMLP takes a fixed amount from every character in its window. Here the answer happens to be inside it.</figcaption></figure>
+  <p><b>Transformer: look it up.</b> Attention lets the current character ask a question. Every earlier character carries a label describing itself. The current one sends out a query, scores it against every label, and pulls in information mostly from the best matches. Where it looks depends on what it is reading right now, and it works that out afresh for every character. Ours was a small GPT-style model built with the recipe current open models use.</p>
+  <figure><svg class="seq" data-arch="attn" viewBox="0 0 644 132" role="img" aria-label="Transformer: the last character reaches directly back to the matching earlier character"></svg><figcaption>Attention matches "K Q X" against everything it has read and reaches straight for what followed.</figcaption></figure>
+  <h2>The test: find what came after</h2>
+  <p>Predicting Shakespeare mostly needs a feel for local patterns: after "th" usually comes "e". To separate the models we added two tasks with no such shortcut. In copying, the model sees a string of random letters, then a marker, and has to write the whole string out again. In pattern completion, a short run of letters appears once, and when its beginning turns up again later the model has to finish it. Both need the same thing: use what you are reading now to find something specific from earlier.</p>
+  <div class="demo" data-demo="lookup">
+    <div class="demo-h">pattern completion · pick a model and a text length</div>
+    <div class="seg" data-seg="model"><button class="on" data-v="gru">minGRU</button><button data-v="gmlp">gMLP</button><button data-v="attn">Transformer</button></div>
+    <div class="seg" data-seg="length"><button class="on" data-v="short">short (128)</button><button data-v="medium">medium (256)</button><button data-v="long">long (2,048)</button></div>
+    <svg class="seq" data-out="lookup" viewBox="0 0 644 132" role="img" aria-label="How the chosen model reaches back for the answer"></svg>
+    <p class="readout" data-out="verdict"></p>
+    <p class="demo-note">The picture is a schematic and not to scale: twenty boxes stand in for the whole text. The verdicts are our measured results on this task at each length.</p>
+  </div>
+  <h2>What happened</h2>
+  <p>We wrote our predictions down before running anything. Then we ran 27 experiments: three models, three tasks, three lengths.</p>
+  <ul>
+    <li><b>Shakespeare.</b> All three scored about the same. The paper's claim held exactly where the paper made it.</li>
+    <li><b>minGRU.</b> No better than guessing on copying and on pattern completion, at every length, including the shortest.</li>
+    <li><b>gMLP.</b> Perfect while the answer was inside its 256-character window, and guessing once it fell outside.</li>
+    <li><b>Transformer.</b> Solved pattern completion at every length, up to 2,048 characters, and copying at the short and medium lengths.</li>
+  </ul>
+  <h2>Why attention won</h2>
+  <p>The difference is <i>when</i> each model decides what matters.</p>
+  <p>minGRU decides while it is writing. It cannot keep everything, so it has to choose, and it has to choose before it knows the question. It is like taking notes in a lecture without knowing what the exam will ask: if you didn't happen to write it down, it is gone. Attention decides while it is reading back. It keeps the whole text available and searches it once the question arrives, which is an open-book exam. The gMLP sits in between: the book is open, but it can only turn to the same pages every time.</p>
+  <div class="callout"><p>minGRU has to decide what to remember before it knows the question. Attention decides after.</p></div>
+  <p>That is also why minGRU does fine on Shakespeare. Guessing the next letter of ordinary text rarely needs one exact thing from far back. A running summary of the last few words is enough, and a notepad is good at that. The original paper was right about what it measured.</p>
+  <p>None of this is free. To let every character look at every earlier one, attention compares all the pairs, so doubling the text roughly quadruples the work. minGRU's work only doubles. That saving is the whole appeal of the paper, and it is real.</p>
+  <p>One thing surprised us. On the longest pattern task the Transformer did not improve gradually. It sat at guessing level for about 7,000 training steps, then went to perfect within about 2,000 more. The lookup is not something it has from the start. It is a mechanism the model has to assemble, and until the pieces click into place nothing works at all.</p>
+  <h2>So, was attention all we needed?</h2>
+  <p>For predicting text from local patterns, no: a far simpler model kept up, and Feng and colleagues deserve the credit for showing it. For anything that needs looking something up, yes, and it was not close.</p>
+  <p>The title is a joke with caveats attached:</p>
+  <ul>
+    <li>The Transformer failed the longest copying task, scoring no better than guessing. It was the one prediction we got wrong. That run had only 5,000 training steps, and we suspect it needed longer to make the same sudden jump, but its training curve shows no sign of one starting, so that is a guess.</li>
+    <li>Each experiment ran once. Small gaps between the models, like the ones on Shakespeare, mean nothing.</li>
+    <li>We chose tasks designed to expose limits. We think that is fair, because trained Transformers pick up copying and pattern completion on their own, but it was a choice.</li>
+  </ul>
+  <p>This was a team of four. My part was implementing the Transformer, designing the 27 experiments and the framework that held all three models to the same rules, and writing the report.</p>
+  <div class="links"><a href="/work/transformers-revenge/" data-deep-link>the full write-up →</a><a href="/assets/reports/transformers-revenge.pdf">full report (PDF) →</a><a href="https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge">code →</a></div>
+  <script src="/assets/notes/attention.js"></script>
+</main>
+</body>
+</html>

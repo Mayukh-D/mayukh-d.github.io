@@ -131,6 +131,19 @@
 .deep .learned { color: var(--text) !important; }
 @media (max-width: 640px) { .deep .rcard { grid-template-columns: 1fr; } }
 .deep .demo svg[data-out="lineage"] { max-width: none; }
+/* agent-atoll: the team board */
+.deep .team { margin: 6px 0 12px; }
+.deep .team-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 7px 0; }
+.deep .team-tag { font: 0.66rem 'JetBrains Mono', monospace; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); min-width: 104px; }
+.deep .chip { font: 500 0.76rem 'JetBrains Mono', monospace; color: var(--text-muted); border: 1px solid var(--border-bright); border-radius: 999px; padding: 4px 11px; transition: background 0.2s, color 0.2s, border-color 0.2s; }
+.deep .chip.seen { color: var(--text); border-color: var(--green-dim); }
+.deep .chip.on { color: #001a08; background: var(--green); border-color: var(--green); }
+@media (max-width: 640px) { .deep .team-tag { min-width: 100%; } }
+/* attention-was-all-we-needed: sequence diagrams */
+.deep svg.seq, .deep .demo svg.seq { display: block; width: 100%; height: auto; max-width: none; overflow: visible; margin: 8px 0 4px; }
+.deep figure svg.seq { border: 1px solid var(--border); border-radius: 10px; background: var(--bg-soft); padding: 12px 10px; box-sizing: border-box; margin: 0; }
+.deep .seq-ch { font: 500 13px 'JetBrains Mono', monospace; }
+.deep .seq-note { font: 10.5px 'JetBrains Mono', monospace; fill: var(--text-muted); }
 /* standalone-only chrome */
 .deep-bar { position: sticky; top: 0; z-index: 5; background: rgba(1,2,3,0.86); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
 .deep-bar a { display: inline-block; padding: 14px 24px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted); text-decoration: none; }

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>A rule my agents can't break is code, not a sentence · 1 AM reflections</title>
+<meta name="description" content="What running a research project with a team of AI agents taught me about rules: written ones get broken, coded ones don't.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Mayukh Das">
+<meta property="og:url" content="https://mayukhdas.com/notes/agent-atoll/">
+<meta property="og:title" content="A rule my agents can't break is code, not a sentence · 1 AM reflections">
+<meta property="og:description" content="What running a research project with a team of AI agents taught me about rules: written ones get broken, coded ones don't.">
+<meta property="og:image" content="https://mayukhdas.com/assets/og/agent-atoll.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://mayukhdas.com/notes/agent-atoll/">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/deep.css">
+</head>
+<body class="deep-standalone">
+<nav class="deep-bar"><a href="/" data-deep-back>← mayukhdas.com</a></nav>
+<main class="deep" data-deep="agent-atoll">
+  <div class="kicker">1am/agent-atoll</div>
+  <h1>A rule my agents can't break is code, not a sentence</h1>
+  <p class="meta">from running a research project with AI agents · Mayukh Das</p>
+  <p>My canopy-mapping work runs on a GPU box that trains models around the clock, and I spend about 45 minutes a day on it. Everything else is done by a team of Claude agents: one orchestrator I talk to, and a dozen specialists it hands work to. It works now. It didn't at first, and most of what I learned was about rules.</p>
+  <h2>The team</h2>
+  <p>Every agent has one job and a role file that says what it may and may not do. The orchestrator plans, delegates and keeps the record, and it never writes experiment code itself. The rest:</p>
+  <ul>
+    <li><b>Delivery loop.</b> A coder implements one task from a precise spec. A checker gets the same spec but not the coder's report, so it can't be talked into agreeing. An evaluator judges the results against the acceptance criteria, and its verdict is the only one that counts. A claim-validator traces every sentence in a write-up back to a result file before it's published, and a git-keeper is the only one that pushes.</li>
+    <li><b>Debate team.</b> A proposer pitches ideas, an optimist and a pessimist argue for and against each one independently, and a realist turns that into a ranked shortlist with success thresholds set before any data exists.</li>
+    <li><b>Oversight.</b> A challenger attacks big decisions before they're made, a record-keeper keeps every document consistent, and an adjudicator audits every decision once a week and reports to me, not to the orchestrator.</li>
+  </ul>
+  <p>Judgement roles run on the strongest model; coders and checkers on a cheaper one. The GPU itself is driven by a plain script with no AI in it: it runs a trial, scores it with a fixed calculator, and moves on. Agents only appear at decision points.</p>
+  <div class="demo" data-demo="team">
+    <div class="demo-h">follow one piece of work through the team</div>
+    <div class="seg" data-seg="team"><button class="on" data-v="experiment">an experiment</button><button data-v="idea">a new idea</button><button data-v="breach">a broken rule</button></div>
+    <div class="team" data-out="team"></div>
+    <label><span>step</span><input type="range" min="1" max="9" step="1" value="1" data-k="step"><output></output></label>
+    <p class="readout" data-out="step"></p>
+    <p class="demo-note">A simplified walk-through of the hand-offs described on this page, not a recording of a real run.</p>
+  </div>
+  <h2>The Agent Atoll</h2>
+  <p>With a dozen agents running in the background I lost track of who was doing what, so I had one built: a small island world, served on my laptop. Each role has an island. An agent that's working stands at its island with a speech bubble saying what it's on; an agent with nothing to do walks to Idle Beach. Shirt colours show which model it runs on. A side panel lists what's on the GPU.</p>
+  <figure><img src="/assets/notes/atoll-board.jpg" alt="The Agent Atoll: islands joined by bridges, with agents standing at them under speech bubbles describing their tasks" width="1228" height="790" loading="lazy"><figcaption>The Atoll mid-afternoon: three reviewers on a plan amendment, a coder implementing it, a checker on a fix, the claim-validator on a README.</figcaption></figure>
+  <p>No AI keeps it up to date. A hook fires every time an agent is dispatched or finishes, writes a line to the log, and a script redraws the board every minute. That matters: the first version was kept up by an agent, and it was always behind.</p>
+  <h2>The rulebook</h2>
+  <p>I give the team rules as I go: one variable per experiment, three seeds per change, never call something done until a test on data we already hold has passed, an idle GPU is a failure. They live in one file, numbered, newest wins, and a new rule goes in the same day I say it. There are 37 now.</p>
+  <p>Here is the hard-way part. A rule written as a sentence gets broken. Not out of malice: an agent deep in one task forgets a rule about another. I log every breach, and there have been 21. The most common, seven times, was the GPU sitting idle, once for 13 hours overnight because nothing had been queued after the last job. Each time the agent knew the rule. Writing it more firmly changed nothing.</p>
+  <div class="callout"><p>What stopped the breaches was turning rules into code that runs whether or not anyone remembers it.</p></div>
+  <p>A hook refuses any GPU launch that doesn't name a signed plan. Another blocks deletes outside a scratch folder. Another stops the agents spending paid credits, and paces their usage across the week. The GPU script queues its own next trial, so there is no hand-off to forget. The rulebook page now shows, for every rule, how it's enforced: by code, by a reviewing agent, or by text only. The text-only ones are the ones I watch.</p>
+  <figure><img src="/assets/notes/atoll-rules.jpg" alt="The rulebook page: numbered rule cards, each marked as enforced by code, by an agent or by text only, with breach counts" width="1080" height="630" loading="lazy"><figcaption>The rulebook: 17 rules enforced by code, 9 by an agent, 11 text only. Breaches show in red until fixed.</figcaption></figure>
+  <h2>Where I stay in the loop</h2>
+  <p>The orchestrator rules on routine reports itself. It brings me one recommendation, never a menu, and only for the things that are mine: what the model is for, changes to the protocol, and any strong objection the challenger raises. Every plan is reviewed by other agents before it runs, so the orchestrator never approves its own work. Even plans I write go through the panel.</p>
+  <p>Some actions stay with me by design. When we need new data from a government portal, the agents prepare the order and I check it and click submit myself. And when I tried to give the worker on the GPU box standing permission to launch jobs on its own, the safety layer refused, twice. I was annoyed at the time. Looking back, it was right: launching is exactly the kind of call that should have a signed plan and a person behind it.</p>
+  <p>The lesson I keep relearning: agents are good at doing the work and bad at remembering the rules around it. So I write the rules down, turn the important ones into code, and keep the decisions that matter for myself.</p>
+  <div class="links"><a href="/notes/" data-deep-link>more 1 AM reflections →</a><a href="/research/" data-deep-link>the research behind it →</a></div>
+  <script src="/assets/notes/atoll.js"></script>
+</main>
+</body>
+</html>

@@ -487,6 +487,74 @@ I also implemented MeanFlow, which learns the average velocity over a whole inte
 MeanFlow at 1, 2 and 5 steps. The spiral and rings hold up in one step; the eight Gaussian clusters smear together.
 full report (PDF) → code →
 
+## 1 AM reflections: a rule my agents can't break is code, not a sentence
+URL: https://mayukhdas.com/notes/agent-atoll/
+1am/agent-atoll
+A rule my agents can't break is code, not a sentence
+from running a research project with AI agents · Mayukh Das
+My canopy-mapping work runs on a GPU box that trains models around the clock, and I spend about 45 minutes a day on it. Everything else is done by a team of Claude agents: one orchestrator I talk to, and a dozen specialists it hands work to. It works now. It didn't at first, and most of what I learned was about rules.
+The team
+Every agent has one job and a role file that says what it may and may not do. The orchestrator plans, delegates and keeps the record, and it never writes experiment code itself. The rest:
+Delivery loop. A coder implements one task from a precise spec. A checker gets the same spec but not the coder's report, so it can't be talked into agreeing. An evaluator judges the results against the acceptance criteria, and its verdict is the only one that counts. A claim-validator traces every sentence in a write-up back to a result file before it's published, and a git-keeper is the only one that pushes.
+Debate team. A proposer pitches ideas, an optimist and a pessimist argue for and against each one independently, and a realist turns that into a ranked shortlist with success thresholds set before any data exists.
+Oversight. A challenger attacks big decisions before they're made, a record-keeper keeps every document consistent, and an adjudicator audits every decision once a week and reports to me, not to the orchestrator.
+Judgement roles run on the strongest model; coders and checkers on a cheaper one. The GPU itself is driven by a plain script with no AI in it: it runs a trial, scores it with a fixed calculator, and moves on. Agents only appear at decision points.
+The Agent Atoll
+With a dozen agents running in the background I lost track of who was doing what, so I had one built: a small island world, served on my laptop. Each role has an island. An agent that's working stands at its island with a speech bubble saying what it's on; an agent with nothing to do walks to Idle Beach. Shirt colours show which model it runs on. A side panel lists what's on the GPU.
+The Atoll mid-afternoon: three reviewers on a plan amendment, a coder implementing it, a checker on a fix, the claim-validator on a README.
+No AI keeps it up to date. A hook fires every time an agent is dispatched or finishes, writes a line to the log, and a script redraws the board every minute. That matters: the first version was kept up by an agent, and it was always behind.
+The rulebook
+I give the team rules as I go: one variable per experiment, three seeds per change, never call something done until a test on data we already hold has passed, an idle GPU is a failure. They live in one file, numbered, newest wins, and a new rule goes in the same day I say it. There are 37 now.
+Here is the hard-way part. A rule written as a sentence gets broken. Not out of malice: an agent deep in one task forgets a rule about another. I log every breach, and there have been 21. The most common, seven times, was the GPU sitting idle, once for 13 hours overnight because nothing had been queued after the last job. Each time the agent knew the rule. Writing it more firmly changed nothing.
+What stopped the breaches was turning rules into code that runs whether or not anyone remembers it.
+A hook refuses any GPU launch that doesn't name a signed plan. Another blocks deletes outside a scratch folder. Another stops the agents spending paid credits, and paces their usage across the week. The GPU script queues its own next trial, so there is no hand-off to forget. The rulebook page now shows, for every rule, how it's enforced: by code, by a reviewing agent, or by text only. The text-only ones are the ones I watch.
+The rulebook: 17 rules enforced by code, 9 by an agent, 11 text only. Breaches show in red until fixed.
+Where I stay in the loop
+The orchestrator rules on routine reports itself. It brings me one recommendation, never a menu, and only for the things that are mine: what the model is for, changes to the protocol, and any strong objection the challenger raises. Every plan is reviewed by other agents before it runs, so the orchestrator never approves its own work. Even plans I write go through the panel.
+Some actions stay with me by design. When we need new data from a government portal, the agents prepare the order and I check it and click submit myself. And when I tried to give the worker on the GPU box standing permission to launch jobs on its own, the safety layer refused, twice. I was annoyed at the time. Looking back, it was right: launching is exactly the kind of call that should have a signed plan and a person behind it.
+The lesson I keep relearning: agents are good at doing the work and bad at remembering the rules around it. So I write the rules down, turn the important ones into code, and keep the decisions that matter for myself.
+more 1 AM reflections → the research behind it →
+
+## 1 AM reflections: yes, attention definitely was all we needed
+URL: https://mayukhdas.com/notes/attention-was-all-we-needed/
+1am/attention-was-all-we-needed
+Yes, attention definitely was all we needed
+from Deep Learning, ANU · Mayukh Das
+In 2017 a paper called "Attention Is All You Need" introduced the Transformer, the design behind today's chatbots. In 2024 another paper asked a cheeky question back: "Were RNNs All We Needed?" Its authors, Feng and colleagues, took an older and simpler kind of model, stripped it down even further, called it minGRU, and showed it kept up with Transformers at predicting text while being cheaper to train.
+For our Deep Learning project, four of us set out to find where that stops being true. This is what we built, and why the answer came out the way it did.
+Three ways to remember
+All three models do the same job: read text one character at a time and guess the next one. Where they differ is in how the current character gets to use what came before it. We built all three at roughly the same size, under a million adjustable numbers and four layers each, and trained them the same way, so that this was the only real difference between them.
+In each picture below the model is standing on the last box, the question mark. It has just read "K Q X" and has to say what comes next. The answer, M, is sitting earlier in the text, where "K Q X M" appeared once before.
+minGRU: a running notepad. minGRU reads left to right and keeps a single notepad. At each character it does two things: it drafts what it might write down, and it decides how much of the old notepad to overwrite with that draft. Then it moves on. It never looks back at the text; all it has is the notepad. The catch is in how it decides. The decision looks only at the character in front of it, not at what is already on the notepad, and not at what it will be asked later. We followed the paper's own recipe, in which each layer also sees the last four characters through a small filter.
+minGRU passes one summary along the line. Nothing reaches back to the earlier "M".
+gMLP: a fixed set of glances. The gMLP can look back, but only in a fixed way. For each position it holds a set of weights saying how much to take from one character back, two back, and so on, up to 256 characters. Those weights are learned once in training and then stay put: it glances at the same places with the same strength, no matter what is written there. The original gMLP reads its whole input at once, in both directions. We adapted it to read left to right so that it could be compared fairly, and that adaptation was our own addition.
+The gMLP takes a fixed amount from every character in its window. Here the answer happens to be inside it.
+Transformer: look it up. Attention lets the current character ask a question. Every earlier character carries a label describing itself. The current one sends out a query, scores it against every label, and pulls in information mostly from the best matches. Where it looks depends on what it is reading right now, and it works that out afresh for every character. Ours was a small GPT-style model built with the recipe current open models use.
+Attention matches "K Q X" against everything it has read and reaches straight for what followed.
+The test: find what came after
+Predicting Shakespeare mostly needs a feel for local patterns: after "th" usually comes "e". To separate the models we added two tasks with no such shortcut. In copying, the model sees a string of random letters, then a marker, and has to write the whole string out again. In pattern completion, a short run of letters appears once, and when its beginning turns up again later the model has to finish it. Both need the same thing: use what you are reading now to find something specific from earlier.
+What happened
+We wrote our predictions down before running anything. Then we ran 27 experiments: three models, three tasks, three lengths.
+Shakespeare. All three scored about the same. The paper's claim held exactly where the paper made it.
+minGRU. No better than guessing on copying and on pattern completion, at every length, including the shortest.
+gMLP. Perfect while the answer was inside its 256-character window, and guessing once it fell outside.
+Transformer. Solved pattern completion at every length, up to 2,048 characters, and copying at the short and medium lengths.
+Why attention won
+The difference is when each model decides what matters.
+minGRU decides while it is writing. It cannot keep everything, so it has to choose, and it has to choose before it knows the question. It is like taking notes in a lecture without knowing what the exam will ask: if you didn't happen to write it down, it is gone. Attention decides while it is reading back. It keeps the whole text available and searches it once the question arrives, which is an open-book exam. The gMLP sits in between: the book is open, but it can only turn to the same pages every time.
+minGRU has to decide what to remember before it knows the question. Attention decides after.
+That is also why minGRU does fine on Shakespeare. Guessing the next letter of ordinary text rarely needs one exact thing from far back. A running summary of the last few words is enough, and a notepad is good at that. The original paper was right about what it measured.
+None of this is free. To let every character look at every earlier one, attention compares all the pairs, so doubling the text roughly quadruples the work. minGRU's work only doubles. That saving is the whole appeal of the paper, and it is real.
+One thing surprised us. On the longest pattern task the Transformer did not improve gradually. It sat at guessing level for about 7,000 training steps, then went to perfect within about 2,000 more. The lookup is not something it has from the start. It is a mechanism the model has to assemble, and until the pieces click into place nothing works at all.
+So, was attention all we needed?
+For predicting text from local patterns, no: a far simpler model kept up, and Feng and colleagues deserve the credit for showing it. For anything that needs looking something up, yes, and it was not close.
+The title is a joke with caveats attached:
+The Transformer failed the longest copying task, scoring no better than guessing. It was the one prediction we got wrong. That run had only 5,000 training steps, and we suspect it needed longer to make the same sudden jump, but its training curve shows no sign of one starting, so that is a guess.
+Each experiment ran once. Small gaps between the models, like the ones on Shakespeare, mean nothing.
+We chose tasks designed to expose limits. We think that is fair, because trained Transformers pick up copying and pattern completion on their own, but it was a choice.
+This was a team of four. My part was implementing the Transformer, designing the 27 experiments and the framework that held all three models to the same rules, and writing the report.
+the full write-up → full report (PDF) → code →
+
 ## Contact
 Open to opportunities in software engineering and machine learning, based in Canberra, ACT.
 Email: use the contact section at the bottom of https://mayukhdas.com/
