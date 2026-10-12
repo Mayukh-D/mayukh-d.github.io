@@ -579,6 +579,36 @@ We chose tasks designed to expose limits. We think that is fair, because trained
 This was a team of four. My part was implementing the Transformer, designing the 27 experiments and the framework that held all three models to the same rules, and writing the report.
 the full write-up → full report (PDF) → code →
 
+## 1 AM reflections: no single AI policy can fit a whole university
+URL: https://mayukhdas.com/notes/one-ai-policy/
+1am/one-ai-policy
+No single AI policy can fit a whole university
+8 Oct 2026 · from a student consultation on AI at ANU · Mayukh Das
+ANU is setting up an AI Oversight Committee, and one seat on it belongs to a student. In October the student representatives for my college ran an open consultation to work out what that student should bring to the table. I am one of those representatives, so I spent two hours listening to students talk about AI in their courses. I went in to collect opinions. I came out with one of my own.
+The poster for the session.
+AI is here, and it is not magic
+The session made two things clear to me at once. The first is that AI is here to stay. The second is that it is not a machine that solves everything. These models are not deterministic: ask the same question twice and you can get two different answers. Reaching for a language model to solve every problem makes no sense.
+Pretending it isn't there makes even less. The useful question is how we use it to augment what people can already do.
+What students were worried about
+The concerns were specific:
+Cost. These tools are not free, and someone has to pay for them.
+The environment. Running large models uses a great deal of energy.
+Privacy. What happens to your work once it goes into an AI tool.
+Poor early learning. Students who lean on AI from the start may never build the foundations.
+Others sat at the opposite end and argued for allowing AI for everything.
+One size does not fit all
+What struck me was that each side was right about some course and wrong about another. A course built on personal reflection about foreign policy, or a course in art, might reasonably ban AI entirely, because the thinking or the making is the whole point. Systems engineering or deep learning is different. There, research and implementation can be fast-tracked with AI while the decisions stay human.
+Different courses, and different colleges, will need to handle this differently, depending on what they are trying to teach. Try writing one rule for all of them:
+What I believe now
+Any single AI policy for a whole university would be fundamentally flawed. Different courses teach different skills. Those skills lead to different jobs, and those jobs already have different AI practices. The only person placed to judge all of that is an expert in the field, which means the course convener.
+The principle I would hand them is simple. Foundational skills are taught without AI, and AI is used to speed up the rest. A coding course might allow AI for writing documentation but not for writing the code, because writing code is the skill being taught.
+Teach the foundations without AI. Use AI to speed up everything built on top of them.
+The part that falls to the teachers
+This puts real weight on conveners, and not only the ones in computer science. As AI arrives in every discipline, academics from outside computing need to understand these tools intimately too. You cannot make a good call about a tool you have never used, and their students are walking into a world that is changing either way.
+The future is already here. We learn to augment what we do with it, or we risk falling behind.
+These are my own views, not a position of the student representatives or of the ANU.
+more 1 AM reflections → the roles behind it →
+
 ## Contact
 Open to opportunities in software engineering and machine learning, based in Canberra, ACT.
 Email: use the contact section at the bottom of https://mayukhdas.com/

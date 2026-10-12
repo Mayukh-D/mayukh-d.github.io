@@ -144,6 +144,8 @@
 .deep figure svg.seq { border: 1px solid var(--border); border-radius: 10px; background: var(--bg-soft); padding: 12px 10px; box-sizing: border-box; margin: 0; }
 .deep .seq-ch { font: 500 13px 'JetBrains Mono', monospace; }
 .deep .seq-note { font: 10.5px 'JetBrains Mono', monospace; fill: var(--text-muted); }
+/* dates on notes */
+.deep .meta time, .deep .postlist .src time { color: #d9ff3d; }
 /* standalone-only chrome */
 .deep-bar { position: sticky; top: 0; z-index: 5; background: rgba(1,2,3,0.86); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
 .deep-bar a { display: inline-block; padding: 14px 24px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted); text-decoration: none; }

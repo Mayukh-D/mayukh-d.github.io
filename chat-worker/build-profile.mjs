@@ -73,6 +73,7 @@ const deep = [
   ['notes/x-vs-v-prediction/index.html', '1 AM reflections: predict the data, not the velocity'],
   ['notes/agent-atoll/index.html', '1 AM reflections: a rule my agents can\'t break is code, not a sentence'],
   ['notes/attention-was-all-we-needed/index.html', '1 AM reflections: yes, attention definitely was all we needed'],
+  ['notes/one-ai-policy/index.html', '1 AM reflections: no single AI policy can fit a whole university'],
 ];
 for (const [file, title] of deep) {
   const page = readFileSync(new URL('../' + file, here), 'utf8');
