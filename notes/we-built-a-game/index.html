@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>We built a game · 1 AM reflections</title>
+<meta name="description" content="OUTBREAK: a text-based zombie roguelike set in a computer science building, built by four of us. Step through a real winning run.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Mayukh Das">
+<meta property="og:url" content="https://mayukhdas.com/notes/we-built-a-game/">
+<meta property="og:title" content="We built a game · 1 AM reflections">
+<meta property="og:description" content="OUTBREAK: a text-based zombie roguelike set in a computer science building, built by four of us. Step through a real winning run.">
+<meta property="og:image" content="https://mayukhdas.com/assets/og/we-built-a-game.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://mayukhdas.com/notes/we-built-a-game/">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/deep.css">
+</head>
+<body class="deep-standalone">
+<nav class="deep-bar"><a href="/" data-deep-back>← mayukhdas.com</a></nav>
+<main class="deep" data-deep="we-built-a-game">
+  <div class="kicker">1am/we-built-a-game</div>
+  <h1>We built a game</h1>
+  <p class="meta"><time datetime="2026-10-03">3 Oct 2026</time> · from Software Engineering, ANU · Mayukh Das</p>
+  <p>No lesson this time. Four of us built a game, and I am still pleased about it.</p>
+  <p>It is called OUTBREAK. A containment failure has turned the building into floors of elementally mutated zombies, and you fight your way down through them in a terminal, one typed command at a time. The building is our own: Hanna Neumann at the ANU, complete with a lecture theatre and a staff room microwave you should not open.</p>
+  <h2>Watch it being played</h2>
+  <p>This is a real run, recorded from the finished game: 54 commands from the front door to the way out. Step through it, or press play.</p>
+  <div class="demo" data-demo="outbreak">
+    <div class="demo-h">outbreak · a winning run</div>
+    <pre class="term" data-out="term" aria-live="polite"></pre>
+    <p class="readout" data-out="caption"></p>
+    <div class="seg"><button type="button" data-act="prev">◀ back</button><button type="button" data-act="play">play</button><button type="button" data-act="next">next ▶</button></div>
+    <label><span>step</span><input type="range" min="0" max="54" step="1" value="0" data-k="frame"><output></output></label>
+    <p class="demo-note">Every screen here is the game's own output. The comments underneath are mine.</p>
+  </div>
+  <h2>How it plays</h2>
+  <ul>
+    <li><b>Three weapons, three kinds of zombie.</b> Water beats fire, fire beats ice, ice beats water. The right weapon does double damage, and matching the zombie's own element does half.</li>
+    <li><b>Two floors and eleven rooms.</b> Keycards, locked doors, potions, and an upgrade point for every kill.</li>
+    <li><b>Save and resume.</b> Leave mid-run and pick it up later.</li>
+  </ul>
+  <h2>The part I built</h2>
+  <p>My part was the engine, and the thing I like most about it is that the whole game is data. Rooms, doors, zombies, items and rules live in plain files, and the engine builds the game from whatever it is given. The same build runs a second, completely different campaign, the Quarantine Ward, with its own rooms and its own rules. Change a file and you get a different game, with no programmer involved.</p>
+  <p>And when someone gets a file wrong, the game says exactly what and where, where it could have just crashed:</p>
+  <figure><img src="/assets/notes/outbreak-config-error.png" alt="The game refusing to start: room 'lobby' has a door to 'ghost_room', which does not exist" width="1422" height="92" loading="lazy"><figcaption>A campaign file pointing a door at a room that doesn't exist.</figcaption></figure>
+  <h2>It plays itself</h2>
+  <p>The run in the player above was not typed by a person. The game comes with an automatic tester that replays whole games from a script and checks how they end, and that winning route is one of its scripts. Every time the tests run, the game proves it can still be won.</p>
+  <h2>By the numbers</h2>
+  <ul>
+    <li>93 Java files and 160 tests</li>
+    <li>112 commits in 16 days</li>
+    <li>2 campaigns from one build</li>
+    <li>1 command to run it anywhere, in Docker</li>
+  </ul>
+  <h2>Who built what</h2>
+  <p>A team of four, for Software Engineering at the ANU. I built the engine, the campaign loading, the progression between floors, and save and resume. My teammates built the map, movement and drawing; the zombies, combat and the element system; and the inventory, weapons, automatic tester and build pipeline.</p>
+  <p>It is a text game about zombies in a computer science building. I love it.</p>
+  <div class="links"><a href="/notes/" data-deep-link>more 1 AM reflections →</a><a href="/projects/" data-deep-link>other things I've built →</a></div>
+  <script src="/assets/notes/outbreak.js"></script>
+</main>
+</body>
+</html>

@@ -344,13 +344,7 @@ Eccoi and Haizea: nobody hands you the spec
 My two jobs since ANU are new ground in both directions: systems engineering at Eccoi, where I architect sovereign AI, and deep learning at Haizea Analytics, where I map Australia's tree canopy from satellite imagery. Both began after AI changed how software gets built.
 The difference is independence. When I ask what to implement, the answer is that it is mine to decide. I am in the driver's seat. I learned agentic frameworks along the way, and the work became human-in-the-loop: the tools do more of the building, while the judgement about what to build, and whether it is right, stays with me.
 Before, my job was the answer. Now it starts with the question.
-In September 2026 the Eccoi work left the building. We exhibited SAICOP at the Inaugural Australian AI Parliamentary Showcase, in the Great Hall of Parliament House, and I spent the day on our stall with the team, talking people through it.
-The Eccoi SAICOP stall in the Great Hall of Parliament House, 17 September 2026.
-At the stall, mid-conversation.
-Outside Parliament House on the day.
-What stayed with me was how plainly the room made one point. AI is increasingly used to augment what a professional can do, and used well it multiplies a person's output several times over. It is a genuine superpower, and it is fast becoming an essential part of how modern work gets done. Every stall in that hall was a version of the same argument.
-That has consequences for Australia. If these tools are essential to how people work, then who builds them, who runs them and who is trained to use them stop being purely technical questions. They become questions about education, and about the tooling the country depends on.
-The hall also showed how spread out the effort is. The founding partners, Elastic and AWS, sat alongside Australian companies building their own models, their own compute, and their own tools for trust and security. Each is doing a different piece of the work. That is all the more reason for something like SAICOP: a place that brings those partners together so their capabilities combine, and so that Australia moves faster from being a consumer of AI to being a producer of it.
+In September 2026 we took the Eccoi work to Parliament House, exhibiting at the Inaugural Australian AI Parliamentary Showcase. I wrote about that day separately.
 The thread
 Engineering taught me structure. Cognizant proved I could build. Accenture taught me how real machine learning runs. The jobs since ANU are teaching me the part no one can hand over: deciding what should be built at all.
 full experience on the main page → resume →
@@ -608,6 +602,52 @@ This puts real weight on conveners, and not only the ones in computer science. A
 The future is already here. We learn to augment what we do with it, or we risk falling behind.
 These are my own views, not a position of the student representatives or of the ANU.
 more 1 AM reflections → the roles behind it →
+
+## 1 AM reflections: we built a game (OUTBREAK)
+URL: https://mayukhdas.com/notes/we-built-a-game/
+1am/we-built-a-game
+We built a game
+3 Oct 2026 · from Software Engineering, ANU · Mayukh Das
+No lesson this time. Four of us built a game, and I am still pleased about it.
+It is called OUTBREAK. A containment failure has turned the building into floors of elementally mutated zombies, and you fight your way down through them in a terminal, one typed command at a time. The building is our own: Hanna Neumann at the ANU, complete with a lecture theatre and a staff room microwave you should not open.
+Watch it being played
+This is a real run, recorded from the finished game: 54 commands from the front door to the way out. Step through it, or press play.
+How it plays
+Three weapons, three kinds of zombie. Water beats fire, fire beats ice, ice beats water. The right weapon does double damage, and matching the zombie's own element does half.
+Two floors and eleven rooms. Keycards, locked doors, potions, and an upgrade point for every kill.
+Save and resume. Leave mid-run and pick it up later.
+The part I built
+My part was the engine, and the thing I like most about it is that the whole game is data. Rooms, doors, zombies, items and rules live in plain files, and the engine builds the game from whatever it is given. The same build runs a second, completely different campaign, the Quarantine Ward, with its own rooms and its own rules. Change a file and you get a different game, with no programmer involved.
+And when someone gets a file wrong, the game says exactly what and where, where it could have just crashed:
+A campaign file pointing a door at a room that doesn't exist.
+It plays itself
+The run in the player above was not typed by a person. The game comes with an automatic tester that replays whole games from a script and checks how they end, and that winning route is one of its scripts. Every time the tests run, the game proves it can still be won.
+By the numbers
+93 Java files and 160 tests
+112 commits in 16 days
+2 campaigns from one build
+1 command to run it anywhere, in Docker
+Who built what
+A team of four, for Software Engineering at the ANU. I built the engine, the campaign loading, the progression between floors, and save and resume. My teammates built the map, movement and drawing; the zombies, combat and the element system; and the inventory, weapons, automatic tester and build pipeline.
+It is a text game about zombies in a computer science building. I love it.
+more 1 AM reflections → other things I've built →
+
+## 1 AM reflections: a day at Parliament House and sovereign AI
+URL: https://mayukhdas.com/notes/sovereign-ai-showcase/
+1am/sovereign-ai-showcase
+What a day at Parliament House told me about sovereign AI
+17 Sep 2026 · from exhibiting with Eccoi · Mayukh Das
+In September 2026 the work I do at Eccoi left the building. We exhibited SAICOP, the Sovereign AI Community of Practice, at the Inaugural Australian AI Parliamentary Showcase in the Great Hall of Parliament House, and I spent the day on our stall with the team, talking people through it.
+Sovereign AI means AI that a country can build, run and govern for itself, without depending entirely on someone else's models and infrastructure. The room was full of companies working on pieces of that, and of the people who will write the rules for it.
+A work multiplier, plainly
+What stayed with me was how plainly the room made one point. AI is increasingly used to augment what a professional can do, and used well it multiplies a person's output several times over. It is a genuine superpower, and it is fast becoming an essential part of how modern work gets done. Every stall in that hall was a version of the same argument.
+What that means for Australia
+If these tools are essential to how people work, then who builds them, who runs them and who is trained to use them stop being purely technical questions. They become questions about education, and about the tooling the country depends on.
+Many builders, one missing piece
+The hall also showed how spread out the effort is. The founding partners, Elastic and AWS, sat alongside Australian companies building their own models, their own compute, and their own tools for trust and security. Each is doing a different piece of the work.
+Everyone is building a piece. Someone has to bring the pieces together.
+That is all the more reason for something like SAICOP: a place that brings those partners together so their capabilities combine, and so that Australia moves faster from being a consumer of AI to being a producer of it.
+the job behind it → more 1 AM reflections →
 
 ## Contact
 Open to opportunities in software engineering and machine learning, based in Canberra, ACT.

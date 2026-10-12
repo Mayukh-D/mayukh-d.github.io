@@ -74,6 +74,8 @@ const deep = [
   ['notes/agent-atoll/index.html', '1 AM reflections: a rule my agents can\'t break is code, not a sentence'],
   ['notes/attention-was-all-we-needed/index.html', '1 AM reflections: yes, attention definitely was all we needed'],
   ['notes/one-ai-policy/index.html', '1 AM reflections: no single AI policy can fit a whole university'],
+  ['notes/we-built-a-game/index.html', '1 AM reflections: we built a game (OUTBREAK)'],
+  ['notes/sovereign-ai-showcase/index.html', '1 AM reflections: a day at Parliament House and sovereign AI'],
 ];
 for (const [file, title] of deep) {
   const page = readFileSync(new URL('../' + file, here), 'utf8');

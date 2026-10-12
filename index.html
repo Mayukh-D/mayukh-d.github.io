@@ -781,6 +781,20 @@
       .et-label::before { content: '~/'; opacity: 0.55; text-transform: none; }
     }
     @media (max-width: 640px) { .edge-tab { font-size: 0.66rem; padding: 12px 6px 12px 5px; } .edge-tabs { top: 42%; } }
+    /* Profiles: the same fan mirrored on the left edge, opening GitHub and LinkedIn in a new tab.
+       Wide screens only, so it never crowds the terminal hint under the nav. */
+    .edge-tabs.left { display: none; }
+    @media (min-width: 1181px) {
+      .edge-tabs.left { display: flex; right: auto; left: 0; align-items: flex-end; }
+      /* the cover hangs off the left edge, so its picture starts where the visible part does */
+      .edge-tabs.left .edge-tab { background-position: calc(var(--tw) * 0.57) 0; box-shadow: 14px 12px 34px rgba(0, 0, 0, 0.7);
+        transition: transform 0.36s cubic-bezier(.2, .8, .2, 1), filter 0.25s, box-shadow 0.25s, outline-color 0.25s, background-position 0.36s cubic-bezier(.2, .8, .2, 1); }
+      .edge-tabs.left .edge-tab:nth-child(1) { --tilt: 6deg; --dx: -6px; }
+      .edge-tabs.left .edge-tab:nth-child(2) { --tilt: -5deg; --dx: -18px; }
+      .edge-tabs.left .edge-tab:hover, .edge-tabs.left .edge-tab:focus-visible { transform: translateX(calc(var(--tw) * 0.14)) rotate(0) scale(1.04);
+        background-position: calc(var(--tw) * 0.42) 0; box-shadow: 18px 14px 40px rgba(0, 0, 0, 0.75), 6px 0 34px rgba(0, 255, 65, 0.3); }
+      .edge-tabs.left .et-label { left: auto; right: 10px; }
+    }
     @media (prefers-reduced-motion: reduce) { .deep-panel.swing-in, .deep-panel.swing-out { animation-duration: 0.01s; } }
 
     /* Ask-me-anything terminal: opens from the blinking prompt in the nav. */
@@ -2535,6 +2549,10 @@
     <a class="edge-tab" href="/research/" data-deep-link style="--shot: url(/assets/tabs/research.jpg)"><span class="et-label">research</span></a>
     <a class="edge-tab" href="/jobs/" data-deep-link style="--shot: url(/assets/tabs/jobs.jpg)"><span class="et-label">jobs</span></a>
     <a class="edge-tab" href="/notes/" data-deep-link style="--shot: url(/assets/tabs/notes.jpg)"><span class="et-label">1am</span></a>
+  </nav>
+  <nav class="edge-tabs left" aria-label="Profiles">
+    <a class="edge-tab" href="https://github.com/Mayukh-D" target="_blank" rel="noopener" style="--shot: url(/assets/tabs/github.jpg)"><span class="et-label">github</span></a>
+    <a class="edge-tab" href="https://www.linkedin.com/in/mayukh-das-a38319148" target="_blank" rel="noopener" style="--shot: url(/assets/tabs/linkedin.jpg)"><span class="et-label">linkedin</span></a>
   </nav>
   <div class="deep-panel" id="deep-panel" role="dialog" aria-modal="true" aria-label="Deep dive" hidden>
     <button type="button" class="deep-close" data-deep-close>← back to the page<span class="read-bar" aria-hidden="true"><i class="rb-fill"></i></span></button>

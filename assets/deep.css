@@ -146,6 +146,10 @@
 .deep .seq-note { font: 10.5px 'JetBrains Mono', monospace; fill: var(--text-muted); }
 /* dates on notes */
 .deep .meta time, .deep .postlist .src time { color: #d9ff3d; }
+/* we-built-a-game: outbreak terminal */
+.deep .term { background: #000; border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; margin: 0 0 8px; min-height: 21.5em; font: 13px/1.38 'JetBrains Mono', monospace; color: var(--text); white-space: pre-wrap; overflow-wrap: anywhere; }
+.deep .term .cmd { color: var(--green); }
+@media (max-width: 640px) { .deep .term { font-size: 11.5px; padding: 12px; } }
 /* standalone-only chrome */
 .deep-bar { position: sticky; top: 0; z-index: 5; background: rgba(1,2,3,0.86); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
 .deep-bar a { display: inline-block; padding: 14px 24px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted); text-decoration: none; }
