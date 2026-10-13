@@ -689,6 +689,10 @@
       font: 400 0.98rem 'Bradley Hand', 'Marker Felt', 'Segoe Print', 'Comic Sans MS', cursive; letter-spacing: 0; transform: rotate(-2.5deg);
       box-shadow: 1px 3px 6px rgba(0, 0, 0, 0.55); clip-path: polygon(0 0, 100% 4%, 97% 26%, 100% 50%, 97% 74%, 100% 100%, 0 96%, 3% 74%, 0 50%, 3% 26%); }
     .made-in .tape.t2 { transform: rotate(2.5deg); }
+    /* the first strip is coming unstuck: its bottom corner has folded up, pale side out */
+    .made-in .tape:not(.t2) { position: relative; padding-right: 18px; }
+    .made-in .tape:not(.t2)::after { content: ''; position: absolute; right: 0; bottom: 0; width: 14px; height: 14px;
+      background: linear-gradient(to top left, var(--bg) 50%, #dcffe6 50%); box-shadow: -1px -1px 3px rgba(0, 0, 0, 0.4); }
     .made-in .tape svg { width: 13px; height: 13px; fill: #001a08; vertical-align: -2px; margin-right: 6px; }
 
     @media (max-width: 640px) {
@@ -1324,7 +1328,7 @@
           </div>
         </div>
         <div class="project-card reveal" data-scroll>
-          <img class="project-art" src="assets/cards/website.svg?v=2" alt="" loading="lazy" width="476" height="132">
+          <img class="project-art" src="assets/cards/website.svg?v=3" alt="" loading="lazy" width="476" height="132">
           <h3><a class="card-link" href="https://github.com/Mayukh-D/mayukh-d.github.io" target="_blank" rel="noopener">This Website</a></h3>
           <p>A portfolio that behaves like a terminal: an AI you can ask about me, answering only from what these pages say; scroll-driven animation; and write-ups that each come with something to play with.</p>
           <p class="project-outcome">Live at mayukhdas.com, with the chatbot running on free tiers.</p>
