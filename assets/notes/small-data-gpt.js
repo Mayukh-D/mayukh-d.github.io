@@ -192,3 +192,10 @@
     live.replaceWith(f);
   });
 })();
+
+/* The live model is a free Hugging Face Space that sleeps when unused and takes about a minute to
+   start. Opening this note pokes it straight away, so it is usually awake by the time the reader
+   reaches the "load the story generator" button. */
+(function () {
+  try { fetch('https://mayukh1999-nanogpt-story-generator.hf.space/', { mode: 'no-cors', cache: 'no-store' }).catch(function () {}); } catch (e) {}
+})();
