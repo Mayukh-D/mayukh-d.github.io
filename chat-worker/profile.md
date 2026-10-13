@@ -69,6 +69,11 @@ A Mac menu bar app that makes a cheap Bluetooth LED bar follow whatever is on sc
 Tech: Swift · SwiftUI
 Links: Lantern · Screen Sync for a A$49 Light: https://github.com/Mayukh-D/lantern | tl;dr: https://mayukhdas.com/#tldr-lantern | site: https://mayukhdas.com/lantern/ | code: https://github.com/Mayukh-D/lantern
 
+### This Website
+A portfolio that behaves like a terminal: an AI you can ask about me, answering only from what these pages say; scroll-driven animation; and write-ups that each come with something to play with.
+Tech: HTML · CSS · JavaScript · Cloudflare Workers
+Links: This Website: https://github.com/Mayukh-D/mayukh-d.github.io | code: https://github.com/Mayukh-D/mayukh-d.github.io
+
 ### GrowthScope · First Hackathon
 My first hackathon and first vibe-coded app (ANU, 2025): sales analytics for small businesses. Kept as a benchmark, and revisited in 2026 with tests, a self-scoring revenue forecast, anomaly detection, and fixes for what I first shipped.
 Tech: Python · Flask

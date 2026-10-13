@@ -683,6 +683,13 @@
       color: var(--text-muted); font-size: 0.75rem;
     }
     footer .ok { color: var(--green); }
+    /* the back-of-an-iPhone line, with tape over the two place names */
+    .made-in { margin-top: 18px; font: 400 0.8rem -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif; letter-spacing: 0.02em; color: var(--text-muted); }
+    .made-in .tape { display: inline-block; margin: 0 4px; padding: 2px 12px 3px; background: #e8dcb5; color: #26221a;
+      font: 400 0.98rem 'Bradley Hand', 'Marker Felt', 'Segoe Print', 'Comic Sans MS', cursive; transform: rotate(-3deg);
+      box-shadow: 1px 3px 6px rgba(0, 0, 0, 0.55); clip-path: polygon(0 0, 100% 4%, 97% 26%, 100% 50%, 97% 74%, 100% 100%, 0 96%, 3% 74%, 0 50%, 3% 26%); }
+    .made-in .tape.t2 { transform: rotate(2.5deg); }
+    .made-in .tape svg { width: 13px; height: 13px; fill: #d97757; vertical-align: -2px; margin-right: 6px; }
 
     @media (max-width: 640px) {
       /* seven links will not fit on a phone; keep the one that matters */
@@ -1317,6 +1324,19 @@
           </div>
         </div>
         <div class="project-card reveal" data-scroll>
+          <img class="project-art" src="assets/cards/website.svg" alt="" loading="lazy" width="476" height="132">
+          <h3><a class="card-link" href="https://github.com/Mayukh-D/mayukh-d.github.io" target="_blank" rel="noopener">This Website</a></h3>
+          <p>A portfolio that behaves like a terminal: an AI you can ask about me, answering only from what these pages say; scroll-driven animation; and write-ups that each come with something to play with.</p>
+          <p class="project-outcome">Live at mayukhdas.com, with the chatbot running on free tiers.</p>
+          <p class="project-role">† designed it and directed every decision; built with Claude Code</p>
+          <div class="project-foot">
+            <span class="project-lang"><span class="lang-dot lang-js"></span>HTML · CSS · JavaScript · Cloudflare Workers</span>
+            <span class="project-actions">
+            <a href="https://github.com/Mayukh-D/mayukh-d.github.io" target="_blank" rel="noopener" title="Source on GitHub" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg><span>code</span></a>
+            </span>
+          </div>
+        </div>
+        <div class="project-card reveal" data-scroll>
           <img class="project-art" src="assets/cards/growthscope.svg" alt="" loading="lazy" width="476" height="132">
           <h3><a class="card-link" href="https://github.com/Mayukh-D/GrowthScope" target="_blank" rel="noopener">GrowthScope · First Hackathon</a></h3>
           <p>My first hackathon and first vibe-coded app (ANU, 2025): sales analytics for small businesses. Kept as a benchmark, and revisited in 2026 with tests, a self-scoring revenue forecast, anomaly detection, and fixes for what I first shipped.</p>
@@ -1559,6 +1579,7 @@
   <footer>
     <div class="container">
       <p><span class="ok">[OK]</span> © 2026 Mayukh Das · plain HTML/CSS/JS, zero frameworks · hosted on GitHub Pages</p>
+      <p class="made-in">Designed in <span class="tape">Mayukh's head</span>. Manufactured in <span class="tape t2"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg>Claude Code</span>.</p>
     </div>
   </footer>
 
