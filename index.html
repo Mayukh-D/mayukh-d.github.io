@@ -780,15 +780,13 @@
     .story-link { display: inline-block; margin: -8px 0 26px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--green); text-decoration: none; opacity: 0.85; }
     .story-link:hover, .story-link:focus-visible { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
     #publications .story-link { display: block; margin-top: -16px; }
-    /* 2) reading mode: scrolling down tucks both fans to a sliver and dims the hologram; scrolling up brings them back */
+    /* 2) reading mode: scrolling down tucks both fans to a sliver; scrolling up brings them back. The hologram stays as it is. */
     @media (min-width: 861px) {
       .edge-tabs { transition: translate 0.45s cubic-bezier(.2, .8, .2, 1), opacity 0.35s; }
       .fans-tucked .edge-tabs:not(.left) { translate: calc(var(--tw) * 0.36) 0; opacity: 0.6; }
       .fans-tucked .edge-tabs.left { translate: calc(var(--tw) * -0.36) 0; opacity: 0.6; }
       .fans-tucked .edge-tabs:hover, .fans-tucked .edge-tabs:focus-within { translate: 0 0; opacity: 1; }
     }
-    #holo-wrap { transition: opacity 0.45s; }
-    .fans-tucked #holo-wrap { opacity: 0.3; }
     /* publications: the Scholar numbers in one quiet line */
     .pub-stats { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: var(--text-muted); margin: -6px 0 28px; }
     .pub-stats b { color: var(--green); font-weight: 700; }
