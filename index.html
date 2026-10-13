@@ -802,6 +802,12 @@
     /* Profiles: the same fan mirrored on the left edge, opening GitHub and LinkedIn in a new tab.
        Wide screens only, so it never crowds the terminal hint under the nav. */
     .edge-tabs.left { display: none; }
+    /* phones and small tablets: the same slim tabs as the right edge, mirrored, in place of the two hero buttons */
+    @media (max-width: 860px) {
+      .edge-tabs.left { display: flex; right: auto; left: 0; align-items: flex-start; }
+      .edge-tabs.left .edge-tab { border-right: 1px solid var(--border-bright); border-left: 0; border-radius: 8px 0 0 8px; box-shadow: 4px 0 18px rgba(0, 255, 65, 0.08); }
+      .hero-profile { display: none; }
+    }
     @media (min-width: 1181px) {
       .edge-tabs.left { display: flex; right: auto; left: 0; align-items: flex-end; top: auto; bottom: 90px; }
       /* the covers replace the two profile buttons in the hero; narrower screens keep the buttons */
@@ -933,7 +939,7 @@
     <div class="container nav-inner">
       <div class="nav-left" data-chat-open title="Ask about me">
         <a href="#" class="nav-logo" data-chat-open title="Ask me anything"><span>root@mayukh</span>:~$<span class="cursor"></span></a>
-        <button type="button" class="ask-hint" data-chat-open><span class="ask-long">&uarr; click here to ask about me</span><span class="ask-short">&uarr; tap to ask about me</span></button>
+        <button type="button" class="ask-hint" data-chat-open><span class="ask-long">&uarr; ask my AI anything about me</span><span class="ask-short">&uarr; ask my AI about me</span></button>
       </div>
       <div class="nav-links">
         <a href="#about">about</a>
