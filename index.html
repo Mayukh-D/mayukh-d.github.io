@@ -754,6 +754,11 @@
     .hero-cites a { color: inherit; text-decoration: underline; text-decoration-color: var(--green-dim, #00b32e); text-underline-offset: 3px; }
     .hero-cites a:hover { color: var(--green); }
     @media (max-width: 640px) { .hero-cites { display: none; } }
+    /* phones and small tablets: the edge tabs are pinned to both sides, so the page keeps clear of the edge tabs */
+    @media (max-width: 860px) {
+      .container { padding: 0 46px; }
+      header { padding-left: 46px; padding-right: 46px; }
+    }
     /* publications: the Scholar numbers in one quiet line */
     .pub-stats { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: var(--text-muted); margin: -6px 0 28px; }
     .pub-stats b { color: var(--green); font-weight: 700; }
@@ -826,23 +831,26 @@
       .hero-profile { display: none; }
     }
     @media (min-width: 1181px) {
-      .edge-tabs.left { display: flex; right: auto; left: 0; align-items: flex-end; top: auto; bottom: 90px; }
+      /* same height and reach as the right-hand fan, mirrored; only the stacking differs */
+      .edge-tabs.left { display: flex; right: auto; left: 0; align-items: flex-end; }
       /* the covers replace the two profile buttons in the hero; narrower screens keep the buttons */
       .hero-profile { display: none; }
       /* the cover hangs off the left edge, so its picture starts where the visible part does */
       .edge-tabs.left .edge-tab { background-position: calc(var(--tw) * 0.57) 0; box-shadow: 14px 12px 34px rgba(0, 0, 0, 0.7);
         transition: transform 0.36s cubic-bezier(.2, .8, .2, 1), filter 0.25s, box-shadow 0.25s, outline-color 0.25s, background-position 0.36s cubic-bezier(.2, .8, .2, 1); }
-      .edge-tabs.left .edge-tab:nth-child(1) { --tilt: 6deg; --dx: -4px; }
-      .edge-tabs.left .edge-tab:nth-child(2) { --tilt: -5deg; --dx: -8px; }
-      .edge-tabs.left .edge-tab:nth-child(3) { --tilt: 4deg; --dx: -2px; }
-      .edge-tabs.left .edge-tab:nth-child(4) { --tilt: -6deg; --dx: -6px; }
+      /* the right fan piles upward (last cover on top); this one piles downward (first cover on top) */
+      .edge-tabs.left .edge-tab:nth-child(1) { --tilt: 7deg; --dx: -6px; z-index: 4; }
+      .edge-tabs.left .edge-tab:nth-child(2) { --tilt: -5deg; --dx: -18px; z-index: 3; }
+      .edge-tabs.left .edge-tab:nth-child(3) { --tilt: 4deg; --dx: -2px; z-index: 2; }
+      .edge-tabs.left .edge-tab:nth-child(4) { --tilt: -6deg; --dx: -14px; z-index: 1; }
       .edge-tabs.left .et-label { display: inline-flex; align-items: center; gap: 6px; }
       .edge-tabs.left .et-logo { width: 11px; height: 11px; }
       /* these go to other sites, so no ~/ path prefix; it also keeps the pill inside the visible part of the cover */
       .edge-tabs.left .et-label::before { content: none; }
       .edge-tabs.left .edge-tab:hover, .edge-tabs.left .edge-tab:focus-visible { transform: translateX(calc(var(--tw) * 0.14)) rotate(0) scale(1.04);
         background-position: calc(var(--tw) * 0.42) 0; box-shadow: 18px 14px 40px rgba(0, 0, 0, 0.75), 6px 0 34px rgba(0, 255, 65, 0.3); }
-      .edge-tabs.left .et-label { left: auto; right: 10px; }
+      /* this fan piles downward, so each cover shows its bottom strip: the label sits there */
+      .edge-tabs.left .et-label { left: auto; right: 10px; top: auto; bottom: 8px; }
     }
     @media (prefers-reduced-motion: reduce) { .deep-panel.swing-in, .deep-panel.swing-out { animation-duration: 0.01s; } }
 
