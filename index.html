@@ -750,6 +750,16 @@
       .tldr-body { padding: 16px; }
     }
 
+    /* hero: the research line; left off small phones, where the tagline is already long */
+    .hero-cites a { color: inherit; text-decoration: underline; text-decoration-color: var(--green-dim, #00b32e); text-underline-offset: 3px; }
+    .hero-cites a:hover { color: var(--green); }
+    @media (max-width: 640px) { .hero-cites { display: none; } }
+    /* publications: the Scholar numbers in one quiet line */
+    .pub-stats { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: var(--text-muted); margin: -6px 0 28px; }
+    .pub-stats b { color: var(--green); font-weight: 700; }
+    .pub-stats a { color: var(--green); text-decoration: none; }
+    .pub-stats a:hover { text-decoration: underline; }
+    .pub-stats span { opacity: 0.6; margin-left: 6px; }
     /* Deep pages: folder tabs stick out of the right edge; one click swings the page in,
        hinged on that edge like a door opening towards you. Each page is also a real URL. */
     .edge-tabs { position: fixed; right: 0; top: 50%; transform: translateY(-50%); z-index: 70;
@@ -1044,6 +1054,7 @@
       Satellite AI Research Trainee at <strong>Haizea Analytics</strong>, mapping Australia's tree canopy from space.
       Master of Computing at the <strong>Australian National University</strong>.
       Previously 3+ years at Accenture building AIOps tools and explainable AI systems.
+      <span class="hero-cites">Three peer-reviewed papers, <a href="#publications">cited 57 times</a>.</span>
     </p>
     <div class="hero-actions reveal" data-stage>
       <a class="btn btn-primary" href="#projects">./view_work.sh</a>
@@ -1347,12 +1358,13 @@
   <section id="publications">
     <div class="container">
       <h2 class="reveal" data-scroll>publications</h2>
+      <p class="pub-stats reveal" data-scroll><b>3</b> peer-reviewed papers · <b>57</b> citations · h-index <b>3</b> · <a href="https://scholar.google.com/citations?user=slmJwmkAAAAJ" target="_blank" rel="noopener">Google Scholar →</a> <span>as of October 2026</span></p>
       <div class="timeline">
         <div class="timeline-item reveal" data-scroll>
           <div class="timeline-date">2024</div>
           <div class="timeline-body">
             <h3>An Overview on the Role of AI in Modern Advancements of Material Science</h3>
-            <div class="org">ES General, Vol. 5 · First author</div>
+            <div class="org">ES General, Vol. 5 · First author · cited by 24</div>
             <p>Das, M. · DOI <a href="https://doi.org/10.30919/esg1183" target="_blank" rel="noopener">10.30919/esg1183</a>. Also presented in work-in-progress form at RTCMM 2023.</p>
           </div>
         </div>
@@ -1360,7 +1372,7 @@
           <div class="timeline-date">2023</div>
           <div class="timeline-body">
             <h3>Revolutionizing Organ Donation With Blockchain Technology</h3>
-            <div class="org">J. of Computers, Mechanical and Management, Vol. 2(5) · Scopus-indexed</div>
+            <div class="org">J. of Computers, Mechanical and Management, Vol. 2(5) · Scopus-indexed · cited by 6</div>
             <p>Momaya, V.J., Das, M. et al. · DOI <a href="https://doi.org/10.57159/gadl.jcmm.2.5.23071" target="_blank" rel="noopener">10.57159/gadl.jcmm.2.5.23071</a></p>
           </div>
         </div>
@@ -1368,7 +1380,7 @@
           <div class="timeline-date">2021</div>
           <div class="timeline-body">
             <h3>Electric Propulsion for Fixed Wing Aircrafts: Classifications, Designs, and Challenges</h3>
-            <div class="org">Engineered Science, Vol. 16 · Scopus Q1</div>
+            <div class="org">Engineered Science, Vol. 16 · Scopus Q1 · cited by 27</div>
             <p>Karthik, A., Das, M. et al. · DOI <a href="https://doi.org/10.30919/es8d573" target="_blank" rel="noopener">10.30919/es8d573</a></p>
           </div>
         </div>

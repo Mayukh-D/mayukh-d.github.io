@@ -84,9 +84,9 @@ In one line: He builds models from first principles, then tries to break them.
 - Bold ideas, kept in the air by experiments ("unstable by design")
 
 ## Publications
-- 2024 An Overview on the Role of AI in Modern Advancements of Material Science ES General, Vol. 5 · First author Das, M. · DOI 10.30919/esg1183 . Also presented in work-in-progress form at RTCMM 2023.
-- 2023 Revolutionizing Organ Donation With Blockchain Technology J. of Computers, Mechanical and Management, Vol. 2(5) · Scopus-indexed Momaya, V.J., Das, M. et al. · DOI 10.57159/gadl.jcmm.2.5.23071
-- 2021 Electric Propulsion for Fixed Wing Aircrafts: Classifications, Designs, and Challenges Engineered Science, Vol. 16 · Scopus Q1 Karthik, A., Das, M. et al. · DOI 10.30919/es8d573
+- 2024 An Overview on the Role of AI in Modern Advancements of Material Science ES General, Vol. 5 · First author · cited by 24 Das, M. · DOI 10.30919/esg1183 . Also presented in work-in-progress form at RTCMM 2023.
+- 2023 Revolutionizing Organ Donation With Blockchain Technology J. of Computers, Mechanical and Management, Vol. 2(5) · Scopus-indexed · cited by 6 Momaya, V.J., Das, M. et al. · DOI 10.57159/gadl.jcmm.2.5.23071
+- 2021 Electric Propulsion for Fixed Wing Aircrafts: Classifications, Designs, and Challenges Engineered Science, Vol. 16 · Scopus Q1 · cited by 27 Karthik, A., Das, M. et al. · DOI 10.30919/es8d573
 
 ## Interests
 - Machine Learning Generative models are my happy place: flow matching, diffusion, and transformers built from scratch in PyTorch. I like knowing what's under the hood, not just calling the API.
