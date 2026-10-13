@@ -650,12 +650,17 @@
       background: var(--bg-soft); border-bottom: 1px solid var(--border);
       font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-muted);
     }
-    .term-dots { display: flex; gap: 6px; }
-    .term-dots i { width: 10px; height: 10px; border-radius: 50%; background: #2a3a2a; }
-    .term-dots i:first-child { background: #ff5f57; } .term-dots i:nth-child(2) { background: #febc2e; } .term-dots i:last-child { background: #28c840; }
+    /* One way to close, not two: the red traffic light is the close button. It sits first in the bar,
+       shows its cross on hover, and has a generous invisible margin so it is easy to hit. The other two
+       lights are only decoration, so they are dimmed. */
+    .term-dots { display: flex; gap: 6px; margin-left: -6px; opacity: 0.45; }
+    .term-dots i { width: 10px; height: 10px; border-radius: 50%; background: #febc2e; }
+    .term-dots i:last-child { background: #28c840; }
     .term-title { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .term-close { background: none; border: 0; color: var(--text-muted); font-size: 1.1rem; line-height: 1; cursor: pointer; padding: 0 2px; }
-    .term-close:hover { color: var(--green); }
+    .term-close { order: -1; flex: none; position: relative; width: 10px; height: 10px; padding: 0; border: 0; border-radius: 50%;
+      background: #ff5f57; color: transparent; font: 700 9px/10px 'JetBrains Mono', monospace; text-align: center; cursor: pointer; }
+    .term-close::before { content: ''; position: absolute; inset: -11px; }
+    .term-close:hover, .term-close:focus-visible { color: #5a0000; box-shadow: 0 0 0 2px rgba(255, 95, 87, 0.35); outline: none; }
     .term-body { padding: 14px 18px 18px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; line-height: 1.65; }
     .term-prompt { color: var(--green); }
     .term-cmd { color: var(--text); }
@@ -1168,7 +1173,7 @@
         <button type="button" class="skill" aria-expanded="false" aria-controls="skill-note">Cassandra</button>
       </div>
       <div class="skill-note" id="skill-note" aria-live="polite" hidden>
-        <div class="term-bar"><span class="term-dots"><i></i><i></i><i></i></span><span class="term-title"></span><button type="button" class="term-close" aria-label="Close">×</button></div>
+        <div class="term-bar"><span class="term-dots"><i></i><i></i></span><span class="term-title"></span><button type="button" class="term-close" aria-label="Close">×</button></div>
         <div class="term-body"></div>
       </div>
     </div>
@@ -2686,13 +2691,13 @@
 
   <div class="tldr-backdrop" id="tldr" hidden>
     <div class="tldr" role="dialog" aria-modal="true" aria-labelledby="tldr-h">
-      <div class="term-bar"><span class="term-dots"><i></i><i></i><i></i></span><span class="term-title" id="tldr-title"></span><button type="button" class="term-close" aria-label="Close" data-tldr-close>×</button></div>
+      <div class="term-bar"><span class="term-dots"><i></i><i></i></span><span class="term-title" id="tldr-title"></span><button type="button" class="term-close" aria-label="Close" data-tldr-close>×</button></div>
       <div class="tldr-body" id="tldr-body"></div>
     </div>
   </div>
 
   <div class="chat" id="chat" role="dialog" aria-label="Ask about Mayukh" hidden>
-    <div class="term-bar"><span class="term-dots"><i></i><i></i><i></i></span><span class="term-title">~/ask-mayukh</span><button type="button" class="term-close" aria-label="Close" data-chat-close>×</button></div>
+    <div class="term-bar"><span class="term-dots"><i></i><i></i></span><span class="term-title">~/ask-mayukh</span><button type="button" class="term-close" aria-label="Close" data-chat-close>×</button></div>
     <div class="chat-log" id="chat-log" aria-live="polite"></div>
     <form class="chat-form" id="chat-form" autocomplete="off">
       <label for="chat-input">you@mayukh:~$</label>
