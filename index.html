@@ -261,6 +261,9 @@
     .dapper path.velvet { fill: url(#velvet); }
     .dapper path.lace { fill: #f1eee2; }
     .dapper path.goldfill { fill: #c99a3c; }
+    .dapper path.bow { fill: #0c5a2a; fill-opacity: 0; transition: fill-opacity 0.5s ease 3.5s; }
+    .dapper.on path.bow { fill-opacity: 0.93; }
+    .dapper.off path.bow { transition: fill-opacity 0.25s ease-in; }
     .dapper.on path.velvet { fill-opacity: 0.94; }
     .dapper.on path.lace { fill-opacity: 0.9; }
     .dapper.on path.goldfill { fill-opacity: 0.95; }
@@ -1089,12 +1092,13 @@
           <path class="gold thin" d="M 548 652 L 548 700 M 600 652 L 600 700"/>
           <path class="gold" d="M 548 700 L 556 718 L 576 720 L 561 733 L 566 753 L 548 742 L 530 753 L 535 733 L 520 720 L 540 718 Z"/>
           <path class="gold" d="M 600 702 a 22 22 0 1 0 0.1 0 Z M 600 712 a 12 12 0 1 0 0.1 0 Z"/>
-          <!-- a green tie over the real one: knot, blade, stripes -->
-          <path d="M 352 540 L 416 532 L 410 578 L 374 584 Z"/>
-          <path d="M 374 584 L 440 830 L 478 850 L 492 790 L 410 578"/>
-          <path d="M 384 630 L 428 618"/>
-          <path d="M 398 690 L 446 676"/>
-          <path d="M 414 752 L 464 738"/>
+          <!-- the real tie turns into a white shirt front, and a green bow tie sits at the collar: two wings, a knot, a crease in each wing -->
+          <path class="lace" style="--fill-delay: 3.3s" d="M 376 584 L 440 830 L 478 850 L 492 790 L 410 578 Z"/>
+          <path class="bow" d="M 374 548 C 344 522, 314 520, 296 528 C 288 550, 290 574, 300 594 C 320 598, 350 590, 378 572 Z"/>
+          <path class="bow" d="M 404 544 C 434 514, 466 510, 484 516 C 492 536, 492 562, 484 582 C 464 588, 434 584, 408 568 Z"/>
+          <path class="bow" d="M 372 542 L 406 538 L 410 574 L 376 578 Z"/>
+          <path d="M 366 558 C 344 554, 322 558, 306 562"/>
+          <path d="M 412 554 C 434 548, 456 546, 474 548"/>
         </g>
       </svg>
     </div>
