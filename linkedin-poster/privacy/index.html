@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Privacy · linkedin-poster-mcp</title>
+<meta name="description" content="Privacy policy for linkedin-poster-mcp and its sign-in relay.">
+<link rel="canonical" href="https://mayukhdas.com/linkedin-poster/privacy/">
+<link rel="icon" href="/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/deep.css">
+</head>
+<body class="deep-standalone">
+<nav class="deep-bar"><a href="/" data-deep-back>← mayukhdas.com</a></nav>
+<main class="deep">
+  <div class="kicker">linkedin-poster-mcp/privacy</div>
+  <h1>Privacy policy</h1>
+  <p class="meta">Last updated <time datetime="2026-10-18">18 October 2026</time> · Mayukh Das (Mayukh Labs)</p>
+  <p><a href="https://github.com/Mayukh-D/linkedin-poster-mcp">linkedin-poster-mcp</a> is open-source software that runs on your own computer and lets an AI assistant you choose post to LinkedIn on your behalf, after you approve each post. This page explains what data it touches.</p>
+  <h2>What runs where</h2>
+  <ul>
+    <li><b>On your computer:</b> the MCP server. It keeps your LinkedIn access token in <code>~/.linkedin-mcp/token.json</code>, readable only by your user account, and sends it only to LinkedIn's API.</li>
+    <li><b>The sign-in relay</b> (<code>linkedin-poster-auth.mayukh-d.workers.dev</code>): used only during sign-in, and only if you don't use your own LinkedIn developer app.</li>
+  </ul>
+  <h2>What the sign-in relay does</h2>
+  <p>When you sign in, LinkedIn sends a one-time code to the relay. The relay exchanges that code for an access token using the app's client secret, and immediately sends the token back to your own computer in the part of a web address (the fragment) that browsers never send to any server. The relay does not store, log or keep your code, token, profile or any other personal data. It runs on Cloudflare Workers, whose standard request handling applies.</p>
+  <h2>What LinkedIn data is used</h2>
+  <ul>
+    <li><b>Your name and LinkedIn member ID</b> (OpenID Connect <code>openid profile</code>), so posts are published as you.</li>
+    <li><b>Permission to post as you</b> (<code>w_member_social</code>), used only for the posts, reposts and deletions you approve.</li>
+  </ul>
+  <p>The software does not read your feed, messages, connections or anyone else's data, and none of your data is sold, shared or used for advertising.</p>
+  <h2>Your control</h2>
+  <ul>
+    <li>Sign-ins expire after 60 days.</li>
+    <li>Delete <code>~/.linkedin-mcp/</code> to remove your token from your computer.</li>
+    <li>Revoke access at any time in LinkedIn: Settings → Data privacy → Permitted services.</li>
+  </ul>
+  <h2>Contact</h2>
+  <p>Questions: open an issue on <a href="https://github.com/Mayukh-D/linkedin-poster-mcp/issues">GitHub</a> or reach me through <a href="https://mayukhdas.com">mayukhdas.com</a>.</p>
+</main>
+</body>
+</html>
