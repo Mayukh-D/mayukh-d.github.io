@@ -102,7 +102,8 @@
       display: flex; align-items: center; justify-content: space-between;
       padding: 14px 24px;
     }
-    .nav-mark { display: inline-flex; flex: none; margin-right: 14px; line-height: 0; }
+    .nav-mark { position: absolute; left: 22px; top: 50%; transform: translateY(-50%); display: inline-flex; line-height: 0; z-index: 1; }
+    @media (max-width: 1100px) { .nav-mark { position: static; transform: none; flex: none; margin-right: 14px; } }
     .nav-mark svg { height: 22px; width: auto; fill: var(--green); filter: drop-shadow(0 0 6px rgba(0,255,65,.35)); transition: transform .2s ease; }
     .nav-mark:hover svg { transform: scale(1.06); }
     .nav-logo {
