@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Why I now post to LinkedIn from my terminal · 1 AM reflections</title>
+<meta name="description" content="I already used an AI assistant to sharpen my LinkedIn posts. So I gave it a way to post them, and a panel of hiring managers to get past first.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Mayukh Das">
+<meta property="og:url" content="https://mayukhdas.com/notes/post-from-the-terminal/">
+<meta property="og:title" content="Why I now post to LinkedIn from my terminal · 1 AM reflections">
+<meta property="og:description" content="I already used an AI assistant to sharpen my LinkedIn posts. So I gave it a way to post them, and a panel of hiring managers to get past first.">
+<meta property="og:image" content="https://mayukhdas.com/assets/og/post-from-the-terminal.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://mayukhdas.com/notes/post-from-the-terminal/">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Why I now post to LinkedIn from my terminal", "description": "I already used an AI assistant to sharpen my LinkedIn posts. So I gave it a way to post them, and a panel of hiring managers to get past first.", "image": "https://mayukhdas.com/assets/og/post-from-the-terminal.jpg", "datePublished": "2026-10-18", "author": {"@type": "Person", "name": "Mayukh Das", "url": "https://mayukhdas.com/"}, "mainEntityOfPage": "https://mayukhdas.com/notes/post-from-the-terminal/", "isPartOf": {"@type": "Blog", "name": "1 AM reflections", "url": "https://mayukhdas.com/notes/"}}</script>
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/deep.css">
+</head>
+<body class="deep-standalone">
+<nav class="deep-bar"><a href="/" data-deep-back>← mayukhdas.com</a></nav>
+<main class="deep" data-deep="post-from-the-terminal">
+  <div class="kicker">1am/post-from-the-terminal</div>
+  <h1>Why I now post to LinkedIn from my terminal</h1>
+  <p class="meta"><time datetime="2026-10-18">18 Oct 2026</time> · from building a LinkedIn MCP · Mayukh Das</p>
+  <p>I already used Claude to sharpen my LinkedIn posts. The writing was never the slow part. The slow part was the copying: draft in one window, paste into LinkedIn, find the photos, fix the formatting LinkedIn mangled, tag people, check the date I'd misremembered. And the assistant I was drafting with already knew my work, my projects and how I like to write. It just couldn't press the button.</p>
+  <p>So I tried giving it one. The first tools I found could read LinkedIn but not post. The next one, an automation platform, could post, but quietly dropped my photos. My post about exhibiting at Parliament House went out as a wall of text with a bare link, and I had to delete it and post it again.</p>
+  <p>The fix was an evening's work: a small MCP server of my own that uses LinkedIn's official API. It uploads photos as real photos, tags company Pages, turns hashtags into hashtags and can repost. It runs on my machine, my credentials never leave it, and it's <a href="https://github.com/Mayukh-D/linkedin-poster-mcp">open source</a>.</p>
+  <h2>The part I didn't expect</h2>
+  <p>The interesting change wasn't the posting. It was the review. Before anything goes out, the draft goes to three simulated hiring managers: one discerning, one allergic to anything that sounds AI-written, and one technical. They argue until all three would think better of me after reading it.</p>
+  <p>The AI-allergic one was the most useful, and the most ironic. It kept cutting the lines an AI writes best: the tidy three-part lists, the neat closing aphorism, the reveal that sounds like a TED talk. What survived was plainer, and more like me. I still rewrote the openings myself.</p>
+  <h2>What it still can't do</h2>
+  <p>LinkedIn won't let any app tag a person without that person's own sign-in, so I still add people by hand. My sign-in expires every 60 days. And nothing posts without my explicit yes on the exact words and photos.</p>
+  <p>That last rule is the point. I didn't want an assistant that posts for me. I wanted one that removes everything between deciding what to say and saying it.</p>
+  <div class="callout"><p>Draft with the assistant. Decide yourself.</p></div>
+  <div class="links"><a href="https://github.com/Mayukh-D/linkedin-poster-mcp">the code →</a><a href="/notes/" data-deep-link>more 1 AM reflections →</a></div>
+</main>
+</body>
+</html>
