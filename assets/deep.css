@@ -195,5 +195,7 @@ html[data-theme="light"] .deep .demo { --bg: #010203; --bg-soft: #0a0f0c; --bord
 /* the toggle is a solid green key so it gets noticed: black on neon in dark mode, white on deep green in light mode */
 .deep-bar .theme-toggle { background: #00ff41; color: #010203; border-color: #00ff41; font-weight: 700; box-shadow: 0 0 14px rgba(0, 255, 65, 0.35); }
 .deep-bar .theme-toggle:hover { box-shadow: 0 0 22px rgba(0, 255, 65, 0.6); border-color: #00ff41; }
-html[data-theme="light"] .deep-bar .theme-toggle { background: #007f2c; color: #ffffff; border-color: #007f2c; box-shadow: 0 0 12px rgba(0, 200, 75, 0.35); }
-html[data-theme="light"] .deep-bar .theme-toggle:hover { border-color: #007f2c; box-shadow: 0 0 18px rgba(0, 200, 75, 0.55); }
+html[data-theme="light"] .deep-bar .theme-toggle { background: #00b32e; color: #ffffff; border-color: #00b32e; box-shadow: 0 0 12px rgba(0, 200, 75, 0.35); }
+html[data-theme="light"] .deep-bar .theme-toggle:hover { border-color: #00b32e; box-shadow: 0 0 18px rgba(0, 200, 75, 0.55); }
+.deep-bar .theme-toggle { align-self: center; margin-top: 8px; margin-bottom: 8px; }
+.deep-sections { align-items: center; }
