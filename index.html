@@ -1,7 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>document.documentElement.classList.add('js');</script>
+  <script>document.documentElement.classList.add('js');
+    // Start the opening only once the portrait and fonts are ready (at most ~0.9s), so its first frames don't drop.
+    addEventListener('DOMContentLoaded', function () {
+      var go = function () { requestAnimationFrame(function () { requestAnimationFrame(function () { document.documentElement.classList.add('intro-go'); }); }); };
+      var img = document.querySelector('.hero-photo'), waits = [];
+      if (img && img.decode) waits.push(img.decode().catch(function () {}));
+      if (document.fonts && document.fonts.ready) waits.push(document.fonts.ready);
+      Promise.race([Promise.all(waits), new Promise(function (r) { setTimeout(r, 900); })]).then(go);
+    });
+  </script>
   <meta charset="UTF-8">
   <meta name="color-scheme" content="dark">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -221,10 +230,11 @@
     .scan-intro .si-top { top: 0; } .scan-intro .si-bot { bottom: 0; }
     .scan-intro .si-line { position: absolute; left: 0; top: 50%; height: 2px; width: 100%; margin-top: -1px; transform-origin: left; transform: scaleX(0);
       background: var(--green); box-shadow: 0 0 12px var(--green), 0 0 34px rgba(var(--acc-rgb), 0.6); }
-    .js .scan-intro .si-line { animation: si-draw 0.55s cubic-bezier(.7, 0, .3, 1) 0.15s forwards, si-fade 0.35s ease 0.95s forwards; }
-    .js .scan-intro .si-top { animation: si-up 0.75s cubic-bezier(.75, 0, .2, 1) 0.72s forwards; }
-    .js .scan-intro .si-bot { animation: si-down 0.75s cubic-bezier(.75, 0, .2, 1) 0.72s forwards; }
-    .js .scan-intro { animation: si-gone 0s linear 1.6s forwards; }
+    .scan-intro i, .scan-intro .si-line { will-change: transform; }
+    .intro-go .scan-intro .si-line { animation: si-draw 0.55s cubic-bezier(.7, 0, .3, 1) 0.15s forwards, si-fade 0.35s ease 0.95s forwards; }
+    .intro-go .scan-intro .si-top { animation: si-up 0.75s cubic-bezier(.75, 0, .2, 1) 0.72s forwards; }
+    .intro-go .scan-intro .si-bot { animation: si-down 0.75s cubic-bezier(.75, 0, .2, 1) 0.72s forwards; }
+    .intro-go .scan-intro { animation: si-gone 0s linear 1.6s forwards; }
     .no-js .scan-intro, html:not(.js) .scan-intro { display: none; }
     @keyframes si-draw { to { transform: scaleX(1); } }
     @keyframes si-fade { to { opacity: 0; } }
@@ -1136,15 +1146,14 @@
        portrait expands from a point into its circle. These override the
        generic translate above, so they need the extra class of specificity. */
     /* keep the element's own centring transform; only the clip animates */
+    /* WELCOME grows out of the centre: opacity and transform only, so it stays on the compositor */
     .js .hero-bigword.reveal {
-      transform: translate(-50%, -50%);
-      clip-path: circle(0% at 50% 50%);
+      transform: translate(-50%, -50%) scale(0.86);
     }
     .hero-bigword.reveal.in {
       transform: translate(-50%, -50%);
-      clip-path: circle(80% at 50% 50%);
-      transition: opacity 0.6s ease-out,
-                  clip-path 1.35s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: opacity 0.9s ease-out,
+                  transform 1.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .js .hero-photo-wrap.reveal { transform: translate(-50%, 6svh); }
     .hero-photo-wrap.reveal.in {
