@@ -1230,6 +1230,12 @@
     html[data-theme="light"] .ask-hint::before { border-color: #00b32e; }
     html[data-theme="light"] .raf-hud .ln, html[data-theme="light"] .raf-hud .pip { stroke: #00b32e; }
     html[data-theme="light"] .rafale-visual canvas, html[data-theme="light"] #holo, html[data-theme="light"] .ia-stage .ia3 { filter: brightness(0.7) saturate(1.2); }
+    /* phone and narrow-window tabs: pale pills with a green edge, labels without a dark highlight */
+    @media (max-width: 860px) {
+      html[data-theme="light"] .edge-tab { background: rgba(247, 252, 248, 0.94); border-color: #00b32e; color: #007f2c; box-shadow: 0 2px 12px rgba(0, 179, 46, 0.15); }
+      html[data-theme="light"] .edge-tab .et-label { background: none; border: 0; color: #007f2c; padding: 0; }
+      html[data-theme="light"] .edge-tabs.left .edge-tab { color: #00b32e; }
+    }
     html[data-theme="light"] .et-label { background: rgba(247, 252, 248, 0.92); color: #007f2c; border-color: #00b32e; }
     html[data-theme="light"] .made-in .tape { background: #00b32e; color: #ffffff; }
     html[data-theme="light"] .made-in { color: var(--text-muted); }
