@@ -36,7 +36,7 @@
       if (localStorage.getItem('theme') === 'light') document.documentElement.dataset.theme = 'light';
     } catch (e) {}
   </script>
-  <link rel="stylesheet" href="assets/deep.css?v=12">
+  <link rel="stylesheet" href="assets/deep.css?v=13">
   <style>
     :root {
       --bg: #010203;
@@ -69,8 +69,8 @@
       --green: #007f2c;          /* vivid, still text-safe on the green paper (4.6:1) */
       --green-dim: #007f2c;
       --green-soft: rgba(0, 200, 75, 0.1);
-      --acc-rgb: 0, 200, 75;     /* glows, outlines and fills pop in a brighter green */
-      --pop: #00ff41;            /* the same neon as dark mode, with dark text */
+      --acc-rgb: 0, 179, 46;     /* glows, outlines and fills in the deeper neon */
+      --pop: #00b32e;            /* neon, 30% deeper for paper */
       --cyan: #00788a;
       --cyan-soft: rgba(0, 120, 138, 0.1);
       --red: #c8102e;
@@ -1223,12 +1223,16 @@
        so the whole page darkens or lightens smoothly without repainting anything per frame. */
     ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.6s; animation-timing-function: cubic-bezier(.4, 0, .2, 1); mix-blend-mode: normal; }
     /* light mode, neon where it isn't body text: diagrams, dot drawings, logos, prompts and boxes */
-    html[data-theme="light"] .nav-mark svg { fill: #00e83c; filter: drop-shadow(0 0 4px rgba(0, 200, 75, 0.45)); }
-    html[data-theme="light"] .org-logo, html[data-theme="light"] .timeline-item:hover .org-logo { background: #00d43f; filter: drop-shadow(0 0 3px rgba(0, 200, 75, 0.35)); }
-    html[data-theme="light"] h2::before, html[data-theme="light"] .project-card h3::before, html[data-theme="light"] .row-name::before { color: #00d43f; text-shadow: 0 0 8px rgba(0, 200, 75, 0.35); }
-    html[data-theme="light"] .skill, html[data-theme="light"] .ask-hint, html[data-theme="light"] .ia-stage { border-color: #00e83c; }
-    html[data-theme="light"] .ask-hint::before { border-color: #00e83c; }
-    html[data-theme="light"] .raf-hud .ln, html[data-theme="light"] .raf-hud .pip { stroke: #00c83a; }
+    html[data-theme="light"] .nav-mark svg { fill: #00b32e; filter: drop-shadow(0 0 4px rgba(0, 200, 75, 0.45)); }
+    html[data-theme="light"] .org-logo, html[data-theme="light"] .timeline-item:hover .org-logo { background: #00b32e; filter: drop-shadow(0 0 3px rgba(0, 200, 75, 0.35)); }
+    html[data-theme="light"] h2::before, html[data-theme="light"] .project-card h3::before, html[data-theme="light"] .row-name::before { color: #00b32e; text-shadow: 0 0 8px rgba(0, 200, 75, 0.35); }
+    html[data-theme="light"] .skill, html[data-theme="light"] .ask-hint, html[data-theme="light"] .ia-stage { border-color: #00b32e; }
+    html[data-theme="light"] .ask-hint::before { border-color: #00b32e; }
+    html[data-theme="light"] .raf-hud .ln, html[data-theme="light"] .raf-hud .pip { stroke: #00b32e; }
+    html[data-theme="light"] .rafale-visual canvas, html[data-theme="light"] #holo, html[data-theme="light"] .ia-stage .ia3 { filter: brightness(0.7) saturate(1.2); }
+    html[data-theme="light"] .et-label { background: rgba(247, 252, 248, 0.92); color: #007f2c; border-color: #00b32e; }
+    html[data-theme="light"] .made-in .tape { background: #00b32e; color: #ffffff; }
+    html[data-theme="light"] .made-in { color: var(--text-muted); }
     /* theme toggle in the menu bar */
     .theme-toggle { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 11px; margin-left: 18px; border-radius: 8px;
       border: 1px solid var(--border-bright); color: var(--green); font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; line-height: 1; flex: none; white-space: nowrap; }
@@ -1241,7 +1245,7 @@
     /* the toggle is a solid green key so it gets noticed: black on neon in dark mode, white on deep green in light mode */
     .theme-toggle { background: #00ff41; color: #010203; border-color: #00ff41; font-weight: 700; box-shadow: 0 0 14px rgba(0, 255, 65, 0.35); }
     .theme-toggle:hover { box-shadow: 0 0 22px rgba(0, 255, 65, 0.6); border-color: #00ff41; }
-    html[data-theme="light"] .theme-toggle { background: #007f2c; color: #ffffff; border-color: #007f2c; box-shadow: 0 0 12px rgba(0, 200, 75, 0.35); }
+    html[data-theme="light"] .theme-toggle { background: #00b32e; color: #ffffff; border-color: #007f2c; box-shadow: 0 0 12px rgba(0, 200, 75, 0.35); }
     html[data-theme="light"] .theme-toggle:hover { border-color: #007f2c; box-shadow: 0 0 18px rgba(0, 200, 75, 0.55); }
     @media (max-width: 1100px) {
       .theme-toggle { position: static; transform: none; margin-left: 12px; padding: 0 9px; }
