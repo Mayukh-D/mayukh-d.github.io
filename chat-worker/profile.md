@@ -1,11 +1,11 @@
 # Mayukh Das
 
 ## About
-I'm a machine learning engineer and architect: from training generative models from scratch to designing AI systems that people can actually understand and trust. I spent over three years at Accenture building AIOps tooling, explainable AI systems, and internal chatbots. At ANU , I'm going deeper into the foundations: generative modelling, transformers, and human-computer interaction. Now I work on two fronts: as ML Architect at Eccoi , on sovereign AI architecture, and as a Satellite AI Research Trainee at Haizea Analytics , mapping Australia's tree canopy from satellite imagery. Alongside my studies, I teach Human-Computer Interaction at the ANU as a Casual Sessional Academic, serve as a Student Ambassador for the College of Systems and Society, and represent its postgraduate cohort as the elected ANUSA Postgraduate Representative . I've also published research on AI in material science, electric propulsion, and blockchain; see publications . Long term, I want to build products that democratise machine learning : from national-scale AI capability to creative solutions for problems in grassroots communities.
+I'm a machine learning engineer and architect: from training generative models from scratch to designing AI systems that people can actually understand and trust. I spent over three years at Accenture building AIOps tooling, explainable AI systems, and internal chatbots. At ANU , I'm going deeper into the foundations: generative modelling, transformers, and human-computer interaction. Now I work on two fronts: as Trainee ML Architect and System Engineer at Eccoi , on sovereign AI architecture, and as a Satellite AI Research Trainee at Haizea Analytics , mapping Australia's tree canopy from satellite imagery. Alongside my studies, I teach Human-Computer Interaction at the ANU as a Casual Sessional Academic, serve as a Student Ambassador for the College of Systems and Society, and represent its postgraduate cohort as the elected ANUSA Postgraduate Representative . I've also published research on AI in material science, electric propulsion, and blockchain; see publications . Long term, I want to build products that democratise machine learning : from national-scale AI capability to creative solutions for problems in grassroots communities.
 
 ## Experience
 - Sep 2026 – Present Satellite AI Research Trainee Haizea Analytics, Canberra, Australia Mapping live tree canopy cover across Australia at 10 m resolution: deep learning models that read four years of quarterly Sentinel-2 imagery and are trained on airborne LiDAR measurements, across more than 13,000 footprints. The goal is accurate amounts of canopy, not just a good-looking map, scored once on a held-out test set against Haizea's existing model. Run as a pre-registered, multi-seed experiment programme where every change has to beat the noise floor, handed over as a clean repository with the model, validation code and a ranked record of experiments.
-- Jul 2026 – Present ML Architect · System Architect Intern Eccoi, Canberra, Australia Architecting the Sovereign AI Community of Practice (SAICOP): defining architectural principles and the system context model, assessing and shortlisting platforms, and proving the conceptual architecture end-to-end, aligned to Australian Government delivery, security, and procurement realities. Exhibited SAICOP with the team at the Inaugural Australian AI Parliamentary Showcase at Parliament House in September 2026.
+- Jul 2026 – Present Trainee ML Architect and System Engineer Eccoi, Canberra, Australia formally System Engineering Intern Architecting the Sovereign AI Community of Practice (SAICOP): defining architectural principles and the system context model, assessing and shortlisting platforms, and proving the conceptual architecture end-to-end, aligned to Australian Government delivery, security, and procurement realities. Exhibited SAICOP with the team at the Inaugural Australian AI Parliamentary Showcase at Parliament House in September 2026.
 - Jul 2026 – Present Casual Sessional Academic · Human-Computer Interaction ANU College of Systems and Society, Canberra, Australia Teaching HCI at the ANU from Semester 2, 2026: running tutorials and supporting students through design thinking, prototyping, and evaluation coursework.
 - Jan 2022 – Feb 2025 Advanced Application Engineering Analyst Accenture, Bengaluru, India Built Ingrain, an AIOps tool generating predictive ML pipelines for automated IT ticket resolution. Integrated Explainable AI and dynamic model-performance reporting, designing the supporting UIs from scratch. Built Quasar++, a ChatGPT API-based chatbot for querying internal documents. Formally Specialized in Data Science & Machine Learning; rated Advanced in Machine Learning, Python, UX Design, Solution Architecture, and Cloud Application Architecture.
 - Oct 2021 – Jan 2022 Programmer Analyst Cognizant, India Designed and implemented full-stack web systems using .NET, MVC, React, HTML, CSS, and JavaScript; delivered a Hospital Logistics System to manage COVID-19 operational workflows.
@@ -42,7 +42,7 @@ Links: GPT from Scratch (nanoGPT): https://github.com/Mayukh-D/story-generation-
 ### Transformers' Revenge
 Stress-testing minGRU's "Were RNNs All We Needed?" claims against a LLaMA-recipe Transformer and a causal gMLP on algorithmic reasoning: a 27-experiment grid showing where each architecture breaks, plus a phase transition in Transformer copy learning.
 Tech: Jupyter · PyTorch HD
-Links: Transformers' Revenge: https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge | tl;dr: https://mayukhdas.com/#tldr-transformers | report: https://mayukhdas.com/assets/reports/transformers-revenge.pdf | code: https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge
+Links: Transformers' Revenge: https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge | tl;dr: https://mayukhdas.com/#tldr-transformers | write-up: https://mayukhdas.com//work/transformers-revenge/ | report: https://mayukhdas.com/assets/reports/transformers-revenge.pdf | code: https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge
 
 ### FoodLens · Smart Food Scanner
 A PWA for sustainable food shopping: real-time barcode scanning, live product lookup via Open Food Facts, allergen/expiry/carbon flagging, and A/B interaction logging for HCI research.
@@ -52,7 +52,7 @@ Links: FoodLens · Smart Food Scanner: https://github.com/Mayukh-D/foodlens-ar-s
 ### Lantern · Screen Sync for a A$49 Light
 A Mac menu bar app that makes a cheap Bluetooth LED bar follow whatever is on screen, the feature Philips Hue sells for about A$550. I reverse-engineered the light's Bluetooth commands, calibrated LED colour against the screen, and shipped it with a website and a release.
 Tech: Swift · SwiftUI
-Links: Lantern · Screen Sync for a A$49 Light: https://github.com/Mayukh-D/lantern | tl;dr: https://mayukhdas.com/#tldr-lantern | site: https://mayukhdas.com/lantern/ | code: https://github.com/Mayukh-D/lantern
+Links: Lantern · Screen Sync for a A$49 Light: https://github.com/Mayukh-D/lantern | tl;dr: https://mayukhdas.com/#tldr-lantern | write-up: https://mayukhdas.com//work/lantern/ | site: https://mayukhdas.com/lantern/ | code: https://github.com/Mayukh-D/lantern
 
 ### linkedin-poster-mcp · Post from Claude
 An MCP server that lets Claude publish LinkedIn posts with real photos, Page tags, hashtags and reposts, through LinkedIn's official API. Built after an automation platform quietly dropped the photos from one of my posts.
@@ -305,6 +305,7 @@ live demo → code →
 The thread
 None of these is big. Each started from something that annoyed me, and each decision was made so that the person using it never has to wonder why. That's the bar: thoughtful enough to be effortless.
 everything on GitHub →
+keep reading how I research → how I work → 1 AM notes →
 
 ## Research page: who set each project, what it taught him, how it led to Haizea
 URL: https://mayukhdas.com/research/
@@ -337,6 +338,7 @@ Research discipline : predictions first, one change at a time, and honesty about
 Small-data work : when data is scarce, every design choice becomes a question of efficiency.
 Real deep learning skill, and instinct for which question to ask next.
 The briefs were set by others. The discipline I took from them is mine, and it is what I bring to the work now.
+keep reading how I build → how I work → 1 AM notes →
 
 ## Jobs page: his career journey and what each job taught him
 URL: https://mayukhdas.com/jobs/
@@ -363,6 +365,7 @@ In September 2026 we took the Eccoi work to Parliament House, exhibiting at the 
 The thread
 Engineering taught me structure. Cognizant proved I could build. Accenture taught me how real machine learning runs. The jobs since ANU are teaching me the part no one can hand over: deciding what should be built at all.
 full experience on the main page → resume →
+keep reading how I build → how I research → 1 AM notes →
 
 ## Lantern write-up
 URL: https://mayukhdas.com/work/lantern/
@@ -393,6 +396,7 @@ Support more controllers in the same family, which needs owners of other bars to
 website and video →
 download →
 code →
+keep reading how I build → how I research → how I work → 1 AM notes →
 
 ## Transformers' Revenge write-up
 URL: https://mayukhdas.com/work/transformers-revenge/
@@ -429,8 +433,9 @@ My part
 A team of four at the ANU (Deep Learning, 2026), with Vibhansh Gupta, Daniel Vaz and Adam Clark. I implemented the Transformer, designed the 27-run experiment grid and the comparison framework, and wrote the report.
 full report (PDF) →
 code →
+keep reading how I build → how I research → how I work → 1 AM notes →
 
-## 1 AM reflections: Gamma beat saturation
+## 1 AM notes: Gamma beat saturation
 URL: https://mayukhdas.com/notes/gamma-beat-saturation/
 1am/gamma-beat-saturation
 Gamma beat saturation: why screen colours lie on cheap LEDs
@@ -456,7 +461,7 @@ The general lesson
 When an output disagrees with your input, it is tempting to reach for the control that sounds right: the colours look washed out, so add saturation. The better question is where the error comes from. Here it came from the smallest components of each colour, and the fix was the one that targets exactly those. It is the same instinct as debugging a model: find the part of the input the error actually lives in, rather than turning the global knob.
 the Lantern write-up → code →
 
-## 1 AM reflections: what transfers to a GPT trained on 3.7M tokens
+## 1 AM notes: what transfers to a GPT trained on 3.7M tokens
 URL: https://mayukhdas.com/notes/small-data-gpt/
 1am/small-data-gpt
 What transfers to a GPT trained on 3.7M tokens, and what doesn't
@@ -481,7 +486,7 @@ The thread through all of it
 Recipes from large-scale training are tuned for large-scale problems. At small scale, some of them are free wins (RoPE), some make no difference, and some actively hurt (SwiGLU). The only reliable way to know which is to change one thing at a time and measure.
 full report (PDF) → live demo → (allow a minute to wake) code →
 
-## 1 AM reflections: predict the data, not the velocity
+## 1 AM notes: predict the data, not the velocity
 URL: https://mayukhdas.com/notes/x-vs-v-prediction/
 1am/x-vs-v-prediction
 Predict the data, not the velocity, until you can't
@@ -520,7 +525,7 @@ What I took from it
 Two things can be identical on paper and very different to learn. Asking for the destination was easier here because the destination was simple and the route was noisy. When the destination stops being simple, as it does in large image models, the answer flips. A design choice is only right for the problem in front of it.
 full report (PDF) → code →
 
-## 1 AM reflections: a rule my agents can't break is code, not a sentence
+## 1 AM notes: a rule my agents can't break is code, not a sentence
 URL: https://mayukhdas.com/notes/agent-atoll/
 1am/agent-atoll
 A rule my agents can't break is code, not a sentence
@@ -546,9 +551,9 @@ Where I stay in the loop
 The orchestrator rules on routine reports itself. It brings me one recommendation, never a menu, and only for the things that are mine: what the model is for, changes to the protocol, and any strong objection the challenger raises. Every plan is reviewed by other agents before it runs, so the orchestrator never approves its own work. Even plans I write go through the panel.
 Some actions stay with me by design. When we need new data from a government portal, the agents prepare the order and I check it and click submit myself. And when I tried to give the worker on the GPU box standing permission to launch jobs on its own, the safety layer refused, twice. I was annoyed at the time. Looking back, it was right: launching is exactly the kind of call that should have a signed plan and a person behind it.
 The lesson I keep relearning: agents are good at doing the work and bad at remembering the rules around it. So I write the rules down, turn the important ones into code, and keep the decisions that matter for myself.
-more 1 AM reflections → the research behind it →
+more 1 AM notes → the research behind it →
 
-## 1 AM reflections: yes, attention definitely was all we needed
+## 1 AM notes: yes, attention definitely was all we needed
 URL: https://mayukhdas.com/notes/attention-was-all-we-needed/
 1am/attention-was-all-we-needed
 Yes, attention definitely was all we needed
@@ -588,7 +593,7 @@ We chose tasks designed to expose limits. We think that is fair, because trained
 This was a team of four. My part was implementing the Transformer, designing the 27 experiments and the framework that held all three models to the same rules, and writing the report.
 the full write-up → full report (PDF) → code →
 
-## 1 AM reflections: no single AI policy can fit a whole university
+## 1 AM notes: no single AI policy can fit a whole university
 URL: https://mayukhdas.com/notes/one-ai-policy/
 1am/one-ai-policy
 No single AI policy can fit a whole university
@@ -616,9 +621,9 @@ The part that falls to the teachers
 This puts real weight on conveners, and not only the ones in computer science. As AI arrives in every discipline, academics from outside computing need to understand these tools intimately too. You cannot make a good call about a tool you have never used, and their students are walking into a world that is changing either way.
 The future is already here. We learn to augment what we do with it, or we risk falling behind.
 These are my own views, not a position of the student representatives or of the ANU.
-more 1 AM reflections → the roles behind it →
+more 1 AM notes → the roles behind it →
 
-## 1 AM reflections: we built a game (OUTBREAK)
+## 1 AM notes: we built a game (OUTBREAK)
 URL: https://mayukhdas.com/notes/we-built-a-game/
 1am/we-built-a-game
 We built a game
@@ -645,9 +650,9 @@ By the numbers
 Who built what
 A team of four, for Software Engineering at the ANU. I built the engine, the campaign loading, the progression between floors, and save and resume. My teammates built the map, movement and drawing; the zombies, combat and the element system; and the inventory, weapons, automatic tester and build pipeline.
 It is a text game about zombies in a computer science building. I love it.
-more 1 AM reflections → other things I've built →
+more 1 AM notes → other things I've built →
 
-## 1 AM reflections: a day at Parliament House and sovereign AI
+## 1 AM notes: a day at Parliament House and sovereign AI
 URL: https://mayukhdas.com/notes/sovereign-ai-showcase/
 1am/sovereign-ai-showcase
 What a day at Parliament House told me about sovereign AI
@@ -662,7 +667,7 @@ Many builders, one missing piece
 The hall also showed how spread out the effort is. The founding partners, Elastic and AWS, sat alongside Australian companies building their own models, their own compute, and their own tools for trust and security. Each is doing a different piece of the work.
 Everyone is building a piece. Someone has to bring the pieces together.
 That is all the more reason for something like SAICOP: a place that brings those partners together so their capabilities combine, and so that Australia moves faster from being a consumer of AI to being a producer of it.
-the job behind it → more 1 AM reflections →
+the job behind it → more 1 AM notes →
 
 ## Contact
 Open to opportunities in software engineering and machine learning, based in Canberra, ACT.
