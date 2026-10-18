@@ -682,6 +682,7 @@
     .other:hover .row-name, .other.open .row-name { color: var(--green); }
     .other.open .row-chev { transform: rotate(90deg); }
     .other.open .row-thumb { opacity: 0; }
+    @media (max-width: 760px) { .other.open .row-thumb { opacity: 0.35; } }
     .row-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.5s cubic-bezier(.2,.8,.2,1); }
     .other.open .row-body { grid-template-rows: 1fr; }
     .row-inner { position: relative; min-height: 0; overflow: hidden; display: flex; flex-direction: column; padding: 0 22px; transition: padding 0.5s cubic-bezier(.2,.8,.2,1); }
@@ -1602,9 +1603,8 @@
                 <a href="https://growthscope-j85i.onrender.com" target="_blank" rel="noopener" title="Live demo" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.14v13.72L19 12 8 5.14z"/></svg><span>demo</span></a>
                 <a href="https://github.com/Mayukh-D/GrowthScope" target="_blank" rel="noopener" title="Source on GitHub" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg><span>code</span></a>
                 </span>
-              </div></div>
-        </div>
-      </div>
+              </div>
+          </div></div>
         </div>
         <a class="more-row reveal" data-scroll href="https://github.com/Mayukh-D?tab=repositories" target="_blank" rel="noopener">
           <span class="row-name">more-on-github</span>
@@ -3643,7 +3643,7 @@
     const section = document.getElementById('interests');
     const cards = section ? [...section.querySelectorAll('.interest-card')] : [];
     if (cards.length && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      let T = null, renderer = null, active = null;
+      let T = null, renderer = null, active = null, runs = 0;
       const touch = matchMedia('(hover: none), (pointer: coarse)').matches;
 
       const near = new IntersectionObserver(es => {
@@ -3899,8 +3899,9 @@
           it.exit = it.end.clone().add(new T.Vector3(tx, ty, -1.5));
         });
         card.classList.add('ia-playing');
-        active = { card, S, t0: performance.now(), last: performance.now() };
-        requestAnimationFrame(frame);
+        const run = ++runs;   // each play gets its own loop; a stale loop sees a newer run and stops
+        active = { card, S, run, t0: performance.now(), last: performance.now() };
+        requestAnimationFrame(now => frame(now, run));
       }
       function stop() {
         if (!active) return;
@@ -3908,8 +3909,8 @@
         renderer.domElement.remove();
         active = null;
       }
-      function frame(now) {
-        if (!active) return;
+      function frame(now, run) {
+        if (!active || active.run !== run) return;
         const { S } = active, t = Math.max(0, (now - active.t0) / 1000), dt = Math.min(0.05, Math.max(0, (now - active.last) / 1000));
         active.last = now;
         S.items.forEach((it, k) => {
@@ -3925,7 +3926,7 @@
         const fade = Math.min(1, t / 0.35, Math.max(0, (TOTAL - t) / 0.35));
         S.M.face.opacity = 0.2 * fade; S.M.edge.opacity = 0.95 * fade; S.M.faint.opacity = 0.22 * fade; S.M.glow.opacity = fade; if (S.M.om) S.M.om.opacity = fade;
         renderer.render(S.scene, S.cam);
-        if (t < TOTAL) requestAnimationFrame(frame); else stop();
+        if (t < TOTAL) requestAnimationFrame(n => frame(n, run)); else stop();
       }
     }
   </script>
