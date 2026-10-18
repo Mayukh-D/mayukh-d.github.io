@@ -78,9 +78,13 @@ window.Holo = window.Holo || (function () {
     }
     function rgba(c, a) { c = COL[c] || c; return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + Math.max(0, Math.min(1, a)).toFixed(3) + ')'; }
 
+    var lastDraw = 0;
     function draw(t) {
       raf = 0;
       if (!canvas.isConnected) return;
+      // auto-spin at 30 fps (half the work, steady on any laptop); full rate while dragging or easing between scenes
+      if (!dragging && !prev && t - lastDraw < 32) { if (visible) raf = requestAnimationFrame(draw); return; }
+      lastDraw = t;
       var dt = lastT ? Math.min((t - lastT) / 1000, 0.05) : 0.016; lastT = t;
       if (!dragging && !reduce.matches && t > idleAt) yaw += spin * dt;
       fade = prev ? Math.min(1, (t - fadeStart) / 420) : 1;
@@ -107,7 +111,7 @@ window.Holo = window.Holo || (function () {
       g.addColorStop(0, 'rgba(0,229,255,0.12)'); g.addColorStop(1, 'rgba(0,229,255,0)');
       ctx.fillStyle = g; ctx.beginPath(); ctx.ellipse(cx, H * 0.9, W * 0.32, H * 0.06, 0, 0, 6.2832); ctx.fill();
 
-      var flick = reduce.matches ? 0.9 : 0.82 + 0.12 * Math.sin(t * 0.009) * Math.sin(t * 0.0031);
+      var flick = 0.9;   // steady glow: no flicker to redraw
       function render(S, alpha) {
         if (!S || alpha <= 0) return;
         var bands = {};
@@ -124,9 +128,10 @@ window.Holo = window.Holo || (function () {
           ctx.lineWidth = 1; ctx.strokeStyle = rgba(parts[0], al); ctx.stroke();
         }
         ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        var lastFont = '';
         S.T.forEach(function (tx) {
-          var p = P(tx[0]);
-          ctx.font = (tx[4] * Math.min(1.15, Math.max(0.85, W / 600))).toFixed(1) + 'px "JetBrains Mono", monospace';
+          var p = P(tx[0]), f = (tx[4] * Math.min(1.15, Math.max(0.85, W / 600))).toFixed(1) + 'px "JetBrains Mono", monospace';
+          if (f !== lastFont) { ctx.font = f; lastFont = f; }   // setting a font is costly; only when it changes
           ctx.fillStyle = rgba(tx[2], tx[3] * alpha);
           ctx.fillText(tx[1], p[0], p[1]);
         });
