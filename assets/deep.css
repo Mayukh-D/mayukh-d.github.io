@@ -109,7 +109,7 @@
 .deep .tenets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 8px 0 6px; }
 .deep .tenets > div { border: 1px solid var(--border-bright); border-radius: 10px; padding: 14px; background: var(--bg-soft); }
 .deep .tenets b { font: 700 0.7rem 'JetBrains Mono', monospace; color: var(--green); }
-.deep .tenets h3 { font: 600 0.88rem 'JetBrains Mono', monospace; color: var(--text); margin: 6px 0; }
+.deep .tenets h2, .deep .tenets h3 { font: 600 0.88rem 'JetBrains Mono', monospace; color: var(--text); margin: 6px 0; }
 .deep .tenets p { font-size: 0.85rem; margin: 0; }
 .deep .whys { margin: 6px 0 4px; }
 .deep details.why { border: 1px solid var(--border); border-radius: 8px; margin: 8px 0; background: var(--bg-soft); transition: border-color 0.2s; }

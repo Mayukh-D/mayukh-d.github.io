@@ -1,1 +1,4 @@
 .DS_Store
+
+# Drafts kept next to their pages; never publish them
+notes/*.md

@@ -429,6 +429,9 @@
     .about p strong { color: var(--text); }
     .about a { color: var(--green); }
 
+    /* Skip link: hidden until a keyboard user tabs to it */
+    .skip-link { position: fixed; left: 16px; top: -60px; z-index: 200; padding: 8px 14px; border-radius: 6px; background: var(--green); color: #010203; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; text-decoration: none; transition: top 0.15s; }
+    .skip-link:focus { top: 64px; }   /* just below the menu bar, clear of the logo */
     /* Interests */
     .interests-grid {
       display: grid; grid-template-columns: repeat(2, 1fr);
@@ -446,7 +449,7 @@
       content: attr(data-num);
       position: absolute; top: 14px; right: 16px;
       font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
-      color: var(--border-bright);
+      color: var(--text-muted); opacity: 0.7;
     }
     .interest-card:hover { border-color: var(--green-dim); box-shadow: 0 0 24px rgba(0, 255, 65, 0.1); }
     /* Each interest has an art strip on top. Idle, it shows a terminal prompt; hovering the card "runs" it
@@ -1141,7 +1144,8 @@
   </script>
 </head>
 <body>
-  <nav>
+  <a class="skip-link" href="#main">skip to content</a>
+  <nav aria-label="Main">
     <div class="container nav-inner">
       <a href="#" class="nav-mark" aria-label="Mayukh Das, back to top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;"><svg viewBox="150 290 980 680" aria-hidden="true"><path d="M172 318H245L523.5 572.6L872 320H990L465 698L300 548V885L217 945H172Z"/><path d="M575 653L900 419C1030 450 1103 560 1103 680C1103 830 990 935 865 943H578L763 810H838C900 810 950 750 950 677C950 600 900 543 838 543H728V803L575 913Z"/></svg></a>
       <div class="nav-left" data-chat-open title="Ask about me">
@@ -1260,6 +1264,7 @@
     <div id="holo-label">U-TAE · SATELLITE TIME SERIES → CANOPY</div>
   </div>
 
+  <main id="main">
   <section id="about" class="about">
     <div class="container">
       <h2 class="reveal" data-scroll>about</h2>
@@ -1450,7 +1455,7 @@
             <span class="project-lang"><span class="lang-dot lang-js"></span>JavaScript · PWA <span class="hd" title="Assignment graded High Distinction (HD), the top grade band at ANU">HD</span></span>
             <span class="project-actions">
             <a href="#tldr-foodlens" data-tldr="foodlens" title="The short version"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span>tl;dr</span></a>
-            <a href="https://foodlens-f281.onrender.com" target="_blank" rel="noopener" title="Live demo" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.14v13.72L19 12 8 5.14z"/></svg><span>demo</span></a>
+            <a href="https://foodlens-f281.onrender.com" target="_blank" rel="noopener" title="Live demo (free hosting: the first load can take about 30 seconds)" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.14v13.72L19 12 8 5.14z"/></svg><span>demo</span></a>
             <a href="https://github.com/Mayukh-D/foodlens-ar-sustainable-shopping" target="_blank" rel="noopener" title="Source on GitHub" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg><span>code</span></a>
             </span>
           </div>
@@ -1621,7 +1626,7 @@
                 <span class="project-lang"><span class="lang-dot lang-python"></span>Python · Flask</span>
                 <span class="project-actions">
                 <a href="#tldr-growthscope" data-tldr="growthscope" title="The short version"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span>tl;dr</span></a>
-                <a href="https://growthscope-j85i.onrender.com" target="_blank" rel="noopener" title="Live demo" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.14v13.72L19 12 8 5.14z"/></svg><span>demo</span></a>
+                <a href="https://growthscope-j85i.onrender.com" target="_blank" rel="noopener" title="Live demo (free hosting: the first load can take about 30 seconds)" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.14v13.72L19 12 8 5.14z"/></svg><span>demo</span></a>
                 <a href="https://github.com/Mayukh-D/GrowthScope" target="_blank" rel="noopener" title="Source on GitHub" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.18c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg><span>code</span></a>
                 </span>
               </div>
@@ -1882,6 +1887,8 @@
     </div>
     <ol class="raf-list" id="raf-list" aria-label="Flight notes"></ol>
   </section>
+
+  </main>
 
   <footer>
     <div class="container">
@@ -3386,7 +3393,7 @@
         figs: [[['assets/tldr/foodlens-scan.jpg', 'assets/tldr/foodlens-product.jpg', 'assets/tldr/foodlens-insights.jpg'], 'Scan, the product overlay with an allergen alert and freshness timeline, and carbon milestones.'],
                ['assets/tldr/foodlens-sus.jpg', 'System Usability Scale across 10 items (n = 5).']],
         role: 'Solo: designed, built and deployed the app, ran the study, and analysed it, for the ANU HCI final project. Graded HD.',
-        links: [['live demo', 'https://foodlens-f281.onrender.com'], ['code', 'https://github.com/Mayukh-D/foodlens-ar-sustainable-shopping']]
+        links: [['live demo (first load can take ~30s)', 'https://foodlens-f281.onrender.com'], ['code', 'https://github.com/Mayukh-D/foodlens-ar-sustainable-shopping']]
       },
       hci: {
         title: 'HCI Design & Research', file: 'hci-design-and-research',
@@ -3494,7 +3501,7 @@
         ],
         figs: [['assets/tldr/growthscope-forecast.jpg', 'The revenue forecast, scored on the three months it did not see.']],
         role: 'Hackathon team of four; the 2026 rebuild is mine. Kept on purpose as a benchmark of where I started.',
-        links: [['live demo', 'https://growthscope-j85i.onrender.com'], ['code', 'https://github.com/Mayukh-D/GrowthScope']]
+        links: [['live demo (first load can take ~30s)', 'https://growthscope-j85i.onrender.com'], ['code', 'https://github.com/Mayukh-D/GrowthScope']]
       }
     };
     (() => {
@@ -3701,6 +3708,10 @@
           catch (e) { return; }
           renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
           renderer.domElement.className = 'ia3';
+          // If the browser drops the 3D context (sleep, GPU reset), fall back to the line drawings for good.
+          renderer.domElement.addEventListener('webglcontextlost', e => {
+            e.preventDefault(); stop(); renderer = null; section.classList.remove('ia3d');
+          });
           section.classList.add('ia3d');
           cards.forEach((card, i) => {
             if (touch) seen.observe(card);
@@ -3710,7 +3721,7 @@
             }
           });
         }).catch(() => {});
-      }, { rootMargin: '600px 0px' });
+      }, { rootMargin: touch ? '0px' : '600px 0px' });   // phones fetch three.js only once the section is on screen
       near.observe(section);
       const seen = new IntersectionObserver(es => es.forEach(e => {
         if (e.isIntersecting && e.intersectionRatio > 0.6 && !e.target.dataset.played) {
