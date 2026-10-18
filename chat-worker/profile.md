@@ -272,6 +272,7 @@ Thoughtful should feel effortless
 If the user has to stop and think about a decision, it was the wrong one.
 Under each project: the decisions you'd notice using it. Open one to see why it's built that way.
 Lantern: the A$550 feature on a A$49 light
+Pick a screen: the bar takes its main colour, the way Lantern follows yours.
 Same bar, six screens: the light follows whatever covers most of the display.
 Philips Hue sells screen-synced lighting for about A$550 of hardware. I bought the cheapest Bluetooth LED bar I could find, worked out how it talks, and built the missing piece as a Mac menu bar app.
 It lives in the menu bar Lighting is something you set and forget. A full window would ask for attention the job doesn't need, so Lantern stays one click away and otherwise out of sight.
@@ -317,10 +318,15 @@ set by ANU Deep Learning (2026), as a team of four A recent paper claimed a mini
 what I learned Commit to a prediction before you see the result. Three of our four predictions held. We reported the one that didn't, along with a phase transition we hadn't predicted that may explain it.
 the full write-up → report → code →
 A GPT from scratch, on almost no data
+DRAG TO SPIN
+layers
 set by ANU Advanced Machine Learning A 30M-parameter GPT trained on 3.7M tokens, about 160 times less data than scaling laws suggest. I changed one thing at a time against a fixed baseline, and shipped the model as a live demo.
 what I learned Small data changes the rules. The tokenizer mattered more than the architecture, depth beat width, and a component that helps at scale (SwiGLU) hurt here.
 the note → live demo → code →
 Flow matching: what the network should predict
+noisy samples x targets v targets
+DRAG TO SPIN
+t
 set by ANU Advanced Machine Learning Should a generative model predict the clean data or the velocity? I tested every combination as the data dimension grew, worked out why one collapses, found what it costs to rescue, and implemented one-step MeanFlow.
 what I learned Ask why a result happens, not just whether. And recipes tuned at large scale solve problems a small model may not have.
 the note → report → code →
