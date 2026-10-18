@@ -4,7 +4,7 @@
   <script>document.documentElement.classList.add('js');
     // Start the opening only once the portrait and fonts are ready (at most ~0.9s), so its first frames don't drop.
     addEventListener('DOMContentLoaded', function () {
-      var go = function () { requestAnimationFrame(function () { requestAnimationFrame(function () { document.documentElement.classList.add('intro-go'); }); }); };
+      var go = function () { requestAnimationFrame(function () { requestAnimationFrame(function () { document.documentElement.classList.add('intro-go'); dispatchEvent(new Event('intro-go')); }); }); };
       var img = document.querySelector('.hero-photo'), waits = [];
       if (img && img.decode) waits.push(img.decode().catch(function () {}));
       if (document.fonts && document.fonts.ready) waits.push(document.fonts.ready);
@@ -2630,9 +2630,15 @@
     if (reduce) {
       stage.forEach(show);
     } else {
-      stage.forEach(function (el, i) {
-        setTimeout(function () { show(el); }, 780 + i * 130);
-      });
+      // Timed from the moment the shutters start (not from page load), so the entrances play as they part.
+      var startStage = function () {
+        stage.forEach(function (el, i) {
+          setTimeout(function () { show(el); setTimeout(function () { el.style.willChange = ''; }, 1500); }, 780 + i * 130);
+        });
+      };
+      stage.forEach(function (el) { el.style.willChange = 'transform, opacity'; });   // layers drawn behind the shutters, ahead of time
+      if (document.documentElement.classList.contains('intro-go')) startStage();
+      else addEventListener('intro-go', startStage, { once: true });
     }
 
     var items = [].slice.call(document.querySelectorAll('[data-scroll]'));
