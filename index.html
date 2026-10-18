@@ -1189,7 +1189,6 @@
     html[data-theme="light"] h1.hero-name { text-shadow: 0 0 2px rgba(var(--acc-rgb), 0.9), 0 0 10px rgba(var(--acc-rgb), 0.6), 0 0 26px rgba(var(--acc-rgb), 0.4); }
     html[data-theme="light"] .rafale-cap { text-shadow: 0 0 10px var(--bg); }
     html[data-theme="light"] .dapper-btn { color: var(--green); text-shadow: none; opacity: 0.9; }
-    html[data-theme="light"] #holo { filter: saturate(1.8) brightness(0.62) contrast(1.2); }
     /* skill chips on paper: white tiles, a vivid green edge and bolder green text, so they pop like the dark ones */
     html[data-theme="light"] .skill { background: #ffffff; border-color: rgba(var(--acc-rgb), 0.55); font-weight: 600; }
     html[data-theme="light"] .skill:hover { border-color: rgba(var(--acc-rgb), 0.95); box-shadow: 0 0 14px rgba(var(--acc-rgb), 0.35); }
@@ -1204,17 +1203,13 @@
     /* Rafale on paper: page-coloured band, the dot drawing inverted to dark green, flight notes in the light accent */
     html[data-theme="light"] .rafale-visual { background: var(--bg); }
     html[data-theme="light"] .ia-stage { background: repeating-linear-gradient(0deg, #d8ddd7 0 1px, #dde2de 1px 4px); border-color: var(--border-bright); }
-    html[data-theme="light"] .ia-stage .ia3 { filter: invert(0.92) hue-rotate(180deg) saturate(1.5); }
     html[data-theme="light"] .ia-stage .ia-cmd { color: var(--text-muted); }
     /* no green rim light on the photo in light mode */
     html[data-theme="light"] .hero-photo-wrap::after { opacity: 0; }
-    html[data-theme="light"] .rafale-visual canvas { filter: invert(0.92) hue-rotate(180deg) saturate(1.5) brightness(0.9); }
-    html[data-theme="light"] .raf-hud .ln, html[data-theme="light"] .raf-hud .pip { stroke: var(--green); }
     html[data-theme="light"] .raf-hud text { fill: var(--green); stroke: var(--bg); }
     html[data-theme="light"] .raf-hud .t2 { fill: #2f6b44; }
     html[data-theme="light"] .raf-hud .t0 { fill: #4f7a5c; }
     /* the card art is line work on black: inverting it gives the same drawing in dark green on white */
-    html[data-theme="light"] .project-art, html[data-theme="light"] .row-thumb img, html[data-theme="light"] .art-peek img, html[data-theme="light"] .art-fly { filter: invert(0.93) hue-rotate(180deg) saturate(1.4); }
     @media (min-width: 861px) { html[data-theme="light"] .edge-tab { filter: brightness(0.96) saturate(0.95); } }   /* barely dimmed on paper */
     html[data-theme="light"] .edge-tab[href*="github.com"] { --shot: url(/assets/tabs/github-light.jpg) !important; }
     html[data-theme="light"] .edge-tab[href*="linkedin.com"] { --shot: url(/assets/tabs/linkedin-light.jpg) !important; }
@@ -1227,6 +1222,13 @@
     /* Theme switch: the browser snapshots the page before and after and cross-fades the two on the GPU,
        so the whole page darkens or lightens smoothly without repainting anything per frame. */
     ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.6s; animation-timing-function: cubic-bezier(.4, 0, .2, 1); mix-blend-mode: normal; }
+    /* light mode, neon where it isn't body text: diagrams, dot drawings, logos, prompts and boxes */
+    html[data-theme="light"] .nav-mark svg { fill: #00e83c; filter: drop-shadow(0 0 4px rgba(0, 200, 75, 0.45)); }
+    html[data-theme="light"] .org-logo, html[data-theme="light"] .timeline-item:hover .org-logo { background: #00d43f; filter: drop-shadow(0 0 3px rgba(0, 200, 75, 0.35)); }
+    html[data-theme="light"] h2::before, html[data-theme="light"] .project-card h3::before, html[data-theme="light"] .row-name::before { color: #00d43f; text-shadow: 0 0 8px rgba(0, 200, 75, 0.35); }
+    html[data-theme="light"] .skill, html[data-theme="light"] .ask-hint, html[data-theme="light"] .ia-stage { border-color: #00e83c; }
+    html[data-theme="light"] .ask-hint::before { border-color: #00e83c; }
+    html[data-theme="light"] .raf-hud .ln, html[data-theme="light"] .raf-hud .pip { stroke: #00c83a; }
     /* theme toggle in the menu bar */
     .theme-toggle { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 11px; margin-left: 18px; border-radius: 8px;
       border: 1px solid var(--border-bright); color: var(--green); font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; line-height: 1; flex: none; white-space: nowrap; }
@@ -4168,6 +4170,6 @@
       }
     }
   </script>
-  <script src="/assets/theme.js?v=7" defer></script>
+  <script src="/assets/theme.js?v=8" defer></script>
 </body>
 </html>

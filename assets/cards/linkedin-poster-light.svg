@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="22 68 476 132" width="476" height="132" role="img" aria-label="linkedin-poster-mcp, posting to LinkedIn from the terminal">
+<style>
+.t{font-family:ui-monospace,'JetBrains Mono','SF Mono',SFMono-Regular,Menlo,Consolas,monospace}
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+@keyframes pop{0%,82%{opacity:1;transform:none}88%{opacity:0;transform:translateY(6px)}96%,100%{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.cur,.post{animation:none}}
+.cur{animation:blink 1s steps(1) infinite}
+.post{animation:pop 6s ease-out infinite}
+</style>
+<rect x="22" y="68" width="476" height="132" rx="8" fill="#e6f1e8" stroke="#bfdcc7"/>
+<clipPath id="c"><rect x="22" y="68" width="476" height="132" rx="8"/></clipPath>
+<g clip-path="url(#c)"><g transform="translate(22,68)">
+  <text class="t" x="18" y="30" font-size="11" fill="#00ff41">$ claude</text>
+  <text class="t" x="18" y="50" font-size="10" fill="#2b4635">&gt; post it with both photos,</text>
+  <text class="t" x="18" y="64" font-size="10" fill="#2b4635">  tag the Page</text>
+  <text class="t" x="18" y="86" font-size="9.5" fill="#466a52">  waiting for your yes</text>
+  <text class="t" x="18" y="108" font-size="11" fill="#00ff41">$ <tspan class="cur">&#9608;</tspan></text>
+  <g class="post">
+    <rect x="262" y="14" width="196" height="104" rx="6" fill="#f3f2ef"/>
+    <circle cx="276" cy="28" r="7" fill="#0a66c2"/>
+    <rect x="288" y="23" width="70" height="5" rx="2" fill="#38434f"/>
+    <rect x="288" y="31" width="44" height="4" rx="2" fill="#8c959f"/>
+    <rect x="270" y="42" width="180" height="4" rx="2" fill="#56687a"/>
+    <rect x="270" y="50" width="150" height="4" rx="2" fill="#56687a"/>
+    <rect x="270" y="58" width="60" height="4" rx="2" fill="#0a66c2"/>
+    <rect x="270" y="68" width="88" height="42" rx="3" fill="#2e4a3a"/>
+    <rect x="362" y="68" width="88" height="42" rx="3" fill="#3c5568"/>
+    <path d="M276 104l14-14 10 9 8-6 14 11z" fill="#00ff41" opacity=".55"/>
+    <path d="M368 104l16-18 12 12 10-7 12 13z" fill="#c9d4ff" opacity=".55"/>
+  </g>
+</g></g>
+</svg>
