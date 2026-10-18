@@ -156,3 +156,13 @@
 .deep-bar a:hover { color: var(--green); }
 body.deep-standalone { margin: 0; background: var(--bg); }
 @media (max-width: 640px) { .deep { padding: 48px 18px 72px; font-size: 0.98rem; } }
+
+/* Section links in the top bar, and "keep reading" at the foot of each deep page */
+.deep-bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; }
+.deep-sections { display: flex; flex-wrap: wrap; }
+.deep-sections a { padding: 14px 12px; }
+.deep-next { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 56px; padding-top: 22px; border-top: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; }
+.deep-next span { color: var(--text-muted); width: 100%; }
+.deep-next a { color: var(--green); text-decoration: none; }
+.deep-next a:hover { text-decoration: underline; }
+@media (max-width: 640px) { .deep-sections { display: none; } }

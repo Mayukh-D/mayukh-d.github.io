@@ -49,21 +49,6 @@ A PWA for sustainable food shopping: real-time barcode scanning, live product lo
 Tech: JavaScript · PWA HD
 Links: FoodLens · Smart Food Scanner: https://github.com/Mayukh-D/foodlens-ar-sustainable-shopping | tl;dr: https://mayukhdas.com/#tldr-foodlens | demo: https://foodlens-f281.onrender.com | code: https://github.com/Mayukh-D/foodlens-ar-sustainable-shopping
 
-### Yuma Social Platform
-A native Android social app (post feed, reactions, DMs, and admin moderation) applying Singleton, Factory, and Iterator patterns across a layered DAO architecture.
-Tech: Java · Android HD
-Links: Yuma Social Platform: https://github.com/Mayukh-D/yuma-social-platform | tl;dr: https://mayukhdas.com/#tldr-yuma | code: https://github.com/Mayukh-D/yuma-social-platform
-
-### HCI Design & Research
-A portfolio of human-computer interaction work, including prototyping and AR system evaluation.
-Tech: Portfolio HD
-Links: HCI Design & Research: https://github.com/Mayukh-D/hci-design-and-research | tl;dr: https://mayukhdas.com/#tldr-hci | code: https://github.com/Mayukh-D/hci-design-and-research
-
-### TokenEater · Multi-Account Fork
-An unofficial fork of a macOS menu bar app that tracks Claude usage, adding a second Claude account as a provider of its own across the menu bar, popover, dashboard and Studio. Proposed upstream as pull request #284. For everyday use, get the official TokenEater .
-Tech: Swift · SwiftUI
-Links: TokenEater · Multi-Account Fork: https://github.com/Mayukh-D/TokenEater | official TokenEater: https://github.com/AThevon/TokenEater | tl;dr: https://mayukhdas.com/#tldr-tokeneater | build: https://github.com/Mayukh-D/TokenEater/releases | code: https://github.com/Mayukh-D/TokenEater
-
 ### Lantern · Screen Sync for a A$49 Light
 A Mac menu bar app that makes a cheap Bluetooth LED bar follow whatever is on screen, the feature Philips Hue sells for about A$550. I reverse-engineered the light's Bluetooth commands, calibrated LED colour against the screen, and shipped it with a website and a release.
 Tech: Swift · SwiftUI
@@ -79,15 +64,30 @@ A Mac menu bar app that shows one number: total page views for this website, rea
 Tech: Swift · SwiftUI
 Links: SiteViews · Views in the Menu Bar: https://github.com/Mayukh-D/siteviews | tl;dr: https://mayukhdas.com/#tldr-siteviews | install: https://github.com/Mayukh-D/siteviews/releases/latest | code: https://github.com/Mayukh-D/siteviews
 
+### TokenEater · Multi-Account Fork
+An unofficial fork of a macOS menu bar app that tracks Claude usage, adding a second Claude account as a provider of its own across the menu bar, popover, dashboard and Studio. Proposed upstream as pull request #284. For everyday use, get the official TokenEater .
+Tech: Swift · SwiftUI
+Links: TokenEater · Multi-Account Fork: https://github.com/Mayukh-D/TokenEater | official TokenEater: https://github.com/AThevon/TokenEater | tl;dr: https://mayukhdas.com/#tldr-tokeneater | build: https://github.com/Mayukh-D/TokenEater/releases | code: https://github.com/Mayukh-D/TokenEater
+
 ### This Website
 A portfolio that behaves like a terminal: an AI you can ask about me, answering only from what these pages say; scroll-driven animation; and write-ups that each come with something to play with.
 Tech: HTML · CSS · JavaScript · Cloudflare Workers
 Links: This Website: https://github.com/Mayukh-D/mayukh-d.github.io | tl;dr: https://mayukhdas.com/#tldr-website | code: https://github.com/Mayukh-D/mayukh-d.github.io
 
+### Yuma Social Platform
+A native Android social app (post feed, reactions, DMs, and admin moderation) applying Singleton, Factory, and Iterator patterns across a layered DAO architecture.
+Tech: Java · Android HD
+Links: Yuma Social Platform: https://github.com/Mayukh-D/yuma-social-platform | tl;dr: https://mayukhdas.com/#tldr-yuma | code: https://github.com/Mayukh-D/yuma-social-platform
+
+### HCI Design & Research
+A portfolio of human-computer interaction work, including prototyping and AR system evaluation.
+Tech: Portfolio HD
+Links: HCI Design & Research: https://github.com/Mayukh-D/hci-design-and-research | tl;dr: https://mayukhdas.com/#tldr-hci | code: https://github.com/Mayukh-D/hci-design-and-research
+
 ### GrowthScope · First Hackathon
 My first hackathon and first vibe-coded app (ANU, 2025): sales analytics for small businesses. Kept as a benchmark, and revisited in 2026 with tests, a self-scoring revenue forecast, anomaly detection, and fixes for what I first shipped.
 Tech: Python · Flask
-Links: GrowthScope · First Hackathon: https://github.com/Mayukh-D/GrowthScope | tl;dr: https://mayukhdas.com/#tldr-growthscope | demo: https://growthscope-j85i.onrender.com | code: https://github.com/Mayukh-D/GrowthScope | More on GitHub → experiments, forks and side projects: https://github.com/Mayukh-D?tab=repositories
+Links: GrowthScope · First Hackathon: https://github.com/Mayukh-D/GrowthScope | tl;dr: https://mayukhdas.com/#tldr-growthscope | demo: https://growthscope-j85i.onrender.com | code: https://github.com/Mayukh-D/GrowthScope | more-on-github experiments, forks and side projects &#8599;: https://github.com/Mayukh-D?tab=repositories
 
 ## How he works (his own principles)
 In one line: He builds models from first principles, then tries to break them.
@@ -104,10 +104,10 @@ In one line: He builds models from first principles, then tries to break them.
 - 2021 Electric Propulsion for Fixed Wing Aircrafts: Classifications, Designs, and Challenges Engineered Science, Vol. 16 · Scopus Q1 · cited by 27 Karthik, A., Das, M. et al. · DOI 10.30919/es8d573
 
 ## Interests
-- Machine Learning Generative models are my happy place: flow matching, diffusion, and transformers built from scratch in PyTorch. I like knowing what's under the hood, not just calling the API.
-- Problem Solving Give me a gnarly problem and I'm gone for the afternoon: algorithm puzzles, debugging sessions that turn into detective stories, and systems that finally click at 2am.
-- Defence & Geopolitics Where most of my free time goes: airpower doctrine, procurement politics, and how sovereign capability actually gets built rather than announced. An automobile engineer by first degree, so I read it as an engineering problem first. Hence the Rafale at the foot of the page.
-- History & Theology Away from the screen: political history, theology, and an ever-growing queue of long-form analysis. I like understanding why institutions, ideas, and power move the way they do.
+- render ml.obj &#9608; λ Machine Learning Generative models are my happy place: flow matching, diffusion, and transformers built from scratch in PyTorch. I like knowing what's under the hood, not just calling the API.
+- render puzzle.obj &#9608; {;} Problem Solving Give me a gnarly problem and I'm gone for the afternoon: algorithm puzzles, debugging sessions that turn into detective stories, and systems that finally click at 2am.
+- render defence.obj &#9608; &#9650; Defence & Geopolitics Where most of my free time goes: airpower doctrine, procurement politics, and how sovereign capability actually gets built rather than announced. An automobile engineer by first degree, so I read it as an engineering problem first. Hence the Rafale at the foot of the page.
+- render history.obj &#9608; &para; History & Theology Away from the screen: political history, theology, and an ever-growing queue of long-form analysis. I like understanding why institutions, ideas, and power move the way they do.
 
 ## Skills (what he actually did with each)
 ### Python (Accenture, ANU, Projects)
@@ -525,7 +525,7 @@ URL: https://mayukhdas.com/notes/agent-atoll/
 1am/agent-atoll
 A rule my agents can't break is code, not a sentence
 13 Oct 2026 · from running a research project with AI agents · Mayukh Das
-My canopy-mapping work runs on a GPU box that trains models around the clock, and I spend about 45 minutes a day on it. Everything else is done by a team of Claude agents: one orchestrator I talk to, and a dozen specialists it hands work to. It works now. It didn't at first, and most of what I learned was about rules.
+My canopy-mapping work runs on a GPU box that trains models around the clock. I supervise it and take the major decisions; a team of Claude agents surfaces trends, debates ideas and formalises them: one orchestrator I talk to, and a dozen specialists it hands work to. It works now. It didn't at first, and most of what I learned was about rules.
 The team
 Every agent has one job and a role file that says what it may and may not do. The orchestrator plans, delegates and keeps the record, and it never writes experiment code itself. The rest:
 Delivery loop. A coder implements one task from a precise spec. A checker gets the same spec but not the coder's report, so it can't be talked into agreeing. An evaluator judges the results against the acceptance criteria, and its verdict is the only one that counts. A claim-validator traces every sentence in a write-up back to a result file before it's published, and a git-keeper is the only one that pushes.

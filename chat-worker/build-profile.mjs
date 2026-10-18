@@ -61,21 +61,21 @@ for (const [name, n] of Object.entries(ctx.SKILL_NOTES)) {
 }
 
 // The deep pages (swung in from the homepage's side tabs): his own words on projects, research,
-// jobs, and the 1 AM reflections notes. Text only; demos and figures are skipped.
+// jobs, and the 1 AM notes notes. Text only; demos and figures are skipped.
 const deep = [
   ['projects/index.html', 'Projects page: how he builds (philosophy, favourite projects, design decisions)'],
   ['research/index.html', 'Research page: who set each project, what it taught him, how it led to Haizea'],
   ['jobs/index.html', 'Jobs page: his career journey and what each job taught him'],
   ['work/lantern/index.html', 'Lantern write-up'],
   ['work/transformers-revenge/index.html', "Transformers' Revenge write-up"],
-  ['notes/gamma-beat-saturation/index.html', '1 AM reflections: Gamma beat saturation'],
-  ['notes/small-data-gpt/index.html', '1 AM reflections: what transfers to a GPT trained on 3.7M tokens'],
-  ['notes/x-vs-v-prediction/index.html', '1 AM reflections: predict the data, not the velocity'],
-  ['notes/agent-atoll/index.html', '1 AM reflections: a rule my agents can\'t break is code, not a sentence'],
-  ['notes/attention-was-all-we-needed/index.html', '1 AM reflections: yes, attention definitely was all we needed'],
-  ['notes/one-ai-policy/index.html', '1 AM reflections: no single AI policy can fit a whole university'],
-  ['notes/we-built-a-game/index.html', '1 AM reflections: we built a game (OUTBREAK)'],
-  ['notes/sovereign-ai-showcase/index.html', '1 AM reflections: a day at Parliament House and sovereign AI'],
+  ['notes/gamma-beat-saturation/index.html', '1 AM notes: Gamma beat saturation'],
+  ['notes/small-data-gpt/index.html', '1 AM notes: what transfers to a GPT trained on 3.7M tokens'],
+  ['notes/x-vs-v-prediction/index.html', '1 AM notes: predict the data, not the velocity'],
+  ['notes/agent-atoll/index.html', '1 AM notes: a rule my agents can\'t break is code, not a sentence'],
+  ['notes/attention-was-all-we-needed/index.html', '1 AM notes: yes, attention definitely was all we needed'],
+  ['notes/one-ai-policy/index.html', '1 AM notes: no single AI policy can fit a whole university'],
+  ['notes/we-built-a-game/index.html', '1 AM notes: we built a game (OUTBREAK)'],
+  ['notes/sovereign-ai-showcase/index.html', '1 AM notes: a day at Parliament House and sovereign AI'],
 ];
 for (const [file, title] of deep) {
   const page = readFileSync(new URL('../' + file, here), 'utf8');
