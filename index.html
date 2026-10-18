@@ -663,12 +663,25 @@
     .more-row:hover { border-color: var(--green); background: rgba(0, 255, 65, 0.04); }
     .more-row:hover .row-name { color: var(--green); }
     .art-peek {
-      position: fixed; left: 0; top: 0; z-index: 60; width: 340px; pointer-events: none;
+      position: fixed; left: 0; top: 0; z-index: 60; width: 380px; pointer-events: none;
+      padding: 10px; background: var(--bg-soft); border: 1px solid var(--border-bright); border-radius: 10px;
       opacity: 0; transform: translateY(6px) scale(0.97); transition: opacity 0.18s, transform 0.18s;
-      border-radius: 8px; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.65), 0 0 0 1px var(--border-bright), 0 0 24px rgba(0, 255, 65, 0.12);
+      box-shadow: 0 14px 44px rgba(0, 0, 0, 0.7), 0 0 26px rgba(0, 255, 65, 0.12);
     }
     .art-peek.on { opacity: 1; transform: none; }
-    .art-peek img { display: block; width: 100%; height: auto; border-radius: 8px; }
+    .art-peek img { display: block; width: 100%; height: auto; border-radius: 6px; }
+    .peek-body { padding: 12px 6px 4px; }
+    .peek-title { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.9rem; color: var(--text); }
+    .peek-title::before { content: '$ '; color: var(--green); }
+    .peek-outcome { margin-top: 6px; color: var(--green); font-style: italic; font-size: 0.82rem; }
+    .peek-outcome:empty { display: none; }
+    .peek-desc {
+      margin-top: 6px; color: var(--text-body); font-size: 0.82rem; line-height: 1.5;
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .peek-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-muted); }
+    .peek-lang { display: inline-flex; align-items: center; gap: 6px; }
+    .peek-hint { color: var(--green); opacity: 0.8; }
     .art-fly { position: fixed; z-index: 55; margin: 0; pointer-events: none; }
     @media (hover: none), (pointer: coarse) { .art-peek { display: none; } }
     @media (max-width: 760px) {
@@ -1313,7 +1326,15 @@
     </div>
   </section>
 
-  <div class="art-peek" aria-hidden="true"><img alt=""></div>
+  <div class="art-peek" aria-hidden="true">
+    <img alt="">
+    <div class="peek-body">
+      <div class="peek-title"></div>
+      <div class="peek-outcome"></div>
+      <div class="peek-desc"></div>
+      <div class="peek-foot"><span class="peek-lang"></span><span class="peek-hint">click to open</span></div>
+    </div>
+  </div>
   <section id="projects">
     <div class="container">
       <h2 class="reveal" data-scroll>projects</h2>
@@ -3447,7 +3468,16 @@
       const rows = document.querySelectorAll('.project-card.other');
       const peek = document.querySelector('.art-peek');
       if (!rows.length || !peek) return;
-      const pimg = peek.querySelector('img');
+      const pimg = peek.querySelector('img'), q = sel => peek.querySelector(sel);
+      // Fill the preview from the row's own card, so it always says what the card says.
+      function fill(row, art) {
+        const txt = el => el ? el.textContent.replace(/\s+/g, ' ').trim() : '';
+        pimg.src = art.getAttribute('src');
+        q('.peek-title').textContent = txt(row.querySelector('.row-inner h3'));
+        q('.peek-outcome').textContent = txt(row.querySelector('.project-outcome'));
+        q('.peek-desc').textContent = txt(row.querySelector('.row-inner p'));
+        q('.peek-lang').replaceChildren(...[...(row.querySelector('.row-lang')?.childNodes || [])].map(n => n.cloneNode(true)));
+      }
       const fine = matchMedia('(hover: hover) and (pointer: fine)');
       const still = matchMedia('(prefers-reduced-motion: reduce)');
       const ease = 'cubic-bezier(.2,.8,.2,1)';
@@ -3455,7 +3485,7 @@
         const w = peek.offsetWidth, h = peek.offsetHeight;
         let x = e.clientX + 26, y = e.clientY - h / 2;
         if (x + w > innerWidth - 12) x = e.clientX - w - 26;
-        y = Math.max(12, Math.min(innerHeight - h - 12, y));
+        y = Math.max(66, Math.min(innerHeight - h - 12, y));   // stay below the nav bar
         peek.style.left = x + 'px'; peek.style.top = y + 'px';
       }
       // Fly a copy of the art from the thumbnail's crop to where the full art lands.
@@ -3489,7 +3519,7 @@
         });
         head.addEventListener('pointerenter', e => {
           if (!fine.matches || row.classList.contains('open') || !art) return;
-          pimg.src = art.getAttribute('src'); place(e); peek.classList.add('on');
+          fill(row, art); place(e); peek.classList.add('on');
         });
         head.addEventListener('pointermove', e => { if (peek.classList.contains('on')) place(e); });
         head.addEventListener('pointerleave', () => peek.classList.remove('on'));

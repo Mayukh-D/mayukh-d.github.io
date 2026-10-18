@@ -37,7 +37,7 @@ Links: Image Generation with Machine Learning: https://github.com/Mayukh-D/image
 ### GPT from Scratch (nanoGPT)
 A 30M-parameter GPT built from scratch in PyTorch and trained on just 3.7M tokens of five-sentence stories, testing depth vs width and RoPE + RMSNorm (25.77 → 24.67 PPL), plus DPO fine-tuning, in the data-scarce regime.
 Tech: Python · PyTorch · CUDA HD
-Links: GPT from Scratch (nanoGPT): https://github.com/Mayukh-D/story-generation-nanoGPT | tl;dr: https://mayukhdas.com/#tldr-nanogpt | demo: https://huggingface.co/spaces/Mayukh1999/nanogpt-story-generator | report: https://mayukhdas.com/assets/reports/nanogpt-report.pdf | code: https://github.com/Mayukh-D/story-generation-nanoGPT
+Links: GPT from Scratch (nanoGPT): https://github.com/Mayukh-D/story-generation-nanoGPT | tl;dr: https://mayukhdas.com/#tldr-nanogpt | demo · ~1 min to wake: https://huggingface.co/spaces/Mayukh1999/nanogpt-story-generator | report: https://mayukhdas.com/assets/reports/nanogpt-report.pdf | code: https://github.com/Mayukh-D/story-generation-nanoGPT
 
 ### Transformers' Revenge
 Stress-testing minGRU's "Were RNNs All We Needed?" claims against a LLaMA-recipe Transformer and a causal gMLP on algorithmic reasoning: a 27-experiment grid showing where each architecture breaks, plus a phase transition in Transformer copy learning.
@@ -69,10 +69,20 @@ A Mac menu bar app that makes a cheap Bluetooth LED bar follow whatever is on sc
 Tech: Swift · SwiftUI
 Links: Lantern · Screen Sync for a A$49 Light: https://github.com/Mayukh-D/lantern | tl;dr: https://mayukhdas.com/#tldr-lantern | site: https://mayukhdas.com/lantern/ | code: https://github.com/Mayukh-D/lantern
 
+### linkedin-poster-mcp · Post from Claude
+An MCP server that lets Claude publish LinkedIn posts with real photos, Page tags, hashtags and reposts, through LinkedIn's official API. Built after an automation platform quietly dropped the photos from one of my posts.
+Tech: Python · MCP
+Links: linkedin-poster-mcp · Post from Claude: https://github.com/Mayukh-D/linkedin-poster-mcp | tl;dr: https://mayukhdas.com/#tldr-linkedin-poster | install: https://github.com/Mayukh-D/linkedin-poster-mcp#install | code: https://github.com/Mayukh-D/linkedin-poster-mcp
+
+### SiteViews · Views in the Menu Bar
+A Mac menu bar app that shows one number: total page views for this website, read from Cloudflare Web Analytics. Built after I caught myself opening the analytics dashboard every hour to check whether anyone had read a new post.
+Tech: Swift · SwiftUI
+Links: SiteViews · Views in the Menu Bar: https://github.com/Mayukh-D/siteviews | tl;dr: https://mayukhdas.com/#tldr-siteviews | install: https://github.com/Mayukh-D/siteviews/releases/latest | code: https://github.com/Mayukh-D/siteviews
+
 ### This Website
 A portfolio that behaves like a terminal: an AI you can ask about me, answering only from what these pages say; scroll-driven animation; and write-ups that each come with something to play with.
 Tech: HTML · CSS · JavaScript · Cloudflare Workers
-Links: This Website: https://github.com/Mayukh-D/mayukh-d.github.io | code: https://github.com/Mayukh-D/mayukh-d.github.io
+Links: This Website: https://github.com/Mayukh-D/mayukh-d.github.io | tl;dr: https://mayukhdas.com/#tldr-website | code: https://github.com/Mayukh-D/mayukh-d.github.io
 
 ### GrowthScope · First Hackathon
 My first hackathon and first vibe-coded app (ANU, 2025): sales analytics for small businesses. Kept as a benchmark, and revisited in 2026 with tests, a self-scoring revenue forecast, anomaly detection, and fixes for what I first shipped.
@@ -469,7 +479,7 @@ The submitted model (20 layers, with RoPE and RMSNorm) scored 24.67. A slightly 
 Try the model
 The thread through all of it
 Recipes from large-scale training are tuned for large-scale problems. At small scale, some of them are free wins (RoPE), some make no difference, and some actively hurt (SwiGLU). The only reliable way to know which is to change one thing at a time and measure.
-full report (PDF) → live demo → code →
+full report (PDF) → live demo → (allow a minute to wake) code →
 
 ## 1 AM reflections: predict the data, not the velocity
 URL: https://mayukhdas.com/notes/x-vs-v-prediction/
