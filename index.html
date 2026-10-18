@@ -25,7 +25,6 @@
     // Light mode is opt-in from the menu toggle; the choice is remembered on this device.
     try {
       if (localStorage.getItem('theme') === 'light') document.documentElement.dataset.theme = 'light';
-      var acc = new URLSearchParams(location.search).get('accent'); if (acc) document.documentElement.dataset.accent = acc;
     } catch (e) {}
   </script>
   <link rel="stylesheet" href="assets/deep.css?v=4">
@@ -47,6 +46,7 @@
       --acc-rgb: 0, 255, 65;            /* the accent as r, g, b, for the many translucent glows */
       --nav-bg: rgba(1, 2, 3, 0.94);
       --scroll-track: #050805;
+      --panel-bg: #050805;
     }
     /* Light mode: only when the visitor flips the toggle in the menu (never from the system setting). */
     html[data-theme="light"] {
@@ -66,12 +66,8 @@
       --red: #c8102e;
       --nav-bg: rgba(245, 247, 244, 0.94);
       --scroll-track: #e9eee9;
+      --panel-bg: #ffffff;
       color-scheme: light;
-    }
-    /* trial: the white-and-red variant, switched on with ?accent=red */
-    html[data-theme="light"][data-accent="red"] {
-      --green: #c8102e; --green-dim: #e0253f; --green-soft: rgba(200, 16, 46, 0.08); --acc-rgb: 200, 16, 46;
-      --border-bright: #e3b3bb;
     }
     /* Dark page, dark scrollbars: without this the browser draws its light default. */
     :root { color-scheme: dark; scrollbar-color: rgba(var(--acc-rgb), 0.35) var(--scroll-track); }
@@ -152,7 +148,7 @@
       animation: blink 1.1s steps(1) infinite;
     }
     @keyframes blink { 50% { opacity: 0; } }
-    .nav-links { display: flex; gap: 26px; }
+    .nav-links { display: flex; gap: 22px; }
     .nav-links a {
       font-family: 'JetBrains Mono', monospace;
       color: var(--text-muted); text-decoration: none;
@@ -812,7 +808,7 @@
     /* What I actually did with the selected skill: a little terminal window. */
     .skill-note {
       margin-top: 18px; max-width: 760px; overflow: hidden;
-      background: #050805; border: 1px solid var(--border-bright); border-radius: 8px;
+      background: var(--panel-bg); border: 1px solid var(--border-bright); border-radius: 8px;
       box-shadow: 0 0 0 1px rgba(var(--acc-rgb),0.05), 0 10px 40px rgba(var(--acc-rgb),0.08);
       animation: term-in 0.25s ease-out;
     }
@@ -889,7 +885,7 @@
     .tldr-backdrop[hidden] { display: none; }
     .tldr {
       width: min(780px, 100%); max-height: min(86vh, 900px); display: flex; flex-direction: column; overflow: hidden;
-      background: #050805; border: 1px solid var(--border-bright); border-radius: 8px;
+      background: var(--panel-bg); border: 1px solid var(--border-bright); border-radius: 8px;
       box-shadow: 0 0 0 1px rgba(var(--acc-rgb),0.06), 0 24px 70px rgba(0,0,0,0.8), 0 0 40px rgba(var(--acc-rgb),0.12);
       animation: term-in 0.2s ease-out;
     }
@@ -1073,6 +1069,7 @@
 
     /* Ask-me-anything terminal: opens from the blinking prompt in the nav. */
     .nav-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .nav-logo { white-space: nowrap; flex: none; }   /* keep the prompt and its cursor on one line */
     /* the whole bar left of the links opens the terminal, full height */
     .nav-left { position: relative; flex: 1; align-self: stretch; margin: -14px 24px -14px 0; padding: 14px 0; cursor: pointer; }
     /* hangs under the prompt like a tab; hidden once the visitor scrolls on */
@@ -1097,7 +1094,7 @@
       position: fixed; right: 24px; bottom: 24px; z-index: 200;
       width: min(440px, calc(100vw - 32px)); height: min(560px, calc(100vh - 110px));
       display: flex; flex-direction: column; overflow: hidden;
-      background: #050805; border: 1px solid var(--border-bright); border-radius: 8px;
+      background: var(--panel-bg); border: 1px solid var(--border-bright); border-radius: 8px;
       box-shadow: 0 0 0 1px rgba(var(--acc-rgb),0.06), 0 20px 60px rgba(0,0,0,0.7), 0 0 40px rgba(var(--acc-rgb),0.12);
       animation: term-in 0.2s ease-out;
     }
@@ -1179,9 +1176,32 @@
     html[data-theme="light"] .rafale-cap { text-shadow: 0 0 10px var(--bg); }
     html[data-theme="light"] .dapper-btn { color: var(--green); text-shadow: none; opacity: 0.9; }
     html[data-theme="light"] #holo { filter: saturate(1.8) brightness(0.62) contrast(1.2); }
+    html[data-theme="light"] .btn-primary { color: #fff; }
+    html[data-theme="light"] .timeline-date { color: var(--green); }
+    html[data-theme="light"] .deep-close { background: var(--nav-bg); }
+    html[data-theme="light"] .ask-hint { background: var(--bg-soft); }
+    html[data-theme="light"] .org-logo, html[data-theme="light"] .timeline-item:hover .org-logo { background: var(--text-body); filter: none; }
+    html[data-theme="light"] #holo-label, html[data-theme="light"] #holo-hint { color: var(--cyan); }
+    html[data-theme="light"] .rafale-band { border-top: 1px solid var(--border-bright); border-bottom: 1px solid var(--border-bright); }
+    /* the card art is line work on black: inverting it gives the same drawing in dark green on white */
+    html[data-theme="light"] .project-art, html[data-theme="light"] .row-thumb img, html[data-theme="light"] .art-peek img, html[data-theme="light"] .art-fly { filter: invert(0.93) hue-rotate(180deg) saturate(1.4); }
+    html[data-theme="light"] .edge-tab[href="/projects/"] { --shot: url(/assets/tabs/projects-light.jpg) !important; }
+    html[data-theme="light"] .edge-tab[href="/research/"] { --shot: url(/assets/tabs/research-light.jpg) !important; }
+    html[data-theme="light"] .edge-tab[href="/jobs/"] { --shot: url(/assets/tabs/jobs-light.jpg) !important; }
+    html[data-theme="light"] .edge-tab[href="/notes/"] { --shot: url(/assets/tabs/notes-light.jpg) !important; }
     /* theme toggle in the menu bar */
-    .theme-toggle { all: unset; cursor: pointer; display: inline-grid; place-items: center; width: 30px; height: 30px; margin-left: 18px; border-radius: 8px;
-      border: 1px solid var(--border-bright); color: var(--green); font-size: 0.95rem; line-height: 1; flex: none; }
+    .theme-toggle { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 11px; margin-left: 18px; border-radius: 8px;
+      border: 1px solid var(--border-bright); color: var(--green); font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; line-height: 1; flex: none; white-space: nowrap; }
+    .theme-toggle .tt-ico { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    /* pinned to the far right of the bar, mirroring the logo on the far left */
+    .theme-toggle { position: absolute; right: 22px; top: 50%; transform: translateY(-50%); margin-left: 0; z-index: 1; }
+    @media (max-width: 1100px) {
+      .theme-toggle { position: static; transform: none; margin-left: 12px; padding: 0 9px; }
+      .theme-toggle .tt-word { display: none; }   /* narrower windows: the icon alone, the label stays in its tooltip */
+      .nav-links { gap: 14px; }
+    }
+    @media (min-width: 861px) and (max-width: 980px) { .nav-links { gap: 9px; } .nav-links a { font-size: 0.8rem; } .nav-mark { margin-right: 10px; } }
+    @media (min-width: 861px) and (max-width: 900px) { .nav-links { gap: 6px; } .nav-links a { font-size: 0.76rem; } .nav-links a::before { margin-right: 0; } }
     .theme-toggle:hover { border-color: var(--green); }
     .theme-toggle:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
 </style>
@@ -1213,7 +1233,7 @@
         <a href="#beyond">beyond</a>
         <a href="#contact">contact</a>
       </div>
-      <button class="theme-toggle" type="button" aria-label="Switch to light mode" title="Light mode">&#9788;</button>
+      <button class="theme-toggle" type="button" aria-label="Switch to light mode" title="Light mode"><svg class="tt-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg><span class="tt-word">light</span></button>
     </div>
     <div class="read-bar" aria-hidden="true"><i class="rb-fill"></i><span class="rb-ticks"></span></div>
   </nav>
@@ -4064,24 +4084,6 @@
       }
     }
   </script>
-  <script>
-    // Theme toggle: dark is the default; light only when chosen here, remembered on this device.
-    (() => {
-      const btn = document.querySelector('.theme-toggle'), root = document.documentElement;
-      if (!btn) return;
-      const sync = () => {
-        const light = root.dataset.theme === 'light';
-        btn.innerHTML = light ? '&#9790;' : '&#9788;';
-        btn.setAttribute('aria-label', light ? 'Switch to dark mode' : 'Switch to light mode');
-        btn.title = light ? 'Dark mode' : 'Light mode';
-      };
-      btn.addEventListener('click', () => {
-        if (root.dataset.theme === 'light') delete root.dataset.theme; else root.dataset.theme = 'light';
-        try { localStorage.setItem('theme', root.dataset.theme || 'dark'); } catch (e) {}
-        sync();
-      });
-      sync();
-    })();
-  </script>
+  <script src="/assets/theme.js" defer></script>
 </body>
 </html>

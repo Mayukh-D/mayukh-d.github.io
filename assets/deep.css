@@ -174,7 +174,16 @@ body.deep-standalone { margin: 0; background: var(--bg); }
 /* Light mode (set by the toggle on the home page, remembered on this device) */
 html[data-theme="light"] { --bg: #f5f7f4; --bg-soft: #ffffff; --border: #d7e2da; --border-bright: #a9c7b3; --text: #0e1a13; --text-muted: #56675d;
   --text-body: #2c3b32; --green: #0a7a31; --green-dim: #12923d; --cyan: #00788a; --bar-bg: rgba(245, 247, 244, 0.9); color-scheme: light; }
-html[data-theme="light"][data-accent="red"] { --green: #c8102e; --green-dim: #e0253f; --border-bright: #e3b3bb; }
 html[data-theme="light"] .deep .meta time, html[data-theme="light"] .deep .postlist .src time { color: #5f7300; }
 html[data-theme="light"] .deep .bad { color: #c8102e; }
 html[data-theme="light"] .deep .links a { background: rgba(10, 122, 49, 0.05); }
+html[data-theme="light"] .deep .seg button.on, html[data-theme="light"] .deep .chip.on { color: #fff; }
+html[data-theme="light"] .deep img.plot, html[data-theme="light"] .deep .frames { filter: none; }
+/* interactive demos are drawn for a dark canvas: keep them as dark screens in light mode */
+html[data-theme="light"] .deep .demo { --bg: #010203; --bg-soft: #0a0f0c; --border: #10241a; --border-bright: #1d4a2f; --text: #d8e4dc;
+  --text-muted: #7d8f85; --text-body: #a9b8af; --green: #00ff41; --green-dim: #00b32e; --cyan: #00e5ff; background: #0a0f0c; color: var(--text); }
+.deep-bar .theme-toggle { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px; margin: 0 16px 0 6px; border-radius: 8px;
+  border: 1px solid var(--border-bright); color: var(--green); font-family: 'JetBrains Mono', monospace; font-size: 0.76rem; line-height: 1; white-space: nowrap; }
+.deep-bar .theme-toggle:hover { border-color: var(--green); }
+.deep-bar .theme-toggle:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+.deep-bar .theme-toggle .tt-ico { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
