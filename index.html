@@ -202,7 +202,7 @@
       filter: saturate(0.88) contrast(1.06) brightness(0.97); }
     /* rim light and shade, clipped to his silhouette */
     .hero-photo-wrap::after { content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
-      -webkit-mask: url(assets/mayukh-full.webp) center / 100% 100% no-repeat; mask: url(assets/mayukh-full.webp) center / 100% 100% no-repeat;
+      -webkit-mask: url(assets/mayukh-full.webp?v=3) center / 100% 100% no-repeat; mask: url(assets/mayukh-full.webp?v=3) center / 100% 100% no-repeat;
       background:
         linear-gradient(90deg, rgba(0, 255, 90, 0.34), rgba(0, 255, 90, 0) 16%, rgba(0, 255, 90, 0) 84%, rgba(0, 255, 90, 0.3)),
         linear-gradient(180deg, rgba(0, 40, 14, 0) 45%, rgba(0, 12, 4, 0.55) 100%);
@@ -1307,7 +1307,7 @@
     <div class="scan-intro" aria-hidden="true"><i class="si-top"></i><i class="si-bot"></i><b class="si-line"></b></div>
     <div class="hero-bigword reveal" data-stage aria-hidden="true">WELCOME</div>
     <div class="hero-photo-wrap reveal" data-stage>
-      <img class="hero-photo" src="assets/mayukh-full.webp" width="575" height="1800" alt="Mayukh Das, standing in a grey suit with arms crossed" fetchpriority="high">
+      <img class="hero-photo" src="assets/mayukh-full.webp?v=3" width="575" height="1800" alt="Mayukh Das, standing in a grey suit with arms crossed" fetchpriority="high">
       <button type="button" class="dapper-btn" id="dapper-btn" aria-pressed="false">make me dapper</button>
       <svg class="dapper dapper-back" id="dapper-back" viewBox="0 0 575 1800" aria-hidden="true">
         <g transform="scale(0.6919)"><g class="cape-drawn" filter="url(#pencil)">
