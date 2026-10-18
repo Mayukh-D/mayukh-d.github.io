@@ -874,7 +874,8 @@
     .tldr-body figure { margin: 6px 0 4px; }
     .tldr-body figure { margin: 10px 0 6px; }
     .tldr-body .yt { position: relative; aspect-ratio: 16 / 9; border-radius: 6px; overflow: hidden; border: 1px solid var(--border); background: #000; }
-    .tldr-body .yt iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .tldr-body .yt.tall { max-height: 70vh; width: auto; margin: 0 auto; }
+    .tldr-body .yt iframe, .tldr-body .yt video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; object-fit: contain; }
     .tldr-body figure img { display: block; max-width: 100%; max-height: 480px; width: auto; height: auto; margin: 0 auto; border-radius: 6px; }
     .tldr-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
     .tldr-row img { width: 100%; max-height: none; }
@@ -3440,6 +3441,7 @@
         links: [['fork', 'https://github.com/Mayukh-D/TokenEater'], ['official app', 'https://github.com/AThevon/TokenEater']]
       },
       lantern: {
+        video: ['/lantern/images/demo.mp4', 'The bar following the screen.', '/lantern/images/demo-poster.jpg', '540 / 1024'],
         title: 'Lantern · Screen Sync for a A$49 Light', file: 'lantern',
         q: 'Philips Hue can sync lights to your screen, for about A$550 in Australia. Can a A$49 Bluetooth LED bar do the same job?',
         setup: 'The bar only came with a phone app and a remote. I worked out the commands it understands over Bluetooth, then built a native macOS menu bar app in SwiftUI that reads a tiny copy of the screen 30 times a second and sends the dominant colour to the light.',
@@ -3522,10 +3524,20 @@
         body.append(head, h('p', t.q, 'tldr-q'), h('h4', 'setup'), h('p', t.setup), h('h4', 'findings'));
         const ul = h('ul'); t.findings.forEach(f => ul.append(h('li', f))); body.append(ul);
         if (t.video) {
-          const [vid, cap] = t.video, f = h('figure'), box = h('div', '', 'yt'), ifr = document.createElement('iframe');
-          Object.assign(ifr, { src: `https://www.youtube-nocookie.com/embed/${vid}?rel=0`, title: cap, loading: 'lazy', allowFullscreen: true, referrerPolicy: 'strict-origin-when-cross-origin' });
-          ifr.allow = 'accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-          box.append(ifr); f.append(box, h('figcaption', cap)); body.append(f);
+          // a YouTube id plays in YouTube's privacy-enhanced player; a file path plays in the browser's own player
+          const [vid, cap, poster, aspect] = t.video, f = h('figure'), box = h('div', '', 'yt');
+          if (aspect) { box.style.aspectRatio = aspect; box.classList.add('tall'); }   // e.g. a portrait phone clip
+          if (/\.(mp4|webm)$/.test(vid)) {
+            const v = document.createElement('video');
+            Object.assign(v, { src: vid, controls: true, playsInline: true, preload: 'none', poster: poster || '' });
+            v.setAttribute('aria-label', cap); box.append(v);
+          } else {
+            const ifr = document.createElement('iframe');
+            Object.assign(ifr, { src: `https://www.youtube-nocookie.com/embed/${vid}?rel=0`, title: cap, loading: 'lazy', allowFullscreen: true, referrerPolicy: 'strict-origin-when-cross-origin' });
+            ifr.allow = 'accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+            box.append(ifr);
+          }
+          f.append(box, h('figcaption', cap)); body.append(f);
         }
         if (t.figs) t.figs.forEach(([src, cap, kind]) => {
           const f = h('figure'), row = h('div', '', kind === 'app' ? 'tldr-app' : Array.isArray(src) ? 'tldr-row' : '');
