@@ -57,10 +57,10 @@
       --text: #0e1a13;
       --text-muted: #56675d;
       --text-body: #2c3b32;
-      --green: #0a7a31;
-      --green-dim: #12923d;
-      --green-soft: rgba(10, 122, 49, 0.08);
-      --acc-rgb: 10, 122, 49;
+      --green: #076628;
+      --green-dim: #0a7a31;
+      --green-soft: rgba(7, 102, 40, 0.08);
+      --acc-rgb: 7, 102, 40;
       --cyan: #00788a;
       --cyan-soft: rgba(0, 120, 138, 0.1);
       --red: #c8102e;
@@ -217,7 +217,7 @@
     .xp-big .xp-dim { color: transparent; -webkit-text-stroke: 1.2px rgba(var(--acc-rgb), 0.5); }
     /* intro: a green scan line draws across, then the screen splits open on it */
     .scan-intro { position: absolute; inset: 0; z-index: 300; pointer-events: none; }
-    .scan-intro i { position: absolute; left: 0; right: 0; height: 50%; background: #010203; }
+    .scan-intro i { position: absolute; left: 0; right: 0; height: 50%; background: var(--bg); }   /* the shutters match the page, so light mode opens on light */
     .scan-intro .si-top { top: 0; } .scan-intro .si-bot { bottom: 0; }
     .scan-intro .si-line { position: absolute; left: 0; top: 50%; height: 2px; width: 100%; margin-top: -1px; transform-origin: left; transform: scaleX(0);
       background: var(--green); box-shadow: 0 0 12px var(--green), 0 0 34px rgba(var(--acc-rgb), 0.6); }
@@ -1174,6 +1174,9 @@
     html[data-theme="light"] body::after { opacity: 0.08; }
     html[data-theme="light"] .hero-type, html[data-theme="light"] .hero-thesis, html[data-theme="light"] .hero-tagline { text-shadow: 0 0 12px var(--bg), 0 0 26px var(--bg), 0 0 40px var(--bg); }
     html[data-theme="light"] .rot { text-shadow: none; }
+    /* hero on paper: a firmer WELCOME outline, and a green halo so the name lifts off the photo */
+    html[data-theme="light"] .hero-bigword { -webkit-text-stroke: 2px rgba(var(--acc-rgb), 0.7); text-shadow: 0 0 22px rgba(var(--acc-rgb), 0.16); }
+    html[data-theme="light"] h1.hero-name { text-shadow: 0 0 2px rgba(var(--acc-rgb), 0.9), 0 0 10px rgba(var(--acc-rgb), 0.6), 0 0 26px rgba(var(--acc-rgb), 0.4); }
     html[data-theme="light"] .rafale-cap { text-shadow: 0 0 10px var(--bg); }
     html[data-theme="light"] .dapper-btn { color: var(--green); text-shadow: none; opacity: 0.9; }
     html[data-theme="light"] #holo { filter: saturate(1.8) brightness(0.62) contrast(1.2); }
