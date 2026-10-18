@@ -970,6 +970,12 @@
       .fans-tucked .edge-tabs.left { translate: calc(var(--tw) * -0.36) 0; opacity: 0.6; }
       .fans-tucked .edge-tabs:hover, .fans-tucked .edge-tabs:focus-within { translate: 0 0; opacity: 1; }
     }
+    /* phones: same reading mode; the tabs slide off to a sliver while reading down and return on the way up */
+    @media (max-width: 860px) {
+      .edge-tabs { transition: translate 0.4s cubic-bezier(.2, .8, .2, 1), opacity 0.3s; }
+      .fans-tucked .edge-tabs:not(.left) { translate: calc(100% - 6px) 0; opacity: 0.5; }
+      .fans-tucked .edge-tabs.left { translate: calc(-100% + 6px) 0; opacity: 0.5; }
+    }
     /* publications: the Scholar numbers in one quiet line */
     .pub-stats { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: var(--text-muted); margin: -6px 0 28px; }
     .pub-stats b { color: var(--green); font-weight: 700; }
