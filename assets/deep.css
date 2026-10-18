@@ -123,8 +123,8 @@
 .deep .pair.three img { width: 100%; border-radius: 8px; border: 1px solid var(--border); }
 @media (max-width: 640px) { .deep .tenets { grid-template-columns: 1fr; } .deep .pair.three { grid-template-columns: repeat(3, 1fr); gap: 6px; } }
 /* research: project cards with who set them and what they taught */
-.deep .rcard { display: grid; grid-template-columns: 200px 1fr; gap: 18px; align-items: start; }
-.deep .rcard img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 10px; border: 1px solid var(--border); background: #000; }
+.deep .rcard { display: grid; grid-template-columns: 1fr; gap: 18px; align-items: start; }   /* image full width, like the diagram above */
+.deep .rcard img { width: 100%; height: auto; object-fit: contain; border-radius: 10px; border: 1px solid var(--border); background: #000; }
 .deep .rcard p { margin: 0 0 10px; }
 .deep .setby { font: 0.74rem 'JetBrains Mono', monospace; color: var(--text); margin-bottom: 8px; }
 .deep .setby span, .deep .learned span { color: var(--green); margin-right: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; }
