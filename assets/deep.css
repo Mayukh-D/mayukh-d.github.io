@@ -166,3 +166,7 @@ body.deep-standalone { margin: 0; background: var(--bg); }
 .deep-next a { color: var(--green); text-decoration: none; }
 .deep-next a:hover { text-decoration: underline; }
 @media (max-width: 640px) { .deep-sections { display: none; } }
+
+/* YouTube embeds: 16:9, same frame as the figures */
+.deep figure .yt { position: relative; aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); background: #000; }
+.deep figure .yt iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }

@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/deep.css?v=2">
+  <link rel="stylesheet" href="assets/deep.css?v=3">
   <style>
     :root {
       --bg: #010203;
@@ -873,6 +873,8 @@
     .tldr-body b { color: var(--text); font-weight: 600; }
     .tldr-body figure { margin: 6px 0 4px; }
     .tldr-body figure { margin: 10px 0 6px; }
+    .tldr-body .yt { position: relative; aspect-ratio: 16 / 9; border-radius: 6px; overflow: hidden; border: 1px solid var(--border); background: #000; }
+    .tldr-body .yt iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
     .tldr-body figure img { display: block; max-width: 100%; max-height: 480px; width: auto; height: auto; margin: 0 auto; border-radius: 6px; }
     .tldr-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
     .tldr-row img { width: 100%; max-height: none; }
@@ -3334,6 +3336,7 @@
     // project's own report; the full PDF is one click away.
     const TLDR = {
       transformers: {
+        video: ['OvVEqdIfFJs', 'The 5-minute presentation.'],
         title: "Transformers' Revenge", file: 'transformers-revenge',
         q: 'minGRU reportedly matches Transformers on language modelling ("Were RNNs All We Needed?"). Does that hold once the task needs real algorithmic reasoning?',
         setup: '~750-800K-parameter models, 4 layers each, identical optimiser and schedule. 3 models (minGRU, a causal gMLP we adapted, a LLaMA-recipe Transformer) × 3 tasks (language modelling, verbatim copy, induction) × 3 sequence lengths = 27 runs, with predictions written down before running.',
@@ -3410,6 +3413,7 @@
         links: [['code and write-ups', 'https://github.com/Mayukh-D/hci-design-and-research']]
       },
       yuma: {
+        video: ['8i9f6ksx3xQ', 'The Hackathon 2 demo by team Dreamers.'],
         title: 'Yuma Social Platform', file: 'yuma',
         q: 'Turn a Java moderation backend from an earlier hackathon into a native Android social app, without breaking its models.',
         setup: 'A five-person team hackathon at ANU. Login with member and admin roles, a searchable post feed, reactions, pinned messages, direct messages with sorted inboxes, and admin moderation, all persisted across restarts.',
@@ -3517,6 +3521,12 @@
         const head = h('h3'); head.id = 'tldr-h'; head.textContent = t.title;
         body.append(head, h('p', t.q, 'tldr-q'), h('h4', 'setup'), h('p', t.setup), h('h4', 'findings'));
         const ul = h('ul'); t.findings.forEach(f => ul.append(h('li', f))); body.append(ul);
+        if (t.video) {
+          const [vid, cap] = t.video, f = h('figure'), box = h('div', '', 'yt'), ifr = document.createElement('iframe');
+          Object.assign(ifr, { src: `https://www.youtube-nocookie.com/embed/${vid}?rel=0`, title: cap, loading: 'lazy', allowFullscreen: true, referrerPolicy: 'strict-origin-when-cross-origin' });
+          ifr.allow = 'accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+          box.append(ifr); f.append(box, h('figcaption', cap)); body.append(f);
+        }
         if (t.figs) t.figs.forEach(([src, cap, kind]) => {
           const f = h('figure'), row = h('div', '', kind === 'app' ? 'tldr-app' : Array.isArray(src) ? 'tldr-row' : '');
           [].concat(src).forEach(u => { const img = h('img'); img.src = u; img.alt = cap; img.loading = 'lazy'; row.append(img); });
