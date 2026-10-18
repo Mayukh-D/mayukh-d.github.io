@@ -14,24 +14,21 @@
     try { localStorage.setItem('theme', root.dataset.theme || 'dark'); } catch (e) {}
     sync();
   };
-  // A soft dip: a veil in the target colour fades in, the theme flips underneath it, and the veil fades out.
-  // Only one layer's opacity animates, so it stays smooth even with the canvases running.
-  const veil = document.createElement('div');
-  veil.setAttribute('aria-hidden', 'true');
-  Object.assign(veil.style, { position: 'fixed', inset: '0', zIndex: '9999', pointerEvents: 'none', opacity: '0', transition: 'opacity 220ms ease' });
-  document.body.append(veil);
+  // Everything blends from one theme to the other (colours, glows, art); the side covers,
+  // being screenshots, slide out first and come back in the new theme.
   let busy = false;
   document.querySelectorAll('.theme-toggle').forEach(btn => btn.addEventListener('click', () => {
     if (busy) return;
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return flip();
     busy = true;
-    veil.style.background = root.dataset.theme === 'light' ? '#010203' : '#ecf4ed';
-    requestAnimationFrame(() => { veil.style.opacity = '1'; });
+    const covers = document.querySelector('.edge-tabs');
+    root.classList.add('theme-anim');
+    if (covers) root.classList.add('covers-away');
     setTimeout(() => {
       flip();
-      requestAnimationFrame(() => requestAnimationFrame(() => { veil.style.transition = 'opacity 320ms ease'; veil.style.opacity = '0'; }));
-      setTimeout(() => { veil.style.transition = 'opacity 220ms ease'; busy = false; }, 360);
-    }, 230);
+      setTimeout(() => root.classList.remove('covers-away'), 60);
+      setTimeout(() => { root.classList.remove('theme-anim'); busy = false; }, 760);
+    }, covers ? 320 : 0);
   }));
   sync();
 })();
