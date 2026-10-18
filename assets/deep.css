@@ -199,3 +199,4 @@ html[data-theme="light"] .deep-bar .theme-toggle { background: #00b32e; color: #
 html[data-theme="light"] .deep-bar .theme-toggle:hover { border-color: #00b32e; box-shadow: 0 0 18px rgba(0, 200, 75, 0.55); }
 .deep-bar .theme-toggle { align-self: center; margin-top: 8px; margin-bottom: 8px; }
 .deep-sections { align-items: center; }
+.deep .tenets h2::before { content: none; }   /* tenets are h2 for structure, without the section ## */
