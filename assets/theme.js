@@ -9,10 +9,26 @@
       btn.title = light ? 'Dark mode' : 'Light mode';
     });
   };
-  document.querySelectorAll('.theme-toggle').forEach(btn => btn.addEventListener('click', () => {
+  const flip = () => {
     if (root.dataset.theme === 'light') delete root.dataset.theme; else root.dataset.theme = 'light';
     try { localStorage.setItem('theme', root.dataset.theme || 'dark'); } catch (e) {}
     sync();
+  };
+  // The new theme spreads out from the button as a growing circle; browsers without
+  // view transitions get a short cross-fade instead, and reduced motion gets an instant switch.
+  document.querySelectorAll('.theme-toggle').forEach(btn => btn.addEventListener('click', () => {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return flip();
+    if (!document.startViewTransition) {
+      root.classList.add('theme-fading'); flip();
+      setTimeout(() => root.classList.remove('theme-fading'), 450);
+      return;
+    }
+    const b = btn.getBoundingClientRect(), x = b.left + b.width / 2, y = b.top + b.height / 2;
+    const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    document.startViewTransition(flip).ready.then(() => {
+      root.animate({ clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${r}px at ${x}px ${y}px)`] },
+        { duration: 650, easing: 'cubic-bezier(.4, 0, .2, 1)', pseudoElement: '::view-transition-new(root)' });
+    });
   }));
   sync();
 })();

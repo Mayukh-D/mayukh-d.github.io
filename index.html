@@ -27,7 +27,7 @@
       if (localStorage.getItem('theme') === 'light') document.documentElement.dataset.theme = 'light';
     } catch (e) {}
   </script>
-  <link rel="stylesheet" href="assets/deep.css?v=5">
+  <link rel="stylesheet" href="assets/deep.css?v=6">
   <style>
     :root {
       --bg: #010203;
@@ -1209,6 +1209,9 @@
     html[data-theme="light"] .edge-tab[href="/research/"] { --shot: url(/assets/tabs/research-light.jpg) !important; }
     html[data-theme="light"] .edge-tab[href="/jobs/"] { --shot: url(/assets/tabs/jobs-light.jpg) !important; }
     html[data-theme="light"] .edge-tab[href="/notes/"] { --shot: url(/assets/tabs/notes-light.jpg) !important; }
+    /* theme switch: the circle reveal replaces the default cross-fade; the fallback fades colours */
+    ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+    html.theme-fading, html.theme-fading body, html.theme-fading * { transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, fill 0.4s ease, stroke 0.4s ease !important; }
     /* theme toggle in the menu bar */
     .theme-toggle { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 11px; margin-left: 18px; border-radius: 8px;
       border: 1px solid var(--border-bright); color: var(--green); font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; line-height: 1; flex: none; white-space: nowrap; }
@@ -4109,6 +4112,6 @@
       }
     }
   </script>
-  <script src="/assets/theme.js" defer></script>
+  <script src="/assets/theme.js?v=2" defer></script>
 </body>
 </html>
