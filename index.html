@@ -825,19 +825,19 @@
       animation: term-in 0.25s ease-out;
     }
     .term-bar {
-      display: flex; align-items: center; gap: 12px; padding: 8px 12px;
+      display: flex; align-items: center; gap: 14px; padding: 10px 14px;
       background: var(--bg-soft); border-bottom: 1px solid var(--border);
       font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-muted);
     }
     /* One way to close, not two: the red traffic light is the close button. It sits first in the bar,
        shows its cross on hover, and has a generous invisible margin so it is easy to hit. The other two
        lights are only decoration, so they are dimmed. */
-    .term-dots { display: flex; gap: 6px; margin-left: -6px; opacity: 0.45; }
-    .term-dots i { width: 10px; height: 10px; border-radius: 50%; background: #febc2e; }
+    .term-dots { display: flex; gap: 8px; margin-left: -6px; opacity: 0.6; }
+    .term-dots i { width: 14px; height: 14px; border-radius: 50%; background: #febc2e; }
     .term-dots i:last-child { background: #28c840; }
     .term-title { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .term-close { order: -1; flex: none; position: relative; width: 10px; height: 10px; padding: 0; border: 0; border-radius: 50%;
-      background: #ff5f57; color: transparent; font: 700 9px/10px 'JetBrains Mono', monospace; text-align: center; cursor: pointer; }
+    .term-close { order: -1; flex: none; position: relative; width: 14px; height: 14px; padding: 0; border: 0; border-radius: 50%;
+      background: #ff5f57; color: #5a0000; font: 700 11px/14px 'JetBrains Mono', monospace; text-align: center; cursor: pointer; }
     .term-close::before { content: ''; position: absolute; inset: -11px; }
     .term-close:hover, .term-close:focus-visible { color: #5a0000; box-shadow: 0 0 0 2px rgba(255, 95, 87, 0.35); outline: none; }
     .term-body { padding: 14px 18px 18px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; line-height: 1.65; }
