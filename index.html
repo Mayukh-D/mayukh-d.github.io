@@ -36,7 +36,7 @@
       if (localStorage.getItem('theme') === 'light') document.documentElement.dataset.theme = 'light';
     } catch (e) {}
   </script>
-  <link rel="stylesheet" href="assets/deep.css?v=11">
+  <link rel="stylesheet" href="assets/deep.css?v=12">
   <style>
     :root {
       --bg: #010203;
@@ -70,7 +70,7 @@
       --green-dim: #007f2c;
       --green-soft: rgba(0, 200, 75, 0.1);
       --acc-rgb: 0, 200, 75;     /* glows, outlines and fills pop in a brighter green */
-      --pop: #00c84b;
+      --pop: #00ff41;            /* the same neon as dark mode, with dark text */
       --cyan: #00788a;
       --cyan-soft: rgba(0, 120, 138, 0.1);
       --red: #c8102e;
@@ -1190,6 +1190,10 @@
     html[data-theme="light"] .rafale-cap { text-shadow: 0 0 10px var(--bg); }
     html[data-theme="light"] .dapper-btn { color: var(--green); text-shadow: none; opacity: 0.9; }
     html[data-theme="light"] #holo { filter: saturate(1.8) brightness(0.62) contrast(1.2); }
+    /* skill chips on paper: white tiles, a vivid green edge and bolder green text, so they pop like the dark ones */
+    html[data-theme="light"] .skill { background: #ffffff; border-color: rgba(var(--acc-rgb), 0.55); font-weight: 600; }
+    html[data-theme="light"] .skill:hover { border-color: rgba(var(--acc-rgb), 0.95); box-shadow: 0 0 14px rgba(var(--acc-rgb), 0.35); }
+    html[data-theme="light"] button.skill[aria-expanded="true"] { background: rgba(var(--acc-rgb), 0.16); border-color: rgba(var(--acc-rgb), 0.95); }
     html[data-theme="light"] .btn-primary { background: var(--pop); color: #031a0b; }
     html[data-theme="light"] .btn-ghost { background: var(--bg-soft); }   /* solid, so the floor shadow behind the photo never shows through */
     html[data-theme="light"] .timeline-date { color: var(--green); }
@@ -1211,6 +1215,7 @@
     html[data-theme="light"] .raf-hud .t0 { fill: #4f7a5c; }
     /* the card art is line work on black: inverting it gives the same drawing in dark green on white */
     html[data-theme="light"] .project-art, html[data-theme="light"] .row-thumb img, html[data-theme="light"] .art-peek img, html[data-theme="light"] .art-fly { filter: invert(0.93) hue-rotate(180deg) saturate(1.4); }
+    @media (min-width: 861px) { html[data-theme="light"] .edge-tab { filter: brightness(0.96) saturate(0.95); } }   /* barely dimmed on paper */
     html[data-theme="light"] .edge-tab[href*="github.com"] { --shot: url(/assets/tabs/github-light.jpg) !important; }
     html[data-theme="light"] .edge-tab[href*="linkedin.com"] { --shot: url(/assets/tabs/linkedin-light.jpg) !important; }
     html[data-theme="light"] .edge-tab[href*="huggingface.co"] { --shot: url(/assets/tabs/huggingface-light.jpg) !important; }
@@ -1231,6 +1236,11 @@
     .theme-toggle .tt-ico { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
     /* pinned to the far right of the bar, mirroring the logo on the far left */
     .theme-toggle { position: absolute; right: 22px; top: 50%; transform: translateY(-50%); margin-left: 0; z-index: 1; }
+    /* the toggle is a solid green key so it gets noticed: black on neon in dark mode, white on deep green in light mode */
+    .theme-toggle { background: #00ff41; color: #010203; border-color: #00ff41; font-weight: 700; box-shadow: 0 0 14px rgba(0, 255, 65, 0.35); }
+    .theme-toggle:hover { box-shadow: 0 0 22px rgba(0, 255, 65, 0.6); border-color: #00ff41; }
+    html[data-theme="light"] .theme-toggle { background: #007f2c; color: #ffffff; border-color: #007f2c; box-shadow: 0 0 12px rgba(0, 200, 75, 0.35); }
+    html[data-theme="light"] .theme-toggle:hover { border-color: #007f2c; box-shadow: 0 0 18px rgba(0, 200, 75, 0.55); }
     @media (max-width: 1100px) {
       .theme-toggle { position: static; transform: none; margin-left: 12px; padding: 0 9px; }
       .theme-toggle .tt-word { display: none; }   /* narrower windows: the icon alone, the label stays in its tooltip */

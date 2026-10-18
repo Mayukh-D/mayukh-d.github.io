@@ -192,3 +192,8 @@ html[data-theme="light"] .deep .demo { --bg: #010203; --bg-soft: #0a0f0c; --bord
 @media (max-width: 1100px) { .deep-bar .theme-toggle .tt-sym, .deep-bar .theme-toggle .tt-word { display: none; } .deep-bar .theme-toggle .tt-ico { display: block; } }
 
 ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.6s; animation-timing-function: cubic-bezier(.4, 0, .2, 1); mix-blend-mode: normal; }
+/* the toggle is a solid green key so it gets noticed: black on neon in dark mode, white on deep green in light mode */
+.deep-bar .theme-toggle { background: #00ff41; color: #010203; border-color: #00ff41; font-weight: 700; box-shadow: 0 0 14px rgba(0, 255, 65, 0.35); }
+.deep-bar .theme-toggle:hover { box-shadow: 0 0 22px rgba(0, 255, 65, 0.6); border-color: #00ff41; }
+html[data-theme="light"] .deep-bar .theme-toggle { background: #007f2c; color: #ffffff; border-color: #007f2c; box-shadow: 0 0 12px rgba(0, 200, 75, 0.35); }
+html[data-theme="light"] .deep-bar .theme-toggle:hover { border-color: #007f2c; box-shadow: 0 0 18px rgba(0, 200, 75, 0.55); }
