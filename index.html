@@ -696,6 +696,7 @@
     .row-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
     .row-name { color: var(--text); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color 0.2s; }
     .row-name::before { content: './'; color: var(--green); font-weight: 400; }
+    .row-name .hd { font-weight: 400; vertical-align: 1px; }
     .row-lang { display: inline-flex; align-items: center; gap: 7px; font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; }
     .row-line { font-family: 'Inter', sans-serif; font-size: 0.88rem; color: var(--text-body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .row-chev { color: var(--green); font-size: 1.1rem; line-height: 1; transition: transform 0.4s cubic-bezier(.2,.8,.2,1); }
@@ -1571,7 +1572,7 @@
         <div class="project-card other reveal" data-scroll>
           <button class="row-head" type="button" aria-expanded="false">
             <span class="row-thumb"><img src="assets/cards/yuma.svg" alt="" loading="lazy" style="object-position: 8% 50%"></span>
-            <span class="row-name">yuma</span>
+            <span class="row-name">yuma<span class="hd" title="Assignment graded High Distinction (HD), the top grade band at ANU">High Distinction</span></span>
             <span class="row-lang"><span class="lang-dot lang-java"></span>Java · Android</span>
             <span class="row-line">Android social app, layered DAO architecture</span>
             <span class="row-chev" aria-hidden="true">&#8250;</span>
@@ -1593,7 +1594,7 @@
         <div class="project-card other reveal" data-scroll>
           <button class="row-head" type="button" aria-expanded="false">
             <span class="row-thumb"><img src="assets/cards/hci.svg" alt="" loading="lazy" style="object-position: 30% 50%"></span>
-            <span class="row-name">hci</span>
+            <span class="row-name">hci<span class="hd" title="Assignment graded High Distinction (HD), the top grade band at ANU">High Distinction</span></span>
             <span class="row-lang"><span class="lang-dot lang-python"></span>Portfolio</span>
             <span class="row-line">prototyping and AR system evaluation</span>
             <span class="row-chev" aria-hidden="true">&#8250;</span>
