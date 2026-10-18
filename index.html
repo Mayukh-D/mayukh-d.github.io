@@ -407,13 +407,14 @@
     .btn-ghost { border: 1px solid var(--border-bright); color: var(--green); }
     .btn-ghost:hover { background: var(--green-soft); border-color: var(--green); }
 
+    /* in the flow, right after the buttons: it can never land on them, whatever the screen height */
     .scroll-hint {
-      position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
+      position: relative; display: block; width: max-content; margin: 26px auto 0;
       font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
       color: var(--text-muted); letter-spacing: 0.2em;
       animation: bob 2s ease-in-out 5;
     }
-    @keyframes bob { 50% { transform: translate(-50%, 6px); } }
+    @keyframes bob { 50% { transform: translateY(6px); } }
 
     /* Hologram corner canvas */
     #holo-wrap {
