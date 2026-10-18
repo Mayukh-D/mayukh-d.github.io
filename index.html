@@ -36,7 +36,7 @@
       if (localStorage.getItem('theme') === 'light') document.documentElement.dataset.theme = 'light';
     } catch (e) {}
   </script>
-  <link rel="stylesheet" href="assets/deep.css?v=7">
+  <link rel="stylesheet" href="assets/deep.css?v=9">
   <style>
     :root {
       --bg: #010203;
@@ -66,10 +66,11 @@
       --text: #0e1a13;
       --text-muted: #466a52;
       --text-body: #203d2b;
-      --green: #076628;
-      --green-dim: #0a7a31;
-      --green-soft: rgba(7, 102, 40, 0.08);
-      --acc-rgb: 7, 102, 40;
+      --green: #007f2c;          /* vivid, still text-safe on the green paper (4.6:1) */
+      --green-dim: #007f2c;
+      --green-soft: rgba(0, 200, 75, 0.1);
+      --acc-rgb: 0, 200, 75;     /* glows, outlines and fills pop in a brighter green */
+      --pop: #00c84b;
       --cyan: #00788a;
       --cyan-soft: rgba(0, 120, 138, 0.1);
       --red: #c8102e;
@@ -1189,7 +1190,7 @@
     html[data-theme="light"] .rafale-cap { text-shadow: 0 0 10px var(--bg); }
     html[data-theme="light"] .dapper-btn { color: var(--green); text-shadow: none; opacity: 0.9; }
     html[data-theme="light"] #holo { filter: saturate(1.8) brightness(0.62) contrast(1.2); }
-    html[data-theme="light"] .btn-primary { color: #fff; }
+    html[data-theme="light"] .btn-primary { background: var(--pop); color: #031a0b; }
     html[data-theme="light"] .btn-ghost { background: var(--bg-soft); }   /* solid, so the floor shadow behind the photo never shows through */
     html[data-theme="light"] .timeline-date { color: var(--green); }
     html[data-theme="light"] .deep-close { background: var(--nav-bg); }
@@ -3761,8 +3762,9 @@
           if (!res.ok || !main) { location.href = href; return; }
           host.replaceChildren(document.importNode(main, true));
           host.querySelectorAll('video[autoplay]').forEach(v => { v.muted = true; v.play().catch(() => {}); });
-          // parsed scripts are inert; re-create them so a page's demos run in the panel, in order
-          host.querySelectorAll('script').forEach(old => {
+          // parsed scripts are inert; re-create them so a page's demos run in the panel, in order.
+          // They start after the reveal, so their set-up never competes with the animation.
+          const runScripts = () => host.querySelectorAll('script').forEach(old => {
             const s = document.createElement('script');
             for (const a of old.attributes) s.setAttribute(a.name, a.value);
             s.async = false; s.textContent = old.textContent; old.replaceWith(s);
@@ -3774,10 +3776,17 @@
           if (!wasOpen) {
             panel.classList.remove('swing-out', 'swing-in');
             const r = sheetRect();
-            if (r) panel.animate([{ clipPath: inset(r), opacity: 0.85 }, { clipPath: 'inset(0px 0px 0px 0px round 0px)', opacity: 1 }],
-                                 { duration: 560, easing: 'cubic-bezier(.2, .8, .2, 1)' });
-            else { void panel.offsetWidth; panel.classList.add('swing-in'); }
-          }
+            // Hold the first frame until the new page has laid out and painted, then play the whole reveal.
+            const reveal = r
+              ? panel.animate([{ clipPath: inset(r), opacity: 0.85 }, { clipPath: 'inset(0px 0px 0px 0px round 0px)', opacity: 1 }],
+                              { duration: 640, easing: 'cubic-bezier(.22, .8, .25, 1)', fill: 'both' })
+              : panel.animate([{ transform: 'perspective(1600px) rotateY(-78deg)', opacity: 0.2 }, { transform: 'perspective(1600px) rotateY(0)', opacity: 1 }],
+                              { duration: 640, easing: 'cubic-bezier(.22, .8, .25, 1)', fill: 'both' });
+            reveal.pause();
+            await new Promise(res => requestAnimationFrame(() => requestAnimationFrame(res)));
+            reveal.play();
+            reveal.finished.then(() => { reveal.cancel(); runScripts(); }, runScripts);
+          } else runScripts();
           document.documentElement.style.overflow = 'hidden';
           panel.querySelector('.deep-close').focus({ preventScroll: true });
         } catch (err) { console.error(err); location.href = href; }
@@ -4118,6 +4127,6 @@
       }
     }
   </script>
-  <script src="/assets/theme.js?v=3" defer></script>
+  <script src="/assets/theme.js?v=5" defer></script>
 </body>
 </html>

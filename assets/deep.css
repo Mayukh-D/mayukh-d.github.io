@@ -173,10 +173,10 @@ body.deep-standalone { margin: 0; background: var(--bg); }
 
 /* Light mode (set by the toggle on the home page, remembered on this device) */
 html[data-theme="light"] { --bg: #ecf4ed; --bg-soft: #f7fcf8; --border: #c4dccb; --border-bright: #8dbf9c; --text: #0e1a13; --text-muted: #466a52;
-  --text-body: #203d2b; --green: #076628; --green-dim: #0a7a31; --cyan: #00788a; --bar-bg: rgba(236, 244, 237, 0.9); color-scheme: light; }
+  --text-body: #203d2b; --green: #007f2c; --green-dim: #007f2c; --cyan: #00788a; --bar-bg: rgba(236, 244, 237, 0.9); color-scheme: light; }
 html[data-theme="light"] .deep .meta time, html[data-theme="light"] .deep .postlist .src time { color: #5f7300; }
 html[data-theme="light"] .deep .bad { color: #c8102e; }
-html[data-theme="light"] .deep .links a { background: rgba(10, 122, 49, 0.05); }
+html[data-theme="light"] .deep .links a { background: rgba(0, 200, 75, 0.08); }
 html[data-theme="light"] .deep .seg button.on, html[data-theme="light"] .deep .chip.on { color: #fff; }
 html[data-theme="light"] .deep img.plot, html[data-theme="light"] .deep .frames { filter: none; }
 /* interactive demos are drawn for a dark canvas: keep them as dark screens in light mode */
