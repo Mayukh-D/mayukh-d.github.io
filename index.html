@@ -3913,7 +3913,7 @@
           });
           section.classList.add('ia3d');
           cards.forEach((card, i) => {
-            if (touch) seen.observe(card);
+            if (touch) { seen.observe(card); card.addEventListener('click', () => play(card, i)); }   // tap replays it
             else {
               card.addEventListener('pointerenter', () => play(card, i));
               card.addEventListener('pointerleave', () => { if (active && active.card === card && active.leaveAt === null) active.leaveAt = performance.now(); });
@@ -3923,10 +3923,10 @@
       }, { rootMargin: touch ? '0px' : '600px 0px' });   // phones fetch three.js only once the section is on screen
       near.observe(section);
       const seen = new IntersectionObserver(es => es.forEach(e => {
-        if (e.isIntersecting && e.intersectionRatio > 0.6 && !e.target.dataset.played) {
+        if (e.isIntersecting && e.intersectionRatio > 0.4 && !e.target.dataset.played) {
           e.target.dataset.played = '1'; play(e.target, cards.indexOf(e.target));
         }
-      }), { threshold: [0.6] });
+      }), { threshold: [0.4] });
 
       // ---------- materials and helpers ----------
       function mats() {
