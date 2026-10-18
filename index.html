@@ -2857,10 +2857,13 @@
 
     /* ---------- render loop ---------- */
     var W, H;
+    // base: a cached copy of the wireframe, so idle frames only repaint the travelling data pulses
+    var base = document.createElement('canvas'), bctx = base.getContext('2d'), baseOk = false, baseT = 0;
     function resize() {
       W = canvas.clientWidth; H = canvas.clientHeight;
       canvas.width = W * DPR; canvas.height = H * DPR;
       ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      base.width = canvas.width; base.height = canvas.height; baseOk = false;
     }
     resize();
     window.addEventListener('resize', resize);
@@ -2920,10 +2923,11 @@
     var lastT = null;
 
     var lastDrawn = -1e9;
-    function draw(t) {
+    function draw(t, idle) {
       // 30 fps: halves the work, and stops 120/144 Hz screens doing 4-5x it
-      if (!mq.matches && t - lastDrawn < 32) { schedule(); return; }
-      lastDrawn = t;
+      if (!idle && !mq.matches && t - lastDrawn < 32) { schedule(); return; }
+      if (!idle) { lastDrawn = t; baseOk = false; }
+      var mt = idle ? baseT : t;   // idle frames keep the model as it was cached; only the pulses move
       ctx.clearRect(0, 0, W, H);
       var scale = W * 0.118;   // the U-Net is wider than the old jet
       var dt = lastT == null ? 0.016 : Math.min((t - lastT) / 1000, 0.05);
@@ -2951,7 +2955,10 @@
       /* MODE_DRAG: orientation is driven by pointermove */
 
       var cx0 = W / 2, cy0 = H * 0.52;
-      var hover = Math.sin(t * 0.0016) * W * 0.01;
+      var hover = 0;   // steady: no bob, so the model looks the same moving or still
+      if (idle && baseOk) {
+        ctx.drawImage(base, 0, 0, W, H);
+      } else {
 
       /* projector pad */
       var g = ctx.createRadialGradient(cx0, H * 0.80, 4, cx0, H * 0.80, W * 0.307);
@@ -2959,7 +2966,7 @@
       g.addColorStop(1, 'rgba(0,229,255,0)');
       ctx.fillStyle = g;
       ctx.beginPath(); ctx.ellipse(cx0, H * 0.80, W * 0.35, W * 0.087, 0, 0, Math.PI * 2); ctx.fill();
-      ctx.strokeStyle = 'rgba(0,229,255,' + (0.20 + 0.08 * Math.sin(t * 0.004)) + ')';
+      ctx.strokeStyle = 'rgba(0,229,255,0.24)';
       ctx.lineWidth = 1;
       ctx.beginPath(); ctx.ellipse(cx0, H * 0.80, W * 0.293, W * 0.067, 0, 0, Math.PI * 2); ctx.stroke();
       ctx.beginPath(); ctx.ellipse(cx0, H * 0.80, W * 0.2, W * 0.043, 0, 0, Math.PI * 2); ctx.stroke();
@@ -2973,13 +2980,13 @@
         proj[i] = [cx0 + r[0] * p * scale, cy0 - (ry2 - 0.45) * p * scale + hover, p];
       }
 
+      }
       /* hologram flicker */
-      var flick = 0.62 + 0.25 * Math.sin(t * 0.011) * Math.sin(t * 0.0037);
-      if (Math.random() < 0.012) flick *= 0.35;
-
+      var flick = 0.72;   // steady glow; the travelling pulses carry the motion
       function rgba(c, a) { return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + a.toFixed(3) + ')'; }
       // depth: perspective factor p runs ~0.75 (far) to ~1.6 (near)
       function shade(pv) { return pv < 0.93 ? 0.4 : pv < 1.08 ? 0.72 : 1; }
+      if (!(idle && baseOk)) {
 
       /* filled tile cells, behind the lines */
       for (i = 0; i < FILLS.length; i++) {
@@ -2996,7 +3003,7 @@
         var key = E[i][2] * 3 + (pd < 0.93 ? 0 : pd < 1.08 ? 1 : 2);
         (bands[key] = bands[key] || []).push(a, b);
       }
-      var attnPulse = 0.75 + 0.25 * Math.sin(t * 0.004);
+      var attnPulse = 0.9;
       for (var k in bands) {
         var grp = (k / 3) | 0, depth = [0.4, 0.72, 1][k % 3], segs = bands[k];
         var al = GA[grp] * depth * flick * (grp === G_ATT ? attnPulse : 1);
@@ -3004,6 +3011,8 @@
         for (i = 0; i < segs.length; i += 2) { ctx.moveTo(segs[i][0], segs[i][1]); ctx.lineTo(segs[i + 1][0], segs[i + 1][1]); }
         ctx.lineWidth = 3.5; ctx.strokeStyle = rgba(GCOL[grp], al * 0.28); ctx.stroke();
         ctx.lineWidth = 1; ctx.strokeStyle = rgba(GCOL[grp], al); ctx.stroke();
+      }
+      if (idle) { bctx.setTransform(1, 0, 0, 1, 0, 0); bctx.clearRect(0, 0, base.width, base.height); bctx.drawImage(canvas, 0, 0); baseOk = true; }
       }
 
       /* data pulses: down the encoder and up the decoder, across the skips,
@@ -3025,7 +3034,7 @@
       for (k = 0; k < MSKIP.length; k++) pulse(MSKIP[k], (ts * 0.16 + k * 0.33) % 1, GCOL[G_SKIP], 2.3);
       for (k = 0; k < MATTN.length; k++) pulse(MATTN[k], (ts * 0.22 + k * 0.21) % 1, GCOL[G_ATT], 2.3);
 
-      running = false; schedule();
+      if (!idle) { running = false; schedule(); }
     }
 
     /* The model only moves while something moves it: scrolling turns it, dragging spins it, and a
@@ -3038,6 +3047,19 @@
       running = true; requestAnimationFrame(function (t) { running = false; draw(t); });
     }
     function wake() { lastActive = performance.now(); schedule(); }
+
+    /* Idle: the data pulses keep travelling at 20 fps over the cached model, only while the model
+       is on screen and the tab is visible. Each tick is one image copy plus a dozen small dots. */
+    var onScreen = true, lastIdle = 0;
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { onScreen = es[es.length - 1].isIntersecting; }).observe(canvas);
+    (function idleTick(t) {
+      requestAnimationFrame(idleTick);
+      if (mq.matches || !onScreen || document.hidden || running || t - lastIdle < 50) return;
+      if (mode !== MODE_AUTO || performance.now() - lastActive < 450) return;
+      lastIdle = t;
+      if (!baseOk) baseT = t;
+      draw(t, true);
+    })(0);
     window.addEventListener('scroll', function () {
       var y = window.scrollY; scrollYaw += (y - lastY) * 0.006; lastY = y; wake();
     }, { passive: true });
