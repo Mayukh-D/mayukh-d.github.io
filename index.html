@@ -892,11 +892,12 @@
     /* tl;dr: the short version of a research project, in a terminal window */
     .tldr-backdrop {
       position: fixed; inset: 0; z-index: 220; display: flex; align-items: center; justify-content: center;
-      padding: 24px; background: rgba(0, 4, 1, 0.72); backdrop-filter: blur(3px);
+      padding: max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom)); background: rgba(0, 4, 1, 0.72); backdrop-filter: blur(3px);
     }
     .tldr-backdrop[hidden] { display: none; }
+    .tldr .term-bar { flex: none; }   /* the bar never scrolls away; only the body scrolls */
     .tldr {
-      width: min(780px, 100%); max-height: min(86vh, 900px); display: flex; flex-direction: column; overflow: hidden;
+      width: min(780px, 100%); max-height: min(86vh, 900px); max-height: min(86dvh, 900px);   /* dvh: the space actually visible, below a phone's address bar */ display: flex; flex-direction: column; overflow: hidden;
       background: var(--panel-bg); border: 1px solid var(--border-bright); border-radius: 8px;
       box-shadow: 0 0 0 1px rgba(var(--acc-rgb),0.06), 0 24px 70px rgba(0,0,0,0.8), 0 0 40px rgba(var(--acc-rgb),0.12);
       animation: term-in 0.2s ease-out;
@@ -945,7 +946,7 @@
     .tldr-links a:hover { border-color: var(--green); background: rgba(var(--acc-rgb),0.1); }
     @media (max-width: 640px) {
       .tldr-backdrop { padding: 0; align-items: flex-end; }
-      .tldr { max-height: 90vh; border-radius: 10px 10px 0 0; }
+      .tldr { max-height: 90vh; max-height: 90dvh; border-radius: 10px 10px 0 0; }   /* dvh: never taller than the visible area */
       .tldr-body { padding: 16px; }
     }
 
@@ -1107,7 +1108,7 @@
     @keyframes ask-pulse { 50% { box-shadow: 0 0 12px rgba(var(--acc-rgb), 0.35); } }
     .chat {
       position: fixed; right: 24px; bottom: 24px; z-index: 200;
-      width: min(440px, calc(100vw - 32px)); height: min(560px, calc(100vh - 110px));
+      width: min(440px, calc(100vw - 32px)); height: min(560px, calc(100vh - 110px)); height: min(560px, calc(100dvh - 110px));
       display: flex; flex-direction: column; overflow: hidden;
       background: var(--panel-bg); border: 1px solid var(--border-bright); border-radius: 8px;
       box-shadow: 0 0 0 1px rgba(var(--acc-rgb),0.06), 0 20px 60px rgba(0,0,0,0.7), 0 0 40px rgba(var(--acc-rgb),0.12);
