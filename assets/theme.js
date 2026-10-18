@@ -14,21 +14,10 @@
     try { localStorage.setItem('theme', root.dataset.theme || 'dark'); } catch (e) {}
     sync();
   };
-  // Everything blends from one theme to the other (colours, glows, art); the side covers,
-  // being screenshots, slide out first and come back in the new theme.
-  let busy = false;
+  // Cross-fade between a snapshot of the old theme and the new one (GPU only, so it stays smooth).
   document.querySelectorAll('.theme-toggle').forEach(btn => btn.addEventListener('click', () => {
-    if (busy) return;
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return flip();
-    busy = true;
-    const covers = document.querySelector('.edge-tabs');
-    root.classList.add('theme-anim');
-    if (covers) root.classList.add('covers-away');
-    setTimeout(() => {
-      flip();
-      setTimeout(() => root.classList.remove('covers-away'), 60);
-      setTimeout(() => { root.classList.remove('theme-anim'); busy = false; }, 760);
-    }, covers ? 320 : 0);
+    if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) return flip();
+    document.startViewTransition(flip);
   }));
   sync();
 })();

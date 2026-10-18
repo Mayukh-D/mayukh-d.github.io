@@ -36,7 +36,7 @@
       if (localStorage.getItem('theme') === 'light') document.documentElement.dataset.theme = 'light';
     } catch (e) {}
   </script>
-  <link rel="stylesheet" href="assets/deep.css?v=10">
+  <link rel="stylesheet" href="assets/deep.css?v=11">
   <style>
     :root {
       --bg: #010203;
@@ -1219,28 +1219,9 @@
     html[data-theme="light"] .edge-tab[href="/research/"] { --shot: url(/assets/tabs/research-light.jpg) !important; }
     html[data-theme="light"] .edge-tab[href="/jobs/"] { --shot: url(/assets/tabs/jobs-light.jpg) !important; }
     html[data-theme="light"] .edge-tab[href="/notes/"] { --shot: url(/assets/tabs/notes-light.jpg) !important; }
-    /* Theme switch: the colours are registered so the browser can blend them; everything fades together.
-       Only while switching, so loading the page never animates. */
-    @property --bg { syntax: '<color>'; inherits: true; initial-value: #010203; }
-    @property --bg-soft { syntax: '<color>'; inherits: true; initial-value: #0a0f0c; }
-    @property --border { syntax: '<color>'; inherits: true; initial-value: #10241a; }
-    @property --border-bright { syntax: '<color>'; inherits: true; initial-value: #1d4a2f; }
-    @property --text { syntax: '<color>'; inherits: true; initial-value: #d8e4dc; }
-    @property --text-muted { syntax: '<color>'; inherits: true; initial-value: #7d8f85; }
-    @property --text-body { syntax: '<color>'; inherits: true; initial-value: #a9b8af; }
-    @property --green { syntax: '<color>'; inherits: true; initial-value: #00ff41; }
-    @property --green-dim { syntax: '<color>'; inherits: true; initial-value: #00b32e; }
-    @property --cyan { syntax: '<color>'; inherits: true; initial-value: #00e5ff; }
-    @property --nav-bg { syntax: '<color>'; inherits: true; initial-value: rgba(1, 2, 3, 0.94); }
-    @property --scroll-track { syntax: '<color>'; inherits: true; initial-value: #050805; }
-    @property --panel-bg { syntax: '<color>'; inherits: true; initial-value: #050805; }
-    html.theme-anim { transition: --bg 0.7s ease, --bg-soft 0.7s ease, --border 0.7s ease, --border-bright 0.7s ease, --text 0.7s ease, --text-muted 0.7s ease, --text-body 0.7s ease, --green 0.7s ease, --green-dim 0.7s ease, --cyan 0.7s ease, --nav-bg 0.7s ease, --scroll-track 0.7s ease, --panel-bg 0.7s ease; }
-    html.theme-anim .project-art, html.theme-anim .row-thumb img, html.theme-anim .rafale-visual canvas,
-    html.theme-anim #holo, html.theme-anim .org-logo, html.theme-anim .ia-stage { transition: filter 0.7s ease, background 0.7s ease, opacity 0.7s ease; }
-    /* the side covers are screenshots, which can't blend: they slide out, swap, and slide back */
-    html.covers-away .edge-tabs:not(.left) { translate: 110% 0 !important; opacity: 0 !important; }
-    html.covers-away .edge-tabs.left { translate: -110% 0 !important; opacity: 0 !important; }
-    html.theme-anim .edge-tabs { transition: translate 0.32s cubic-bezier(.4, 0, .2, 1), opacity 0.32s !important; }
+    /* Theme switch: the browser snapshots the page before and after and cross-fades the two on the GPU,
+       so the whole page darkens or lightens smoothly without repainting anything per frame. */
+    ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.6s; animation-timing-function: cubic-bezier(.4, 0, .2, 1); mix-blend-mode: normal; }
     /* theme toggle in the menu bar */
     .theme-toggle { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 11px; margin-left: 18px; border-radius: 8px;
       border: 1px solid var(--border-bright); color: var(--green); font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; line-height: 1; flex: none; white-space: nowrap; }
@@ -4149,6 +4130,6 @@
       }
     }
   </script>
-  <script src="/assets/theme.js?v=6" defer></script>
+  <script src="/assets/theme.js?v=7" defer></script>
 </body>
 </html>
