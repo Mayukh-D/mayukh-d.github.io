@@ -31,22 +31,22 @@ I'm a machine learning engineer and architect: from training generative models f
 ## Projects
 ### Image Generation with Machine Learning
 Flow matching from first principles: comparing v- vs x-prediction across data dimensions (x-prediction stays stable where v-prediction collapses), plus a MeanFlow implementation with Jacobian-vector-product targets.
-Tech: Python · PyTorch HD
+Tech: Python · PyTorch High Distinction
 Links: Image Generation with Machine Learning: https://github.com/Mayukh-D/image-generation-with-machine-learning | tl;dr: https://mayukhdas.com/#tldr-flow | report: https://mayukhdas.com/assets/reports/flow-matching-report.pdf | code: https://github.com/Mayukh-D/image-generation-with-machine-learning
 
 ### GPT from Scratch (nanoGPT)
 A 30M-parameter GPT built from scratch in PyTorch and trained on just 3.7M tokens of five-sentence stories, testing depth vs width and RoPE + RMSNorm (25.77 → 24.67 PPL), plus DPO fine-tuning, in the data-scarce regime.
-Tech: Python · PyTorch · CUDA HD
+Tech: Python · PyTorch · CUDA High Distinction
 Links: GPT from Scratch (nanoGPT): https://github.com/Mayukh-D/story-generation-nanoGPT | tl;dr: https://mayukhdas.com/#tldr-nanogpt | demo · ~1 min to wake: https://huggingface.co/spaces/Mayukh1999/nanogpt-story-generator | report: https://mayukhdas.com/assets/reports/nanogpt-report.pdf | code: https://github.com/Mayukh-D/story-generation-nanoGPT
 
 ### Transformers' Revenge
 Stress-testing minGRU's "Were RNNs All We Needed?" claims against a LLaMA-recipe Transformer and a causal gMLP on algorithmic reasoning: a 27-experiment grid showing where each architecture breaks, plus a phase transition in Transformer copy learning.
-Tech: Jupyter · PyTorch HD
+Tech: Jupyter · PyTorch High Distinction
 Links: Transformers' Revenge: https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge | tl;dr: https://mayukhdas.com/#tldr-transformers | write-up: https://mayukhdas.com//work/transformers-revenge/ | report: https://mayukhdas.com/assets/reports/transformers-revenge.pdf | code: https://github.com/Mayukh-D/Deep-Learning-Transformers-Revenge
 
 ### FoodLens · Smart Food Scanner
 A PWA for sustainable food shopping: real-time barcode scanning, live product lookup via Open Food Facts, allergen/expiry/carbon flagging, and A/B interaction logging for HCI research.
-Tech: JavaScript · PWA HD
+Tech: JavaScript · PWA High Distinction
 Links: FoodLens · Smart Food Scanner: https://github.com/Mayukh-D/foodlens-ar-sustainable-shopping | tl;dr: https://mayukhdas.com/#tldr-foodlens | demo: https://foodlens-f281.onrender.com | code: https://github.com/Mayukh-D/foodlens-ar-sustainable-shopping
 
 ### Lantern · Screen Sync for a A$49 Light
@@ -76,12 +76,12 @@ Links: This Website: https://github.com/Mayukh-D/mayukh-d.github.io | tl;dr: htt
 
 ### Yuma Social Platform
 A native Android social app (post feed, reactions, DMs, and admin moderation) applying Singleton, Factory, and Iterator patterns across a layered DAO architecture.
-Tech: Java · Android HD
+Tech: Java · Android High Distinction
 Links: Yuma Social Platform: https://github.com/Mayukh-D/yuma-social-platform | tl;dr: https://mayukhdas.com/#tldr-yuma | code: https://github.com/Mayukh-D/yuma-social-platform
 
 ### HCI Design & Research
 A portfolio of human-computer interaction work, including prototyping and AR system evaluation.
-Tech: Portfolio HD
+Tech: Portfolio High Distinction
 Links: HCI Design & Research: https://github.com/Mayukh-D/hci-design-and-research | tl;dr: https://mayukhdas.com/#tldr-hci | code: https://github.com/Mayukh-D/hci-design-and-research
 
 ### GrowthScope · First Hackathon
@@ -293,7 +293,7 @@ Allergens are matched to your profile A generic allergen list makes you do the m
 Expiry follows how fast you actually eat It starts from an average, then switches to your own measured pace once you log what was left. Personal beats generic.
 Waste comes before carbon In the study, tangible outcomes like food waste changed behaviour more than an abstract carbon number, so the design leads with them.
 It's a web app, not an install Nobody installs an app to check one yoghurt. A phone-first PWA opens from a link and works on the spot.
-live demo → code →
+live demo (first load ~30s) → code →
 GrowthScope: the benchmark I kept on purpose
 The rebuilt forecast, scored on the three months it never saw.
 My first hackathon and my first vibe-coded app. It looked finished. A year later I found it analysed only 41% of its own demo data, because Australian day-first dates were silently dropped. I keep it as a benchmark of the gap between looking finished and being thought through.
@@ -301,7 +301,7 @@ The forecast tells you how wrong it is It reports its own error on months it did
 Unusual days, without crying wolf The anomaly detector was tuned to raise no alarms on random data, because a detector you learn to ignore is worse than none.
 Your columns, your names Flexible column mapping means a shop's own spreadsheet works as it is, instead of being reformatted to suit the tool.
 A check runs before every push Tests and a gate have to pass first. It's how the 41% bug would have been caught the first time.
-live demo → code →
+live demo (first load ~30s) → code →
 The thread
 None of these is big. Each started from something that annoyed me, and each decision was made so that the person using it never has to wonder why. That's the bar: thoughtful enough to be effortless.
 everything on GitHub →
@@ -362,6 +362,7 @@ My two jobs since ANU are new ground in both directions: systems engineering at 
 The difference is independence. When I ask what to implement, the answer is that it is mine to decide. I am in the driver's seat. I learned agentic frameworks along the way, and the work became human-in-the-loop: the tools do more of the building, while the judgement about what to build, and whether it is right, stays with me.
 Before, my job was the answer. Now it starts with the question.
 In September 2026 we took the Eccoi work to Parliament House, exhibiting at the Inaugural Australian AI Parliamentary Showcase. I wrote about that day separately.
+My internship pitch: architecting SAICOP, the Sovereign AI Community of Practice.
 The thread
 Engineering taught me structure. Cognizant proved I could build. Accenture taught me how real machine learning runs. The jobs since ANU are teaching me the part no one can hand over: deciding what should be built at all.
 full experience on the main page → resume →
@@ -403,6 +404,7 @@ URL: https://mayukhdas.com/work/transformers-revenge/
 work/transformers-revenge
 Transformers' Revenge: where "Were RNNs All We Needed?" breaks
 A recent paper showed that a minimal recurrent model, minGRU, matches Transformers on language modelling while training in linear time. We asked whether that still holds when a task needs genuine algorithmic reasoning, and wrote down what we expected before running anything.
+The 5-minute presentation: Vibhansh sets up the question, Daniel the experiments, and I explain the results.
 The question
 Language modelling mostly rewards local statistical patterns, where even simple models do well. The tasks that separate architectures are the ones that need content-based retrieval : using what you see now as a query to find something specific from earlier. minGRU's gates depend only on the current input, which suggested it could not do this at all. We wanted to test that precisely, and to find where each architecture's limits are.
 The setup
