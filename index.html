@@ -27,7 +27,7 @@
       if (localStorage.getItem('theme') === 'light') document.documentElement.dataset.theme = 'light';
     } catch (e) {}
   </script>
-  <link rel="stylesheet" href="assets/deep.css?v=4">
+  <link rel="stylesheet" href="assets/deep.css?v=5">
   <style>
     :root {
       --bg: #010203;
@@ -1193,12 +1193,17 @@
     /* theme toggle in the menu bar */
     .theme-toggle { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 11px; margin-left: 18px; border-radius: 8px;
       border: 1px solid var(--border-bright); color: var(--green); font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; line-height: 1; flex: none; white-space: nowrap; }
+    /* laptops: terminal symbols with the word (* light, < dark); narrower screens: the drawn sun or moon alone */
+    .theme-toggle .tt-sym { font-weight: 700; }
+    .theme-toggle .tt-ico { display: none; }
     .theme-toggle .tt-ico { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
     /* pinned to the far right of the bar, mirroring the logo on the far left */
     .theme-toggle { position: absolute; right: 22px; top: 50%; transform: translateY(-50%); margin-left: 0; z-index: 1; }
     @media (max-width: 1100px) {
       .theme-toggle { position: static; transform: none; margin-left: 12px; padding: 0 9px; }
       .theme-toggle .tt-word { display: none; }   /* narrower windows: the icon alone, the label stays in its tooltip */
+      .theme-toggle .tt-sym { display: none; }
+      .theme-toggle .tt-ico { display: block; }
       .nav-links { gap: 14px; }
     }
     @media (min-width: 861px) and (max-width: 980px) { .nav-links { gap: 9px; } .nav-links a { font-size: 0.8rem; } .nav-mark { margin-right: 10px; } }
@@ -1234,7 +1239,7 @@
         <a href="#beyond">beyond</a>
         <a href="#contact">contact</a>
       </div>
-      <button class="theme-toggle" type="button" aria-label="Switch to light mode" title="Light mode"><svg class="tt-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg><span class="tt-word">light</span></button>
+      <button class="theme-toggle" type="button" aria-label="Switch to light mode" title="Light mode"><span class="tt-sym" aria-hidden="true">*</span><svg class="tt-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg><span class="tt-word">light</span></button>
     </div>
     <div class="read-bar" aria-hidden="true"><i class="rb-fill"></i><span class="rb-ticks"></span></div>
   </nav>
