@@ -996,6 +996,8 @@
       background: rgba(1, 2, 3, 0.86); backdrop-filter: blur(10px); border: 0; border-bottom: 1px solid var(--border);
       padding: 14px 24px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted); }
     .deep-close:hover { color: var(--green); }
+    .deep-close:focus { outline: none; }   /* no system-coloured ring when the panel opens */
+    .deep-close:focus-visible { color: var(--green); box-shadow: inset 3px 0 0 var(--green); }
     /* Laptop: the tabs are a loose fan of page covers (real screenshots), tilted and overlapping
        at the right edge. Hover straightens one, lifts it to the top, lights it and slides it in
        about a centimetre; a click grows it from there into the full page. */
