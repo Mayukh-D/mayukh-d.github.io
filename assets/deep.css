@@ -191,6 +191,3 @@ html[data-theme="light"] .deep .demo { --bg: #010203; --bg-soft: #0a0f0c; --bord
 .deep-bar .theme-toggle .tt-ico { display: none; }
 @media (max-width: 1100px) { .deep-bar .theme-toggle .tt-sym, .deep-bar .theme-toggle .tt-word { display: none; } .deep-bar .theme-toggle .tt-ico { display: block; } }
 
-/* theme switch: the circle reveal replaces the default cross-fade; the fallback fades colours */
-::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
-html.theme-fading, html.theme-fading body, html.theme-fading * { transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, fill 0.4s ease, stroke 0.4s ease !important; }

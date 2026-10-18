@@ -14,21 +14,24 @@
     try { localStorage.setItem('theme', root.dataset.theme || 'dark'); } catch (e) {}
     sync();
   };
-  // The new theme spreads out from the button as a growing circle; browsers without
-  // view transitions get a short cross-fade instead, and reduced motion gets an instant switch.
+  // A soft dip: a veil in the target colour fades in, the theme flips underneath it, and the veil fades out.
+  // Only one layer's opacity animates, so it stays smooth even with the canvases running.
+  const veil = document.createElement('div');
+  veil.setAttribute('aria-hidden', 'true');
+  Object.assign(veil.style, { position: 'fixed', inset: '0', zIndex: '9999', pointerEvents: 'none', opacity: '0', transition: 'opacity 220ms ease' });
+  document.body.append(veil);
+  let busy = false;
   document.querySelectorAll('.theme-toggle').forEach(btn => btn.addEventListener('click', () => {
+    if (busy) return;
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return flip();
-    if (!document.startViewTransition) {
-      root.classList.add('theme-fading'); flip();
-      setTimeout(() => root.classList.remove('theme-fading'), 450);
-      return;
-    }
-    const b = btn.getBoundingClientRect(), x = b.left + b.width / 2, y = b.top + b.height / 2;
-    const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
-    document.startViewTransition(flip).ready.then(() => {
-      root.animate({ clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${r}px at ${x}px ${y}px)`] },
-        { duration: 650, easing: 'cubic-bezier(.4, 0, .2, 1)', pseudoElement: '::view-transition-new(root)' });
-    });
+    busy = true;
+    veil.style.background = root.dataset.theme === 'light' ? '#010203' : '#ecf4ed';
+    requestAnimationFrame(() => { veil.style.opacity = '1'; });
+    setTimeout(() => {
+      flip();
+      requestAnimationFrame(() => requestAnimationFrame(() => { veil.style.transition = 'opacity 320ms ease'; veil.style.opacity = '0'; }));
+      setTimeout(() => { veil.style.transition = 'opacity 220ms ease'; busy = false; }, 360);
+    }, 230);
   }));
   sync();
 })();
