@@ -793,6 +793,23 @@
     @media (prefers-reduced-motion: reduce) {
       .row-body, .row-inner, .row-inner > *, .row-chev, .row-thumb { transition: none !important; }
     }
+    /* Lantern card: pick a screen, the LED bar beside the monitor takes its main colour */
+    .lantern-demo { position: relative; z-index: 1; background: #0a0f0c; border: 1px solid var(--border); padding: 10px 12px 12px; }
+    .lz-stage { display: block; width: 100%; height: auto; }
+    .lz-line { fill: none; stroke: #00ff41; stroke-width: 1.4; stroke-linecap: round; filter: drop-shadow(0 0 3px rgba(0, 255, 65, 0.5)); }
+    .lz-scene { opacity: 0; transition: opacity 0.45s ease; }
+    .lz-scene.on { opacity: 1; }
+    .lz-bar { fill: var(--lz); transition: fill 0.6s ease; }
+    .lz-glow { fill: var(--lz); opacity: 0.28; filter: blur(14px); transition: fill 0.6s ease; }
+    .lz-thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+    .lz-thumb { all: unset; cursor: pointer; display: block; aspect-ratio: 16 / 9; border-radius: 5px; overflow: hidden; border: 1px solid #1d4a2f; opacity: 0.7; transition: opacity 0.2s, border-color 0.2s, box-shadow 0.2s; }
+    .lz-thumb svg { display: block; width: 100%; height: 100%; }
+    .lz-thumb:hover, .lz-thumb:focus-visible { opacity: 1; border-color: #00b32e; }
+    .lz-thumb.on { opacity: 1; border-color: #00ff41; box-shadow: 0 0 10px rgba(0, 255, 65, 0.4); }
+    html[data-theme="light"] .lantern-demo { background: #f2f8f3; }
+    html[data-theme="light"] .lz-line { stroke: #00b32e; filter: none; }
+    html[data-theme="light"] .lz-thumb { border-color: #8dbf9c; }
+    html[data-theme="light"] .lz-thumb.on { border-color: #00b32e; box-shadow: 0 0 8px rgba(0, 179, 46, 0.4); }
     .lang-dot { width: 9px; height: 9px; border-radius: 50%; box-shadow: 0 0 6px currentColor; }
     .lang-python { background: #3572A5; color: #3572A5; }
     .lang-jupyter { background: #DA5B0B; color: #DA5B0B; }
@@ -1595,7 +1612,18 @@
           </div>
         </div>
         <div class="project-card reveal" data-scroll>
-          <img class="project-art" src="assets/cards/lantern.svg" alt="" loading="lazy" width="476" height="132">
+<div class="lantern-demo project-art" style="--lz:#ff8a3d">
+            <svg class="lz-stage" viewBox="0 0 300 132" aria-hidden="true">
+              <ellipse class="lz-glow" cx="244" cy="66" rx="34" ry="58"/>
+              <rect class="lz-line" x="30" y="10" width="168" height="98" rx="5"/>
+              <g class="lz-scene on" data-i="0"><svg x="34" y="14" width="160" height="90" viewBox="0 0 160 90" preserveAspectRatio="xMidYMid slice"><rect width="160" height="90" fill="#ff8a3d"/><rect y="52" width="160" height="38" fill="#c2541b"/><circle cx="110" cy="44" r="16" fill="#ffd27a"/><path d="M0 70 L40 56 L80 66 L120 52 L160 62 V90 H0Z" fill="#7a2f0e"/></svg></g><g class="lz-scene" data-i="1"><svg x="34" y="14" width="160" height="90" viewBox="0 0 160 90" preserveAspectRatio="xMidYMid slice"><rect width="160" height="90" fill="#1f9d4a"/><rect width="160" height="34" fill="#9be3b2"/><path d="M20 90 L38 40 L56 90Z M60 90 L82 30 L104 90Z M106 90 L126 44 L146 90Z" fill="#0d5c2a"/></svg></g><g class="lz-scene" data-i="2"><svg x="34" y="14" width="160" height="90" viewBox="0 0 160 90" preserveAspectRatio="xMidYMid slice"><rect width="160" height="90" fill="#2f8fff"/><rect width="160" height="36" fill="#a7d3ff"/><path d="M0 50 Q20 44 40 50 T80 50 T120 50 T160 50 V90 H0Z" fill="#1559b8"/><path d="M0 66 Q20 60 40 66 T80 66 T120 66 T160 66 V90 H0Z" fill="#0d3f86"/></svg></g><g class="lz-scene" data-i="3"><svg x="34" y="14" width="160" height="90" viewBox="0 0 160 90" preserveAspectRatio="xMidYMid slice"><rect width="160" height="90" fill="#2a0a3d"/><rect x="18" y="30" width="22" height="60" fill="#c43dff"/><rect x="48" y="16" width="26" height="74" fill="#8f1fd6"/><rect x="82" y="38" width="20" height="52" fill="#c43dff"/><rect x="110" y="24" width="30" height="66" fill="#a12be8"/><circle cx="136" cy="12" r="5" fill="#ff7af2"/></svg></g>
+              <path class="lz-line" d="M100 108 V118 M84 122 H130"/>
+              <rect class="lz-bar" x="238" y="14" width="12" height="104" rx="6"/>
+              <rect class="lz-line" x="238" y="14" width="12" height="104" rx="6"/>
+              <path class="lz-line" d="M226 124 H262"/>
+            </svg>
+            <div class="lz-thumbs" role="group" aria-label="Pick a screen"><button type="button" class="lz-thumb on" data-c="#ff8a3d" aria-label="Show the sunset scene" aria-pressed="true"><svg viewBox="0 0 160 90" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="160" height="90" fill="#ff8a3d"/><rect y="52" width="160" height="38" fill="#c2541b"/><circle cx="110" cy="44" r="16" fill="#ffd27a"/><path d="M0 70 L40 56 L80 66 L120 52 L160 62 V90 H0Z" fill="#7a2f0e"/></svg></button><button type="button" class="lz-thumb" data-c="#3dff7a" aria-label="Show the forest scene" aria-pressed="false"><svg viewBox="0 0 160 90" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="160" height="90" fill="#1f9d4a"/><rect width="160" height="34" fill="#9be3b2"/><path d="M20 90 L38 40 L56 90Z M60 90 L82 30 L104 90Z M106 90 L126 44 L146 90Z" fill="#0d5c2a"/></svg></button><button type="button" class="lz-thumb" data-c="#2f8fff" aria-label="Show the ocean scene" aria-pressed="false"><svg viewBox="0 0 160 90" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="160" height="90" fill="#2f8fff"/><rect width="160" height="36" fill="#a7d3ff"/><path d="M0 50 Q20 44 40 50 T80 50 T120 50 T160 50 V90 H0Z" fill="#1559b8"/><path d="M0 66 Q20 60 40 66 T80 66 T120 66 T160 66 V90 H0Z" fill="#0d3f86"/></svg></button><button type="button" class="lz-thumb" data-c="#c43dff" aria-label="Show the neon scene" aria-pressed="false"><svg viewBox="0 0 160 90" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="160" height="90" fill="#2a0a3d"/><rect x="18" y="30" width="22" height="60" fill="#c43dff"/><rect x="48" y="16" width="26" height="74" fill="#8f1fd6"/><rect x="82" y="38" width="20" height="52" fill="#c43dff"/><rect x="110" y="24" width="30" height="66" fill="#a12be8"/><circle cx="136" cy="12" r="5" fill="#ff7af2"/></svg></button></div>
+          </div>
           <h3><a class="card-link" href="https://github.com/Mayukh-D/lantern" target="_blank" rel="noopener">Lantern · Screen Sync for a A$49 Light</a></h3>
           <p>A Mac menu bar app that makes a cheap Bluetooth LED bar follow whatever is on screen, the feature Philips Hue sells for about A$550. I reverse-engineered the light's Bluetooth commands, calibrated LED colour against the screen, and shipped it with a website and a release.</p>
           <p class="project-outcome">The Hue screen-sync feature on a A$49 light.</p>
@@ -4183,5 +4211,17 @@
     }
   </script>
   <script src="/assets/theme.js?v=8" defer></script>
+  <script>
+    // Lantern card: clicking a scene puts it on the monitor and the bar fades to its colour
+    (() => {
+      const demo = document.querySelector('.lantern-demo'); if (!demo) return;
+      demo.querySelectorAll('.lz-thumb').forEach((b, i) => b.addEventListener('click', e => {
+        e.preventDefault(); e.stopPropagation();
+        demo.style.setProperty('--lz', b.dataset.c);
+        demo.querySelectorAll('.lz-thumb').forEach(x => { x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', String(x === b)); });
+        demo.querySelectorAll('.lz-scene').forEach(g => g.classList.toggle('on', +g.dataset.i === i));
+      }));
+    })();
+  </script>
 </body>
 </html>
