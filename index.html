@@ -27,7 +27,7 @@
       if (localStorage.getItem('theme') === 'light') document.documentElement.dataset.theme = 'light';
     } catch (e) {}
   </script>
-  <link rel="stylesheet" href="assets/deep.css?v=6">
+  <link rel="stylesheet" href="assets/deep.css?v=7">
   <style>
     :root {
       --bg: #010203;
@@ -50,13 +50,13 @@
     }
     /* Light mode: only when the visitor flips the toggle in the menu (never from the system setting). */
     html[data-theme="light"] {
-      --bg: #f5f7f4;
-      --bg-soft: #ffffff;
-      --border: #d7e2da;
-      --border-bright: #a9c7b3;
+      --bg: #ecf4ed;
+      --bg-soft: #f7fcf8;
+      --border: #c4dccb;
+      --border-bright: #8dbf9c;
       --text: #0e1a13;
-      --text-muted: #56675d;
-      --text-body: #2c3b32;
+      --text-muted: #466a52;
+      --text-body: #203d2b;
       --green: #076628;
       --green-dim: #0a7a31;
       --green-soft: rgba(7, 102, 40, 0.08);
@@ -64,9 +64,9 @@
       --cyan: #00788a;
       --cyan-soft: rgba(0, 120, 138, 0.1);
       --red: #c8102e;
-      --nav-bg: rgba(245, 247, 244, 0.94);
-      --scroll-track: #e9eee9;
-      --panel-bg: #ffffff;
+      --nav-bg: rgba(236, 244, 237, 0.94);
+      --scroll-track: #dfeee2;
+      --panel-bg: #f7fcf8;
       color-scheme: light;
     }
     /* Dark page, dark scrollbars: without this the browser draws its light default. */
