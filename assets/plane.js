@@ -118,7 +118,9 @@
     egg.append(renderer.domElement);
 
     // a camera that maps 1 world unit to 1 css pixel on the z = 0 plane, so frame one matches the page
-    const fov = 30, camera = new T.PerspectiveCamera(fov, W / H, 1, 20000);
+    // near = 200 (not 1): the paper sits ~1500 away, and a tight near plane spends depth precision there,
+    // which stops stacked layers flickering through each other
+    const fov = 30, camera = new T.PerspectiveCamera(fov, W / H, 200, 15000);
     camera.position.z = (H / 2) / Math.tan(fov * Math.PI / 360);
     const scene = new T.Scene();
     scene.add(new T.AmbientLight(0xffffff, 0.72));
@@ -138,7 +140,7 @@
     const portrait = H >= W, w = portrait ? W : H, h = portrait ? H : W;
     // canonical paper coords: x across (centre crease at 0), y from the nose (0) to the tail (h)
     const C = portrait ? (x, y) => [x, H / 2 - y] : (x, y) => [W / 2 - y, -x];
-    const DZ = 0.6;   // gap between stacked layers
+    const DZ = 1.2;   // gap between stacked layers
 
     function build(f) {
       const g = new T.BufferGeometry(), pos = [], uv = [];
