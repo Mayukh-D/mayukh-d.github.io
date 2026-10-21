@@ -3487,6 +3487,13 @@
           window.makeDapper(true); scrollTo({ top: 0, behavior: 'smooth' });
           line('', 'Sketching a top hat, monocle, moustache and tie onto the portrait. Very distinguished.'); return;
         }
+        if (/\bplanes?\b/i.test(q)) {
+          line('', 'Folding the page...');
+          const go = () => window.paperPlane && window.paperPlane(close);
+          if (window.paperPlane) go();
+          else { const s = document.createElement('script'); s.src = 'assets/plane.js?v=1'; s.onload = go; document.head.append(s); }
+          return;
+        }
         if (c === 'exit' || c === 'quit') { close(); return; }
         if (COMMANDS[c] && (rest.length === 0 || c === 'ls' || c === 'cat')) { line('', COMMANDS[c](arg)); return; }
         ask(q);
