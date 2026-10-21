@@ -64,10 +64,10 @@ A Mac menu bar app that shows one number: total page views for this website, rea
 Tech: Swift · SwiftUI
 Links: SiteViews · Views in the Menu Bar: https://github.com/Mayukh-D/siteviews | tl;dr: https://mayukhdas.com/#tldr-siteviews | install: https://github.com/Mayukh-D/siteviews/releases/latest | code: https://github.com/Mayukh-D/siteviews
 
-### TokenEater · Multi-Account Fork
-An unofficial fork of a macOS menu bar app that tracks Claude usage, adding a second Claude account as a provider of its own across the menu bar, popover, dashboard and Studio. Proposed upstream as pull request #284. For everyday use, get the official TokenEater .
+### TokenEater · Multi-Account
+Multi-account support for a macOS menu bar app that tracks Claude usage: every Claude account as a provider of its own across the menu bar, popover, dashboard and Studio. Built in my fork, contributed upstream as pull request #284, and rebuilt on my commits by the maintainer. Get it in the official TokenEater .
 Tech: Swift · SwiftUI
-Links: TokenEater · Multi-Account Fork: https://github.com/Mayukh-D/TokenEater | official TokenEater: https://github.com/AThevon/TokenEater | tl;dr: https://mayukhdas.com/#tldr-tokeneater | build: https://github.com/Mayukh-D/TokenEater/releases | code: https://github.com/Mayukh-D/TokenEater
+Links: TokenEater · Multi-Account: https://github.com/AThevon/TokenEater/pull/284 | official TokenEater: https://github.com/AThevon/TokenEater/releases | tl;dr: https://mayukhdas.com/#tldr-tokeneater | build: https://github.com/Mayukh-D/TokenEater/releases | code: https://github.com/Mayukh-D/TokenEater
 
 ### This Website
 A portfolio that behaves like a terminal: an AI you can ask about me, answering only from what these pages say; scroll-driven animation; and write-ups that each come with something to play with.
@@ -280,14 +280,16 @@ A dark scene doesn't switch the room off Black often covers most of a film frame
 Colours look right, not pastel A screen and an LED mix light differently. A calibration tool showed that gamma, not saturation, fixes it; the full story is in a note.
 The calibration tool ships with the app My numbers suit my bar. Another bar will need its own, so the tuning tool is part of the app instead of my values being hard-coded.
 the full write-up → the gamma note → website → code →
-TokenEater, multi-account: two accounts, no confusion
+TokenEater, multi-account
 Both Claude accounts side by side (organisation names blurred).
-TokenEater is an open-source menu bar app that tracks Claude usage, for one account. I use two, personal and work, so I made it track both.
+TokenEater is an open-source menu bar app that tracks Claude usage, for one account. I use two, personal and work, so I built multi-account support, and it's on its way into the official app.
+It went upstream as pull request #284 AThevon, the maintainer, kept my per-account usage store, the dashboard column and the Keychain token reader, then rebuilt the setup on my commits so it handles any number of accounts. You add each one in Settings and give it a name and colour. The 6.1 beta's release notes credit us both.
 The second account appears everywhere the first does Menu bar, popover, dashboard and Studio. A second account that only shows up in one place is a feature you have to remember exists.
-It never reads your secrets It finds the second login by the Keychain item's presence alone. A usage tracker has no reason to touch credentials, so it doesn't.
-It can't overwrite the official app The fork ships with its own app identity, so installing it never replaces or breaks the real TokenEater, and a clear warning points people to the official version.
-It went upstream, not just sideways I proposed it to the original project as pull request #284, so if it's useful, everyone gets it.
-fork → official app →
+I fixed something else while I was in there Pull request #292: on organisation seats with no monthly limit, extra credits showed 0%. It's merged and ships in 6.1, out now as a beta.
+Now I'm testing his version He shipped a signed beta and asked me to run it on my two accounts, so I'm checking the migration, adding and pausing accounts, and the per-account notifications and widgets.
+Before it lands, there's my fork It has its own app identity, so the official updater never overwrites it, and a red warning points people to the official app.
+AThevon asking me to test the beta built on my commits.
+pull request #284 → official app → fork →
 FoodLens: the right fact at the moment of purchase
 For my ANU HCI final project: scan a barcode in the shop and see what matters to you, before you buy. I built it, ran a study with it, and let the study shape it.
 Allergens are matched to your profile A generic allergen list makes you do the matching in the aisle. FoodLens only alerts on what you said matters to you.
