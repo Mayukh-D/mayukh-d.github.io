@@ -30,7 +30,7 @@
       const cssText = sheet ? await Promise.race([fetch(sheet.href).then(r => r.text()), timeout(1500)]).catch(() => '') : '';
       const canvas = await Promise.race([
         window.modernScreenshot.domToCanvas(document.documentElement, {
-          width: W, height: H, scale: Math.min(devicePixelRatio || 1, 2), backgroundColor: bg,   // full retina sharpness
+          width: W, height: H, scale: Math.min(devicePixelRatio || 1, 1.5), backgroundColor: bg,
           font: cssText ? { cssText } : false, timeout: 1500,   // cap slow fetches: 30s -> about 2s
           style: { transform: `translate(${-scrollX}px, ${-scrollY}px)` },
           // only what is on screen (and fixed bars), not the whole long page
