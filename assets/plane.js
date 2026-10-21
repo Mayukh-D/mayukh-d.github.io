@@ -30,7 +30,7 @@
       const cssText = sheet ? await Promise.race([fetch(sheet.href).then(r => r.text()), timeout(1500)]).catch(() => '') : '';
       const canvas = await Promise.race([
         window.modernScreenshot.domToCanvas(document.documentElement, {
-          width: W, height: H, scale: Math.min(devicePixelRatio || 1, 1.5), backgroundColor: bg,
+          width: W, height: H, scale: Math.min(devicePixelRatio || 1, 2), backgroundColor: bg,   // full retina sharpness
           font: cssText ? { cssText } : false, timeout: 1500,   // cap slow fetches: 30s -> about 2s
           style: { transform: `translate(${-scrollX}px, ${-scrollY}px)` },
           // only what is on screen (and fixed bars), not the whole long page
@@ -124,7 +124,8 @@
     scene.add(new T.AmbientLight(0xffffff, 0.72));
     const sun = new T.DirectionalLight(0xffffff, 0.34); sun.position.set(0.3, 0.6, 1); scene.add(sun);
 
-    const tex = new T.CanvasTexture(shot); tex.encoding = T.sRGBEncoding; tex.anisotropy = 4;
+    const tex = new T.CanvasTexture(shot); tex.encoding = T.sRGBEncoding;
+    tex.anisotropy = renderer.capabilities.getMaxAnisotropy();   // keeps tilted folds crisp
     const front = new T.MeshLambertMaterial({ map: tex, side: T.FrontSide });
     const back = new T.MeshLambertMaterial({ color: 0xf2f5f1, side: T.BackSide });
 
