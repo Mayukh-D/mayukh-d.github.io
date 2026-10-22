@@ -117,7 +117,7 @@
 
   // Folds `shot` into a classic dart and throws it. `rect` is where the sheet sits on screen at the
   // start (css px). With `bg` the layer is opaque (the whole page); without it the page shows through.
-  async function flight({ egg, shot, rect, bg, s, pace = 1, shown, launch }) {
+  async function flight({ egg, shot, rect, bg, s, pace = 1, heading = 1, shown, launch }) {
     const W = innerWidth, H = innerHeight, SW = rect.width, SH = rect.height;
     const T = window.THREE;
     const renderer = new T.WebGLRenderer({ antialias: true, alpha: !bg });
@@ -259,7 +259,7 @@
     const N0 = v3(...C(0, -1)).sub(v3(...C(0, 0))).normalize();       // nose
     const U0 = v3(...C(-1, 0)).sub(v3(...C(0, 0))).normalize();       // from the keel up to the wings
     const basis = (N, U) => new T.Matrix4().makeBasis(N, U, new T.Vector3().crossVectors(N, U));
-    const N1 = new T.Vector3(1, 0.22, -0.55).normalize();
+    const N1 = new T.Vector3(heading, 0.22, -0.55).normalize();   // heading 1 = off to the right, -1 = to the left
     const U1 = new T.Vector3(0, 1, 0.55).sub(N1.clone().multiplyScalar(N1.dot(new T.Vector3(0, 1, 0.55)))).normalize();
     const R = basis(N1, U1).multiply(basis(N0, U0).transpose());
     const q0 = new T.Quaternion(), q1 = new T.Quaternion().setFromRotationMatrix(R), q = new T.Quaternion();
@@ -302,7 +302,7 @@
 
   // One element folds into a plane and flies off; the page stays put underneath.
   // `hide` runs once the paper copy is on screen (or straight away if anything fails), `launch` as it takes off.
-  window.paperPlane.fly = async function (el, { hide, launch, pace = 0.6 } = {}) {
+  window.paperPlane.fly = async function (el, { hide, launch, pace = 0.6, heading = 1 } = {}) {
     let hid = false, went = false;
     const doHide = () => { if (!hid) { hid = true; hide && hide(); } };
     const doLaunch = () => { if (!went) { went = true; launch && launch(); } };
@@ -321,7 +321,7 @@
         timeout(2000),
       ]);
       const egg = overlay();
-      try { await flight({ egg, shot: edged(canvas), rect, s: 0.9, pace, shown: doHide, launch: doLaunch }); }
+      try { await flight({ egg, shot: edged(canvas), rect, s: 0.9, pace, heading, shown: doHide, launch: doLaunch }); }
       finally { egg.remove(); }
     } catch {
       doHide(); doLaunch();
