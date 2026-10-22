@@ -2049,6 +2049,35 @@
     var addr = ['me', 'mayukhdas.com'].join('@');
     el.href = 'mailto:' + addr;
     el.textContent = addr;
+
+    // the paper plane lives in assets/plane.js and loads on demand; the terminal uses this too
+    var plane;
+    window.loadPaperPlane = function () {
+      return plane || (plane = new Promise(function (ok, fail) {
+        if (window.paperPlane && window.paperPlane.fly) return ok();
+        var s = document.createElement('script'); s.src = 'assets/plane.js?v=7';
+        s.onload = ok; s.onerror = function () { plane = null; fail(); };
+        document.head.append(s);
+      }));
+    };
+    var reduce = function () { return matchMedia('(prefers-reduced-motion: reduce)').matches; };
+    var warm = function () { if (!reduce()) window.loadPaperPlane().then(function () { window.paperPlane.preload(); }, function () {}); };
+    ['pointerenter', 'focus', 'touchstart'].forEach(function (t) { el.addEventListener(t, warm, { once: true, passive: true }); });
+
+    // clicking it writes a short note that folds into a paper plane and is sent, then the mail app opens
+    var sending = false;
+    el.addEventListener('click', function (e) {
+      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || reduce()) return;
+      e.preventDefault();
+      if (sending) return;
+      sending = true;
+      var sent = false, send = function () {
+        if (sent) return; sent = true; sending = false;
+        location.href = 'mailto:' + addr;
+      };
+      setTimeout(send, 6000);   // never hold the email back for long
+      window.loadPaperPlane().then(function () { window.paperPlane.letter(el, addr, send); }, send);
+    });
   })();
 
 
@@ -3450,8 +3479,18 @@
         line('sys', 'Type `help` for built-in commands.');
       }
 
-      function open() { panel.hidden = false; greet(); input.focus(); }
+      function open() {
+        panel.hidden = false; greet(); input.focus();
+        if (!matchMedia('(prefers-reduced-motion: reduce)').matches) window.loadPaperPlane().then(() => window.paperPlane.preload(), () => {});
+      }
       function close() { panel.hidden = true; }
+      // the close button folds the terminal into a paper plane and throws it; Esc and `exit` just close
+      let flying = false;
+      function flyAway() {
+        if (panel.hidden || flying) return;
+        flying = true;
+        window.loadPaperPlane().then(() => window.paperPlane.fly(panel, { hide: () => { close(); flying = false; } }), () => { close(); flying = false; });
+      }
 
       async function ask(q) {
         if (!CHAT_ENDPOINT) {
@@ -3489,9 +3528,7 @@
         }
         if (/\bplanes?\b/i.test(q)) {
           line('', 'Folding the page...');
-          const go = () => window.paperPlane && window.paperPlane(close);
-          if (window.paperPlane) go();
-          else { const s = document.createElement('script'); s.src = 'assets/plane.js?v=6'; s.onload = go; document.head.append(s); }
+          window.loadPaperPlane().then(() => window.paperPlane(close), () => {});
           return;
         }
         if (c === 'exit' || c === 'quit') { close(); return; }
@@ -3507,7 +3544,7 @@
       const syncHint = () => hint.classList.toggle('gone', scrollY > 120);
       addEventListener('scroll', syncHint, { passive: true }); syncHint();
       document.querySelectorAll('[data-chat-open]').forEach(el => el.addEventListener('click', e => { e.preventDefault(); open(); }));
-      panel.querySelector('[data-chat-close]').addEventListener('click', close);
+      panel.querySelector('[data-chat-close]').addEventListener('click', flyAway);
     })();
     // tl;dr: each research card's short version. Everything here comes from the
     // project's own report; the full PDF is one click away.

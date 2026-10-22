@@ -21,13 +21,19 @@
     return canvas;
   }
 
+  // The page's Google Fonts sheet is cross-origin, so its @font-face rules are handed over directly.
+  // Fetched once and kept, so later snapshots start straight away.
+  let fonts;
+  const fontCss = () => fonts || (fonts = (async () => {
+    const sheet = document.querySelector('link[href*="fonts.googleapis.com/css"]');
+    return sheet ? Promise.race([fetch(sheet.href).then(r => r.text()), timeout(1500)]).catch(() => '') : '';
+  })());
+
   // What is on screen right now, as a canvas. Falls back to a plain sheet with the name on it.
   async function snapshot(W, H, bg) {
     try {
       await Promise.race([loadScript(SNAP, () => window.modernScreenshot), timeout(4000)]);
-      // the page's Google Fonts sheet is cross-origin, so hand its @font-face rules over directly
-      const sheet = document.querySelector('link[href*="fonts.googleapis.com/css"]');
-      const cssText = sheet ? await Promise.race([fetch(sheet.href).then(r => r.text()), timeout(1500)]).catch(() => '') : '';
+      const cssText = await fontCss();
       const canvas = await Promise.race([
         window.modernScreenshot.domToCanvas(document.documentElement, {
           width: W, height: H, scale: Math.min(devicePixelRatio || 1, 1.5), backgroundColor: bg,
@@ -63,7 +69,18 @@
       font: 500 0.95rem/1.7 'JetBrains Mono', monospace; color: var(--green, #00ff41); opacity: 0; transition: opacity 0.6s; }
     .plane-egg .note.on { opacity: 1; }
     .plane-egg .note button { margin-top: 14px; font: inherit; color: var(--bg, #000); background: var(--green, #00ff41);
-      border: 0; border-radius: 6px; padding: 8px 16px; cursor: pointer; }`;
+      border: 0; border-radius: 6px; padding: 8px 16px; cursor: pointer; }
+    .plane-letter { position: fixed; z-index: 2147482999; display: flex; flex-direction: column; overflow: hidden;
+      background: var(--panel-bg, #050805); border: 1px solid var(--border-bright, #1d4a2f); border-radius: 8px;
+      font: 0.78rem/1.7 'JetBrains Mono', monospace; color: var(--text-muted, #7d8f85);
+      opacity: 0; transform: translateY(12px) scale(0.96); transition: opacity 0.25s, transform 0.25s ease-out; }
+    .plane-letter.on { opacity: 1; transform: none; }
+    .plane-letter .pl-bar { padding: 7px 14px; border-bottom: 1px solid var(--border, #10241a); background: var(--bg-soft, #0a0f0c); color: var(--text-muted, #7d8f85); }
+    .plane-letter p { margin: 0; }
+    .plane-letter .pl-body { flex: 1; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; overflow-wrap: anywhere; }
+    .plane-letter b { display: inline-block; min-width: 4.6em; font-weight: 500; color: var(--green, #00ff41); }
+    .plane-letter .pl-msg { margin-top: 14px; color: var(--text, #d8e4dc); }
+    .plane-letter .pl-cur { margin-top: auto; color: var(--green-dim, #00b32e); }`;
 
   // ---- paper: flat convex faces, each with its place on the sheet (uv) and a stacking layer ----
 
@@ -87,32 +104,26 @@
   }
   const centroid = f => f.pts.reduce((a, p) => [a[0] + p[0] / f.pts.length, a[1] + p[1] / f.pts.length], [0, 0]);
 
-  window.paperPlane = async function (beforeFold) {
-    if (document.querySelector('.plane-egg')) return;
-    const W = innerWidth, H = innerHeight;
-    const bg = getComputedStyle(document.body).backgroundColor || '#000';
-    const [shot] = await Promise.all([snapshot(W, H, bg), loadScript(THREE_URL, () => window.THREE).catch(() => {})]);
-    beforeFold && beforeFold();
+  const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const three = () => loadScript(THREE_URL, () => window.THREE).catch(() => {});
+  let style;
+  function overlay(bg) {
+    if (!style) { style = document.createElement('style'); style.textContent = css; document.head.append(style); }
+    const egg = document.createElement('div'); egg.className = 'plane-egg';
+    if (bg) egg.style.background = bg; else egg.style.pointerEvents = 'none';   // a see-through layer leaves the page usable
+    document.body.append(egg);
+    return egg;
+  }
 
-    const style = document.createElement('style'); style.textContent = css;
-    const egg = document.createElement('div'); egg.className = 'plane-egg'; egg.style.background = bg;
-    document.head.append(style); document.body.append(egg);
-    document.documentElement.style.overflow = 'hidden';
-
-    const end = () => {
-      egg.querySelector('canvas')?.remove();
-      const note = document.createElement('div'); note.className = 'note';
-      note.innerHTML = '&gt; the page flew away.<br>refresh to bring it back<br><button type="button">&#8635; refresh</button>';
-      note.querySelector('button').onclick = () => location.reload();
-      egg.append(note); requestAnimationFrame(() => note.classList.add('on'));
-    };
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches || !window.THREE) return end();
-
+  // Folds `shot` into a classic dart and throws it. `rect` is where the sheet sits on screen at the
+  // start (css px). With `bg` the layer is opaque (the whole page); without it the page shows through.
+  async function flight({ egg, shot, rect, bg, s, pace = 1, shown, launch }) {
+    const W = innerWidth, H = innerHeight, SW = rect.width, SH = rect.height;
     const T = window.THREE;
-    const renderer = new T.WebGLRenderer({ antialias: true });
+    const renderer = new T.WebGLRenderer({ antialias: true, alpha: !bg });
     renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
     renderer.setSize(W, H);
-    renderer.setClearColor(new T.Color(bg));
+    if (bg) renderer.setClearColor(new T.Color(bg)); else renderer.setClearColor(0x000000, 0);
     renderer.outputEncoding = T.sRGBEncoding;
     renderer.domElement.style.opacity = 0;          // shown once the first frame is drawn
     egg.append(renderer.domElement);
@@ -133,13 +144,14 @@
 
     const root = new T.Group(), flyer = new T.Group(), body = new T.Group();
     scene.add(root); root.add(flyer); flyer.add(body);
+    root.position.set(rect.left + SW / 2 - W / 2, H / 2 - rect.top - SH / 2, 0);   // over the element it replaces
 
     // the sheet, in world units (y up), with its long side as the length of the plane
-    let faces = [{ pts: [[-W / 2, -H / 2], [W / 2, -H / 2], [W / 2, H / 2], [-W / 2, H / 2]],
+    let faces = [{ pts: [[-SW / 2, -SH / 2], [SW / 2, -SH / 2], [SW / 2, SH / 2], [-SW / 2, SH / 2]],
                    uv: [[0, 0], [1, 0], [1, 1], [0, 1]], layer: 0 }];
-    const portrait = H >= W, w = portrait ? W : H, h = portrait ? H : W;
+    const portrait = SH >= SW, w = portrait ? SW : SH, h = portrait ? SH : SW;
     // canonical paper coords: x across (centre crease at 0), y from the nose (0) to the tail (h)
-    const C = portrait ? (x, y) => [x, H / 2 - y] : (x, y) => [W / 2 - y, -x];
+    const C = portrait ? (x, y) => [x, SH / 2 - y] : (x, y) => [SW / 2 - y, -x];
     const DZ = 1.2;   // gap between stacked layers
 
     function build(f) {
@@ -164,12 +176,12 @@
     const tween = (ms, fn) => new Promise(done => {
       const t0 = performance.now();
       (function step(now) {
-        const t = Math.min(1, (now - t0) / ms);
+        const t = Math.min(1, (now - t0) / (ms * pace));
         fn(ease(t), t); render();
         t < 1 ? requestAnimationFrame(step) : done();
       })(t0);
     });
-    const wait = ms => new Promise(r => setTimeout(r, ms));
+    const wait = ms => new Promise(r => setTimeout(r, ms * pace));
 
     // One fold of every layer along the line a-b (canonical coords). `toward` is a canonical point
     // on the side that moves. Valley folds come up toward the viewer, mountain folds go behind.
@@ -208,10 +220,10 @@
     }
 
     const t22 = Math.tan(Math.PI / 8);
-    const s = W > 700 ? 0.62 : 0.72;    // the sheet stays big enough to follow every fold
     render(); renderer.domElement.style.opacity = 1;
+    shown && shown();
 
-    // 0) the page lifts off the screen and becomes a sheet of paper
+    // 0) the sheet lifts off the screen
     await tween(700, e => { const k = 1 + (s - 1) * e; root.scale.set(k, k, k); root.rotation.x = -0.12 * e; });
     await wait(120);
     // 1) fold in half lengthwise and open it again: the centre crease
@@ -240,6 +252,7 @@
     await wait(150);
 
     // 10) turn nose-first and fly off into the distance
+    launch && launch();
     const box = new T.Box3().setFromObject(body), mid = box.getCenter(new T.Vector3());
     body.position.copy(mid).multiplyScalar(-1); flyer.position.copy(mid);
     const v3 = (x, y) => new T.Vector3(x, y, 0);
@@ -260,6 +273,74 @@
     });
 
     renderer.dispose(); tex.dispose();
+  }
+
+  // Typing "plane" in the terminal: the whole page folds up and flies away.
+  window.paperPlane = async function (beforeFold) {
+    if (document.querySelector('.plane-egg')) return;
+    const W = innerWidth, H = innerHeight;
+    const bg = getComputedStyle(document.body).backgroundColor || '#000';
+    const [shot] = await Promise.all([snapshot(W, H, bg), three()]);
+    beforeFold && beforeFold();
+
+    const egg = overlay(bg);
+    document.documentElement.style.overflow = 'hidden';
+    const end = () => {
+      egg.querySelector('canvas')?.remove();
+      const note = document.createElement('div'); note.className = 'note';
+      note.innerHTML = '&gt; the page flew away.<br>refresh to bring it back<br><button type="button">&#8635; refresh</button>';
+      note.querySelector('button').onclick = () => location.reload();
+      egg.append(note); requestAnimationFrame(() => note.classList.add('on'));
+    };
+    if (reduced() || !window.THREE) return end();
+    try { await flight({ egg, shot, bg, rect: { left: 0, top: 0, width: W, height: H }, s: W > 700 ? 0.62 : 0.72 }); } catch {}
     end();
+  };
+
+  // Gets both libraries and the fonts ready, so a fold can start the moment it is asked for.
+  window.paperPlane.preload = () => Promise.all([loadScript(SNAP, () => window.modernScreenshot), three(), fontCss()]).catch(() => {});
+
+  // One element folds into a plane and flies off; the page stays put underneath.
+  // `hide` runs once the paper copy is on screen (or straight away if anything fails), `launch` as it takes off.
+  window.paperPlane.fly = async function (el, { hide, launch, pace = 0.6 } = {}) {
+    let hid = false, went = false;
+    const doHide = () => { if (!hid) { hid = true; hide && hide(); } };
+    const doLaunch = () => { if (!went) { went = true; launch && launch(); } };
+    try {
+      if (reduced()) throw 0;
+      const rect = el.getBoundingClientRect();
+      if (!rect.width || !rect.height) throw 0;
+      const bg = getComputedStyle(document.body).backgroundColor || '#000';
+      await Promise.race([window.paperPlane.preload(), timeout(2500)]);
+      if (!window.modernScreenshot || !window.THREE) throw 0;
+      const canvas = await Promise.race([
+        window.modernScreenshot.domToCanvas(el, {
+          scale: Math.min(devicePixelRatio || 1, 2), backgroundColor: bg,
+          font: (await fontCss()) ? { cssText: await fontCss() } : false, timeout: 1000,
+        }),
+        timeout(2000),
+      ]);
+      const egg = overlay();
+      try { await flight({ egg, shot: edged(canvas), rect, s: 0.9, pace, shown: doHide, launch: doLaunch }); }
+      finally { egg.remove(); }
+    } catch {
+      doHide(); doLaunch();
+    }
+  };
+
+  // The email button: a short note pops out of the button, folds into a plane and is sent.
+  window.paperPlane.letter = function (from, addr, send) {
+    const r = from.getBoundingClientRect(), cw = Math.min(280, innerWidth - 32), ch = Math.round(cw * 1.3);
+    const card = document.createElement('div'); card.className = 'plane-letter';
+    card.innerHTML = '<div class="pl-bar">~/new-message</div>' +
+      '<div class="pl-body"><p><b>to</b> ' + addr + '</p><p><b>from</b> you</p><p><b>subject</b> hello</p>' +
+      '<p class="pl-msg">Hi Mayukh,</p><p class="pl-cur">&gt; folding it up and sending</p></div>';
+    const left = Math.max(16, Math.min(innerWidth - cw - 16, r.left + r.width / 2 - cw / 2));
+    const top = Math.max(16, Math.min(innerHeight - ch - 16, r.top - ch - 12));
+    Object.assign(card.style, { left: left + 'px', top: top + 'px', width: cw + 'px', height: ch + 'px' });
+    if (!style) { style = document.createElement('style'); style.textContent = css; document.head.append(style); }
+    document.body.append(card);
+    requestAnimationFrame(() => card.classList.add('on'));
+    setTimeout(() => window.paperPlane.fly(card, { hide: () => card.remove(), launch: send, pace: 0.5 }), 450);
   };
 })();
