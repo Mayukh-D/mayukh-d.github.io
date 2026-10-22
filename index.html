@@ -2055,7 +2055,7 @@
     window.loadPaperPlane = function () {
       return plane || (plane = new Promise(function (ok, fail) {
         if (window.paperPlane && window.paperPlane.fly) return ok();
-        var s = document.createElement('script'); s.src = 'assets/plane.js?v=7';
+        var s = document.createElement('script'); s.src = 'assets/plane.js?v=8';
         s.onload = ok; s.onerror = function () { plane = null; fail(); };
         document.head.append(s);
       }));
@@ -3489,7 +3489,7 @@
       function flyAway() {
         if (panel.hidden || flying) return;
         flying = true;
-        window.loadPaperPlane().then(() => window.paperPlane.fly(panel, { hide: () => { close(); flying = false; } }), () => { close(); flying = false; });
+        window.loadPaperPlane().then(() => window.paperPlane.fly(panel, { heading: -1, hide: () => { close(); flying = false; } }), () => { close(); flying = false; });
       }
 
       async function ask(q) {
