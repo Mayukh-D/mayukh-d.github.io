@@ -37,7 +37,7 @@
     } catch (e) {}
   </script>
   <link rel="stylesheet" href="/assets/lantern-demo.css?v=2">
-  <link rel="stylesheet" href="assets/deep.css?v=17">
+  <link rel="stylesheet" href="assets/deep.css?v=18">
   <style>
     :root {
       --bg: #010203;
@@ -675,6 +675,9 @@
     .note-item:hover h3 { color: var(--green); }
     .note-item p { color: var(--text-body); font-size: 0.85rem; margin: 0 16px 16px; }
     @media (max-width: 860px) { .note-list { grid-template-columns: 1fr; } }
+    /* Videos: the note cards, with a play button for the thumbnail (player styles in deep.css) */
+    .vid-item .yt-play { border-bottom: 1px solid var(--border); }
+    .vid-item .yt-play img { aspect-ratio: auto; border-bottom: 0; }
     /* Projects */
     .projects-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -1300,6 +1303,7 @@
         <a href="#experience">experience</a>
         <a href="#projects">projects</a>
         <a href="#notes">notes</a>
+        <a href="#videos">videos</a>
         <a href="#publications">publications</a>
         <a href="#interests">interests</a>
         <a href="#beyond">beyond</a>
@@ -1831,6 +1835,31 @@
         </a>
       </div>
       <a class="story-link reveal" data-scroll data-deep-link href="/notes/">all notes →</a>
+    </div>
+  </section>
+
+  <section id="videos">
+    <div class="container">
+      <h2 class="reveal" data-scroll>videos</h2>
+      <p class="notes-sub reveal" data-scroll>Pitches, research talks and demos, mostly me talking through the work.</p>
+      <div class="note-list">
+        <div class="note-item vid-item reveal" data-scroll>
+          <button class="yt-play" type="button" data-yt="vkHVOC0f_R8" aria-label="Play: Architecting SAICOP (2:56)"><img src="/assets/videos/pitch.jpg" alt="" loading="lazy"><span class="yt-len">2:56</span></button>
+          <h3>Architecting SAICOP</h3>
+          <p>My internship pitch: architecting SAICOP, the Sovereign AI Community of Practice, at Eccoi.</p>
+        </div>
+        <div class="note-item vid-item reveal" data-scroll>
+          <button class="yt-play" type="button" data-yt="xmpeI2wWs6M" aria-label="Play: FoodLens, AR glasses vs phone (5:03)"><img src="/assets/videos/foodlens.jpg" alt="" loading="lazy"><span class="yt-len">5:03</span></button>
+          <h3>FoodLens: AR glasses vs phone</h3>
+          <p>Does the right fact at the moment of purchase change what students buy? The study, the app and what we found.</p>
+        </div>
+        <div class="note-item vid-item reveal" data-scroll>
+          <button class="yt-play" type="button" data-yt="sdzHHno41x4" aria-label="Play: A smartwatch for macaws (7:50)"><img src="/assets/videos/macaw-watch.jpg" alt="" loading="lazy"><span class="yt-len">7:50</span></button>
+          <h3>A smartwatch for macaws</h3>
+          <p>A paper prototype for a wearer with a beak: buttons, a pressure-sensitive screen and flight-first features.</p>
+        </div>
+      </div>
+      <a class="story-link reveal" data-scroll data-deep-link href="/videos/">all videos →</a>
     </div>
   </section>
 
@@ -3857,6 +3886,22 @@
       });
       addEventListener('scroll', () => peek.classList.remove('on'), { passive: true });
     })();
+    // Videos: press play and the thumbnail becomes the player, so YouTube loads nothing until then.
+    // /videos/ carries the same handler for when it is opened on its own; the flag keeps it to one.
+    if (!window.__ytPlay) {
+      window.__ytPlay = true;
+      document.addEventListener('click', e => {
+        const b = e.target.closest('button[data-yt]');
+        if (!b) return;
+        const f = document.createElement('div'), i = document.createElement('iframe');
+        f.className = 'yt-frame';
+        i.src = 'https://www.youtube-nocookie.com/embed/' + b.dataset.yt + '?autoplay=1&rel=0';
+        i.title = b.getAttribute('aria-label').replace(/^Play: /, '');
+        i.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+        i.allowFullscreen = true;
+        f.appendChild(i); b.replaceWith(f); i.focus();
+      });
+    }
     // Deep pages: fetch the page, swing it in from the right edge, and give it its own URL.
     // Visiting /work/<page>/ or /notes/<page>/ directly serves the same page standalone.
     (() => {
@@ -3927,7 +3972,7 @@
       }));
       // Links inside a deep page (e.g. the notes list) stay in the panel.
       host.addEventListener('click', e => {
-        const a = e.target.closest('a[href^="/work/"], a[href^="/notes/"], a[href^="/jobs/"], a[href^="/projects/"], a[href^="/research/"]');
+        const a = e.target.closest('a[href^="/work/"], a[href^="/notes/"], a[href^="/videos/"], a[href^="/jobs/"], a[href^="/projects/"], a[href^="/research/"]');
         if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
         e.preventDefault(); open(a.getAttribute('href'), true);
       });
