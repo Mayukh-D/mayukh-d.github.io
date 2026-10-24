@@ -17,6 +17,8 @@ jobs:
         with:
           python-version: "3.12"
       - run: python .github/scripts/scholar.py
+        env:
+          SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
       - name: Commit if changed
         run: |
           if git diff --quiet -- assets/scholar.json index.html; then exit 0; fi
