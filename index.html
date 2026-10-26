@@ -1019,7 +1019,10 @@
        Only from 1181px, where the left fan shows too; narrower windows get the small tabs on both sides. */
     @media (min-width: 1000px) and (min-aspect-ratio: 1/1) and (min-height: 600px) {
       /* covers scale with the window, like the hologram: bigger on big screens, smaller on small */
-      .edge-tabs { --tw: clamp(180px, min(19vw, 30vh), 340px); --peek: 0.47; gap: 0; width: calc(var(--tw) * var(--peek)); align-items: flex-start; top: 66px; transform: none; }
+      /* each fan fills the height under the nav: the covers grow with the window's height (a stack of four is about 2.13 covers tall),
+         up to a quarter of its width, and whatever height is left over spreads them apart, so there is never a gap underneath */
+      .edge-tabs { --tw: clamp(180px, min(25vw, (100vh - 96px) / 2.13), 380px); --peek: 0.47; gap: 0; width: calc(var(--tw) * var(--peek)); align-items: flex-start;
+        top: 70px; height: calc(100vh - 92px); justify-content: space-between; transform: none; }
       .edge-tab { writing-mode: horizontal-tb; flex: none; position: relative; width: var(--tw); height: calc(var(--tw) * 0.652); padding: 0;
         margin: calc(var(--tw) * -0.06) 0; transform: translateX(var(--dx, 0)) rotate(var(--tilt, -6deg)); overflow: hidden;
         border: 6px solid #0b0f0d; border-radius: 16px; outline: 1px solid var(--border-bright); outline-offset: -1px;
@@ -1045,7 +1048,7 @@
       .edge-tabs { --peek: 0.44; }
       .et-label { letter-spacing: 0; padding: 3px 6px; left: 8px; }
       .et-label::before { content: none; }   /* no ~/ here, so the whole label fits on the narrower strip */
-      .nav-left .ask-hint { left: 14px; }   /* clear of the left fan */
+      .nav-left .ask-hint { left: 34px; }   /* clear of the left fan */
     }
     @media (max-width: 640px) { .edge-tab { font-size: 0.66rem; padding: 12px 6px 12px 5px; } .edge-tabs { top: 42%; } }
     /* Profiles: the same fan mirrored on the left edge, opening GitHub and LinkedIn in a new tab.
