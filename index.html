@@ -1019,10 +1019,10 @@
        Only from 1181px, where the left fan shows too; narrower windows get the small tabs on both sides. */
     @media (min-width: 1000px) and (min-aspect-ratio: 1/1) and (min-height: 600px) {
       /* covers scale with the window, like the hologram: bigger on big screens, smaller on small */
-      /* each fan fills the height under the nav: the covers grow with the window's height (a stack of four is about 2.13 covers tall),
-         up to a quarter of its width, and whatever height is left over spreads them apart, so there is never a gap underneath */
-      .edge-tabs { --tw: clamp(180px, min(25vw, (100vh - 96px) / 2.13), 380px); --peek: 0.47; gap: 0; width: calc(var(--tw) * var(--peek)); align-items: flex-start;
-        top: 70px; height: calc(100vh - 92px); justify-content: space-between; transform: none; }
+      /* each fan fills the top 70% of the window, leaving the bottom corners to the satellite: the covers grow with the window's height
+         (a stack of four is about 2.13 covers tall), up to a quarter of its width, and whatever height is left over spreads them apart */
+      .edge-tabs { --tw: clamp(150px, min(25vw, (70vh - 76px) / 2.13), 380px); --peek: 0.47; gap: 0; width: calc(var(--tw) * var(--peek)); align-items: flex-start;
+        top: 70px; height: calc(70vh - 70px); justify-content: space-between; transform: none; }
       .edge-tab { writing-mode: horizontal-tb; flex: none; position: relative; width: var(--tw); height: calc(var(--tw) * 0.652); padding: 0;
         margin: calc(var(--tw) * -0.06) 0; transform: translateX(var(--dx, 0)) rotate(var(--tilt, -6deg)); overflow: hidden;
         border: 6px solid #0b0f0d; border-radius: 16px; outline: 1px solid var(--border-bright); outline-offset: -1px;
