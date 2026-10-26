@@ -15,9 +15,14 @@ optional "ask me anything" terminal, backed by a small Cloudflare Worker in
 ## What's in it
 
 The page runs top to bottom as a single scroll: about, skills, experience, projects,
-education, publications, student roles, internships, interests, beyond_the_terminal, and
-contact. Two hand-rolled canvas pieces carry the visual identity, and everything else is
-CSS.
+education, notes, videos, publications, student roles, internships, interests,
+beyond_the_terminal, and contact. Two hand-rolled canvas pieces carry the visual identity,
+and everything else is CSS.
+
+Around the scroll, a few things stay put: page covers on both edges (profiles on the left,
+deep dives on the right), the U-TAE hologram in the bottom-right corner, and a menu bar whose
+prompt opens the ask-me-anything terminal. A deep dive swings in over the page with its own
+URL, and research cards open a short tl;dr in a terminal window.
 
 ### Defence and geopolitics
 
@@ -58,9 +63,52 @@ Three papers on AI in material science, blockchain, and electric propulsion, wit
 
 ### Mobile
 
-The layout collapses to a single column and the nav trims to a contact link.
+The layout collapses to a single column, the nav trims to a contact link, and the page
+covers become slim labelled tabs on each edge that tuck away while you read. The switch is
+by shape, not width: anything taller than it is wide gets the tabs.
 
 <img src="assets/screenshots/mobile-hero.png" alt="Mobile hero" width="320">
+
+## Architecture
+
+The page is one `index.html` for the markup, seven stylesheets and fifteen small scripts,
+each a single component with a header saying what it does and what it shares. The full
+write-up, with a table of every file, is in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md);
+the three diagrams below are the short version.
+
+### The page at a glance
+
+Broad shapes only: what is where on a laptop and on a phone, and what opens above the page.
+
+![The page at a glance](docs/images/page-layout.png)
+
+### How it loads
+
+There is no bundler, so the order of the tags in `index.html` is the architecture. A tiny
+`boot.js` runs before the first paint; the stylesheets follow in cascade order (later layers
+may override earlier ones); and the scripts sit just after the markup they need.
+
+![How the page loads](docs/images/load-order.png)
+
+### Components and dependencies
+
+A UML component view. Each box is one file; `+ name` is a global or function it offers to the
+others, and the dashed arrows are the only places one component reaches into another. All
+seven stylesheets read their colours and fonts from the tokens in `base.css`, which is also
+where the terminal-window look shared by the skill notes, the tl;dr and the chat lives.
+
+![Components and dependencies](docs/images/components-uml.png)
+
+| Layer | Files | Job |
+|---|---|---|
+| Styles | `base`, `nav`, `hero`, `content`, `overlays`, `motion`, `theme-light` | Tokens and shared pieces, then each region of the page, then animation, then light mode |
+| Boot | `boot.js` | Pre-paint setup and `window.Site`, the helpers the scripts share |
+| Page | `contact-email`, `hero`, `space-wake`, `reading`, `rafale`, `reveals`, `hologram` | Everything in and around the scroll |
+| Overlays | `skills`, `chat`, `tldr`, `other-projects`, `videos`, `deep-pages` | Things that open: notes, dialogs, players, deep dives |
+| Module | `interests-3d` | 3D models in the interest cards, with three.js loaded only when needed |
+
+The diagrams are drawn from HTML in [`docs/diagrams/`](docs/diagrams/); open one in a browser
+and take a 2x screenshot to regenerate its image.
 
 ## Implementation notes
 
@@ -77,6 +125,12 @@ The layout collapses to a single column and the nav trims to a contact link.
   for the hero and a polling fallback for the case where fonts land late.
 - **Reduced motion.** Both canvases render a single static frame and the reveals resolve
   immediately when `prefers-reduced-motion: reduce` is set.
+- **Edge tabs by screen shape.** Landscape screens from 1000 x 600 get fans of real page
+  screenshots, sized to fill the top 76% of the window and capped at a quarter of its width,
+  so they never cover the hologram. Portrait screens get slim labelled tabs. Scrolling down
+  tucks either kind to a sliver; scrolling up brings them back.
+- **Light mode.** Opt-in from the menu, never from the system setting. The switch is a view
+  transition, so the browser cross-fades two snapshots on the GPU instead of repainting.
 - **Email.** The contact address is assembled in JavaScript at runtime rather than sitting
   in the markup, which keeps it away from the simpler scrapers.
 - **Typography.** Inter and JetBrains Mono from Google Fonts, preconnected. Everything else
@@ -85,18 +139,23 @@ The layout collapses to a single column and the nav trims to a contact link.
 ## Layout
 
 ```
-index.html                  the page markup; loads everything below in order
-docs/ARCHITECTURE.md        page diagram, what each component does, UML
-favicon.ico
+index.html                  the page markup; loads everything else in order
+projects/ research/ jobs/   the deep dives behind the edge tabs (also real pages)
+notes/ videos/ work/        1 AM notes, videos and project write-ups
 assets/
   css/                      seven stylesheets by layer: base, nav, hero, content, overlays, motion, theme-light
   js/                       one script per component (boot, hero, rafale, hologram, chat, deep-pages, ...)
-  mayukh.jpg                hero portrait
-  og-image.png              social card
-  favicon.svg, favicon-32.png, apple-touch-icon.png
-  Mayukh_Das_Resume.pdf
+  deep.css, theme.js        shared with the deep-dive pages
+  plane.js                  the paper plane, loaded on demand
+  mayukh-full.webp          hero cut-out
+  tabs/, logos/, cards/     edge-tab screenshots, organisation logos, project art
   reports/                  project write-ups linked from the projects section
-  screenshots/              the images used in this README
+  screenshots/              the page screenshots in this README
+chat-worker/                the ask-me-anything backend (Cloudflare Worker)
+docs/
+  ARCHITECTURE.md           how the pieces fit, with a table of every file
+  images/                   the architecture diagrams in this README
+  diagrams/                 the HTML those diagrams are drawn from
 ```
 
 ## Running it locally

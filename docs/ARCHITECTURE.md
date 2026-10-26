@@ -6,32 +6,13 @@ under `assets/css/` and `assets/js/`, which the page loads in a fixed order.
 
 ## The page at a glance
 
-Broad shapes only. On laptops and landscape tablets the edge tabs are fans of page covers; on
-phones and portrait screens they are slim labelled tabs.
+Broad shapes only: what is where on a laptop and on a phone, and what opens above the page.
 
-```
-┌──────────────────────────────────────────────────────────────────────┐
-│ NAV   prompt (opens chat)          section links          theme key  │
-├───────┬──────────────────────────────────────────────────────┬───────┤
-│       │                                                      │       │
-│ LEFT  │  HERO                                                │ RIGHT │
-│ EDGE  │  portrait · WELCOME · name · tagline · buttons       │ EDGE  │
-│ TABS  │                                                      │ TABS  │
-│       ├──────────────────────────────────────────────────────┤       │
-│ prof- │  SECTIONS (one column, scrolls)                      │ deep  │
-│ iles  │  about · skills · experience · projects · education  │ dives │
-│       │  notes · videos · publications · roles · interests   │       │
-│       │  beyond · contact                                    │       │
-│       ├──────────────────────────────────────────────────────┤       │
-│       │  RAFALE BAND (full width)                            │       │
-│       ├──────────────────────────────────────────────────────┤ ┌─────┤
-│       │  FOOTER                                              │ │HOLO-│
-└───────┴──────────────────────────────────────────────────────┴─┴GRAM─┘
-
-Above the page, opened on demand:  DEEP PANEL (a deep dive swings in) · TL;DR DIALOG · CHAT TERMINAL
-```
+![The page at a glance](images/page-layout.png)
 
 ## How the page loads
+
+![How the page loads](images/load-order.png)
 
 1. **`assets/js/boot.js`** runs first, in `<head>`, before anything paints: it marks `html.js`,
    restores light mode if the visitor chose it, starts the hero intro once the portrait and fonts
@@ -90,103 +71,13 @@ where they are.
 
 ## UML: components and dependencies
 
-```mermaid
-classDiagram
-  direction LR
+Each box is one file; `+ name` is a global or function it offers to the others. Solid arrows
+load, dashed arrows are «use»: reading a global, calling a function, or fetching. Uses of
+`Site` are listed inside `boot.js` rather than drawn, to keep the picture readable.
 
-  class index_html["index.html"] {
-    <<page>>
-    markup and data-* hooks
-  }
+![Components and dependencies](images/components-uml.png)
 
-  namespace Styles {
-    class base_css["base.css"] {
-      <<stylesheet>>
-      tokens: colours, --mono, --sans
-      terminal-window primitive
-    }
-    class nav_css["nav.css"]
-    class hero_css["hero.css"]
-    class content_css["content.css"]
-    class overlays_css["overlays.css"]
-    class motion_css["motion.css"]
-    class theme_light_css["theme-light.css"]
-  }
-
-  namespace Scripts {
-    class Site {
-      <<global, boot.js>>
-      +COVERS
-      +coversActive() bool
-      +reducedMotion() bool
-    }
-    class contact_email["contact-email.js"] {
-      +loadPaperPlane() Promise
-    }
-    class hero_js["hero.js"] {
-      +makeDapper(want)
-    }
-    class space_wake["space-wake.js"] {
-      +wakeStoryGenerator()
-    }
-    class reading_js["reading.js"]
-    class rafale_js["rafale.js"]
-    class reveals_js["reveals.js"]
-    class hologram_js["hologram.js"]
-    class skills_js["skills.js"] {
-      +SKILL_NOTES
-    }
-    class chat_js["chat.js"]
-    class tldr_js["tldr.js"] {
-      +TLDR
-      +openTldr(key)
-    }
-    class other_projects["other-projects.js"]
-    class videos_js["videos.js"]
-    class deep_pages["deep-pages.js"]
-    class interests_3d["interests-3d.js"] {
-      <<module>>
-    }
-  }
-
-  class plane_js["assets/plane.js"] {
-    <<lazy>>
-    paperPlane
-  }
-  class chat_worker["chat-worker (Cloudflare)"] {
-    <<external>>
-    POST /chat
-  }
-  class threejs["three.js (CDN)"] {
-    <<external>>
-  }
-  class profile_builder["chat-worker/build-profile.mjs"] {
-    <<build tool>>
-  }
-
-  index_html --> base_css : loads in order
-  index_html --> Site : boot.js first, then the scripts in order
-
-  nav_css ..> base_css : tokens
-  hero_css ..> base_css : tokens
-  content_css ..> base_css : tokens
-  overlays_css ..> base_css : tokens, terminal window
-  theme_light_css ..> base_css : overrides
-
-  contact_email ..> plane_js : loads on demand
-  chat_js ..> skills_js : SKILL_NOTES
-  chat_js ..> contact_email : loadPaperPlane()
-  chat_js ..> chat_worker : questions
-  deep_pages ..> Site : coversActive()
-  hero_js ..> Site : reducedMotion()
-  reveals_js ..> Site : reducedMotion()
-  interests_3d ..> Site : reducedMotion()
-  interests_3d ..> threejs : import() when near
-  reading_js ..> overlays_css : toggles .fans-tucked
-  profile_builder ..> index_html : reads page text
-  profile_builder ..> skills_js : reads SKILL_NOTES
-  profile_builder ..> rafale_js : reads flight notes
-```
+The images are drawn from the HTML in [`diagrams/`](diagrams/).
 
 ## Conventions
 
