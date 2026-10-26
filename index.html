@@ -1047,16 +1047,20 @@
     /* each profile tab carries its logo: green like the rest of the page, the brand's own colour on hover */
     .et-logo { width: 18px; height: 18px; fill: currentColor; display: block; flex: none; transition: fill 0.2s; }
     .edge-tabs.left .edge-tab:hover .et-logo, .edge-tabs.left .edge-tab:focus-visible .et-logo, .edge-tabs.left .edge-tab:active .et-logo { fill: var(--brand, currentColor); }
-    /* phones, tablets and small laptop windows: small square logo tabs on the left edge, in place of the two hero buttons */
+    /* phones, tablets and small laptop windows: the profiles are labelled tabs on the left edge, the same shape as the
+       deep-dive tabs on the right (mirrored), in place of the two hero buttons */
     @media (max-width: 1180px) {
       .edge-tabs.left { display: flex; right: auto; left: 0; align-items: flex-start; }
-      .edge-tabs.left .edge-tab { writing-mode: horizontal-tb; transform: none; padding: 9px 9px 9px 7px;
-        border-right: 1px solid var(--border-bright); border-left: 0; border-radius: 0 8px 8px 0; box-shadow: 4px 0 18px rgba(var(--acc-rgb), 0.08); }
-      .edge-tabs.left .edge-tab::before { content: none; }
-      .edge-tabs.left .edge-tab:hover, .edge-tabs.left .edge-tab:focus-visible { padding: 9px 13px 9px 7px; }
-      .edge-tabs.left .et-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+      .edge-tabs.left .edge-tab { border-left: 0; border-right: 1px solid var(--border-bright); border-radius: 8px 0 0 8px;
+        box-shadow: 4px 0 18px rgba(var(--acc-rgb), 0.08); }
+      .edge-tabs.left .edge-tab::before { content: none; }   /* other sites, so no ~/ */
+      .edge-tabs.left .edge-tab:hover, .edge-tabs.left .edge-tab:focus-visible { box-shadow: 6px 0 24px rgba(var(--acc-rgb), 0.22); }
       .hero-profile { display: none; }
+      /* both sides: the icon sits at the top of the tab, upright, with the label reading up beneath it */
+      .edge-tab .et-label { display: inline-flex; align-items: center; gap: 7px; }
+      .edge-tab .et-logo, .edge-tab .et-ico { display: block; order: 2; width: 14px; height: 14px; transform: rotate(180deg); }
     }
+    @media (max-width: 640px) { .edge-tab .et-logo, .edge-tab .et-ico { width: 12px; height: 12px; } }
     @media (min-width: 1181px) {
       /* same height and reach as the right-hand fan, mirrored; only the stacking differs */
       .edge-tabs.left { display: flex; right: auto; left: 0; align-items: flex-end; }
@@ -1079,17 +1083,8 @@
       /* this fan piles downward, so each cover shows its bottom strip: the label sits there */
       .edge-tabs.left .et-label { left: auto; right: 10px; top: auto; bottom: 8px; }
     }
-    /* the deep-dive tabs get a line icon, shown only when they are small squares */
+    /* the deep-dive tabs get a line icon, shown only on the small labelled tabs */
     .et-ico { display: none; width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-    /* below 1181px the right tabs match the left logo squares: same size, mirrored onto the right edge */
-    @media (max-width: 1180px) {
-      .edge-tabs:not(.left) .edge-tab { writing-mode: horizontal-tb; transform: none; padding: 9px 7px 9px 9px;
-        border: 1px solid var(--border-bright); border-right: 0; border-radius: 8px 0 0 8px; }
-      .edge-tabs:not(.left) .edge-tab::before { content: none; }
-      .edge-tabs:not(.left) .edge-tab:hover, .edge-tabs:not(.left) .edge-tab:focus-visible { padding: 9px 7px 9px 13px; }
-      .edge-tabs:not(.left) .et-ico { display: block; }
-      .edge-tabs:not(.left) .et-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-    }
     @media (prefers-reduced-motion: reduce) { .deep-panel.swing-in, .deep-panel.swing-out { animation-duration: 0.01s; } }
 
     /* Ask-me-anything terminal: opens from the blinking prompt in the nav. */
