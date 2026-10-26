@@ -1,0 +1,293 @@
+/* hero.css
+   The first screen: the cut-out portrait behind the WELCOME outline, name glitch, rotating and typed lines,
+   the intro split, the scroll push-in, the "make me dapper" sketch, and the fixed bottom-right hologram.
+   Entrance animations live in motion.css. Behaviour: assets/js/hero.js, assets/js/hologram.js.
+*/
+
+/* Hero */
+header {
+  min-height: 100svh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 90px 24px 60px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-bigword {
+  position: absolute; top: 46%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--mono);
+  font-weight: 800;
+  font-size: clamp(5rem, 21vw, 17rem);
+  letter-spacing: 0.02em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(var(--acc-rgb), 0.42);
+  user-select: none; pointer-events: none;
+  white-space: nowrap;
+  z-index: 0;
+}
+/* Full-length portrait standing behind WELCOME: the outline letters cross in front of him.
+   Lit to sit in the scene: colour graded to the dark room, a green rim light from the
+   letters on his edges, shade towards the floor, and a contact shadow under his feet. */
+.hero-photo-wrap { z-index: 51 !important; }
+.hero-photo-wrap { position: absolute; left: 50%; top: 5.5svh; bottom: auto; height: 86svh; aspect-ratio: 575 / 1800;
+  transform: translateX(-50%); z-index: 0; pointer-events: none; }
+.hero-photo { width: 100%; height: 100%; display: block; position: relative; z-index: 1;
+  filter: saturate(0.88) contrast(1.06) brightness(0.97); }
+/* rim light and shade, clipped to his silhouette */
+.hero-photo-wrap::after { content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  -webkit-mask: url(/assets/mayukh-full.webp?v=4) center / 100% 100% no-repeat; mask: url(/assets/mayukh-full.webp?v=4) center / 100% 100% no-repeat;
+  background:
+    linear-gradient(90deg, rgba(0, 255, 90, 0.22), rgba(0, 255, 90, 0) 5%, rgba(0, 255, 90, 0) 95%, rgba(0, 255, 90, 0.2)),   /* a thin rim only: the new crop puts the arms at the edges */
+    linear-gradient(180deg, rgba(0, 40, 14, 0) 45%, rgba(0, 12, 4, 0.55) 100%);
+  opacity: 0.6; }
+/* glow of the room behind him, and the floor he stands on */
+.hero-photo-wrap::before { content: ''; position: absolute; left: -45%; right: -45%; top: 2%; bottom: -1%; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 34% 2.6% at 50% 98.6%, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0) 100%),
+    radial-gradient(ellipse 48% 5% at 50% 98.5%, rgba(var(--acc-rgb), 0.12), rgba(var(--acc-rgb), 0) 100%),
+    radial-gradient(ellipse 42% 34% at 50% 34%, rgba(var(--acc-rgb), 0.13), rgba(var(--acc-rgb), 0.04) 55%, transparent 75%); }
+/* "make me dapper": the suit turns to green velvet and cream under the sketched coat */
+.hero-regal { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease 0.3s; }
+.hero-photo-wrap.regal .hero-regal { opacity: 1; }
+.hero-bigword { z-index: 52; }
+/* rotating word: slides up out, the next slides up in */
+.rot { display: inline-block; color: var(--green); text-shadow: 0 0 14px rgba(var(--acc-rgb), 0.45), 0 0 12px #000; transition: transform 0.32s cubic-bezier(.5, 0, .2, 1), opacity 0.32s, filter 0.32s; }
+.rot.out { transform: translateY(-0.5em); opacity: 0; filter: blur(3px); }
+.rot.pre { transform: translateY(0.5em); opacity: 0; filter: blur(3px); transition: none; }
+/* experience headline, big swapping type in the Valentin spirit */
+.xp-big { font-family: var(--mono); font-weight: 800; text-transform: uppercase; line-height: 1.02;
+  font-size: clamp(2rem, 6.4vw, 4.6rem); letter-spacing: -0.03em; color: var(--text); margin: 6px 0 46px; }
+.xp-big .rot { text-shadow: 0 0 22px rgba(var(--acc-rgb), 0.35); }
+.xp-big .xp-dim { color: transparent; -webkit-text-stroke: 1.2px rgba(var(--acc-rgb), 0.5); }
+/* intro: a green scan line draws across, then the screen splits open on it */
+.scan-intro { position: absolute; inset: 0; z-index: 300; pointer-events: none; }
+.scan-intro i { position: absolute; left: 0; right: 0; height: 50%; background: var(--bg); }   /* the shutters match the page, so light mode opens on light */
+.scan-intro .si-top { top: 0; } .scan-intro .si-bot { bottom: 0; }
+.scan-intro .si-line { position: absolute; left: 0; top: 50%; height: 2px; width: 100%; margin-top: -1px; transform-origin: left; transform: scaleX(0);
+  background: var(--green); box-shadow: 0 0 12px var(--green), 0 0 34px rgba(var(--acc-rgb), 0.6); }
+.scan-intro i, .scan-intro .si-line { will-change: transform; }
+.intro-go .scan-intro .si-line { animation: si-draw 0.55s cubic-bezier(.7, 0, .3, 1) 0.15s forwards, si-fade 0.35s ease 0.95s forwards; }
+.intro-go .scan-intro .si-top { animation: si-up 0.75s cubic-bezier(.75, 0, .2, 1) 0.72s forwards; }
+.intro-go .scan-intro .si-bot { animation: si-down 0.75s cubic-bezier(.75, 0, .2, 1) 0.72s forwards; }
+.intro-go .scan-intro { animation: si-gone 0s linear 1.6s forwards; }
+.no-js .scan-intro, html:not(.js) .scan-intro { display: none; }
+@keyframes si-draw { to { transform: scaleX(1); } }
+@keyframes si-fade { to { opacity: 0; } }
+@keyframes si-up { to { transform: translateY(-101%); } }
+@keyframes si-down { to { transform: translateY(101%); } }
+@keyframes si-gone { to { visibility: hidden; } }
+/* scroll push-in: the camera moves towards him as the hero scrolls away */
+/* both are centred with translate(-50%); an origin of 0 is their visual centre, so they grow evenly */
+header { --word-max: 1.55; --me-max: 1.16; }
+/* phones get a gentler push */
+@media (max-width: 860px), (pointer: coarse) { header { --word-max: 1.2; --me-max: 1.08; } }
+.hero-photo-wrap { scale: var(--push-me, 1); transform-origin: 0 30%; will-change: scale; }
+/* WELCOME is drawn once at its largest size and shrunk to its starting size, so growing it
+   only ever scales a finished picture: no redrawing of the outlined letters, and no blur. */
+.hero-bigword { font-size: calc(clamp(5rem, 21vw, 17rem) * var(--word-max));
+  -webkit-text-stroke-width: calc(1.5px * var(--word-max)); text-shadow: none;   /* no glow: WELCOME sits in front of the portrait and the glow tinted it green */
+  scale: calc(var(--push-word, 1) / var(--word-max)); transform-origin: 0 0; will-change: scale; }
+/* Where the browser can tie an animation to the scroll position itself, the push runs off the
+   main thread and tracks the finger exactly. The script further down is only the fallback. */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-bigword { animation: push-word linear both; animation-timeline: scroll(root block); animation-range: 0 100svh; }
+    .hero-photo-wrap { animation: push-me linear both; animation-timeline: scroll(root block); animation-range: 0 100svh; }
+  }
+}
+@keyframes push-word { from { scale: calc(1 / var(--word-max)); } to { scale: 1; } }
+@keyframes push-me { from { scale: 1; } to { scale: var(--me-max); } }
+@media (prefers-reduced-motion: reduce) {
+  .scan-intro { display: none; }
+  .hero-photo-wrap { scale: 1; }
+  .hero-bigword { scale: calc(1 / var(--word-max)); }
+}
+
+header > :not(.hero-photo-wrap):not(.hero-bigword):not(.scan-intro) { position: relative; z-index: 52; }
+h1.hero-name { margin-top: 36svh !important; }
+.hero-type, .hero-thesis, .hero-tagline { text-shadow: 0 0 12px #000, 0 0 26px #000, 0 0 40px #000; }
+@media (max-width: 640px) {
+  .hero-photo-wrap { height: 73svh; bottom: auto; top: 64px; }
+  .hero-photo { -webkit-mask-image: linear-gradient(180deg, #000 45%, transparent 85%); mask-image: linear-gradient(180deg, #000 45%, transparent 85%); }
+  .hero-photo-wrap::after { -webkit-mask: none; mask: none; background: none; }
+  .hero-photo-wrap::before { bottom: auto; height: 60%; background: radial-gradient(ellipse 42% 50% at 50% 50%, rgba(var(--acc-rgb), 0.13), transparent 75%); }
+  h1.hero-name { margin-top: 40svh !important; }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Easter egg: a hat, monocle and moustache sketched onto the portrait. */
+.dapper-btn {
+  position: absolute; left: 66%; top: 2%; z-index: 3; pointer-events: auto;
+  font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.04em;
+  color: #8dffae; background: none; border: 0; padding: 4px 8px; cursor: pointer;
+  text-shadow: 0 0 8px rgba(var(--acc-rgb), 0.45); opacity: 0.8; white-space: nowrap;
+}
+.dapper-btn::before { content: '> '; opacity: 0.6; }
+@media (max-width: 640px) { .dapper-btn { left: 62%; top: 1%; } }
+.dapper-btn:hover { opacity: 1; text-decoration: underline dotted; }
+.dapper {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  overflow: visible; pointer-events: none; z-index: 2;
+  filter: drop-shadow(0 0 3px rgba(var(--acc-rgb), 0.9)) drop-shadow(0 0 10px rgba(var(--acc-rgb), 0.35));
+}
+.dapper path {
+  fill: none; stroke: #39ff6a; stroke-width: 9; stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: var(--len); stroke-dashoffset: var(--len);
+}
+/* the regal coat: gold thread, green velvet, white lace */
+.dapper path.gold { stroke: #e8c46a; }
+.dapper path.thin { stroke-width: 5; }
+.dapper path.velvet, .dapper path.lace, .dapper path.goldfill { fill-opacity: 0; transition: fill-opacity 0.5s ease var(--fill-delay, 0s); }
+.dapper path.velvet { fill: url(#velvet); }
+.dapper path.lace { fill: #f1eee2; }
+.dapper path.goldfill { fill: #c99a3c; }
+.dapper path.bow { fill: #0c5a2a; fill-opacity: 0; transition: fill-opacity 0.5s ease 3.5s; }
+.dapper.on path.bow { fill-opacity: 0.93; }
+.dapper.off path.bow { transition: fill-opacity 0.25s ease-in; }
+.dapper.on path.velvet { fill-opacity: 0.94; }
+.dapper.on path.lace { fill-opacity: 0.9; }
+.dapper.on path.goldfill { fill-opacity: 0.95; }
+.dapper.off path { transition: stroke-dashoffset 0.35s ease-in, fill-opacity 0.25s ease-in; }
+.dapper.dapper-back { z-index: 0; }
+.dapper.dapper-flat { filter: none; }
+.dapper-flat path.lace { stroke: none; stroke-dasharray: none; }
+.dapper-back path.fold { stroke-width: 5.5; opacity: 0.8; }
+.dapper-back .cape-fill { fill: rgba(var(--acc-rgb), 0.1); stroke: none; fill-opacity: 0; transition: fill-opacity 0.8s ease 1.2s; }
+.dapper-back.on .cape-fill { fill-opacity: 1; }
+.dapper-back .cape-fill { fill: rgba(var(--acc-rgb), 0.07); fill-opacity: 0; transition: fill-opacity 0.6s ease 0.2s; }
+.dapper-back.on .cape-fill { fill-opacity: 1; }
+@keyframes cape-sway { 0%, 100% { transform: skewX(-1.2deg); } 50% { transform: skewX(1.2deg); } }
+@media (prefers-reduced-motion: reduce) { .dapper-back.on .cape-sway { animation: none; } }
+.dapper.on path { stroke-dashoffset: 0; transition: stroke-dashoffset var(--dur) cubic-bezier(.45,.05,.4,1) var(--delay); }
+.dapper.off path { transition: stroke-dashoffset 0.35s ease-in; }
+
+h1.hero-name {
+  font-family: var(--mono);
+  font-weight: 800;
+  font-size: clamp(2.6rem, 9vw, 6rem);
+  letter-spacing: -0.02em; line-height: 1;
+  margin-top: calc(-0.55em);
+  position: relative; z-index: 52;
+  color: var(--text);
+  text-shadow: 0 0 30px rgba(var(--acc-rgb), 0.35);
+  text-transform: uppercase;
+}
+/* RGB-split glitch on the name */
+.glitch { position: relative; display: inline-block; }
+.glitch::before, .glitch::after {
+  content: attr(data-text);
+  position: absolute; inset: 0;
+  overflow: hidden; pointer-events: none;
+}
+.glitch::before {
+  color: var(--red); z-index: -1;
+  animation: glitch-a 3.2s infinite steps(1);
+}
+.glitch::after {
+  color: var(--cyan); z-index: -2;
+  animation: glitch-b 3.2s infinite steps(1);
+}
+@keyframes glitch-a {
+  0%, 91%, 100% { transform: none; clip-path: inset(0 0 0 0); opacity: 0; }
+  92% { transform: translate(-4px, 2px); clip-path: inset(10% 0 55% 0); opacity: 1; }
+  94% { transform: translate(3px, -1px);  clip-path: inset(60% 0 12% 0); opacity: 1; }
+  96% { transform: translate(-2px, 0);   clip-path: inset(30% 0 40% 0); opacity: 1; }
+  98% { transform: none; clip-path: inset(0 0 0 0); opacity: 0; }
+}
+@keyframes glitch-b {
+  0%, 91%, 100% { transform: none; clip-path: inset(0 0 0 0); opacity: 0; }
+  92% { transform: translate(4px, -2px); clip-path: inset(55% 0 10% 0); opacity: 1; }
+  94% { transform: translate(-3px, 1px); clip-path: inset(12% 0 60% 0); opacity: 1; }
+  96% { transform: translate(2px, 0);    clip-path: inset(40% 0 30% 0); opacity: 1; }
+  98% { transform: none; clip-path: inset(0 0 0 0); opacity: 0; }
+}
+
+.hero-type {
+  font-family: var(--mono);
+  color: var(--green); font-size: clamp(0.82rem, 2.4vw, 1rem);
+  margin-top: 20px; min-height: 1.6em;
+  text-shadow: 0 0 10px rgba(var(--acc-rgb),0.5);
+}
+.hero-type .prompt { color: var(--text-muted); }
+.hero-type .cursor {
+  display: inline-block; width: 9px; height: 1.1em;
+  background: var(--green); vertical-align: text-bottom;
+  animation: blink 1s steps(1) infinite;
+}
+.hero-tagline {
+  color: var(--text-body);
+  max-width: 560px; margin-top: 18px;
+  font-size: 0.98rem;
+}
+.hero-tagline strong { color: var(--text); font-weight: 600; }
+.hero-thesis {
+  font-size: clamp(1.05rem, 2.2vw, 1.3rem); font-weight: 600; color: var(--text);
+  margin: 14px auto 0; max-width: 780px; text-align: center; letter-spacing: -0.01em;
+}
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 30px; }
+.btn {
+  font-family: var(--mono);
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 22px; border-radius: 4px;
+  font-size: 0.85rem; font-weight: 500; text-decoration: none;
+  transition: all 0.2s;
+}
+.btn-primary {
+  background: var(--green); color: #000;
+  box-shadow: 0 0 18px rgba(var(--acc-rgb), 0.35);
+}
+.btn-primary:hover { box-shadow: 0 0 32px rgba(var(--acc-rgb), 0.65); }
+.btn-ghost { border: 1px solid var(--border-bright); color: var(--green); }
+.btn-ghost:hover { background: var(--green-soft); border-color: var(--green); }
+
+/* in the flow, right after the buttons: it can never land on them, whatever the screen height */
+.scroll-hint {
+  position: relative; display: block; width: max-content; margin: 26px auto 0;
+  font-family: var(--mono); font-size: 0.72rem;
+  color: var(--text-muted); letter-spacing: 0.2em;
+  animation: bob 2s ease-in-out 5;
+}
+@keyframes bob { 50% { transform: translateY(6px); } }
+
+
+/* ==== Hologram (U-TAE wireframe, bottom-right) ==== */
+
+/* Hologram corner canvas */
+#holo-wrap {
+  position: fixed; right: 18px; bottom: 14px; z-index: 30;
+  width: min(380px, 27vw); height: min(292px, 20.7vw);
+  pointer-events: none;
+}
+#holo { width: 100%; height: 100%; display: block; }
+#holo-wrap::after {
+  /* hologram scanlines */
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg,
+    rgba(0, 229, 255, 0.05) 0px, rgba(0, 229, 255, 0.05) 1px,
+    transparent 1px, transparent 3px);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 55%, #000 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 55%, #000 30%, transparent 75%);
+}
+#holo-label {
+  position: absolute; bottom: 2px; width: 100%; text-align: center;
+  font-family: var(--mono); font-size: 0.6rem;
+  color: rgba(0, 229, 255, 0.55); letter-spacing: 0.25em;
+}
+#holo-hint {
+  position: absolute; top: 8px; width: 100%; text-align: center;
+  font-family: var(--mono); font-size: 0.58rem;
+  color: rgba(0, 229, 255, 0.45); letter-spacing: 0.2em;
+  animation: hint-pulse 2.4s ease-in-out 4;
+}
+@keyframes hint-pulse { 50% { opacity: 0.3; } }
+@media (max-width: 860px) {
+  #holo-wrap {
+    width: 190px; height: 150px;
+    right: 6px; bottom: 6px;
+    opacity: 0.75;
+  }
+  #holo-label { font-size: 0.5rem; }
+}

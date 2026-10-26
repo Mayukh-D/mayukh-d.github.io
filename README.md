@@ -1,8 +1,10 @@
 # mayukh-d.github.io
 
 My personal portfolio: a single-page, terminal-themed site built with plain HTML, CSS, and
-JavaScript. No frameworks, no build step, no dependencies. One `index.html` file plus a
-handful of static assets, served straight off GitHub Pages. The one moving part is the
+JavaScript. No frameworks, no build step, no dependencies. One `index.html` page whose styles
+and scripts are split into small component files under `assets/css/` and `assets/js/`, served
+straight off GitHub Pages. How the pieces fit together, with diagrams, is in
+[`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). The one moving part is the
 optional "ask me anything" terminal, backed by a small Cloudflare Worker in
 [`chat-worker/`](chat-worker/).
 
@@ -83,9 +85,12 @@ The layout collapses to a single column and the nav trims to a contact link.
 ## Layout
 
 ```
-index.html                  the entire site: markup, styles, and scripts
+index.html                  the page markup; loads everything below in order
+docs/ARCHITECTURE.md        page diagram, what each component does, UML
 favicon.ico
 assets/
+  css/                      seven stylesheets by layer: base, nav, hero, content, overlays, motion, theme-light
+  js/                       one script per component (boot, hero, rafale, hologram, chat, deep-pages, ...)
   mayukh.jpg                hero portrait
   og-image.png              social card
   favicon.svg, favicon-32.png, apple-touch-icon.png
@@ -120,7 +125,8 @@ Click the blinking `root@mayukh:~$` prompt to open a terminal. Built-in commands
 `whoami`, `ls projects`, `cat pytorch`, `experience`, `contact`) answer instantly from the
 page itself. Anything else goes to [`chat-worker/`](chat-worker/), a Cloudflare Worker that
 asks Google Gemini to answer **only** from `chat-worker/profile.md`, which
-`build-profile.mjs` generates from `index.html`, so the bot can't drift from what the page
+`build-profile.mjs` generates from `index.html` (plus the skill notes and flight notes in
+`assets/js/`), so the bot can't drift from what the page
 says. The Gemini key lives in the Worker as a secret; visitors are rate-limited per IP and
 only this site's origin is accepted.
 

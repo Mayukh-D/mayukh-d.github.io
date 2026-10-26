@@ -39,7 +39,8 @@ for (const card of items(section('projects'), 'project-card')) {
 
 // How he works: his principles from the homepage's Rafale callouts, plus his one-line thesis.
 const thesis = 'He builds models from first principles, then tries to break them.';
-const rafale = [...html.matchAll(/title: '([^']+)',\s*sub: '([^']+)'/g)];
+const rafaleJs = readFileSync(new URL('../assets/js/rafale.js', here), 'utf8');   // the callouts live with the jet's script
+const rafale = [...rafaleJs.matchAll(/title: '([^']+)',\s*sub: '([^']+)'/g)];
 out.push('## How he works (his own principles)', `In one line: ${thesis}`);
 for (const [, t, sub] of rafale) out.push(`- ${sub.charAt(0).toUpperCase() + sub.slice(1)} ("${t.toLowerCase()}")`);
 out.push('');
@@ -52,7 +53,9 @@ out.push('## Interests');
 for (const card of items(section('interests'), 'interest-card')) out.push('- ' + text(card).replace(/^\S+\s/, ''));
 out.push('');
 
-const js = html.match(/const SKILL_NOTES = ([\s\S]*?\n    \};)\n([\s\S]*?)\n\n    \(\(\) => \{/);
+// the skill notes live with the skill chips' script
+const skillsJs = readFileSync(new URL('../assets/js/skills.js', here), 'utf8');
+const js = skillsJs.match(/const SKILL_NOTES = ([\s\S]*?\n\};)\n([\s\S]*?)\n\n\(\(\) => \{/);
 const ctx = {};
 vm.runInNewContext(`SKILL_NOTES = ${js[1].replace(/;$/, '')};\n${js[2].replace(/const DATA_ENG/, 'DATA_ENG')}`, ctx);
 out.push('## Skills (what he actually did with each)');
