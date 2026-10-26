@@ -1,14 +1,14 @@
 # mayukh-d.github.io
 
-My personal portfolio: a single-page, terminal-themed site built with plain HTML, CSS, and
-JavaScript. No frameworks, no build step, no dependencies. One `index.html` page whose styles
-and scripts are split into small component files under `assets/css/` and `assets/js/`, served
-straight off GitHub Pages. How the pieces fit together, with diagrams, is in
-[`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). The one moving part is the
-optional "ask me anything" terminal, backed by a small Cloudflare Worker in
-[`chat-worker/`](chat-worker/).
+My portfolio at **[mayukhdas.com](https://mayukhdas.com/)**: one terminal-themed page about
+my work in machine learning, from sovereign AI at Eccoi to mapping Australia's tree canopy
+from space at Haizea, and the research and projects behind it.
 
-**Live at [mayukhdas.com](https://mayukhdas.com/)**
+It is plain HTML, CSS and JavaScript on GitHub Pages: no framework, no build step, no
+dependencies. The markup lives in `index.html`; its styles and behaviour are small component
+files under `assets/css/` and `assets/js/`, and [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
+explains how they fit together. The only server-side piece is the ask-me-anything terminal,
+a small Cloudflare Worker in [`chat-worker/`](chat-worker/).
 
 ![Hero](assets/screenshots/hero.png)
 
@@ -33,13 +33,18 @@ drawn cell by cell on a canvas with procedurally generated cloud volumes driftin
 
 ### Interests
 
+Each card has an art strip on top: hover it and the strip runs, with green wireframe models
+flying in (three.js, loaded only when the section is near). On a phone each strip plays once
+as it scrolls into view.
+
 ![Interests](assets/screenshots/interests.png)
 
 ### Projects
 
-Six projects, each linking out to its own repository, plus live demos (a Hugging Face Space
-for the nanoGPT story generator, a hosted build of FoodLens) and PDF write-ups for the ML
-work under `assets/reports/`.
+Featured projects as cards, and the rest as one-line rows that open into full cards. Each
+links out to its repository, with live demos (a Hugging Face Space for the nanoGPT story
+generator, a hosted build of FoodLens), a tl;dr for the research work, and PDF write-ups
+under `assets/reports/`.
 
 ![Projects](assets/screenshots/projects.png)
 
@@ -48,6 +53,8 @@ work under `assets/reports/`.
 ![Experience](assets/screenshots/experience.png)
 
 ### Skills
+
+Click a skill and a small terminal opens with what I actually did with it.
 
 ![Skills](assets/screenshots/skills.png)
 
@@ -68,6 +75,13 @@ covers become slim labelled tabs on each edge that tuck away while you read. The
 by shape, not width: anything taller than it is wide gets the tabs.
 
 <img src="assets/screenshots/mobile-hero.png" alt="Mobile hero" width="320">
+
+### Light mode
+
+Dark is the default; the key in the menu switches to "green paper", and the choice is
+remembered on that device.
+
+![Light mode](assets/screenshots/light-hero.png)
 
 ## Architecture
 
@@ -150,7 +164,7 @@ assets/
   mayukh-full.webp          hero cut-out
   tabs/, logos/, cards/     edge-tab screenshots, organisation logos, project art
   reports/                  project write-ups linked from the projects section
-  screenshots/              the page screenshots in this README
+  screenshots/              the page screenshots in this README (October 2026)
 chat-worker/                the ask-me-anything backend (Cloudflare Worker)
 docs/
   ARCHITECTURE.md           how the pieces fit, with a table of every file
