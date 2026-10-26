@@ -1,0 +1,19 @@
+<!doctype html><html><head><meta charset="utf-8"><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="common.css">
+<style>body{width:1500px}.flow{margin-bottom:6px}.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:46px 54px}
+.step{position:relative}.step .box{min-height:104px}.n{color:var(--g);font-size:12px;margin-bottom:6px}
+.step:not(:nth-child(4n)):not(:last-child)::after{content:'';position:absolute;right:-46px;top:62px;width:38px;border-top:2px solid var(--gd)}
+.step:not(:nth-child(4n)):not(:last-child)::before{content:'';position:absolute;right:-48px;top:57px;border:6px solid transparent;border-left:9px solid var(--gd)}
+.wrap{grid-column:1/-1;height:0;position:relative}
+.wrap::before{content:'';position:absolute;left:12%;right:12%;top:-24px;border:2px solid var(--gd);border-top:0;border-bottom-left-radius:0;height:0}
+.k{display:inline-block;border:1px solid var(--b);border-radius:3px;padding:1px 6px;margin:2px 2px 0 0;font-size:11.5px;color:var(--t)}
+.css .k{border-color:#0b6e7a;color:var(--c)}</style></head><body>
+<h1>how the page loads</h1><div class="sub">no build step: the browser reads index.html top to bottom and fetches each file where it is referenced</div>
+<div class="flow">
+ <div class="step"><div class="n">1 · in &lt;head&gt;, before paint</div><div class="box"><div class="nm" style="text-align:left">boot.js</div><div class="note" style="margin-top:6px">marks html.js · restores light mode · starts the hero intro · defines window.Site</div></div></div>
+ <div class="step css"><div class="n">2 · stylesheets, in cascade order</div><div class="box"><span class="k">base</span><span class="k">nav</span><span class="k">hero</span><span class="k">content</span><span class="k">overlays</span><span class="k">motion</span><span class="k">theme-light</span><div class="note" style="margin-top:8px">later files may override earlier ones</div></div></div>
+ <div class="step"><div class="n">3 · markup</div><div class="box"><span class="k">nav</span><span class="k">hero</span><span class="k">sections</span><span class="k">rafale band</span><span class="k">footer</span><div class="note" style="margin-top:8px">the page itself, plus data-* hooks</div></div></div>
+ <div class="step"><div class="n">4 · scripts, part 1</div><div class="box"><span class="k">contact-email</span><span class="k">hero</span><span class="k">space-wake</span><span class="k">reading</span><span class="k">rafale</span><span class="k">reveals</span><span class="k">hologram</span></div></div>
+ <div class="step"><div class="n">5 · markup above the page</div><div class="box"><span class="k">edge tabs</span><span class="k">deep panel</span><span class="k">tl;dr dialog</span><span class="k">chat</span><div class="note" style="margin-top:8px">hidden until opened</div></div></div>
+ <div class="step"><div class="n">6 · scripts, part 2</div><div class="box"><span class="k">skills</span><span class="k">chat</span><span class="k">tldr</span><span class="k">other-projects</span><span class="k">videos</span><span class="k">deep-pages</span><div class="note" style="margin-top:8px">need the markup in step 5</div></div></div>
+ <div class="step"><div class="n">7 · deferred, after parsing</div><div class="box"><span class="k">interests-3d (module)</span><span class="k">theme.js</span><span class="k">lantern-demo.js</span><div class="note" style="margin-top:8px">three.js is fetched only when the interests section is near</div></div></div>
+</div></body></html>

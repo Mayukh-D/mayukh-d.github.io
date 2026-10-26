@@ -1,0 +1,65 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#010203;--g:#00ff41;--gd:#00b32e;--b:#1d4a2f;--t:#d8e4dc;--m:#7d8f85;--c:#00e5ff}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);font-family:'JetBrains Mono',monospace;color:var(--t);padding:36px 40px;width:1400px}
+h1{font-size:20px;color:var(--g);margin-bottom:4px}h1::before{content:'> ';}
+.sub{color:var(--m);font-size:13px;margin-bottom:26px}
+.row{display:flex;gap:56px;align-items:flex-start}
+.cap{color:var(--m);font-size:12px;margin:10px 0 0;text-align:center}
+.box{border:1.5px solid var(--b);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:13px;color:var(--t);text-align:center;gap:4px;position:relative}
+.box small{color:var(--m);font-size:11px}
+.g{border-color:var(--gd);color:var(--g)}.c{border-color:#0b6e7a;color:var(--c)}
+.screen{border:2px solid var(--gd);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px;background:#030705}
+.lap{width:900px;height:620px;position:relative}
+.mid{display:flex;gap:8px;flex:1}
+.fan{width:110px;display:flex;flex-direction:column;gap:6px;padding-top:4px}
+.fan .box{height:84px;transform:rotate(-5deg)}.fan .box:nth-child(2n){transform:rotate(4deg)}
+.col{flex:1;display:flex;flex-direction:column;gap:8px}
+.phone{width:300px;height:620px;border-radius:26px;padding:14px 10px}
+.pm{display:flex;gap:6px;flex:1}.tabs{width:26px;display:flex;flex-direction:column;gap:6px;justify-content:center}
+.tabs .box{height:74px;font-size:9px;writing-mode:vertical-rl}
+.layer{position:absolute;inset:auto 12px 12px auto;font-size:11px;color:var(--m)}
+.key{display:flex;gap:22px;margin-top:22px;font-size:12px;color:var(--m)}.key span{display:flex;align-items:center;gap:8px}
+.sw{width:22px;height:12px;border:1.5px solid;border-radius:3px}
+</style></head><body>
+<h1>the page at a glance</h1>
+<div class="sub">one scrolling page; the edge tabs and the corner hologram stay fixed while it scrolls</div>
+<div class="row">
+ <div>
+  <div class="screen lap">
+   <div class="box" style="height:44px;flex-direction:row;justify-content:space-between;padding:0 16px">nav: prompt (opens chat) <small>section links · theme key</small></div>
+   <div class="mid">
+    <div class="fan"><div class="box g">github</div><div class="box g">linkedin</div><div class="box g">hugging<br>face</div><div class="box g">scholar</div><small style="color:var(--m);font-size:11px;text-align:center">profile<br>covers</small></div>
+    <div class="col">
+     <div class="box" style="height:180px">HERO<small>portrait · WELCOME · name · tagline · buttons</small></div>
+     <div class="box" style="flex:1">SECTIONS<small>about · skills · experience · projects · education</small><small>notes · videos · publications · roles · interests · beyond · contact</small></div>
+     <div class="box" style="height:70px">RAFALE BAND<small>full width</small></div>
+     <div class="box" style="height:34px">footer</div>
+    </div>
+    <div class="fan"><div class="box g">how-i-<br>build</div><div class="box g">how-i-<br>research</div><div class="box g">how-i-<br>work</div><div class="box g">notes</div><small style="color:var(--m);font-size:11px;text-align:center">deep-dive<br>covers</small></div>
+   </div>
+   <div class="box c" style="position:absolute;right:14px;bottom:14px;width:150px;height:62px;background:#030705">hologram<small>U-TAE, drag to spin</small></div>
+  </div>
+  <div class="cap">landscape, 1000 x 600 and up: edge tabs are fans of page covers in the top 76% of the window</div>
+ </div>
+ <div>
+  <div class="screen phone">
+   <div class="box" style="height:40px;font-size:11px">nav: prompt · /contact · key</div>
+   <div class="pm">
+    <div class="tabs"><div class="box g">github</div><div class="box g">linkedin</div><div class="box g">hf</div><div class="box g">scholar</div></div>
+    <div class="col"><div class="box" style="height:170px">HERO</div><div class="box" style="flex:1">SECTIONS<small>one column</small></div><div class="box" style="height:50px">RAFALE</div></div>
+    <div class="tabs"><div class="box g">build</div><div class="box g">research</div><div class="box g">work</div><div class="box g">notes</div></div>
+   </div>
+  </div>
+  <div class="cap">portrait and small screens: slim labelled tabs<br>that tuck away while you read</div>
+ </div>
+</div>
+<div class="sub" style="margin:26px 0 10px">opened on demand, above the page</div>
+<div style="display:flex;gap:16px">
+ <div class="box g" style="width:300px;height:64px">DEEP PANEL<small>a deep dive swings in from its tab</small></div>
+ <div class="box g" style="width:300px;height:64px">TL;DR DIALOG<small>short version of a research project</small></div>
+ <div class="box g" style="width:300px;height:64px">CHAT TERMINAL<small>opens from the nav prompt</small></div>
+</div>
+</body></html>

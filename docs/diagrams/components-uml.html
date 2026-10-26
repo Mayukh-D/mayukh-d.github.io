@@ -1,0 +1,94 @@
+<!doctype html><html><head><meta charset="utf-8"><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="common.css">
+<style>
+body{width:1760px;height:1230px;position:relative}
+.pkg{position:absolute;border:1.5px dashed var(--b);border-radius:8px;padding:30px 14px 14px}
+.pkg>.t{position:absolute;top:-1px;left:-1px;background:#081109;border:1.5px solid var(--b);border-radius:8px 0 6px 0;padding:4px 10px;font-size:12px;color:var(--g)}
+.c{position:absolute;width:230px}
+.c .nm::before{content:'';display:inline-block;width:11px;height:13px;border:1.5px solid var(--m);margin-right:7px;vertical-align:-2px;box-shadow:-4px 3px 0 -2px var(--bg),-4px 3px 0 -0.5px var(--m),-4px 7px 0 -2px var(--bg),-4px 7px 0 -0.5px var(--m)}
+.css{border-color:#0b6e7a}.css .at{color:var(--c)}
+.ext{border-color:#7a5a1f}.ext .at{color:var(--a)}
+svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.lb{position:absolute;font-size:11px;color:var(--m);background:var(--bg);padding:0 4px;white-space:nowrap;transform:translate(-50%,-50%)}
+.legend{position:absolute;left:40px;bottom:30px;font-size:12px;color:var(--m);display:flex;gap:26px;align-items:center}
+</style></head><body>
+<h1>components and dependencies</h1><div class="sub">UML component view · solid arrow: loads · dashed arrow: «use» (reads a global, calls a function, fetches)</div>
+
+<div class="box c" id="index" style="left:640px;top:96px;width:300px"><div class="st">«page»</div><div class="nm">index.html</div><div class="ln"></div><div class="note">markup, data-* hooks, data-scholar numbers</div></div>
+
+<div class="pkg" style="left:40px;top:220px;width:300px;height:760px"><div class="t">«layer» assets/css</div></div>
+<div class="box c css" id="base" style="left:66px;top:268px;width:250px"><div class="st">«stylesheet»</div><div class="nm">base.css</div><div class="ln"></div><div class="at">+ colour tokens (dark, light)</div><div class="at">+ --mono, --sans, --acc-rgb</div><div class="at">+ .term-* window</div></div>
+<div class="box c css" id="nav" style="left:66px;top:418px;width:250px"><div class="nm">nav.css</div></div>
+<div class="box c css" id="hero" style="left:66px;top:488px;width:250px"><div class="nm">hero.css</div></div>
+<div class="box c css" id="content" style="left:66px;top:558px;width:250px"><div class="nm">content.css</div></div>
+<div class="box c css" id="overlays" style="left:66px;top:628px;width:250px"><div class="nm">overlays.css</div></div>
+<div class="box c css" id="motion" style="left:66px;top:698px;width:250px"><div class="nm">motion.css</div></div>
+<div class="box c css" id="light" style="left:66px;top:768px;width:250px"><div class="nm">theme-light.css</div></div>
+<div class="note" style="position:absolute;left:66px;top:842px;width:250px">top to bottom is the cascade order; every layer reads the tokens in base.css</div>
+
+<div class="pkg" style="left:400px;top:220px;width:900px;height:900px"><div class="t">«layer» assets/js</div></div>
+<div class="box c" id="boot" style="left:430px;top:268px;width:270px"><div class="st">«boot, in head»</div><div class="nm">boot.js</div><div class="ln"></div><div class="at">+ Site.COVERS</div><div class="at">+ Site.coversActive()</div><div class="at">+ Site.reducedMotion()</div><div class="ln"></div><div class="note">used by hero, reveals, chat, contact-email, skills, deep-pages, interests-3d</div></div>
+
+<div class="box c" id="contact" style="left:430px;top:478px"><div class="nm">contact-email.js</div><div class="ln"></div><div class="at">+ loadPaperPlane()</div><div class="note">lazy-loads assets/plane.js</div></div>
+<div class="box c" id="herojs" style="left:430px;top:592px"><div class="nm">hero.js</div><div class="ln"></div><div class="at">+ makeDapper()</div></div>
+
+<div class="box c" id="reading" style="left:430px;top:688px"><div class="nm">reading.js</div></div>
+<div class="box c" id="rafale" style="left:430px;top:750px"><div class="nm">rafale.js</div><div class="ln"></div><div class="at">+ flight notes</div></div>
+<div class="box c" id="reveals" style="left:430px;top:846px"><div class="nm">reveals.js</div></div>
+<div class="box c" id="holo" style="left:430px;top:908px"><div class="nm">hologram.js</div></div>
+<div class="box c" id="wake" style="left:430px;top:970px"><div class="nm">space-wake.js</div><div class="ln"></div><div class="at">+ wakeStoryGenerator()</div></div>
+<div class="note" style="position:absolute;left:432px;top:1046px">part 1: after the sections (order kept in index.html)</div>
+
+<div class="box c" id="skills" style="left:1030px;top:268px"><div class="nm">skills.js</div><div class="ln"></div><div class="at">+ SKILL_NOTES</div></div>
+<div class="box c" id="chat" style="left:1030px;top:400px"><div class="nm">chat.js</div></div>
+<div class="box c" id="tldr" style="left:1030px;top:500px"><div class="nm">tldr.js</div><div class="ln"></div><div class="at">+ TLDR</div><div class="at">+ openTldr()</div></div>
+<div class="box c" id="other" style="left:1030px;top:620px"><div class="nm">other-projects.js</div></div>
+<div class="box c" id="videos" style="left:1030px;top:682px"><div class="nm">videos.js</div></div>
+<div class="box c" id="deep" style="left:1030px;top:744px"><div class="nm">deep-pages.js</div></div>
+<div class="note" style="position:absolute;left:1032px;top:806px">part 2: after the overlays</div>
+<div class="box c" id="i3d" style="left:1030px;top:860px"><div class="st">«module, deferred»</div><div class="nm">interests-3d.js</div></div>
+
+<div class="pkg" style="left:1360px;top:220px;width:360px;height:900px"><div class="t">«external» / on demand</div></div>
+<div class="box c ext" id="worker" style="left:1400px;top:390px;width:280px"><div class="st">«Cloudflare Worker»</div><div class="nm">chat-worker</div><div class="ln"></div><div class="at">POST /chat → Gemini</div></div>
+<div class="box c ext" id="yt" style="left:1400px;top:640px;width:280px"><div class="st">«service»</div><div class="nm">YouTube embed</div></div>
+<div class="box c ext" id="hf" style="left:1400px;top:968px;width:280px"><div class="st">«service»</div><div class="nm">Hugging Face Space</div></div>
+<div class="box c ext" id="three" style="left:1400px;top:860px;width:280px"><div class="st">«CDN»</div><div class="nm">three.js</div></div>
+
+<div class="box c ext" id="builder" style="left:40px;top:1030px;width:300px"><div class="st">«build tool»</div><div class="nm">chat-worker/build-profile.mjs</div><div class="ln"></div><div class="note">reads index.html, skills.js (SKILL_NOTES) and rafale.js (flight notes); writes profile.md for the bot</div></div>
+
+<svg id="s"><defs>
+<marker id="o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="#00b32e" stroke-width="1.5"/></marker>
+<marker id="f" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#00b32e"/></marker>
+</defs></svg>
+<div class="legend"><span>━▶ loads</span><span>┄┄&gt; «use»</span><span style="color:var(--g)">+ name</span><span>= a global or function the component offers</span></div>
+<script>
+const R=id=>{const r=document.getElementById(id).getBoundingClientRect();return {l:r.left+scrollX,r:r.right+scrollX,t:r.top+scrollY,b:r.bottom+scrollY,cx:r.left+r.width/2+scrollX,cy:r.top+r.height/2+scrollY}};
+const svg=document.getElementById('s');
+function link(a,b,label,{solid=false,from,to,lx=0,ly=0}={}){
+  const A=R(a),B=R(b);
+  const side=(X,Y,s)=>s==='r'?[X.r,X.cy]:s==='l'?[X.l,X.cy]:s==='t'?[X.cx,X.t]:[X.cx,X.b];
+  from=from||(B.cx>A.r?'r':B.cx<A.l?'l':B.cy>A.cy?'b':'t'); to=to||(from==='r'?'l':from==='l'?'r':from==='b'?'t':'b');
+  const [x1,y1]=side(A,null,from),[x2,y2]=side(B,null,to);
+  const k=Math.max(40,Math.abs((from==='r'||from==='l')?x2-x1:y2-y1)*0.45);
+  const d=(s,x,y,sg)=>s==='r'?[x+k*sg,y]:s==='l'?[x-k*sg,y]:s==='b'?[x,y+k*sg]:[x,y-k*sg];
+  const [c1x,c1y]=d(from,x1,y1,1),[c2x,c2y]=d(to,x2,y2,1);
+  const p=document.createElementNS('http://www.w3.org/2000/svg','path');
+  p.setAttribute('d',`M${x1} ${y1}C${c1x} ${c1y} ${c2x} ${c2y} ${x2} ${y2}`);
+  p.setAttribute('fill','none');p.setAttribute('stroke','#00b32e');p.setAttribute('stroke-width','1.5');
+  if(!solid)p.setAttribute('stroke-dasharray','6 5');
+  p.setAttribute('marker-end',solid?'url(#f)':'url(#o)');svg.appendChild(p);
+  if(label){const L=p.getPointAtLength(p.getTotalLength()/2);const s=document.createElement('div');s.className='lb';s.textContent=label;s.style.left=(L.x+lx)+'px';s.style.top=(L.y+ly)+'px';document.body.appendChild(s);}
+}
+document.fonts.ready.then(()=>{
+ link('index','base','loads, in order',{solid:true,from:'l',to:'t'});
+ link('index','boot','loads first',{solid:true,from:'b',to:'t'});
+ link('index','skills','then the scripts, in order',{solid:true,from:'r',to:'t'});
+ link('chat','skills','SKILL_NOTES',{from:'t',to:'b'});
+ link('chat','contact','loadPaperPlane()',{from:'l',to:'r'});
+ link('chat','worker','questions',{from:'r',to:'l'});
+ link('videos','yt','on play',{from:'r',to:'l'});
+ link('i3d','three','import() when near',{from:'r',to:'l'});
+ link('wake','hf','wakes it early',{from:'r',to:'l'});
+ link('reading','overlays','toggles .fans-tucked',{from:'l',to:'r'});
+ document.title='ok';
+});
+</script></body></html>
