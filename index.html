@@ -969,14 +969,14 @@
     .story-link:hover, .story-link:focus-visible { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
     #publications .story-link { display: block; margin-top: -16px; }
     /* 2) reading mode: scrolling down tucks both fans to a sliver; scrolling up brings them back. The hologram stays as it is. */
-    @media (min-width: 861px) and (min-aspect-ratio: 1/1) and (min-height: 600px) {
+    @media (min-width: 1000px) and (min-aspect-ratio: 1/1) and (min-height: 600px) {
       .edge-tabs { transition: translate 0.45s cubic-bezier(.2, .8, .2, 1), opacity 0.35s; }
       .fans-tucked .edge-tabs:not(.left) { translate: calc(var(--tw) * 0.36) 0; opacity: 0.6; }
       .fans-tucked .edge-tabs.left { translate: calc(var(--tw) * -0.36) 0; opacity: 0.6; }
       .fans-tucked .edge-tabs:hover, .fans-tucked .edge-tabs:focus-within { translate: 0 0; opacity: 1; }
     }
     /* phones, tablets and small laptop windows: same reading mode; the tabs slide off to a sliver while reading down and return on the way up */
-    @media not all and (min-width: 861px) and (min-aspect-ratio: 1/1) and (min-height: 600px) {
+    @media not all and (min-width: 1000px) and (min-aspect-ratio: 1/1) and (min-height: 600px) {
       /* coming back is a little spring (the pop); going away is a plain glide */
       .edge-tabs { transition: translate 0.55s cubic-bezier(.34, 1.56, .64, 1), opacity 0.25s ease-out; }
       .fans-tucked .edge-tabs { transition: translate 0.4s cubic-bezier(.4, 0, .2, 1), opacity 0.3s; }
@@ -1017,7 +1017,7 @@
        at the right edge. Hover straightens one, lifts it to the top, lights it and slides it in
        about a centimetre; a click grows it from there into the full page.
        Only from 1181px, where the left fan shows too; narrower windows get the small tabs on both sides. */
-    @media (min-width: 861px) and (min-aspect-ratio: 1/1) and (min-height: 600px) {
+    @media (min-width: 1000px) and (min-aspect-ratio: 1/1) and (min-height: 600px) {
       /* covers scale with the window, like the hologram: bigger on big screens, smaller on small */
       .edge-tabs { --tw: clamp(180px, min(19vw, 30vh), 340px); --peek: 0.47; gap: 0; width: calc(var(--tw) * var(--peek)); align-items: flex-start; top: 66px; transform: none; }
       .edge-tab { writing-mode: horizontal-tb; flex: none; position: relative; width: var(--tw); height: calc(var(--tw) * 0.652); padding: 0;
@@ -1041,10 +1041,11 @@
       .et-label::before { content: '~/'; opacity: 0.55; text-transform: none; }
     }
     /* landscape tablets and small laptop windows: the same covers, showing a little less of each so they keep clear of the text */
-    @media (min-width: 861px) and (max-width: 1180px) and (min-aspect-ratio: 1/1) and (min-height: 600px) {
+    @media (min-width: 1000px) and (max-width: 1180px) and (min-aspect-ratio: 1/1) and (min-height: 600px) {
       .edge-tabs { --peek: 0.44; }
       .et-label { letter-spacing: 0; padding: 3px 6px; left: 8px; }
       .et-label::before { content: none; }   /* no ~/ here, so the whole label fits on the narrower strip */
+      .nav-left .ask-hint { left: 14px; }   /* clear of the left fan */
     }
     @media (max-width: 640px) { .edge-tab { font-size: 0.66rem; padding: 12px 6px 12px 5px; } .edge-tabs { top: 42%; } }
     /* Profiles: the same fan mirrored on the left edge, opening GitHub and LinkedIn in a new tab.
@@ -1055,7 +1056,7 @@
     .edge-tabs.left .edge-tab:hover .et-logo, .edge-tabs.left .edge-tab:focus-visible .et-logo, .edge-tabs.left .edge-tab:active .et-logo { fill: var(--brand, currentColor); }
     /* phones, tablets and small laptop windows: the profiles are labelled tabs on the left edge, the same shape as the
        deep-dive tabs on the right (mirrored), in place of the two hero buttons */
-    @media not all and (min-width: 861px) and (min-aspect-ratio: 1/1) and (min-height: 600px) {
+    @media not all and (min-width: 1000px) and (min-aspect-ratio: 1/1) and (min-height: 600px) {
       .edge-tabs.left { display: flex; right: auto; left: 0; align-items: flex-start; }
       .edge-tabs.left .edge-tab { border-left: 0; border-right: 1px solid var(--border-bright); border-radius: 8px 0 0 8px;
         box-shadow: 4px 0 18px rgba(var(--acc-rgb), 0.08); }
@@ -1067,7 +1068,7 @@
       .edge-tab .et-logo, .edge-tab .et-ico { display: block; order: 2; width: 14px; height: 14px; transform: rotate(180deg); }
     }
     @media (max-width: 640px) { .edge-tab .et-logo, .edge-tab .et-ico { width: 12px; height: 12px; } }
-    @media (min-width: 861px) and (min-aspect-ratio: 1/1) and (min-height: 600px) {
+    @media (min-width: 1000px) and (min-aspect-ratio: 1/1) and (min-height: 600px) {
       /* same height and reach as the right-hand fan, mirrored; only the stacking differs */
       .edge-tabs.left { display: flex; right: auto; left: 0; align-items: flex-end; }
       /* the covers replace the two profile buttons in the hero; narrower screens keep the buttons */
@@ -1225,7 +1226,7 @@
     html[data-theme="light"] .raf-hud .t2 { fill: #2f6b44; }
     html[data-theme="light"] .raf-hud .t0 { fill: #4f7a5c; }
     /* the card art is line work on black: inverting it gives the same drawing in dark green on white */
-    @media (min-width: 861px) and (min-aspect-ratio: 1/1) and (min-height: 600px) { html[data-theme="light"] .edge-tab { filter: brightness(0.96) saturate(0.95); } }   /* barely dimmed on paper */
+    @media (min-width: 1000px) and (min-aspect-ratio: 1/1) and (min-height: 600px) { html[data-theme="light"] .edge-tab { filter: brightness(0.96) saturate(0.95); } }   /* barely dimmed on paper */
     html[data-theme="light"] .edge-tab[href*="github.com"] { --shot: url(/assets/tabs/github-light.jpg) !important; }
     html[data-theme="light"] .edge-tab[href*="linkedin.com"] { --shot: url(/assets/tabs/linkedin-light.jpg) !important; }
     html[data-theme="light"] .edge-tab[href*="huggingface.co"] { --shot: url(/assets/tabs/huggingface-light.jpg) !important; }
@@ -1246,7 +1247,7 @@
     html[data-theme="light"] .raf-hud .ln, html[data-theme="light"] .raf-hud .pip { stroke: #00b32e; }
     html[data-theme="light"] .rafale-visual canvas, html[data-theme="light"] #holo, html[data-theme="light"] .ia-stage .ia3 { filter: brightness(0.7) saturate(1.2); }
     /* phone and narrow-window tabs: pale pills with a green edge, labels without a dark highlight */
-    @media not all and (min-width: 861px) and (min-aspect-ratio: 1/1) and (min-height: 600px) {
+    @media not all and (min-width: 1000px) and (min-aspect-ratio: 1/1) and (min-height: 600px) {
       html[data-theme="light"] .edge-tab { background: rgba(247, 252, 248, 0.94); border-color: #00b32e; color: #007f2c; box-shadow: 0 2px 12px rgba(0, 179, 46, 0.15); }
       html[data-theme="light"] .edge-tab .et-label { background: none; border: 0; color: #007f2c; padding: 0; }
       html[data-theme="light"] .edge-tabs.left .edge-tab { color: #00b32e; }
@@ -3911,7 +3912,7 @@
       const home = location.pathname;
       let opener = null, busy = false;
       // on a laptop the edge tabs are page sheets: open from, and close back into, the one clicked
-      const sheetRect = () => opener && opener.classList.contains('edge-tab') && matchMedia('(min-width: 861px) and (min-aspect-ratio: 1/1) and (min-height: 600px)').matches
+      const sheetRect = () => opener && opener.classList.contains('edge-tab') && matchMedia('(min-width: 1000px) and (min-aspect-ratio: 1/1) and (min-height: 600px)').matches
         && !matchMedia('(prefers-reduced-motion: reduce)').matches ? opener.getBoundingClientRect() : null;
       const inset = r => `inset(${r.top}px ${innerWidth - r.right}px ${innerHeight - r.bottom}px ${r.left}px round 10px)`;
       async function open(href, push) {
