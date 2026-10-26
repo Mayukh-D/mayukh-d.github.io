@@ -1,0 +1,64 @@
+/* theme-light.css
+   Light mode ("green paper"): opt-in from the toggle only, never the system setting. Overrides that
+   token changes in base.css cannot express. Loaded last.
+*/
+
+  /* light mode touch-ups: soften the CRT lines, swap dark halos for page-coloured ones, deepen the hologram */
+html[data-theme="light"] body::after { opacity: 0.08; }
+html[data-theme="light"] .hero-type, html[data-theme="light"] .hero-thesis, html[data-theme="light"] .hero-tagline { text-shadow: 0 0 12px var(--bg), 0 0 26px var(--bg), 0 0 40px var(--bg); }
+html[data-theme="light"] .rot { text-shadow: none; }
+/* hero on paper: a firmer WELCOME outline, and a green halo so the name lifts off the photo */
+html[data-theme="light"] .hero-bigword { -webkit-text-stroke: 2px rgba(var(--acc-rgb), 0.7); text-shadow: none; }
+html[data-theme="light"] h1.hero-name { text-shadow: 0 0 2px rgba(var(--acc-rgb), 0.9), 0 0 10px rgba(var(--acc-rgb), 0.6), 0 0 26px rgba(var(--acc-rgb), 0.4); }
+html[data-theme="light"] .rafale-cap { text-shadow: 0 0 10px var(--bg); }
+html[data-theme="light"] .dapper-btn { color: var(--green); text-shadow: none; opacity: 0.9; }
+/* skill chips on paper: white tiles, a vivid green edge and bolder green text, so they pop like the dark ones */
+html[data-theme="light"] .skill { background: #ffffff; border-color: rgba(var(--acc-rgb), 0.55); font-weight: 600; }
+html[data-theme="light"] .skill:hover { border-color: rgba(var(--acc-rgb), 0.95); box-shadow: 0 0 14px rgba(var(--acc-rgb), 0.35); }
+html[data-theme="light"] button.skill[aria-expanded="true"] { background: rgba(var(--acc-rgb), 0.16); border-color: rgba(var(--acc-rgb), 0.95); }
+html[data-theme="light"] .btn-primary { background: var(--pop); color: #031a0b; }
+html[data-theme="light"] .btn-ghost { background: var(--bg-soft); }   /* solid, so the floor shadow behind the photo never shows through */
+html[data-theme="light"] .timeline-date { color: var(--green); }
+html[data-theme="light"] .deep-close { background: var(--nav-bg); }
+html[data-theme="light"] .ask-hint { background: var(--bg-soft); }
+html[data-theme="light"] .org-logo, html[data-theme="light"] .timeline-item:hover .org-logo { background: var(--text-body); filter: none; }
+html[data-theme="light"] #holo-label, html[data-theme="light"] #holo-hint { color: var(--cyan); }
+/* Rafale on paper: page-coloured band, the dot drawing inverted to dark green, flight notes in the light accent */
+html[data-theme="light"] .rafale-visual { background: var(--bg); }
+html[data-theme="light"] .ia-stage { background: repeating-linear-gradient(0deg, #d8ddd7 0 1px, #dde2de 1px 4px); border-color: var(--border-bright); }
+html[data-theme="light"] .ia-stage .ia-cmd { color: var(--text-muted); }
+/* no green rim light on the photo in light mode */
+html[data-theme="light"] .hero-photo-wrap::after { opacity: 0; }
+html[data-theme="light"] .raf-hud text { fill: var(--green); stroke: var(--bg); }
+html[data-theme="light"] .raf-hud .t2 { fill: #2f6b44; }
+html[data-theme="light"] .raf-hud .t0 { fill: #4f7a5c; }
+/* the card art is line work on black: inverting it gives the same drawing in dark green on white */
+@media (min-width: 1000px) and (min-aspect-ratio: 1/1) and (min-height: 600px) { html[data-theme="light"] .edge-tab { filter: brightness(0.96) saturate(0.95); } }   /* barely dimmed on paper */
+html[data-theme="light"] .edge-tab[href*="github.com"] { --shot: url(/assets/tabs/github-light.jpg) !important; }
+html[data-theme="light"] .edge-tab[href*="linkedin.com"] { --shot: url(/assets/tabs/linkedin-light.jpg) !important; }
+html[data-theme="light"] .edge-tab[href*="huggingface.co"] { --shot: url(/assets/tabs/huggingface-light.jpg) !important; }
+html[data-theme="light"] .edge-tab[href*="scholar.google"] { --shot: url(/assets/tabs/scholar-light.jpg) !important; }
+html[data-theme="light"] .edge-tab[href="/projects/"] { --shot: url(/assets/tabs/projects-light.jpg?v=2) !important; }
+html[data-theme="light"] .edge-tab[href="/research/"] { --shot: url(/assets/tabs/research-light.jpg?v=2) !important; }
+html[data-theme="light"] .edge-tab[href="/jobs/"] { --shot: url(/assets/tabs/jobs-light.jpg?v=2) !important; }
+html[data-theme="light"] .edge-tab[href="/notes/"] { --shot: url(/assets/tabs/notes-light.jpg?v=2) !important; }
+/* Theme switch: the browser snapshots the page before and after and cross-fades the two on the GPU,
+   so the whole page darkens or lightens smoothly without repainting anything per frame. */
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.6s; animation-timing-function: cubic-bezier(.4, 0, .2, 1); mix-blend-mode: normal; }
+/* light mode, neon where it isn't body text: diagrams, dot drawings, logos, prompts and boxes */
+html[data-theme="light"] .nav-mark svg { fill: #00b32e; filter: drop-shadow(0 0 4px rgba(0, 200, 75, 0.45)); }
+html[data-theme="light"] .org-logo, html[data-theme="light"] .timeline-item:hover .org-logo { background: #00b32e; filter: drop-shadow(0 0 3px rgba(0, 200, 75, 0.35)); }
+html[data-theme="light"] h2::before, html[data-theme="light"] .project-card h3::before, html[data-theme="light"] .row-name::before { color: #00b32e; text-shadow: 0 0 8px rgba(0, 200, 75, 0.35); }
+html[data-theme="light"] .skill, html[data-theme="light"] .ask-hint, html[data-theme="light"] .ia-stage { border-color: #00b32e; }
+html[data-theme="light"] .ask-hint::before { border-color: #00b32e; }
+html[data-theme="light"] .raf-hud .ln, html[data-theme="light"] .raf-hud .pip { stroke: #00b32e; }
+html[data-theme="light"] .rafale-visual canvas, html[data-theme="light"] #holo, html[data-theme="light"] .ia-stage .ia3 { filter: brightness(0.7) saturate(1.2); }
+/* phone and narrow-window tabs: pale pills with a green edge, labels without a dark highlight */
+@media not all and (min-width: 1000px) and (min-aspect-ratio: 1/1) and (min-height: 600px) {
+  html[data-theme="light"] .edge-tab { background: rgba(247, 252, 248, 0.94); border-color: #00b32e; color: #007f2c; box-shadow: 0 2px 12px rgba(0, 179, 46, 0.15); }
+  html[data-theme="light"] .edge-tab .et-label { background: none; border: 0; color: #007f2c; padding: 0; }
+  html[data-theme="light"] .edge-tabs.left .edge-tab { color: #00b32e; }
+}
+html[data-theme="light"] .et-label { background: rgba(247, 252, 248, 0.92); color: #007f2c; border-color: #00b32e; }
+html[data-theme="light"] .made-in .tape { background: #00b32e; color: #ffffff; }
+html[data-theme="light"] .made-in { color: var(--text-muted); }

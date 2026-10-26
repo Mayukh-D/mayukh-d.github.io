@@ -1,0 +1,156 @@
+/* base.css
+   Foundation for every other stylesheet; load it first.
+   - Design tokens: colours (dark by default, light under html[data-theme="light"]), --acc-rgb for tinted
+     glows, --mono / --sans for the two typefaces. Components use these variables, never raw values,
+     so the light theme mostly works by redefining tokens.
+   - Reset, body typography, the ambient grid and CRT scanlines.
+   - Section shell (section, h2, .container), About, skip link.
+   - Shared primitive: the terminal window (.term-bar, .term-dots, .term-close, .term-body ...), used by
+     the skill note, the tl;dr dialog and the ask-me-anything chat.
+*/
+
+:root {
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --bg: #010203;
+  --bg-soft: #0a0f0c;
+  --border: #10241a;
+  --border-bright: #1d4a2f;
+  --text: #d8e4dc;
+  --text-muted: #7d8f85;
+  --text-body: #a9b8af;   /* running text: brighter than labels, quieter than headings */
+  --green: #00ff41;
+  --green-dim: #00b32e;
+  --green-soft: rgba(var(--acc-rgb), 0.08);
+  --cyan: #00e5ff;
+  --cyan-soft: rgba(0, 229, 255, 0.1);
+  --red: #ff2b4e;
+  --acc-rgb: 0, 255, 65;            /* the accent as r, g, b, for the many translucent glows */
+  --nav-bg: rgba(1, 2, 3, 0.94);
+  --scroll-track: #050805;
+  --panel-bg: #050805;
+}
+/* Light mode: only when the visitor flips the toggle in the menu (never from the system setting). */
+html[data-theme="light"] {
+  --bg: #ecf4ed;
+  --bg-soft: #f7fcf8;
+  --border: #c4dccb;
+  --border-bright: #8dbf9c;
+  --text: #0e1a13;
+  --text-muted: #466a52;
+  --text-body: #203d2b;
+  --green: #007f2c;          /* vivid, still text-safe on the green paper (4.6:1) */
+  --green-dim: #007f2c;
+  --green-soft: rgba(0, 200, 75, 0.1);
+  --acc-rgb: 0, 179, 46;     /* glows, outlines and fills in the deeper neon */
+  --pop: #00b32e;            /* neon, 30% deeper for paper */
+  --cyan: #00788a;
+  --cyan-soft: rgba(0, 120, 138, 0.1);
+  --red: #c8102e;
+  --nav-bg: rgba(236, 244, 237, 0.94);
+  --scroll-track: #dfeee2;
+  --panel-bg: #f7fcf8;
+  color-scheme: light;
+}
+/* Dark page, dark scrollbars: without this the browser draws its light default. */
+:root { color-scheme: dark; scrollbar-color: rgba(var(--acc-rgb), 0.35) var(--scroll-track); }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--scroll-track); }
+::-webkit-scrollbar-thumb { background: rgba(var(--acc-rgb), 0.28); border-radius: 6px; border: 2px solid var(--scroll-track); }
+::-webkit-scrollbar-thumb:hover { background: rgba(var(--acc-rgb), 0.5); }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+::selection { background: var(--green); color: #000; }
+.mono { font-family: var(--mono); }
+.container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+/* ambient grid + CRT scanlines over everything */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(var(--acc-rgb), 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--acc-rgb), 0.035) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 0%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 0%, transparent 75%);
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 50; pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg, rgba(0,0,0,0.22) 0px, rgba(0,0,0,0.22) 1px, transparent 1px, transparent 4px);
+  opacity: 0.45;
+}
+nav, section, footer { position: relative; z-index: 1; }
+header { position: relative; }  /* no z-index: lets the portrait rise above the scanline overlay */
+
+
+/* ==== Section shell ==== */
+
+/* Sections */
+section { padding: 72px 0; border-top: 1px solid var(--border); }
+h2 {
+  font-family: var(--mono);
+  font-size: 1.3rem; font-weight: 700; letter-spacing: -0.01em;
+  margin-bottom: 32px;
+}
+h2::before { content: '> '; color: var(--green); text-shadow: 0 0 10px rgba(var(--acc-rgb),0.6); }
+h2::after {
+  content: ' _'; color: var(--green);
+  animation: blink 1.2s steps(1) 5;
+}
+
+/* About */
+.about p { color: var(--text-body); margin-bottom: 16px; text-align: justify; }
+@media (max-width: 640px) { .about p { text-align: left; } }
+.about p strong { color: var(--text); }
+.about a { color: var(--green); }
+
+/* Skip link: hidden until a keyboard user tabs to it */
+.skip-link { position: fixed; left: 16px; top: -60px; z-index: 200; padding: 8px 14px; border-radius: 6px; background: var(--green); color: #010203; font-family: var(--mono); font-size: 0.85rem; text-decoration: none; transition: top 0.15s; }
+.skip-link:focus { top: 64px; }   /* just below the menu bar, clear of the logo */
+
+
+/* ==== Shared primitive: terminal window ==== */
+
+.term-bar {
+  display: flex; align-items: center; gap: 14px; padding: 10px 14px;
+  background: var(--bg-soft); border-bottom: 1px solid var(--border);
+  font-family: var(--mono); font-size: 0.72rem; color: var(--text-muted);
+}
+/* One way to close, not two: the red traffic light is the close button. It sits first in the bar,
+   shows its cross on hover, and has a generous invisible margin so it is easy to hit. The other two
+   lights are only decoration, so they are dimmed. */
+.term-dots { display: flex; gap: 8px; margin-left: -6px; opacity: 0.6; }
+.term-dots i { width: 14px; height: 14px; border-radius: 50%; background: #febc2e; }
+.term-dots i:last-child { background: #28c840; }
+.term-title { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.term-close { order: -1; flex: none; position: relative; width: 14px; height: 14px; padding: 0; border: 0; border-radius: 50%;
+  background: #ff5f57; color: #5a0000; font: 700 11px/14px var(--mono); text-align: center; cursor: pointer; }
+.term-close::before { content: ''; position: absolute; inset: -11px; }
+.term-close:hover, .term-close:focus-visible { color: #5a0000; box-shadow: 0 0 0 2px rgba(255, 95, 87, 0.35); outline: none; }
+.term-body { padding: 14px 18px 18px; font-family: var(--mono); font-size: 0.8rem; line-height: 1.65; }
+.term-prompt { color: var(--green); }
+.term-cmd { color: var(--text); }
+.term-cursor { display: inline-block; width: 7px; height: 1em; margin-left: 2px; vertical-align: -2px; background: var(--green); animation: term-blink 1s steps(1) infinite; }
+.term-out { opacity: 0; transform: translateY(4px); transition: opacity 0.3s, transform 0.3s; }
+.term-out.shown { opacity: 1; transform: none; }
+.term-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 10px; }
+.term-tag { font-size: 0.68rem; padding: 2px 8px; border: 1px solid var(--green-dim); border-radius: 3px; color: var(--green); background: rgba(var(--acc-rgb),0.06); }
+.term-tag::before { content: '@'; opacity: 0.6; }
+.term-lead { color: var(--text); margin-bottom: 10px; }
+.term-points { list-style: none; padding: 0; margin: 0; }
+.term-points li { position: relative; padding-left: 18px; color: var(--text-muted); margin-bottom: 6px; }
+.term-points li::before { content: '▸'; position: absolute; left: 0; color: var(--green); }
+@keyframes term-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+@keyframes term-blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .term-cursor { animation: none; } .term-out { transition: none; } }
