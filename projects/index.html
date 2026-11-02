@@ -64,6 +64,17 @@
   <figure><img src="/assets/tldr/tokeneater-athevon.jpg" alt="AThevon's comment on pull request 284 sharing the signed beta and asking for testing" loading="lazy"><figcaption>AThevon asking me to test the beta built on my commits.</figcaption></figure>
   <div class="links"><a href="https://github.com/AThevon/TokenEater/pull/284">pull request #284 →</a><a href="https://github.com/AThevon/TokenEater/releases">official app →</a><a href="https://github.com/Mayukh-D/TokenEater">fork →</a></div>
 
+  <h2>Apache Sedona: four merged pull requests</h2>
+  <figure><img src="/assets/tldr/sedona-merged.jpg" alt="Four pull requests to Apache Sedona, each marked Merged into apache:master" loading="lazy"><figcaption>All four, merged into apache:master.</figcaption></figure>
+  <p>For an ANU software engineering project, I contributed to Apache Sedona, the engine for processing geospatial data on Spark. All four of my pull requests were merged.</p>
+  <div class="whys">
+      <details class="why"><summary>I started with a good first issue</summary><p>My first pick was bigger. The maintainer pointed me to the good first issues instead, and they taught me the project's template, title format, tests and AI disclosure rules before I touched anything harder.</p></details>
+      <details class="why"><summary>The review caught what my tests couldn't</summary><p>On Spark 3.5.0, a Feather file whose first geometry was null failed to load. My tests ran on a newer Spark. I fixed it with the project's own helper and a regression test.</p></details>
+      <details class="why"><summary>One fix led to another</summary><p>Fixing ST_Pixelize for shapes smaller than one pixel, I found the drawing code joined a polygon's rings, so holes were drawn wrong. That became the third pull request.</p></details>
+      <details class="why"><summary>The fourth came from a user</summary><p>Someone reported in a discussion thread that a NULL GeoPackage geometry failed to load. I traced it, opened an issue at the maintainer's request, and the fix was merged two days later.</p></details>
+  </div>
+  <div class="links"><a href="/work/sedona/">the full write-up →</a><a href="https://github.com/apache/sedona/pulls?q=is%3Apr+author%3AMayukh-D+is%3Amerged">the pull requests →</a></div>
+
   <h2>FoodLens: the right fact at the moment of purchase</h2>
   <div class="pair three"><img src="/assets/tldr/foodlens-scan.jpg" alt="Scanning a barcode" loading="lazy"><img src="/assets/tldr/foodlens-product.jpg" alt="Product overlay with allergen alert and freshness timeline" loading="lazy"><img src="/assets/tldr/foodlens-insights.jpg" alt="Carbon milestones" loading="lazy"></div>
   <p>For my ANU HCI final project: scan a barcode in the shop and see what matters to you, before you buy. I built it, ran a study with it, and let the study shape it.</p>

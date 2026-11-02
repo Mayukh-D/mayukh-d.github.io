@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Four pull requests into Apache Sedona · Mayukh Das</title>
+<meta name="description" content="My first real contributions to an Apache project, and what the maintainer&#x27;s reviews taught me that my own tests couldn&#x27;t.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Mayukh Das">
+<meta property="og:url" content="https://mayukhdas.com/work/sedona/">
+<meta property="og:title" content="Four pull requests into Apache Sedona · Mayukh Das">
+<meta property="og:description" content="My first real contributions to an Apache project, and what the maintainer&#x27;s reviews taught me that my own tests couldn&#x27;t.">
+<meta property="og:image" content="https://mayukhdas.com/assets/og/sedona.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://mayukhdas.com/work/sedona/">
+<link rel="icon" href="/favicon.ico?v=2" sizes="48x48">
+<link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png?v=2" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script>try{if(localStorage.getItem('theme')==='light')document.documentElement.dataset.theme='light';}catch(e){}</script>
+<link rel="stylesheet" href="/assets/deep.css?v=18">
+</head>
+<body class="deep-standalone">
+<nav class="deep-bar" aria-label="Site"><a href="/" data-deep-back>← mayukhdas.com</a><span class="deep-sections"><a href="/projects/" data-deep-link>how I build</a><a href="/research/" data-deep-link>how I research</a><a href="/jobs/" data-deep-link>how I work</a><a href="/notes/" data-deep-link>1 AM notes</a><button class="theme-toggle" type="button" aria-label="Switch to light mode"><span class="tt-sym" aria-hidden="true">*</span><svg class="tt-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg><span class="tt-word">light</span></button></span></nav>
+<main class="deep" data-deep="sedona">
+  <div class="kicker">work/sedona</div>
+  <h1>Four pull requests into Apache Sedona</h1>
+  <p>For a software engineering course at ANU, four of us had to contribute to a real open source project. We chose <a href="https://github.com/apache/sedona">Apache Sedona</a>, the engine for processing geospatial data on Spark. My work involves training deep learning models on geospatial data, so I wanted to see how one of the big engines in this space works under the hood.</p>
+  <h2>Starting smaller than I wanted to</h2>
+  <p>My first pick was a geography feature for nearest-neighbour joins. The maintainer, Jia Yu, politely pointed me to the issues marked as good first issues instead. At the time it felt like a step down. Looking back, it was the right call, because the smaller issues taught me how the project works: its pull request template, its title format, its tests, and the ASF's rules for disclosing AI-assisted code.</p>
+  <p>So I started with <code>read_feather</code>, which reads Feather files into Sedona's GeoPandas API. A teammate had already added the matching <code>to_feather</code>, so I mirrored his work.</p>
+  <h2>The bug my tests couldn't see</h2>
+  <p>My tests passed. Then Jia reviewed the pull request and reproduced a crash I had missed: on Spark 3.5.0, a Feather file whose first geometry was null failed to load, because Spark guesses a column's type from its first value. My tests ran on a newer Spark, where the same file worked.</p>
+  <figure><img src="/assets/tldr/sedona-review.jpg" alt="Jia Yu's review of the read_feather pull request, reproducing the crash on Spark 3.5.0, and my reply with the fix" width="1250" height="871" loading="lazy"><figcaption>The review on #3483, and my reply.</figcaption></figure>
+  <p>The fix was small. I switched to a helper the project already had for exactly this case and added a regression test with the null geometry first. The lesson was bigger. Passing tests only tell you the code works on the setup you tested, not on the versions your users actually run.</p>
+  <h2>One fix leads to another</h2>
+  <p>Next I took a bug that had been open since 2024: <code>ST_Pixelize</code> failed on shapes smaller than one pixel. The fix was to return the pixel that contains the shape, and I checked it against the old algorithm on 3,000 shapes.</p>
+  <p>While working on it, I noticed something else in the drawing code. It joined all of a polygon's rings into one line, so a polygon with a hole was drawn with a stray line and a gap in its fill. That became my third pull request. Each ring is now drawn separately, and the output for 5,000 polygons without holes is unchanged.</p>
+  <h2>The one I didn't plan</h2>
+  <p>The fourth came from a discussion thread. A user reported that a GeoPackage file with a NULL geometry failed to load. I traced the cause, explained it, and offered a fix. Jia asked me to open an issue first, which I did, and the fix was merged two days later.</p>
+  <p>That one felt different, because it started with someone actually using Sedona and running into a problem.</p>
+  <h2>Waiting is part of the work</h2>
+  <p>Pull requests from forks don't run the project's tests until a maintainer approves them, and maintainers have their own priorities. I learned to make each pull request easy to review and then wait, with at most one polite reminder. All four were eventually merged.</p>
+  <figure><img src="/assets/tldr/sedona-merged.jpg" alt="The four pull requests, #3483, #3484, #3485 and #3503, each marked Merged into apache:master" width="1400" height="451" loading="lazy"><figcaption>All four, merged into apache:master.</figcaption></figure>
+  <p>I used Claude Code as a pair-programming assistant throughout and disclosed it in every pull request, as the ASF asks. I chose the approach, reviewed every change and ran the tests myself.</p>
+  <div class="callout"><p>Your tests show it works on your machine. A good reviewer shows you where it doesn't.</p></div>
+  <div class="links"><a href="https://github.com/apache/sedona/pulls?q=is%3Apr+author%3AMayukh-D+is%3Amerged">the pull requests →</a><a href="/projects/" data-deep-link>how I build →</a></div>
+</main>
+<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8ec1fac2e2574819b93a9ba3d9ce7597"}'></script><!-- End Cloudflare Web Analytics -->
+<script src="/assets/theme.js?v=8" defer></script>
+</body>
+</html>
