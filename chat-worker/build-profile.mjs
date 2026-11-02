@@ -81,7 +81,7 @@ const deep = [
   ['notes/we-built-a-game/index.html', '1 AM notes: we built a game (OUTBREAK)'],
   ['notes/sovereign-ai-showcase/index.html', '1 AM notes: a day at Parliament House and sovereign AI'],
   ['notes/four-prs-into-sedona/index.html', '1 AM notes: four pull requests into Apache Sedona'],
-  ['notes/last-student-to-understand/index.html', '1 AM notes: I judge my teaching by the last student to understand'],
+  ['notes/for-the-love-of-teaching/index.html', '1 AM notes: For the love of teaching'],
 ];
 for (const [file, title] of deep) {
   const page = readFileSync(new URL('../' + file, here), 'utf8');

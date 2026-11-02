@@ -743,10 +743,10 @@ I used Claude Code as a pair-programming assistant throughout and disclosed it i
 Your tests show it works on your machine. A good reviewer shows you where it doesn't.
 the pull requests → the project write-up → more 1 AM notes →
 
-## 1 AM notes: I judge my teaching by the last student to understand
-URL: https://mayukhdas.com/notes/last-student-to-understand/
-1am/last-student-to-understand
-I judge my teaching by the last student to understand
+## 1 AM notes: For the love of teaching
+URL: https://mayukhdas.com/notes/for-the-love-of-teaching/
+1am/for-the-love-of-teaching
+For the love of teaching
 30 Sep 2026 · from tutoring HCI at ANU · Mayukh Das
 A year ago I was a student in Human-Computer Interaction at ANU. I had a great tutor, Ethan Tiber Rossi, and that is when I first felt I would love to tutor this course one day. This semester I'm on the other side of the room, tutoring the same course, COMP6390/3900.
 A question from the floor.
@@ -755,7 +755,7 @@ The way Charles Martin teaches HCI at ANU is designed to be fun and arts-and-cra
 Being taught that way taught me how to make teaching engaging while making sure everyone understands.
 The tutorial, from a student's seat.
 The last student, not the first
-Some students get it on the first go, and others need a little more attention. It is tempting to measure a tutorial by the first hands that go up, because that feels like it worked. I judge my teaching by the last student to understand, not the first.
+Some students get it on the first go, and others need a little more attention. It is tempting to measure a tutorial by the first hands that go up, because that feels like it worked. For the love of teaching, not the first.
 In practice that means explaining the same idea more than one way, walking through real examples on the screen, and staying with a question until it actually makes sense to the person who asked it.
 Walking through a chart.
 Back to the notes.
