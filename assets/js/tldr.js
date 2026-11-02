@@ -99,6 +99,20 @@ const TLDR = {
     role: 'Team of five. I built the entire Android frontend, and on the backend the initial skeleton and its design patterns, including the Iterator-based queries. Graded HD.',
     links: [['code', 'https://github.com/Mayukh-D/yuma-social-platform']]
   },
+  sedona: {
+    title: 'Apache Sedona · Four Merged PRs', file: 'sedona',
+    q: 'Can I make real contributions to a large Apache project, following its own rules, that its maintainers will merge?',
+    setup: 'Apache Sedona processes geospatial data at scale on Spark, in Python, Java and Scala. Done as an ANU software engineering group project: each of us took our own issues, reviewed each other\'s commits on our forks, then opened pull requests following Sedona\'s template and the ASF policy on AI-assisted code.',
+    findings: [
+      '<b>read_feather (#3483).</b> Reads Feather files into a distributed GeoDataFrame. The maintainer\'s review found a crash on Spark 3.5.0 when the first geometry is null; I switched to the project\'s safe conversion helper and added a regression test.',
+      '<b>ST_Pixelize (#3484).</b> Shapes smaller than one pixel threw an error, a bug open since 2024. They now return the pixel that contains them, checked against the old algorithm on 3,000 shapes.',
+      '<b>Polygons with holes (#3485).</b> Found while fixing ST_Pixelize: the drawing code joined a polygon\'s rings, adding a stray line and a gap in the fill. Each ring is now drawn separately, and output for 5,000 polygons without holes is unchanged.',
+      '<b>NULL GeoPackage geometry (#3503).</b> A user reported a failing read in a discussion thread. I traced the cause, opened an issue at the maintainer\'s request, and a NULL geometry now reads as null.'
+    ],
+    figs: [['assets/tldr/sedona-merged.jpg', 'All four, merged into apache:master.'], ['assets/tldr/sedona-review.jpg', 'The maintainer\'s review of #3483, and my fix.']],
+    role: 'Wrote, tested and saw all four through review, with Claude Code as a pair-programming assistant, disclosed in every pull request.',
+    links: [['my merged pull requests', 'https://github.com/apache/sedona/pulls?q=is%3Apr+author%3AMayukh-D+is%3Amerged'], ['apache/sedona', 'https://github.com/apache/sedona']]
+  },
   tokeneater: {
     title: 'TokenEater · Multi-Account', file: 'tokeneater',
     q: 'TokenEater, an open-source macOS menu bar app, tracks one Claude account. I use two, personal and work, so I made it track both side by side.',

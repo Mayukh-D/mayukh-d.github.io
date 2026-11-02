@@ -59,6 +59,11 @@ An MCP server that lets Claude publish LinkedIn posts with real photos, Page tag
 Tech: Python · MCP
 Links: linkedin-poster-mcp · Post from Claude: https://github.com/Mayukh-D/linkedin-poster-mcp | tl;dr: https://mayukhdas.com/#tldr-linkedin-poster | install: https://github.com/Mayukh-D/linkedin-poster-mcp#install | code: https://github.com/Mayukh-D/linkedin-poster-mcp
 
+### Apache Sedona · Four Merged PRs
+Four contributions to Apache Sedona, the open source engine for geospatial data on Spark: read_feather for its GeoPandas API, a fix for ST_Pixelize on shapes smaller than one pixel, correct drawing of polygons with holes, and reading a NULL GeoPackage geometry as null.
+Tech: Python · Java · Spark
+Links: Apache Sedona · Four Merged PRs: https://github.com/apache/sedona/pulls?q=is%3Apr+author%3AMayukh-D+is%3Amerged | tl;dr: https://mayukhdas.com/#tldr-sedona | PRs: https://github.com/apache/sedona/pulls?q=is%3Apr+author%3AMayukh-D+is%3Amerged
+
 ### SiteViews · Views in the Menu Bar
 A Mac menu bar app that shows one number: total page views for this website, read from Cloudflare Web Analytics. Built after I caught myself opening the analytics dashboard every hour to check whether anyone had read a new post.
 Tech: Swift · SwiftUI

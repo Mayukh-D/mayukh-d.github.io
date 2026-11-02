@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="22 68 476 132" width="476" height="132" role="img" aria-label="Apache Sedona: four merged pull requests">
+<style>
+.t{font-family:ui-monospace,'JetBrains Mono','SF Mono',SFMono-Regular,Menlo,Consolas,monospace}
+@keyframes pop{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.pop{animation:pop .5s ease-out both}
+</style>
+<rect x="22" y="68" width="476" height="132" rx="8" fill="#e6f1e8" stroke="#bfdcc7"/>
+<clipPath id="c"><rect x="22" y="68" width="476" height="132" rx="8"/></clipPath>
+<g clip-path="url(#c)"><g transform="translate(22,68)">
+<text class="t" x="18" y="22" font-size="10" fill="#466a52" letter-spacing="1">APACHE/SEDONA</text>
+<text class="t" x="458" y="22" font-size="10" fill="#00b32e" text-anchor="end" font-weight="700">4/4 MERGED</text>
+<g class="pop" style="animation-delay:0.15s"><rect x="14" y="34" width="220" height="38" rx="7" fill="#dcebdf"/>
+<rect x="22" y="42" width="72" height="22" rx="11" fill="#8250df"/>
+<g transform="translate(29,46) scale(0.875)" fill="#ffffff"><path d="M5.45 5.154A4.25 4.25 0 0 0 9.25 7.5h1.378a2.251 2.251 0 1 1 0 1.5H9.25A5.734 5.734 0 0 1 5 7.123v3.505a2.25 2.25 0 1 1-1.5 0V5.372a2.25 2.25 0 1 1 1.95-.218ZM4.25 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm8.5-4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/></g>
+<text class="t" x="45" y="57" font-size="10.5" font-weight="700" fill="#ffffff">Merged</text>
+<text class="t" x="102" y="52" font-size="11" font-weight="700" fill="#0e1a13">#3483</text>
+<text class="t" x="102" y="65" font-size="9.5" fill="#466a52">read_feather</text></g>
+<g class="pop" style="animation-delay:0.35s"><rect x="242" y="34" width="220" height="38" rx="7" fill="#dcebdf"/>
+<rect x="250" y="42" width="72" height="22" rx="11" fill="#8250df"/>
+<g transform="translate(257,46) scale(0.875)" fill="#ffffff"><path d="M5.45 5.154A4.25 4.25 0 0 0 9.25 7.5h1.378a2.251 2.251 0 1 1 0 1.5H9.25A5.734 5.734 0 0 1 5 7.123v3.505a2.25 2.25 0 1 1-1.5 0V5.372a2.25 2.25 0 1 1 1.95-.218ZM4.25 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm8.5-4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/></g>
+<text class="t" x="273" y="57" font-size="10.5" font-weight="700" fill="#ffffff">Merged</text>
+<text class="t" x="330" y="52" font-size="11" font-weight="700" fill="#0e1a13">#3484</text>
+<text class="t" x="330" y="65" font-size="9.5" fill="#466a52">ST_Pixelize</text></g>
+<g class="pop" style="animation-delay:0.55s"><rect x="14" y="80" width="220" height="38" rx="7" fill="#dcebdf"/>
+<rect x="22" y="88" width="72" height="22" rx="11" fill="#8250df"/>
+<g transform="translate(29,92) scale(0.875)" fill="#ffffff"><path d="M5.45 5.154A4.25 4.25 0 0 0 9.25 7.5h1.378a2.251 2.251 0 1 1 0 1.5H9.25A5.734 5.734 0 0 1 5 7.123v3.505a2.25 2.25 0 1 1-1.5 0V5.372a2.25 2.25 0 1 1 1.95-.218ZM4.25 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm8.5-4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/></g>
+<text class="t" x="45" y="103" font-size="10.5" font-weight="700" fill="#ffffff">Merged</text>
+<text class="t" x="102" y="98" font-size="11" font-weight="700" fill="#0e1a13">#3485</text>
+<text class="t" x="102" y="111" font-size="9.5" fill="#466a52">polygon holes</text></g>
+<g class="pop" style="animation-delay:0.75s"><rect x="242" y="80" width="220" height="38" rx="7" fill="#dcebdf"/>
+<rect x="250" y="88" width="72" height="22" rx="11" fill="#8250df"/>
+<g transform="translate(257,92) scale(0.875)" fill="#ffffff"><path d="M5.45 5.154A4.25 4.25 0 0 0 9.25 7.5h1.378a2.251 2.251 0 1 1 0 1.5H9.25A5.734 5.734 0 0 1 5 7.123v3.505a2.25 2.25 0 1 1-1.5 0V5.372a2.25 2.25 0 1 1 1.95-.218ZM4.25 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm8.5-4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/></g>
+<text class="t" x="273" y="103" font-size="10.5" font-weight="700" fill="#ffffff">Merged</text>
+<text class="t" x="330" y="98" font-size="11" font-weight="700" fill="#0e1a13">#3503</text>
+<text class="t" x="330" y="111" font-size="9.5" fill="#466a52">NULL GeoPackage</text></g>
+</g></g>
+</svg>
