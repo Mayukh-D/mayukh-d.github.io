@@ -54,11 +54,6 @@ A Mac menu bar app that makes a cheap Bluetooth LED bar follow whatever is on sc
 Tech: Swift · SwiftUI
 Links: Lantern · Screen Sync for a A$49 Light: https://github.com/Mayukh-D/lantern | tl;dr: https://mayukhdas.com/#tldr-lantern | write-up: https://mayukhdas.com//work/lantern/ | site: https://mayukhdas.com/lantern/ | code: https://github.com/Mayukh-D/lantern
 
-### linkedin-poster-mcp · Post from Claude
-An MCP server that lets Claude publish LinkedIn posts with real photos, Page tags, hashtags and reposts, through LinkedIn's official API. Built after an automation platform quietly dropped the photos from one of my posts.
-Tech: Python · MCP
-Links: linkedin-poster-mcp · Post from Claude: https://github.com/Mayukh-D/linkedin-poster-mcp | tl;dr: https://mayukhdas.com/#tldr-linkedin-poster | install: https://github.com/Mayukh-D/linkedin-poster-mcp#install | code: https://github.com/Mayukh-D/linkedin-poster-mcp
-
 ### Apache Sedona · Four Merged PRs
 Four contributions to Apache Sedona, the open source engine for geospatial data on Spark: read_feather for its GeoPandas API, a fix for ST_Pixelize on shapes smaller than one pixel, correct drawing of polygons with holes, and reading a NULL GeoPackage geometry as null.
 Tech: Python · Java · Spark
@@ -68,6 +63,11 @@ Links: Apache Sedona · Four Merged PRs: https://github.com/apache/sedona/pulls?
 A Mac menu bar app that shows one number: total page views for this website, read from Cloudflare Web Analytics. Built after I caught myself opening the analytics dashboard every hour to check whether anyone had read a new post.
 Tech: Swift · SwiftUI
 Links: SiteViews · Views in the Menu Bar: https://github.com/Mayukh-D/siteviews | tl;dr: https://mayukhdas.com/#tldr-siteviews | install: https://github.com/Mayukh-D/siteviews/releases/latest | code: https://github.com/Mayukh-D/siteviews
+
+### linkedin-poster-mcp · Post from Claude
+An MCP server that lets Claude publish LinkedIn posts with real photos, Page tags, hashtags and reposts, through LinkedIn's official API. Built after an automation platform quietly dropped the photos from one of my posts.
+Tech: Python · MCP
+Links: linkedin-poster-mcp · Post from Claude: https://github.com/Mayukh-D/linkedin-poster-mcp | tl;dr: https://mayukhdas.com/#tldr-linkedin-poster | install: https://github.com/Mayukh-D/linkedin-poster-mcp#install | code: https://github.com/Mayukh-D/linkedin-poster-mcp
 
 ### TokenEater · Multi-Account
 Multi-account support for a macOS menu bar app that tracks Claude usage: every Claude account as a provider of its own across the menu bar, popover, dashboard and Studio. Built in my fork, contributed upstream as pull request #284, and rebuilt on my commits by the maintainer. Get it in the official TokenEater .
