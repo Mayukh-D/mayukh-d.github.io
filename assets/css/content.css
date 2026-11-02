@@ -243,6 +243,9 @@
 .project-card h3::before { content: '$ '; color: var(--green); }
 .project-card p { color: var(--text-body); font-size: 0.9rem; margin-bottom: 16px; }
 .project-card .project-foot { margin-top: auto; }
+/* Featured cards: the language line sits on the card's bottom edge so it lines up across a
+   row; the actions (which wrap to one or two lines) stack above it. */
+.projects-grid .project-foot { flex-direction: column-reverse; align-items: flex-start; }
 .project-lang {
   display: inline-flex; align-items: center; gap: 6px;
   font-family: var(--mono);
