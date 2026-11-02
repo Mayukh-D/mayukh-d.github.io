@@ -717,6 +717,53 @@ Everyone is building a piece. Someone has to bring the pieces together.
 That is all the more reason for something like SAICOP: a place that brings those partners together so their capabilities combine, and so that Australia moves faster from being a consumer of AI to being a producer of it.
 the job behind it → more 1 AM notes →
 
+## 1 AM notes: four pull requests into Apache Sedona
+URL: https://mayukhdas.com/notes/four-prs-into-sedona/
+1am/four-prs-into-sedona
+Four pull requests into Apache Sedona
+3 Nov 2026 · from an ANU software engineering project · Mayukh Das
+For a software engineering course at ANU, four of us had to contribute to a real open source project. We chose Apache Sedona , the engine for processing geospatial data on Spark. My work involves training deep learning models on geospatial data, so I wanted to see how one of the big engines in this space works under the hood.
+Starting smaller than I wanted to
+My first pick was a geography feature for nearest-neighbour joins. The maintainer, Jia Yu, politely pointed me to the issues marked as good first issues instead. At the time it felt like a step down. Looking back, it was the right call, because the smaller issues taught me how the project works: its pull request template, its title format, its tests, and the ASF's rules for disclosing AI-assisted code.
+So I started with read_feather , which reads Feather files into Sedona's GeoPandas API. A teammate had already added the matching to_feather , so I mirrored his work.
+The bug my tests couldn't see
+My tests passed. Then Jia reviewed the pull request and reproduced a crash I had missed: on Spark 3.5.0, a Feather file whose first geometry was null failed to load, because Spark guesses a column's type from its first value. My tests ran on a newer Spark, where the same file worked.
+The review on #3483, and my reply.
+The fix was small. I switched to a helper the project already had for exactly this case and added a regression test with the null geometry first. The lesson was bigger. Passing tests only tell you the code works on the setup you tested, not on the versions your users actually run.
+One fix leads to another
+Next I took a bug that had been open since 2024: ST_Pixelize failed on shapes smaller than one pixel. The fix was to return the pixel that contains the shape, and I checked it against the old algorithm on 3,000 shapes.
+While working on it, I noticed something else in the drawing code. It joined all of a polygon's rings into one line, so a polygon with a hole was drawn with a stray line and a gap in its fill. That became my third pull request. Each ring is now drawn separately, and the output for 5,000 polygons without holes is unchanged.
+The one I didn't plan
+The fourth came from a discussion thread. A user reported that a GeoPackage file with a NULL geometry failed to load. I traced the cause, explained it, and offered a fix. Jia asked me to open an issue first, which I did, and the fix was merged two days later.
+That one felt different, because it started with someone actually using Sedona and running into a problem.
+Waiting is part of the work
+Pull requests from forks don't run the project's tests until a maintainer approves them, and maintainers have their own priorities. I learned to make each pull request easy to review and then wait, with at most one polite reminder. All four were eventually merged.
+All four, merged into apache:master.
+I used Claude Code as a pair-programming assistant throughout and disclosed it in every pull request, as the ASF asks. I chose the approach, reviewed every change and ran the tests myself.
+Your tests show it works on your machine. A good reviewer shows you where it doesn't.
+the pull requests → the project write-up → more 1 AM notes →
+
+## 1 AM notes: I judge my teaching by the last student to understand
+URL: https://mayukhdas.com/notes/last-student-to-understand/
+1am/last-student-to-understand
+I judge my teaching by the last student to understand
+30 Sep 2026 · from tutoring HCI at ANU · Mayukh Das
+A year ago I was a student in Human-Computer Interaction at ANU. I had a great tutor, Ethan Tiber Rossi, and that is when I first felt I would love to tutor this course one day. This semester I'm on the other side of the room, tutoring the same course, COMP6390/3900.
+A question from the floor.
+A course built to be fun
+The way Charles Martin teaches HCI at ANU is designed to be fun and arts-and-craftsy. Students make paper prototypes and work with their hands, which keeps them engaged while they grasp real HCI research methodology and theory. It isn't a lighter version of the subject. It is the subject, taught in a way that makes people want to turn up.
+Being taught that way taught me how to make teaching engaging while making sure everyone understands.
+The tutorial, from a student's seat.
+The last student, not the first
+Some students get it on the first go, and others need a little more attention. It is tempting to measure a tutorial by the first hands that go up, because that feels like it worked. I judge my teaching by the last student to understand, not the first.
+In practice that means explaining the same idea more than one way, walking through real examples on the screen, and staying with a question until it actually makes sense to the person who asked it.
+Walking through a chart.
+Back to the notes.
+Why I keep coming back
+Teaching a course I took so recently means I still remember where I got stuck. I can't wait to tutor again.
+Judge the tutorial by the last student to understand, not the first.
+more 1 AM notes →
+
 ## Contact
 Open to opportunities in software engineering and machine learning, based in Canberra, ACT.
 Email: use the contact section at the bottom of https://mayukhdas.com/
