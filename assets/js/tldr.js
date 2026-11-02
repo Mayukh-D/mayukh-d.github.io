@@ -111,7 +111,7 @@ const TLDR = {
     ],
     figs: [['assets/tldr/sedona-merged.jpg', 'All four, merged into apache:master.'], ['assets/tldr/sedona-review.jpg', 'The maintainer\'s review of #3483, and my fix.']],
     role: 'Wrote, tested and saw all four through review, with Claude Code as a pair-programming assistant, disclosed in every pull request.',
-    links: [['my merged pull requests', 'https://github.com/apache/sedona/pulls?q=is%3Apr+author%3AMayukh-D+is%3Amerged'], ['apache/sedona', 'https://github.com/apache/sedona']]
+    links: [['the full write-up', '/work/sedona/'], ['my merged pull requests', 'https://github.com/apache/sedona/pulls?q=is%3Apr+author%3AMayukh-D+is%3Amerged'], ['apache/sedona', 'https://github.com/apache/sedona']]
   },
   tokeneater: {
     title: 'TokenEater · Multi-Account', file: 'tokeneater',

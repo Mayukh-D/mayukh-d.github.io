@@ -62,7 +62,7 @@ Links: linkedin-poster-mcp · Post from Claude: https://github.com/Mayukh-D/link
 ### Apache Sedona · Four Merged PRs
 Four contributions to Apache Sedona, the open source engine for geospatial data on Spark: read_feather for its GeoPandas API, a fix for ST_Pixelize on shapes smaller than one pixel, correct drawing of polygons with holes, and reading a NULL GeoPackage geometry as null.
 Tech: Python · Java · Spark
-Links: Apache Sedona · Four Merged PRs: https://github.com/apache/sedona/pulls?q=is%3Apr+author%3AMayukh-D+is%3Amerged | tl;dr: https://mayukhdas.com/#tldr-sedona | PRs: https://github.com/apache/sedona/pulls?q=is%3Apr+author%3AMayukh-D+is%3Amerged
+Links: Apache Sedona · Four Merged PRs: https://github.com/apache/sedona/pulls?q=is%3Apr+author%3AMayukh-D+is%3Amerged | tl;dr: https://mayukhdas.com/#tldr-sedona | write-up: https://mayukhdas.com//work/sedona/ | PRs: https://github.com/apache/sedona/pulls?q=is%3Apr+author%3AMayukh-D+is%3Amerged
 
 ### SiteViews · Views in the Menu Bar
 A Mac menu bar app that shows one number: total page views for this website, read from Cloudflare Web Analytics. Built after I caught myself opening the analytics dashboard every hour to check whether anyone had read a new post.
@@ -295,6 +295,14 @@ Now I'm testing his version He shipped a signed beta and asked me to run it on m
 Before it lands, there's my fork It has its own app identity, so the official updater never overwrites it, and a red warning points people to the official app.
 AThevon asking me to test the beta built on my commits.
 pull request #284 → official app → fork →
+Apache Sedona: four merged pull requests
+All four, merged into apache:master.
+For an ANU software engineering project, I contributed to Apache Sedona, the engine for processing geospatial data on Spark. All four of my pull requests were merged.
+I started with a good first issue My first pick was bigger. The maintainer pointed me to the good first issues instead, and they taught me the project's template, title format, tests and AI disclosure rules before I touched anything harder.
+The review caught what my tests couldn't On Spark 3.5.0, a Feather file whose first geometry was null failed to load. My tests ran on a newer Spark. I fixed it with the project's own helper and a regression test.
+One fix led to another Fixing ST_Pixelize for shapes smaller than one pixel, I found the drawing code joined a polygon's rings, so holes were drawn wrong. That became the third pull request.
+The fourth came from a user Someone reported in a discussion thread that a NULL GeoPackage geometry failed to load. I traced it, opened an issue at the maintainer's request, and the fix was merged two days later.
+the full write-up → the pull requests →
 FoodLens: the right fact at the moment of purchase
 For my ANU HCI final project: scan a barcode in the shop and see what matters to you, before you buy. I built it, ran a study with it, and let the study shape it.
 Allergens are matched to your profile A generic allergen list makes you do the matching in the aisle. FoodLens only alerts on what you said matters to you.
@@ -449,6 +457,31 @@ A team of four at the ANU (Deep Learning, 2026), with Vibhansh Gupta, Daniel Vaz
 full report (PDF) →
 code →
 keep reading how I build → how I research → how I work → 1 AM notes →
+
+## Apache Sedona write-up
+URL: https://mayukhdas.com/work/sedona/
+work/sedona
+Four pull requests into Apache Sedona
+For a software engineering course at ANU, four of us had to contribute to a real open source project. We chose Apache Sedona , the engine for processing geospatial data on Spark. My work involves training deep learning models on geospatial data, so I wanted to see how one of the big engines in this space works under the hood.
+Starting smaller than I wanted to
+My first pick was a geography feature for nearest-neighbour joins. The maintainer, Jia Yu, politely pointed me to the issues marked as good first issues instead. At the time it felt like a step down. Looking back, it was the right call, because the smaller issues taught me how the project works: its pull request template, its title format, its tests, and the ASF's rules for disclosing AI-assisted code.
+So I started with read_feather , which reads Feather files into Sedona's GeoPandas API. A teammate had already added the matching to_feather , so I mirrored his work.
+The bug my tests couldn't see
+My tests passed. Then Jia reviewed the pull request and reproduced a crash I had missed: on Spark 3.5.0, a Feather file whose first geometry was null failed to load, because Spark guesses a column's type from its first value. My tests ran on a newer Spark, where the same file worked.
+The review on #3483, and my reply.
+The fix was small. I switched to a helper the project already had for exactly this case and added a regression test with the null geometry first. The lesson was bigger. Passing tests only tell you the code works on the setup you tested, not on the versions your users actually run.
+One fix leads to another
+Next I took a bug that had been open since 2024: ST_Pixelize failed on shapes smaller than one pixel. The fix was to return the pixel that contains the shape, and I checked it against the old algorithm on 3,000 shapes.
+While working on it, I noticed something else in the drawing code. It joined all of a polygon's rings into one line, so a polygon with a hole was drawn with a stray line and a gap in its fill. That became my third pull request. Each ring is now drawn separately, and the output for 5,000 polygons without holes is unchanged.
+The one I didn't plan
+The fourth came from a discussion thread. A user reported that a GeoPackage file with a NULL geometry failed to load. I traced the cause, explained it, and offered a fix. Jia asked me to open an issue first, which I did, and the fix was merged two days later.
+That one felt different, because it started with someone actually using Sedona and running into a problem.
+Waiting is part of the work
+Pull requests from forks don't run the project's tests until a maintainer approves them, and maintainers have their own priorities. I learned to make each pull request easy to review and then wait, with at most one polite reminder. All four were eventually merged.
+All four, merged into apache:master.
+I used Claude Code as a pair-programming assistant throughout and disclosed it in every pull request, as the ASF asks. I chose the approach, reviewed every change and ran the tests myself.
+Your tests show it works on your machine. A good reviewer shows you where it doesn't.
+the pull requests → how I build →
 
 ## 1 AM notes: Gamma beat saturation
 URL: https://mayukhdas.com/notes/gamma-beat-saturation/

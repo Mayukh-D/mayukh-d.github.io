@@ -71,6 +71,7 @@ const deep = [
   ['jobs/index.html', 'Jobs page: his career journey and what each job taught him'],
   ['work/lantern/index.html', 'Lantern write-up'],
   ['work/transformers-revenge/index.html', "Transformers' Revenge write-up"],
+  ['work/sedona/index.html', 'Apache Sedona write-up'],
   ['notes/gamma-beat-saturation/index.html', '1 AM notes: Gamma beat saturation'],
   ['notes/small-data-gpt/index.html', '1 AM notes: what transfers to a GPT trained on 3.7M tokens'],
   ['notes/x-vs-v-prediction/index.html', '1 AM notes: predict the data, not the velocity'],
