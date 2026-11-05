@@ -748,7 +748,7 @@ URL: https://mayukhdas.com/notes/for-the-love-of-teaching/
 1am/for-the-love-of-teaching
 For the love of teaching
 30 Sep 2026 · from tutoring HCI at ANU · Mayukh Das
-A year ago I was a student in Human-Computer Interaction at ANU. I had a great tutor, Ethan Tiber Rossi, and that is when I first felt I would love to tutor this course one day. This semester I'm on the other side of the room, tutoring the same course, COMP6390/3900.
+A year ago I was a student in Human-Computer Interaction at ANU. I had a great tutor, Ethan Teber-Rossi, and that is when I first felt I would love to tutor this course one day. This semester I'm on the other side of the room, tutoring the same course, COMP6390/3900.
 A question from the floor.
 A course built to be fun
 The way Charles Martin teaches HCI at ANU is designed to be fun and arts-and-craftsy. Students make paper prototypes and work with their hands, which keeps them engaged while they grasp real HCI research methodology and theory. It isn't a lighter version of the subject. It is the subject, taught in a way that makes people want to turn up.
