@@ -1,8 +1,8 @@
 # mayukh-d.github.io
 
 My portfolio at **[mayukhdas.com](https://mayukhdas.com/)**: one terminal-themed page about
-my work in machine learning, from sovereign AI at Eccoi to mapping Australia's tree canopy
-from space at Haizea, and the research and projects behind it.
+my work in machine learning, from sovereign AI at Eccoi to the tree canopy mapping I did
+at Haizea, and the research and projects behind it.
 
 It is plain HTML, CSS and JavaScript on GitHub Pages: no framework, no build step, no
 dependencies. The markup lives in `index.html`; its styles and behaviour are small component
