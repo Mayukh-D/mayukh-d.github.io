@@ -8,7 +8,7 @@
     accenture: ['Advanced Application Engineering Analyst', 'Accenture · Jan 2022 to Feb 2025', 'Trained as a data engineer, then built the MLOps pipelines behind Ingrain, an AIOps tool, in a real production team.', 'data and pipeline design, and how real ML work runs', 'accenture'],
     anu: ['Master of Computing · Student Ambassador', 'Australian National University · 2025 to now', 'Going deeper into the foundations, and representing the College of Systems and Society to prospective students at recruitment events and school visits.', 'talk at their level: leave them with a sparkle, not a frown of worry', 'anu'],
     eccoi: ['ML Architect', 'Eccoi · Jul 2026 to now', 'Systems engineering for sovereign AI: architectural principles, the system context, platform choices, and an end-to-end proof.', 'owning what gets built', 'eccoi'],
-    haizea: ['Satellite AI Research Trainee', 'Haizea Analytics · Sep 2026 to now', 'Deep learning on satellite imagery, mapping Australia\'s tree canopy.', 'owning what gets built', 'eccoi']
+    haizea: ['Satellite AI Research Trainee', 'Haizea Analytics · Sep to Oct 2026', 'Deep learning on satellite imagery, mapping Australia\'s tree canopy.', 'owning what gets built', 'eccoi']
   };
   var stops = root.querySelectorAll('.stop');
   function show(k) {
